@@ -1,12 +1,37 @@
+import { Route, Routes, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import Navbar from "./sections/Navbar";
+import HeroSection from "./sections/HeroSection";
+import { ThemeProvider } from "./context/ThemeProvider";
+
 function App() {
+  const location = useLocation();
 
   return (
-    <main className="max-w-7xl mx-auto box-border p-0 m-0 bg-[#131313]">
-      <h1 className="text-3xl font-bold underline text-white">
-        Hello world!
-      </h1>
-    </main>
-  )
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <main className="max-w-full mx-auto relative dark:bg-black bg-white">
+            <Navbar />
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
+                <Route
+                  path="/"
+                  element={
+                    // <PageTransitionBoxAnimation className="bg-white" >
+                      <HeroSection /> 
+                    /* </PageTransitionBoxAnimation> */
+                  }
+                />
+                <Route
+                  path="/signup"
+                  element={
+                      <HeroSection />
+                  }
+                />
+              </Routes>
+            </AnimatePresence>
+          </main>
+          </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
