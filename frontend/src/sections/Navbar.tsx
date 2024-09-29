@@ -100,7 +100,7 @@ const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
               (<motion.button
                     whileTap={{ scale: 0.8 }}
                     className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all "
-                    onClick={handleLoginClick}
+                    onClick={() => navigate("/dashboard")}
                 >
                     Dashboard
                 </motion.button>)}
