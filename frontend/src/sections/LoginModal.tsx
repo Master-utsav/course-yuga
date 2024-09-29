@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import CrossIcon from "@/Icons/CrossIcon";
 import { loginSchema } from "@/validChecksSchema/zodSchemas";
@@ -13,6 +13,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { setTokenCookie } from "@/lib/cookieService";
 import { LoginUserDataProps } from "@/constants";
+import EyeOpenIcon from "@/Icons/EyeOpenIcon";
+import EyeCloseIcon from "@/Icons/EyeCloseIcon";
+import { useTheme } from "@/context/ThemeProvider";
 
 type loginSchemaData = z.infer<typeof loginSchema>;
 const LOGIN_API_URL = import.meta.env.VITE_PUBLIC_LOGIN_API_URL;
@@ -20,6 +23,8 @@ const LOGIN_API_URL = import.meta.env.VITE_PUBLIC_LOGIN_API_URL;
 const LoginModal: React.FC = () => {
   const navigate = useNavigate();
   const { setIsLoginOpen , setUserData} = useAuthContext();
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const {theme} = useTheme();
   const closeLogin = () => {
     setIsLoginOpen(false);
     navigate("/");
@@ -55,7 +60,7 @@ const LoginModal: React.FC = () => {
         setTokenCookie(responseData.token);
 
         toast.success(responseData.message, {
-          position: "top-right",
+          position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -74,7 +79,7 @@ const LoginModal: React.FC = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error : any) {
       toast.error(error.response?.data?.message || "An error occurred", {
-        position: "top-right",
+        position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -101,11 +106,11 @@ const LoginModal: React.FC = () => {
             className="w-full flex flex-col space-y-3 font-sans relative"
             onSubmit={handleSubmit(onSubmit)}
           > 
-            <div className="w-full flex justify-center flex-col items-start dark:text-black text-white">
+            <div className="w-full flex justify-center flex-col items-start ">
                 <input
                 type="text"
                 placeholder="Username or Email"
-                className={`p-3 border rounded-md w-full ${
+                className={`p-3 border rounded-md w-full text-black ${
                     errors.identity ? "border-red-500" : ""
                 }`}
                 {...register("identity")}
@@ -115,18 +120,35 @@ const LoginModal: React.FC = () => {
                 )}
             </div>
 
-            <div className="w-full flex justify-center flex-col items-start  dark:text-black text-white">
-                <input
-                type="password"
+            <div className="relative w-full flex justify-end flex-col items-end">
+              <div className="relative w-full">
+              <input
+                type={passwordVisible ? "text" : "password"}
                 placeholder="Password"
-                className={`p-3 border rounded-md w-full ${
-                    errors.password ? "border-red-500" : ""
+                className={`p-3 border rounded-md w-full text-black ${
+                  errors.password ? "border-red-500" : ""
                 }`}
                 {...register("password")}
-                />
-                {errors.password && (
-                <p className="text-red-500 text-sm text-start">{errors.password.message}</p>
-                )}
+              />
+              <div
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                onClick={() => setPasswordVisible(!passwordVisible)}
+              >
+               {
+                theme === 'dark' ? (
+                  passwordVisible ? <EyeOpenIcon fillColor="black" size={24} /> : <EyeCloseIcon fillColor="black"  size={24} /> 
+                ):(
+                  passwordVisible ? <EyeOpenIcon fillColor="grey" size={24} /> : <EyeCloseIcon fillColor="grey" size={24} /> 
+                )
+              }
+              </div>
+              </div>
+              {errors.password && (
+                <p className="text-red-500 text-sm text-end w-[90%]">
+                  {errors.password.message}
+                </p>
+              )}
+              
             </div>
             
             <motion.button

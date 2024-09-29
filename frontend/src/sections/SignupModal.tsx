@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import CrossIcon from "@/Icons/CrossIcon";
 import { signupSchema } from "@/validChecksSchema/zodSchemas";
@@ -12,13 +12,22 @@ import GitHubIcon from "@/Icons/GithubIcon";
 import axios from "axios";
 import { toast } from "react-toastify";
 import SignUpOTPModal from "@/components/SignUpOTPModal";
+import EyeCloseIcon from "@/Icons/EyeCloseIcon";
+import EyeOpenIcon from "@/Icons/EyeOpenIcon";
+import { useTheme } from "@/context/ThemeProvider";
 
 type SignupFormData = z.infer<typeof signupSchema>;
 const SIGNUP_API_URL = import.meta.env.VITE_PUBLIC_SIGNUP_API_URL;
+
 const SignupModal: React.FC = () => {
   const navigate = useNavigate();
   const { setIsSignupOpen } = useAuthContext();
-  const [showOTPComponent, setShowOTPComponent] = React.useState(false);
+  const [showOTPComponent, setShowOTPComponent] = useState(false);
+  const {theme} = useTheme();
+  // States to toggle password visibility
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
   const closeSignup = () => {
     setIsSignupOpen(false);
     navigate("/");
@@ -41,31 +50,19 @@ const SignupModal: React.FC = () => {
       const responseData: { success: boolean; message: string } = response.data;
 
       if (responseData.success) {
-        // Show success toast with response message
         toast.success(responseData.message, {
-          position: "top-right",
+          position: "bottom-right",
           autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
         });
-
         setShowOTPComponent(true);
       } else {
         throw new Error(responseData.message);
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error : any) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       toast.error(error.response?.data?.message || "An error occurred", {
-        position: "top-right",
+        position: "bottom-right",
         autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
       });
     }
   };
@@ -86,93 +83,131 @@ const SignupModal: React.FC = () => {
           <form
             className="w-full flex flex-col space-y-3 font-sans relative"
             onSubmit={handleSubmit(onSubmit)}
-          > 
-          <div className="relative w-full flex flex-col sm:flex-row items-start justify-between gap-2 dark:text-black ">
-            <div className=" w-full flex justify-center flex-col items-start">
+          >
+            <div className="relative w-full flex flex-col sm:flex-row items-start justify-between gap-2 ">
+              <div className=" w-full flex justify-center flex-col items-start">
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  className={`p-3 border rounded-md w-full text-black  ${
+                    errors.firstName ? "border-red-500" : ""
+                  }`}
+                  {...register("firstName")}
+                />
+                {errors.firstName && (
+                  <p className="text-red-500 text-sm text-end w-[90%]">
+                    {errors.firstName.message}
+                  </p>
+                )}
+              </div>
+              <div className="w-full flex justify-center flex-col items-end">
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  className={`p-3 border rounded-md w-full text-black ${
+                    errors.lastName ? "border-red-500" : ""
+                  }`}
+                  {...register("lastName")}
+                />
+                {errors.lastName && (
+                  <p className="text-red-500 text-sm text-end w-[90%]">
+                    {errors.lastName.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="w-full flex justify-center flex-col items-start">
               <input
                 type="text"
-                placeholder="First Name"
-                className={`p-3 border rounded-md w-full${
-                  errors.firstName ? "border-red-500" : ""
+                placeholder="Username"
+                className={`p-3 border rounded-md w-full text-black ${
+                  errors.userName ? "border-red-500" : ""
                 }`}
-                {...register("firstName")}
+                {...register("userName")}
               />
-              {errors.firstName && (
-                <p className="text-red-500 text-sm text-end w-[90%]">{errors.firstName.message}</p>
+              {errors.userName && (
+                <p className="text-red-500 text-sm">{errors.userName.message}</p>
               )}
             </div>
-            <div className="w-full flex justify-center flex-col items-end">
-              <input
-                type="text"
-                placeholder="Last Name"
-                className={`p-3 border rounded-md w-full${
-                  errors.lastName ? "border-red-500" : ""
-                }`}
-                {...register("lastName")}
-              />
-              {errors.lastName && (
-                <p className="text-red-500 text-sm text-end w-[90%]">{errors.lastName.message}</p>
-              )}
-            </div>
-          </div>
 
-          <div className="w-full flex justify-center flex-col items-start">
-            <input
-              type="text"
-              placeholder="Username"
-              className={`p-3 border rounded-md w-full ${
-                errors.userName ? "border-red-500" : ""
-              }`}
-              {...register("userName")}
-            />
-            {errors.userName && (
-              <p className="text-red-500 text-sm">{errors.userName.message}</p>
-            )}
-          </div>
-
-          <div className="w-full flex justify-center flex-col items-start">
-            <input
-              type="email"
-              placeholder="Email"
-              className={`p-3 border rounded-md w-full ${
-                errors.email ? "border-red-500" : ""
-              }`}
-              {...register("email")}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
-            )}
-          </div>
-          <div className="relative w-full flex flex-col sm:flex-row items-start justify-center gap-2 dark:text-black ">
-            <div className=" w-full flex justify-center flex-col items-start">
+            <div className="w-full flex justify-center flex-col items-start">
               <input
-                type="password"
-                placeholder="Password"
-                className={`p-3 border rounded-md w-full${
-                  errors.password ? "border-red-500" : ""
+                type="email"
+                placeholder="Email"
+                className={`p-3 border rounded-md w-full  text-black ${
+                  errors.email ? "border-red-500" : ""
                 }`}
-                {...register("password")}
+                {...register("email")}
               />
-              {errors.password && (
-                <p className="text-red-500 text-sm w-[90%] text-end">{errors.password.message}</p>
+              {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email.message}</p>
               )}
             </div>
-            <div className="w-full flex justify-center flex-col items-end">
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                className={`p-3 border rounded-md w-full ${
-                  errors.confirmPassword ? "border-red-500" : ""
-                }`}
-                {...register("confirmPassword")}
-              />
-              {errors.confirmPassword && (
-                <p className="text-red-500 text-sm w-[90%] text-end">{errors.confirmPassword.message}</p>
-              )}
-            </div>
-          </div>
-            
 
+            {/* Password field with visibility toggle */}
+            <div className="relative w-full flex flex-col sm:flex-row items-start justify-between gap-2 ">
+              <div className="relative w-full flex justify-end flex-col items-end">
+                <div className="relative w-full">
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="Password"
+                  className={`p-3 border rounded-md w-full text-black ${
+                    errors.password ? "border-red-500" : ""
+                  }`}
+                  {...register("password")}
+                />
+                <div
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                >
+                {
+                  theme === 'dark' ? (
+                    passwordVisible ? <EyeOpenIcon fillColor="black" size={24} /> : <EyeCloseIcon fillColor="black"  size={24} /> 
+                  ):(
+                    passwordVisible ? <EyeOpenIcon fillColor="grey" size={24} /> : <EyeCloseIcon fillColor="grey" size={24} /> 
+                  )
+                }
+                </div>
+                </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm text-end w-[90%]">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Confirm password field with visibility toggle */}
+              <div className="relative w-full flex justify-end flex-col items-end">
+                <div className="relative w-full">
+                <input
+                  type={confirmPasswordVisible ? "text" : "password"}
+                  placeholder="Confirm Password"
+                  className={`p-3 border rounded-md w-full text-black ${
+                    errors.password ? "border-red-500" : ""
+                  }`}
+                  {...register("password")}
+                />
+                <div
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  onClick={() => setConfirmPasswordVisible(!confirmPasswordVisible)}
+                >
+                {
+                  theme === 'dark' ? (
+                    confirmPasswordVisible ? <EyeOpenIcon fillColor="black" size={24} /> : <EyeCloseIcon fillColor="black"  size={24} /> 
+                  ):(
+                    confirmPasswordVisible ? <EyeOpenIcon fillColor="grey" size={24} /> : <EyeCloseIcon fillColor="grey" size={24} /> 
+                  )
+                }
+                </div>
+                </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm text-end w-[90%]">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+            </div>
             <motion.button
               whileTap={{ scale: 0.95 }}
               className="py-3 px-6 bg-purple-500 text-white rounded-lg shadow-md"
@@ -187,34 +222,31 @@ const SignupModal: React.FC = () => {
             </div>
 
             <motion.button
-            whileTap={{scale: 0.9}}
+              whileTap={{ scale: 0.9 }}
               type="button"
               className="py-3 px-6 bg-[#e7f3ff] dark:bg-slate-700 text-black hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
             >
-              <GoogleIcon size={24} />{" "}
-              <span className="ml-4">Sign Up with Google</span>
+              <GoogleIcon size={24} /> <span className="ml-4">Sign Up with Google</span>
             </motion.button>
+
             <motion.button
-              whileTap={{scale: 0.9}}
+              whileTap={{ scale: 0.9 }}
               type="button"
               className="py-3 px-6 bg-gray-800/20 dark:bg-slate-700 text-black hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
             >
-              <GitHubIcon size={24} />{" "}
-              <span className="ml-4">Sign Up with GitHub</span>
+              <GitHubIcon size={24} /> <span className="ml-4">Sign Up with GitHub</span>
             </motion.button>
           </form>
-
           <motion.button
-            whileHover={{ scale: 1.2 }}
+            whileHover={{scale : 1.2}}
+            className="absolute top-4 right-4 cursor-pointer"
             onClick={closeSignup}
-            className="mt-4 text-blue-600 underline flex items-center absolute top-2 right-4"
           >
-            <CrossIcon fillColor="red" size={24} />
+            <CrossIcon size={30} fillColor="red" />
           </motion.button>
         </motion.div>
       ) : (
-        // formData.email
-          <SignUpOTPModal userEmail={formData.email} />
+        <SignUpOTPModal userEmail={formData.email}/>
       )}
     </section>
   );

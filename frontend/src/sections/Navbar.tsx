@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useAuthContext } from "../context/authContext";
 import { ModeToggle } from "@/components/ThemeBtn";
 import { useTheme } from "@/context/ThemeProvider";
+import DashboardIcon from "@/Icons/DashboardIcon";
 
 interface NavbarProps{
   isUserLoggedIn: boolean
@@ -99,10 +100,13 @@ const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
               :
               (<motion.button
                     whileTap={{ scale: 0.8 }}
-                    className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all "
+                    className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all flex gap-2"
                     onClick={() => navigate("/dashboard")}
                 >
-                    Dashboard
+                    <span className="font-ubuntu">Dashboard</span> 
+                    {
+                    theme === 'dark' ? (<DashboardIcon fillColor="black" size={24}/>) : (<DashboardIcon fillColor="white" size={24}/>)
+                    }
                 </motion.button>)}
                 
                 <div  className="w-full rounded-3xl font-semibold shadow-md transition-all ">

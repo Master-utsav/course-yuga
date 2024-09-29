@@ -42,7 +42,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
 
         if (responseData.success) {
           toast.success(responseData.message, {
-            position: "top-right",
+            position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -58,7 +58,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         toast.error(error.response?.data?.message || "An error occurred", {
-          position: "top-right",
+          position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -69,7 +69,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       }
     } else {
       toast.error("Otp must be of 6 numbers", {
-        position: "top-right",
+        position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
