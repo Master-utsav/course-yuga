@@ -148,7 +148,6 @@ const LoginModal: React.FC = () => {
                   {errors.password.message}
                 </p>
               )}
-              
             </div>
             
             <motion.button
