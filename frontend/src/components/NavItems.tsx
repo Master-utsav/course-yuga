@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavItemsArray } from "../constants/index";
 import { NavLink } from "react-router-dom";
 import TextHoverJumbledAnimationEffect from "../Effects/TextHoverJumbledAnimationEffect";
-import { cn } from "../lib/utilts";
+import { cn } from "@/lib/utils";
 import { useAuthContext } from "../context/authContext";
 
 interface NavItemsProps{

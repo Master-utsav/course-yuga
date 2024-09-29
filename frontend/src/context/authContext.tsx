@@ -1,14 +1,18 @@
-import { createContext, useState, useContext, ReactNode } from "react";
+import { LoginUserDataProps } from "@/constants";
+import { getVerifiedToken } from "@/lib/cookieService";
+import { createContext, useState, useContext, ReactNode, useEffect } from "react";
 
-// Define the shape of the context state
 interface AuthContextType {
   isSignupOpen: boolean;
   setIsSignupOpen: (value: boolean) => void;
   isLoginOpen: boolean;
   setIsLoginOpen: (value: boolean) => void;
+  userData: LoginUserDataProps | null;
+  setUserData: (user: LoginUserDataProps) => void;
+  isLoggedIn: boolean;
+  setIsLoggedIn: (value: boolean) => void;
 }
 
-// Create context with the shape
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -20,13 +24,26 @@ export const useAuthContext = () => {
   return context;
 };
 
-// Create a provider for the AuthContext
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState<LoginUserDataProps | null>(null);
   
+  useEffect(() => {
+    const token = getVerifiedToken(); 
+    if(userData !== null){
+      localStorage.setItem("userData", JSON.stringify(userData));
+    }
+    if (token) {
+      setIsLoggedIn(true); 
+    } else {
+      setIsLoggedIn(false); 
+    }
+  }, [userData]); 
+
   return (
-    <AuthContext.Provider value={{ isSignupOpen, setIsSignupOpen , isLoginOpen, setIsLoginOpen}}>
+    <AuthContext.Provider value={{ isSignupOpen, setIsSignupOpen, isLoginOpen, setIsLoginOpen, userData, setUserData, isLoggedIn, setIsLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );

@@ -11,13 +11,15 @@ import { useNavigate } from "react-router-dom";
 // import GitHubIcon from "@/Icons/GithubIcon";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { setTokenCookie } from "@/lib/cookieService";
+import { LoginUserDataProps } from "@/constants";
 
 type loginSchemaData = z.infer<typeof loginSchema>;
 const LOGIN_API_URL = import.meta.env.VITE_PUBLIC_LOGIN_API_URL;
 
 const LoginModal: React.FC = () => {
   const navigate = useNavigate();
-  const { setIsLoginOpen } = useAuthContext();
+  const { setIsLoginOpen , setUserData} = useAuthContext();
   const closeLogin = () => {
     setIsLoginOpen(false);
     navigate("/");
@@ -31,13 +33,27 @@ const LoginModal: React.FC = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const initializeUserData = (userData: LoginUserDataProps) => {
+    if (userData) {
+      setUserData({
+        userName: userData.userName,
+        email: userData.email,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        emailVerificationStatus: userData.emailVerificationStatus,
+      });
+    }
+  };
+
   const onSubmit = async (data: loginSchemaData) => {
     try {
       const response = await axios.post(LOGIN_API_URL, data);
-      const responseData: { success: boolean; message: string } = response.data;
 
+      const responseData: { success: boolean; message: string; token: string , userData: LoginUserDataProps} = response.data;
+      
       if (responseData.success) {
-        // Show success toast with response message
+        setTokenCookie(responseData.token);
+
         toast.success(responseData.message, {
           position: "top-right",
           autoClose: 5000,
@@ -48,6 +64,9 @@ const LoginModal: React.FC = () => {
           progress: undefined,
         });
         
+        console.log(responseData.userData);
+        initializeUserData(responseData.userData);
+
         closeLogin();
       } else {
         throw new Error(responseData.message);

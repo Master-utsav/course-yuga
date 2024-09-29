@@ -76,18 +76,23 @@ export function handleGoogleSignUpCallbackFunction(req: Request, res: Response, 
 
     const token = jwt.sign({
       id: user._id,
-      userName: user.userName,
-      email: user.email,
-      firstName: user.firstName,
-      lastName : user.lastName,
-      emailVerificationStatus: user.emailVerificationStatus
+      role : user.role,
     }, process.env.JWT_SECRET!, { expiresIn: '15d' });
+
+    const userData = {
+      userName: user.userName,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      emailVerificationStatus: user.emailVerificationStatus
+  }
 
     // Send the token to the client
     return res.status(200).json({
       success: true,
       message: "Login successful",
-      token
+      token,
+      userData
     });
   })(req, res, next);
 }

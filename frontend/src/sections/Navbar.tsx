@@ -8,8 +8,10 @@ import { useAuthContext } from "../context/authContext";
 import { ModeToggle } from "@/components/ThemeBtn";
 import { useTheme } from "@/context/ThemeProvider";
 
-
-const Navbar = () => {
+interface NavbarProps{
+  isUserLoggedIn: boolean
+}
+const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
   const [isOpen, isSetOpen] = React.useState<boolean>(false);
   const { setIsSignupOpen , setIsLoginOpen} = useAuthContext();
   const {theme} = useTheme()
@@ -78,7 +80,8 @@ const Navbar = () => {
               <NavItems />
             </nav>
             <div className="flex gap-4">
-                <motion.button
+              {!isUserLoggedIn ? (<>
+              <motion.button
                     whileTap={{ scale: 0.8 }}
                     className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all "
                     onClick={handleSignupClick}
@@ -92,6 +95,16 @@ const Navbar = () => {
                 >
                     Login
                 </motion.button>
+              </>)
+              :
+              (<motion.button
+                    whileTap={{ scale: 0.8 }}
+                    className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all "
+                    onClick={handleLoginClick}
+                >
+                    Dashboard
+                </motion.button>)}
+                
                 <div  className="w-full rounded-3xl font-semibold shadow-md transition-all ">
                 <ModeToggle/>
                 </div>

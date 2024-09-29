@@ -49,6 +49,7 @@ passport.use(
             email: githubEmail,
             password: randomPassword,
             emailVerificationStatus: true,
+            role : "STUDENT"
           });
           await user.save();
           await sendGithubAuthPasswordMail(user.email, randomPassword);
@@ -84,7 +85,8 @@ export function handleGithubSignUpFunction(req: Request, res: Response, next: Fu
 }
 
 export function handleGithubSignUpCallbackFunction(req: Request, res: Response, next: Function) {
-  passport.authenticate("github", { failureRedirect: "/login" }, (err: any, user: { _id: any; userName: any; email: any; firstName: any;
+  passport.authenticate("github", { failureRedirect: "/login" }, (err: any, user: {
+    role: any; _id: any; userName: any; email: any; firstName: any;
     lastName: any; emailVerificationStatus: any; }, info: any) => {
     if (err || !user) {
       return res.redirect("/login");
@@ -93,20 +95,24 @@ export function handleGithubSignUpCallbackFunction(req: Request, res: Response, 
     const token = jwt.sign(
       {
         id: user._id,
-        username: user.userName,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        emailVerificationStatus: user.emailVerificationStatus,
+        role: user.role,
       },
       process.env.JWT_SECRET!,
       { expiresIn: "15d" }
     );
-
+    
+    const userData = {
+      userName: user.userName,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      emailVerificationStatus: user.emailVerificationStatus
+  }
     return res.status(200).json({
       success: true,
       message: "Login successful",
       token,
+      userData
     });
   })(req, res, next);
 }

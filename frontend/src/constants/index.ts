@@ -72,3 +72,11 @@ export const courseImageUrls = [
     "https://avatars.githubusercontent.com/u/133480549?v=4",
     "https://avatars.githubusercontent.com/u/133480549?v=4",
 ]
+
+export interface LoginUserDataProps{
+        userName: string;
+        email: string;
+        firstName: string;
+        lastName: string;
+        emailVerificationStatus: boolean;
+}

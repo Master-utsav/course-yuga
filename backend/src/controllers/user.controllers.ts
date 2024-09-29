@@ -112,11 +112,20 @@ export async function handleLoginFunction(req: Request, res: Response) {
             return res.status(400).json({ success: false, message: "Incorrect password" });
         }
     
-        const token = jwt.sign({ id: user._id, userName: user.userName, email: user.email , firstName: user.firstName ,   lastName : user.lastName, emailVerificationStatus: user.emailVerificationStatus }, process.env.JWT_SECRET!, {
+        const token = jwt.sign({ id: user._id , role: user.role }, process.env.JWT_SECRET!, {
             expiresIn: "15d",
         });
+
+        const userData = {
+            userName: user.userName,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            emailVerificationStatus: user.emailVerificationStatus
+        }
     
-        return res.status(200).json({ success: true, message: "Login successful", token });
+        return res.status(200).json({ success: true, message: "Login successful", token , userData});
+        
     } catch (error) {
         return res.status(500).json({success : false , message : "Internal Server Error"})
     }

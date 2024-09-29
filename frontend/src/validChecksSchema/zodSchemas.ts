@@ -77,3 +77,4 @@ export const signupSchema = z
           "Password must contain at least one uppercase, one lowercase, one digit, and one special character",
       }),
   });
+

@@ -21,7 +21,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const [isResendEnabled, setIsResendEnabled] = useState(true);
   const navigate = useNavigate();
-  const { setIsSignupOpen } = useAuthContext();
+  const { setIsSignupOpen , setIsLoginOpen } = useAuthContext();
 
   const closeSignup = () => {
     setIsSignupOpen(false);
@@ -50,7 +50,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
             draggable: true,
             progress: undefined,
           });
-
+          setIsLoginOpen(true);
           closeSignup();
         } else {
           throw new Error(responseData.message);

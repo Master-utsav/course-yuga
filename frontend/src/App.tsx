@@ -5,41 +5,60 @@ import HeroSection from "./sections/HeroSection";
 import { ThemeProvider } from "./context/ThemeProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuthContext } from "./context/authContext";
+// import { getVerifiedToken } from "./lib/cookieService";
+// import { useEffect, useState } from "react";
 
 function App() {
   const location = useLocation();
+  // const [isVerified , setIsVerfied] = useState<boolean>(false);
+  const { isLoggedIn } = useAuthContext();
+  console.log(isLoggedIn);
+  // useEffect(() => {
+  //   const token = getVerifiedToken();
+  //   if (token !== null || isLoggedIn) {
+  //     setIsVerfied(true);
+  //   }
+  //   else{
+  //     setIsVerfied(false);
+  //   }
+  // } , [isLoggedIn])
+  
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <main className="max-w-full mx-auto relative dark:bg-black bg-white">
-            <Navbar />
-            <AnimatePresence mode="wait">
-              <Routes location={location} key={location.pathname}>
-                <Route
-                  path="/"
-                  element={
-                    // <PageTransitionBoxAnimation className="bg-white" >
-                      <HeroSection /> 
-                    /* </PageTransitionBoxAnimation> */
-                  }
-                />
+      <main className="max-w-full mx-auto relative dark:bg-black bg-white">
+        <Navbar isUserLoggedIn={isLoggedIn}/>
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            {isLoggedIn ? (
+              <Route
+                path="/"
+                element={
+                  <HeroSection />
+                }
+              />
+            ) : (
+              <>
                 <Route
                   path="/signup"
-                  element={
-                      <HeroSection />
-                  }
+                  element={<HeroSection />}
                 />
                 <Route
                   path="/login"
-                  element={
-                      <HeroSection />
-                  }
+                  element={<HeroSection />}
                 />
-              </Routes>
-            </AnimatePresence>
-            <ToastContainer/>
-          </main>
-          </ThemeProvider>
+                <Route
+                  path="/"
+                  element={<HeroSection />}
+                />
+              </>
+            )}
+          </Routes>
+        </AnimatePresence>
+        <ToastContainer />
+      </main>
+    </ThemeProvider>
   );
 }
 
