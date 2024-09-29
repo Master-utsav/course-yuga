@@ -35,6 +35,7 @@ passport.use(new GoogleStrategy({
     if (!user) {
       user = new User({
         firstName: profile.name?.givenName || 'User',
+        lastName: profile.name?.familyName || 'LastName',  
         userName: profile.displayName,
         email: googleEmail,
         password: randomPassword,
@@ -75,9 +76,10 @@ export function handleGoogleSignUpCallbackFunction(req: Request, res: Response, 
 
     const token = jwt.sign({
       id: user._id,
-      username: user.userName,
+      userName: user.userName,
       email: user.email,
       firstName: user.firstName,
+      lastName : user.lastName,
       emailVerificationStatus: user.emailVerificationStatus
     }, process.env.JWT_SECRET!, { expiresIn: '15d' });
 

@@ -4,6 +4,8 @@ import { createContext, useState, useContext, ReactNode } from "react";
 interface AuthContextType {
   isSignupOpen: boolean;
   setIsSignupOpen: (value: boolean) => void;
+  isLoginOpen: boolean;
+  setIsLoginOpen: (value: boolean) => void;
 }
 
 // Create context with the shape
@@ -21,9 +23,10 @@ export const useAuthContext = () => {
 // Create a provider for the AuthContext
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
-
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  
   return (
-    <AuthContext.Provider value={{ isSignupOpen, setIsSignupOpen }}>
+    <AuthContext.Provider value={{ isSignupOpen, setIsSignupOpen , isLoginOpen, setIsLoginOpen}}>
       {children}
     </AuthContext.Provider>
   );

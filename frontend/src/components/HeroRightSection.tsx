@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 const HeroRightSection = () => {
   return (
-    <section className="w-full h-screen flex flex-col justify-center items-center relative px-5">
+    <section className="w-full h-[90vh] flex flex-col justify-center items-center relative px-5">
       {/* Add some floating elements */}
       <motion.div
         initial={{ scale: 0.95 }}
@@ -47,7 +47,7 @@ const HeroRightSection = () => {
           ease: "easeOut",
         }}
         whileHover={{ scale: 1.05 }}
-        className="absolute bottom-24 right-10 p-4 bg-white dark:bg-black dark:text-white dark:shadow-white-500/60 text-black/90 rounded-full shadow-lg"
+        className="absolute bottom-16 right-10 p-4 bg-white dark:bg-black dark:text-white dark:shadow-white-500/60 text-black/90 rounded-full shadow-lg"
       >
         <p className="font-semibold text-xl">
           "Master new skills and boost your career with us!"

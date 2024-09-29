@@ -26,14 +26,14 @@ const HeroLeftSection = () => {
             
             <GetStartedAnimatedBtn BtnText={heroContent.buttonText} />
 
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center ">
 
             <div className="flex flex-wrap items-center justify-center mb-10  mt-10 px-2"> 
                 <AnimatedTooltip items={usersTooltip}/>
             </div>
 
               {/* Stats */}
-              <div className="flex flex-col items-center justify-center">
+              <div className="flex flex-col items-center justify-center px-1">
                 <h1 className="text-black dark:text-white font-ubuntu text-3xl font-extrabold">42K +</h1>
                 <p className="text-black/80 dark:text-white/80 font-sans text-base">
                   Using this platform

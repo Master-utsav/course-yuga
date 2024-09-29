@@ -37,8 +37,14 @@ passport.use(
         let user = await User.findOne({ email: githubEmail });
 
         if (!user) {
+
+          const nameParts = (profile.displayName || "User").split(" ");
+          const firstName = nameParts[0] || "User";
+          const lastName = nameParts.slice(1).join(" ") || "User";
+
           user = new User({
-            firstName: profile.displayName || "User",
+            firstName: firstName,
+            lastName: lastName,
             userName: profile.username,
             email: githubEmail,
             password: randomPassword,
@@ -78,7 +84,8 @@ export function handleGithubSignUpFunction(req: Request, res: Response, next: Fu
 }
 
 export function handleGithubSignUpCallbackFunction(req: Request, res: Response, next: Function) {
-  passport.authenticate("github", { failureRedirect: "/login" }, (err: any, user: { _id: any; userName: any; email: any; firstName: any; emailVerificationStatus: any; }, info: any) => {
+  passport.authenticate("github", { failureRedirect: "/login" }, (err: any, user: { _id: any; userName: any; email: any; firstName: any;
+    lastName: any; emailVerificationStatus: any; }, info: any) => {
     if (err || !user) {
       return res.redirect("/login");
     }
@@ -89,6 +96,7 @@ export function handleGithubSignUpCallbackFunction(req: Request, res: Response, 
         username: user.userName,
         email: user.email,
         firstName: user.firstName,
+        lastName: user.lastName,
         emailVerificationStatus: user.emailVerificationStatus,
       },
       process.env.JWT_SECRET!,

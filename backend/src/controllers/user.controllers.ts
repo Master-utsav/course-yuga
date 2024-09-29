@@ -8,15 +8,15 @@ import { AuthenticatedRequest } from "../middleware/auth.middleware";
 
 export async function handleSignUpFunction(req: Request, res: Response) {
   try {
-    const { userName, firstName, email, password }: IUser = req.body;
+    const { userName, firstName, lastName, email, password }: IUser = req.body;
   
-    if (!userName || !firstName || !email || !password) {
+    if (!userName || !firstName || !email || !password || !lastName) {
       return res
         .status(400)
         .json({ success: false, message: "Please filled all the fields" });
     }
   
-    const isValid = checkConstraints(userName , firstName , email , password);
+    const isValid = checkConstraints(userName , firstName, lastName , email , password);
     if (!isValid) {
       return res
         .status(400)
@@ -42,12 +42,12 @@ export async function handleSignUpFunction(req: Request, res: Response) {
         .status(400)
         .json({ success: false, message: "User Name already taken" });
     }
-  
     const hashedPassword: string = await bcrypt.hash(password, 10);
-  
+
     const newUser = new User({
       userName: userName,
       firstName: firstName,
+      lastName : lastName,
       email: email,
       password: hashedPassword,
       role: "STUDENT",
@@ -97,7 +97,7 @@ export async function handleLoginFunction(req: Request, res: Response) {
     
         const user = await User.findOne({
             $or: [
-                { username: userIdentity },
+                { userName: userIdentity },
                 { email: userIdentity }
             ]
         });
@@ -112,7 +112,7 @@ export async function handleLoginFunction(req: Request, res: Response) {
             return res.status(400).json({ success: false, message: "Incorrect password" });
         }
     
-        const token = jwt.sign({ id: user._id, username: user.username, email: user.email , firstName: user.firstName , emailVerificationStatus: user.emailVerificationStatus }, process.env.JWT_SECRET!, {
+        const token = jwt.sign({ id: user._id, userName: user.userName, email: user.email , firstName: user.firstName ,   lastName : user.lastName, emailVerificationStatus: user.emailVerificationStatus }, process.env.JWT_SECRET!, {
             expiresIn: "15d",
         });
     

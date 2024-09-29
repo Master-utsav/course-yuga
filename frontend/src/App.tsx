@@ -3,6 +3,8 @@ import { AnimatePresence } from "framer-motion";
 import Navbar from "./sections/Navbar";
 import HeroSection from "./sections/HeroSection";
 import { ThemeProvider } from "./context/ThemeProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const location = useLocation();
@@ -27,8 +29,15 @@ function App() {
                       <HeroSection />
                   }
                 />
+                <Route
+                  path="/login"
+                  element={
+                      <HeroSection />
+                  }
+                />
               </Routes>
             </AnimatePresence>
+            <ToastContainer/>
           </main>
           </ThemeProvider>
   );

@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.1",
+    "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@react-three/drei": "^9.114.0",
     "@react-three/fiber": "^8.17.8",
+    "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.9.0",
@@ -23,12 +25,15 @@
     "lucide-react": "^0.446.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
     "react-responsive": "^10.0.0",
     "react-router-dom": "^6.26.2",
+    "react-toastify": "^10.0.5",
     "sass": "^1.79.4",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "three": "^0.169.0"
+    "three": "^0.169.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

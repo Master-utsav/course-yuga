@@ -10,10 +10,11 @@ interface NavItemsProps{
 }
 const NavItems: React.FC<NavItemsProps> = ({navListBgForSmallScreen="bg-transparent"}) => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
-  const {setIsSignupOpen} = useAuthContext();
+  const {setIsSignupOpen , setIsLoginOpen} = useAuthContext();
 
   const handleNavigationClick = () => {
     setIsSignupOpen(false);
+    setIsLoginOpen(false);
   }
   return (
     <ul className="nav-ul">

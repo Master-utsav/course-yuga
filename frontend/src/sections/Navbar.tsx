@@ -11,13 +11,19 @@ import { useTheme } from "@/context/ThemeProvider";
 
 const Navbar = () => {
   const [isOpen, isSetOpen] = React.useState<boolean>(false);
-  const { setIsSignupOpen } = useAuthContext();
+  const { setIsSignupOpen , setIsLoginOpen} = useAuthContext();
   const {theme} = useTheme()
   const navigate = useNavigate();
 
   const handleSignupClick = () => {
     setIsSignupOpen(true);
-    navigate('/signup'); // Route to /signup and show the sign-up modal
+    setIsLoginOpen(false);
+    navigate('/signup');
+  };
+  const handleLoginClick = () => {
+    setIsLoginOpen(true);
+    setIsSignupOpen(false);
+    navigate('/login'); 
   };
   const toggleMenu = () => {
     isSetOpen((prevIsOpen) => !prevIsOpen);
@@ -82,6 +88,7 @@ const Navbar = () => {
                 <motion.button
                     whileTap={{ scale: 0.8 }}
                     className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all "
+                    onClick={handleLoginClick}
                 >
                     Login
                 </motion.button>
