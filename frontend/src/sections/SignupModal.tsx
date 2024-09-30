@@ -21,10 +21,9 @@ const SIGNUP_API_URL = import.meta.env.VITE_PUBLIC_SIGNUP_API_URL;
 
 const SignupModal: React.FC = () => {
   const navigate = useNavigate();
+  const {theme} = useTheme();
   const { setIsSignupOpen } = useAuthContext();
   const [showOTPComponent, setShowOTPComponent] = useState(false);
-  const {theme} = useTheme();
-  // States to toggle password visibility
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
@@ -41,6 +40,7 @@ const SignupModal: React.FC = () => {
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
   });
+  
 
   const formData = getValues();
 
@@ -48,11 +48,16 @@ const SignupModal: React.FC = () => {
     try {
       const response = await axios.post(SIGNUP_API_URL, data);
       const responseData: { success: boolean; message: string } = response.data;
-
+    
       if (responseData.success) {
         toast.success(responseData.message, {
           position: "bottom-right",
           autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
         });
         setShowOTPComponent(true);
       } else {
@@ -63,6 +68,11 @@ const SignupModal: React.FC = () => {
       toast.error(error.response?.data?.message || "An error occurred", {
         position: "bottom-right",
         autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
     }
   };
@@ -89,7 +99,7 @@ const SignupModal: React.FC = () => {
                 <input
                   type="text"
                   placeholder="First Name"
-                  className={`p-3 border rounded-md w-full text-black  ${
+                  className={`p-3 border rounded-md w-full text-black dark:text-white  ${
                     errors.firstName ? "border-red-500" : ""
                   }`}
                   {...register("firstName")}
@@ -104,7 +114,7 @@ const SignupModal: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Last Name"
-                  className={`p-3 border rounded-md w-full text-black ${
+                  className={`p-3 border rounded-md w-full text-black dark:text-white ${
                     errors.lastName ? "border-red-500" : ""
                   }`}
                   {...register("lastName")}
@@ -121,7 +131,7 @@ const SignupModal: React.FC = () => {
               <input
                 type="text"
                 placeholder="Username"
-                className={`p-3 border rounded-md w-full text-black ${
+                className={`p-3 border rounded-md w-full text-black dark:text-white ${
                   errors.userName ? "border-red-500" : ""
                 }`}
                 {...register("userName")}
@@ -135,7 +145,7 @@ const SignupModal: React.FC = () => {
               <input
                 type="email"
                 placeholder="Email"
-                className={`p-3 border rounded-md w-full  text-black ${
+                className={`p-3 border rounded-md w-full  text-black dark:text-white ${
                   errors.email ? "border-red-500" : ""
                 }`}
                 {...register("email")}
@@ -152,7 +162,7 @@ const SignupModal: React.FC = () => {
                 <input
                   type={passwordVisible ? "text" : "password"}
                   placeholder="Password"
-                  className={`p-3 border rounded-md w-full text-black ${
+                  className={`p-3 border rounded-md w-full text-black dark:text-white ${
                     errors.password ? "border-red-500" : ""
                   }`}
                   {...register("password")}
@@ -163,7 +173,7 @@ const SignupModal: React.FC = () => {
                 >
                 {
                   theme === 'dark' ? (
-                    passwordVisible ? <EyeOpenIcon fillColor="black" size={24} /> : <EyeCloseIcon fillColor="black"  size={24} /> 
+                    passwordVisible ? <EyeOpenIcon fillColor="white" size={24} /> : <EyeCloseIcon fillColor="white"  size={24} /> 
                   ):(
                     passwordVisible ? <EyeOpenIcon fillColor="grey" size={24} /> : <EyeCloseIcon fillColor="grey" size={24} /> 
                   )
@@ -183,10 +193,10 @@ const SignupModal: React.FC = () => {
                 <input
                   type={confirmPasswordVisible ? "text" : "password"}
                   placeholder="Confirm Password"
-                  className={`p-3 border rounded-md w-full text-black ${
+                  className={`p-3 border rounded-md w-full text-black dark:text-white ${
                     errors.password ? "border-red-500" : ""
                   }`}
-                  {...register("password")}
+                  {...register("confirmPassword")}
                 />
                 <div
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
@@ -194,7 +204,7 @@ const SignupModal: React.FC = () => {
                 >
                 {
                   theme === 'dark' ? (
-                    confirmPasswordVisible ? <EyeOpenIcon fillColor="black" size={24} /> : <EyeCloseIcon fillColor="black"  size={24} /> 
+                    confirmPasswordVisible ? <EyeOpenIcon fillColor="white" size={24} /> : <EyeCloseIcon fillColor="white"  size={24} /> 
                   ):(
                     confirmPasswordVisible ? <EyeOpenIcon fillColor="grey" size={24} /> : <EyeCloseIcon fillColor="grey" size={24} /> 
                   )
@@ -224,7 +234,7 @@ const SignupModal: React.FC = () => {
             <motion.button
               whileTap={{ scale: 0.9 }}
               type="button"
-              className="py-3 px-6 bg-[#e7f3ff] dark:bg-slate-700 text-black hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
+              className="py-3 px-6 bg-[#e7f3ff] dark:bg-slate-700 text-black dark:text-white hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
             >
               <GoogleIcon size={24} /> <span className="ml-4">Sign Up with Google</span>
             </motion.button>
@@ -232,7 +242,7 @@ const SignupModal: React.FC = () => {
             <motion.button
               whileTap={{ scale: 0.9 }}
               type="button"
-              className="py-3 px-6 bg-gray-800/20 dark:bg-slate-700 text-black hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
+              className="py-3 px-6 bg-gray-800/20 dark:bg-slate-700 text-black dark:text-white hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
             >
               <GitHubIcon size={24} /> <span className="ml-4">Sign Up with GitHub</span>
             </motion.button>

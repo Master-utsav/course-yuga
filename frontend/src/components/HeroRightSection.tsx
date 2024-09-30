@@ -16,9 +16,9 @@ const HeroRightSection = () => {
           repeatType: "reverse", // Reverses back to the original position
           ease: "easeInOut", // Smooth transition
         }}
-        className="absolute top-10 right-10 p-5 rounded-full cursor-pointer bg-purple-500 text-white shadow-lg dark:shadow-white-500/60"
-      >
-        <span className="font-bold text-lg">Join our Learning Platform!</span>
+        className="absolute top-10 right-10 p-5 text-lg rounded-full cursor-pointer bg-purple-500 text-white shadow-lg dark:shadow-white-500/60"
+        >
+        Join our Learning Platform!
       </motion.div>
 
       {/* Hero Image with subtle floating animation */}

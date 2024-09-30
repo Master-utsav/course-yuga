@@ -1,12 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/context/ThemeProvider';
+import MiniCard from './ui/mini-card';
+import { educatorsInfiniteScrollData } from '@/constants';
 
-interface InfiniteCourseScrollerProps {
-  imageUrls: string[];
-}
 
-const InfiniteCourseScroller: React.FC<InfiniteCourseScrollerProps> = ({ imageUrls }) => {
+const InfiniteCourseScroller: React.FC = () => {
     const {theme} = useTheme()
   return (
     <div className="relative overflow-hidden w-full">
@@ -33,17 +32,13 @@ const InfiniteCourseScroller: React.FC<InfiniteCourseScrollerProps> = ({ imageUr
         transition={{
           repeat: Infinity,
           repeatType: 'loop',
-          duration: imageUrls.length * 3, // Adjust speed by number of images
+          duration: educatorsInfiniteScrollData.length * 2, // Adjust speed by number of images
           ease: 'linear',
         }}
       >
-        {imageUrls.map((url, index) => (
+        {educatorsInfiniteScrollData.map((edu, index) => (
           <div key={index} className="flex-shrink-0">
-            <img
-              src={url}
-              alt={`scrolling image ${index}`}
-              className="h-32 w-32 object-cover" // Same size for all images
-            />
+            <MiniCard {...edu} />
           </div>
         ))}
       </motion.div>

@@ -6,6 +6,7 @@ import { ThemeProvider } from "./context/ThemeProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuthContext } from "./context/authContext";
+import LogoutModal from "./sections/LogoutModal";
 // import { getVerifiedToken } from "./lib/cookieService";
 // import { useEffect, useState } from "react";
 
@@ -13,7 +14,7 @@ function App() {
   const location = useLocation();
   // const [isVerified , setIsVerfied] = useState<boolean>(false);
   const { isLoggedIn } = useAuthContext();
-  console.log(isLoggedIn);
+
   // useEffect(() => {
   //   const token = getVerifiedToken();
   //   if (token !== null || isLoggedIn) {
@@ -32,12 +33,19 @@ function App() {
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             {isLoggedIn ? (
+              <>
               <Route
                 path="/"
                 element={
                   <HeroSection />
                 }
               />
+              <Route
+                  path="/logout"
+                  element={<LogoutModal />}
+              />
+              </>
+              
             ) : (
               <>
                 <Route

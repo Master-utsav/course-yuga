@@ -8,16 +8,23 @@ import { useAuthContext } from "../context/authContext";
 import { ModeToggle } from "@/components/ThemeBtn";
 import { useTheme } from "@/context/ThemeProvider";
 import DashboardIcon from "@/Icons/DashboardIcon";
+import AvatarComponent from "@/components/AvatarComponent";
 
 interface NavbarProps{
   isUserLoggedIn: boolean
 }
 const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
   const [isOpen, isSetOpen] = React.useState<boolean>(false);
-  const { setIsSignupOpen , setIsLoginOpen} = useAuthContext();
+  const { setIsSignupOpen , setIsLoginOpen , localStorageUserData} = useAuthContext();
   const {theme} = useTheme()
   const navigate = useNavigate();
-
+  const firstName:string = localStorageUserData?.firstName || "Unknown";
+  const lastName:string = localStorageUserData?.lastName || "User";
+  const username:string = localStorageUserData?.userName || "unknown_user";
+  const firstChar:string = localStorageUserData?.firstName.charAt(0).toUpperCase() ||  "U";
+  const lastChar:string = localStorageUserData?.lastName.charAt(0).toUpperCase() || "K";
+  const avatarFallbackText = firstChar + lastChar 
+  
   const handleSignupClick = () => {
     setIsSignupOpen(true);
     setIsLoginOpen(false);
@@ -84,31 +91,35 @@ const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
               {!isUserLoggedIn ? (<>
               <motion.button
                     whileTap={{ scale: 0.8 }}
-                    className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all "
+                    className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all border-2 border-purple-500 "
                     onClick={handleSignupClick}
                 >
                     Signup
                 </motion.button>
                 <motion.button
                     whileTap={{ scale: 0.8 }}
-                    className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all "
+                    className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all border-2 border-purple-500"
                     onClick={handleLoginClick}
                 >
                     Login
                 </motion.button>
               </>)
               :
-              (<motion.button
+              (<>
+                  <motion.button
                     whileTap={{ scale: 0.8 }}
-                    className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all flex gap-2"
+                    className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all flex gap-2 border-2 border-purple-500"
                     onClick={() => navigate("/dashboard")}
                 >
                     <span className="font-ubuntu">Dashboard</span> 
                     {
                     theme === 'dark' ? (<DashboardIcon fillColor="black" size={24}/>) : (<DashboardIcon fillColor="white" size={24}/>)
                     }
-                </motion.button>)}
-                
+                </motion.button>
+                <AvatarComponent avatarFallbackText={avatarFallbackText} imageUrl="https://avatars.githubusercontent.com/u/133480549?v=4" firstName={firstName} lastName={lastName} username={username}/>
+              </>
+              )}
+               
                 <div  className="w-full rounded-3xl font-semibold shadow-md transition-all ">
                 <ModeToggle/>
                 </div>

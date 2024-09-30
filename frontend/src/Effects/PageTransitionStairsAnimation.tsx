@@ -1,6 +1,6 @@
 import {  motion, Variants } from "framer-motion";
 import { ReactNode } from "react";
-import { cn } from "../lib/utilts";
+import { cn } from "../lib/utils";
 
 interface PageTransitionProps {
   children: ReactNode;

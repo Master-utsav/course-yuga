@@ -1,4 +1,4 @@
-import { heroContent , usersTooltip , courseImageUrls} from "../constants/index";
+import { heroContent , usersTooltip } from "../constants/index";
 import GetStartedAnimatedBtn from "./GetStartedAnimatedBtn";
 import TextBorderCutEffect from "../Effects/TextBorderCutEffect";
 import DescriptionWithLoop from "./DescriptionWithLoop";
@@ -43,7 +43,7 @@ const HeroLeftSection = () => {
           </div>
         </div>
         <div>
-            <InfiniteCourseScroller imageUrls={courseImageUrls} /> 
+            <InfiniteCourseScroller /> 
 
         </div>
       </div>

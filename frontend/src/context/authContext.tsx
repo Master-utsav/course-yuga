@@ -1,5 +1,6 @@
 import { LoginUserDataProps } from "@/constants";
 import { getVerifiedToken } from "@/lib/cookieService";
+import { getLocalStorageuserData } from "@/lib/getLocalStorage";
 import { createContext, useState, useContext, ReactNode, useEffect } from "react";
 
 interface AuthContextType {
@@ -11,6 +12,8 @@ interface AuthContextType {
   setUserData: (user: LoginUserDataProps) => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (value: boolean) => void;
+  localStorageUserData: LoginUserDataProps | null;
+  setLocalStorageUserData: (user: LoginUserDataProps) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -24,11 +27,22 @@ export const useAuthContext = () => {
   return context;
 };
 
+
+
+
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<LoginUserDataProps | null>(null);
+  const [localStorageUserData , setLocalStorageUserData] = useState<LoginUserDataProps | null>(null);
+
+  useEffect(() => {
+    const userData = getLocalStorageuserData();
+    if (userData) {
+      setLocalStorageUserData(userData);
+    }  
+  } , [])
   
   useEffect(() => {
     const token = getVerifiedToken(); 
@@ -43,7 +57,7 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
   }, [userData]); 
 
   return (
-    <AuthContext.Provider value={{ isSignupOpen, setIsSignupOpen, isLoginOpen, setIsLoginOpen, userData, setUserData, isLoggedIn, setIsLoggedIn }}>
+    <AuthContext.Provider value={{ isSignupOpen, setIsSignupOpen, isLoginOpen, setIsLoginOpen, userData, setUserData, isLoggedIn, setIsLoggedIn, localStorageUserData , setLocalStorageUserData }}>
       {children}
     </AuthContext.Provider>
   );

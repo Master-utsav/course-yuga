@@ -17,4 +17,8 @@ export const getVerifiedToken = (): string | null => {
     }
 }
 
+export const removeTokenCookie = () => {
+  Cookies.remove("token"); // Removes the "token" cookie
+};
+
 

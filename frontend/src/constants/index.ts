@@ -58,19 +58,67 @@ export const usersTooltip = [
     },
   
 ]
-export const courseImageUrls = [
-    "https://avatars.githubusercontent.com/u/133480549?v=4",
-    "https://avatars.githubusercontent.com/u/133480549?v=4",
-    "https://avatars.githubusercontent.com/u/133480549?v=4",
-    "https://avatars.githubusercontent.com/u/133480549?v=4",
-    "https://avatars.githubusercontent.com/u/133480549?v=4",
-    "https://avatars.githubusercontent.com/u/133480549?v=4",
-    "https://avatars.githubusercontent.com/u/133480549?v=4",
-    "https://avatars.githubusercontent.com/u/133480549?v=4",
-    "https://avatars.githubusercontent.com/u/133480549?v=4",
-    "https://avatars.githubusercontent.com/u/133480549?v=4",
-    "https://avatars.githubusercontent.com/u/133480549?v=4",
-    "https://avatars.githubusercontent.com/u/133480549?v=4",
+export const educatorsInfiniteScrollData = [
+    {
+        id: 1,
+        educatorName: "Harkirat Singh",
+        imageUrl: "https://appxcontent.kaxa.in/paid_course3/2024-07-07-0.07833836520330406.png",
+        courseName: "Cohort 3.0",
+    },
+    {
+        id: 2,
+        educatorName: "Love Babbar",
+        imageUrl: "https://s3-ap-northeast-1.amazonaws.com/teamblindstatics/link/2/bad3237833b617f4da3b2799bb008077_1632020209322_res.jpeg",
+        courseName: "Supreme 2.0",
+    },
+    {
+        id: 3,
+        educatorName: "Apna College",
+        imageUrl: "https://www.mypunepulse.com/wp-content/uploads/2024/08/WhatsApp-Image-2024-08-27-at-2.11.07-PM-768x512.jpeg",
+        courseName: "Alpha 3.0",
+    },
+    {
+        id: 4,
+        educatorName: "Hitesh Chaudary",
+        imageUrl: "https://cdn.prod.website-files.com/61a0a26a75358d70b0bf68f9/634fcf3453b051f981d67f82_person-image.jpeg",
+        courseName: "JavaScript",
+    },
+    {
+        id: 5,
+        educatorName: "Adrian Hajdin",
+        imageUrl: "https://avatars.githubusercontent.com/u/24898559?v=4",
+        courseName: "JS Mastery",
+    },
+    {
+        id: 6,
+        educatorName: "Harkirat Singh",
+        imageUrl: "https://appxcontent.kaxa.in/paid_course3/2024-07-07-0.07833836520330406.png",
+        courseName: "Cohort 3.0",
+    },
+    {
+        id: 7,
+        educatorName: "Love Babbar",
+        imageUrl: "https://s3-ap-northeast-1.amazonaws.com/teamblindstatics/link/2/bad3237833b617f4da3b2799bb008077_1632020209322_res.jpeg",
+        courseName: "Supreme 2.0",
+    },
+    {
+        id: 8,
+        educatorName: "Apna College",
+        imageUrl: "https://www.mypunepulse.com/wp-content/uploads/2024/08/WhatsApp-Image-2024-08-27-at-2.11.07-PM-768x512.jpeg",
+        courseName: "Alpha 3.0",
+    },
+    {
+        id: 9,
+        educatorName: "Hitesh Chaudary",
+        imageUrl: "https://cdn.prod.website-files.com/61a0a26a75358d70b0bf68f9/634fcf3453b051f981d67f82_person-image.jpeg",
+        courseName: "JavaScript",
+    },
+    {
+        id: 10,
+        educatorName: "Adrian Hajdin",
+        imageUrl: "https://avatars.githubusercontent.com/u/24898559?v=4",
+        courseName: "JS Mastery",
+    },
 ]
 
 export interface LoginUserDataProps{

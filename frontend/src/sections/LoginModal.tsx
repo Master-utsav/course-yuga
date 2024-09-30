@@ -28,6 +28,7 @@ const LoginModal: React.FC = () => {
   const closeLogin = () => {
     setIsLoginOpen(false);
     navigate("/");
+    window.location.reload();
   };
 
   const {
@@ -71,7 +72,6 @@ const LoginModal: React.FC = () => {
         
         console.log(responseData.userData);
         initializeUserData(responseData.userData);
-
         closeLogin();
       } else {
         throw new Error(responseData.message);
@@ -110,7 +110,7 @@ const LoginModal: React.FC = () => {
                 <input
                 type="text"
                 placeholder="Username or Email"
-                className={`p-3 border rounded-md w-full text-black ${
+                className={`p-3 border rounded-md w-full text-black dark:text-white ${
                     errors.identity ? "border-red-500" : ""
                 }`}
                 {...register("identity")}
@@ -125,7 +125,7 @@ const LoginModal: React.FC = () => {
               <input
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Password"
-                className={`p-3 border rounded-md w-full text-black ${
+                className={`p-3 border rounded-md w-full text-black dark:text-white ${
                   errors.password ? "border-red-500" : ""
                 }`}
                 {...register("password")}
@@ -136,7 +136,7 @@ const LoginModal: React.FC = () => {
               >
                {
                 theme === 'dark' ? (
-                  passwordVisible ? <EyeOpenIcon fillColor="black" size={24} /> : <EyeCloseIcon fillColor="black"  size={24} /> 
+                  passwordVisible ? <EyeOpenIcon fillColor="white" size={24} /> : <EyeCloseIcon fillColor="white"  size={24} /> 
                 ):(
                   passwordVisible ? <EyeOpenIcon fillColor="grey" size={24} /> : <EyeCloseIcon fillColor="grey" size={24} /> 
                 )
@@ -166,7 +166,7 @@ const LoginModal: React.FC = () => {
             <motion.button
             whileTap={{scale: 0.9}}
               type="button"
-              className="py-3 px-6 bg-[#e7f3ff] dark:bg-slate-700 text-black hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
+              className="py-3 px-6 bg-[#e7f3ff] dark:bg-slate-700 text-black dark:text-white hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
             >
               <GoogleIcon size={24} />{" "}
               <span className="ml-4">Sign Up with Google</span>
@@ -174,7 +174,7 @@ const LoginModal: React.FC = () => {
             <motion.button
               whileTap={{scale: 0.9}}
               type="button"
-              className="py-3 px-6 bg-gray-800/20 dark:bg-slate-700 text-black hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
+              className="py-3 px-6 bg-gray-800/20 dark:bg-slate-700 text-black dark:text-white hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
             >
               <GitHubIcon size={24} />{" "}
               <span className="ml-4">Sign Up with GitHub</span>
