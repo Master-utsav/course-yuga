@@ -10,6 +10,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+
 passport.use(
   new GitHubStrategy(
     {
@@ -17,54 +18,77 @@ passport.use(
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
       callbackURL: "http://localhost:8001/api/user/signup-github/callback",
     },
-    async (accessToken: any, refreshToken: any, profile: { emails: { value: string; }[]; displayName: any; username: any; }, done: (arg0: Error | null, arg1: undefined) => void) => {
+    async (
+      accessToken: string,
+      refreshToken: string,
+      profile: { emails: { value: string }[]; displayName: string; username: string; photos: { value: string }[] },
+      done: (error: Error | null, user?: any) => void
+    ) => {
       try {
-        let githubEmail: string;
+        let githubEmail: string | undefined;
         let randomPassword: string;
+        let profileImageUrl: string | undefined;
 
-        // Get email from profile
-        if (profile && profile.emails) {
+        if (profile?.emails?.length) {
           githubEmail = profile.emails[0].value;
-          randomPassword = generateDummyPassword(githubEmail);
         } else {
-          return done(new Error("No email found in GitHub profile"), undefined);
+          const response = await fetch("https://api.github.com/user/emails", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "User-Agent": "Course-Yuga",
+            },
+          });
+
+          const emails = await response.json();
+
+          const primaryEmail = emails.find((email: any) => email.primary) || emails[0];
+          githubEmail = primaryEmail ? primaryEmail.email : undefined;
+
+          if (!githubEmail) {
+            return done(new Error("No email found in GitHub profile or via API"), undefined);
+          }
         }
+
+        randomPassword = generateDummyPassword(githubEmail);
 
         if (!randomPassword) {
           return done(new Error("Error generating random password"), undefined);
         }
 
+        if (profile?.photos?.length > 0) {
+          profileImageUrl = profile.photos[0].value;
+        }
+
         let user = await User.findOne({ email: githubEmail });
 
         if (!user) {
-
           const nameParts = (profile.displayName || "User").split(" ");
           const firstName = nameParts[0] || "User";
           const lastName = nameParts.slice(1).join(" ") || "User";
 
           user = new User({
-            firstName: firstName,
-            lastName: lastName,
-            userName: profile.username,
+            firstName,
+            lastName,
+            userName: profile.username.replace(/ /g, "_"),
             email: githubEmail,
             password: randomPassword,
+            profileImageUrl,
             emailVerificationStatus: true,
-            role : "STUDENT"
+            role: "STUDENT",
           });
+
           await user.save();
           await sendGithubAuthPasswordMail(user.email, randomPassword);
         }
 
-        done(null, user);
+        return done(null, user);
       } catch (error) {
-        done(
-          new Error("Something went wrong during GitHub authentication"),
-          undefined
-        );
+        return done(new Error("Something went wrong during GitHub authentication"), undefined);
       }
     }
   )
 );
+
 
 passport.serializeUser((user: any, done) => {
   done(null, user._id);
@@ -79,40 +103,48 @@ passport.deserializeUser(async (id: string, done) => {
   }
 });
 
-
 export function handleGithubSignUpFunction(req: Request, res: Response, next: Function) {
   passport.authenticate("github", { scope: ["user:email"] })(req, res, next);
 }
 
 export function handleGithubSignUpCallbackFunction(req: Request, res: Response, next: Function) {
-  passport.authenticate("github", { failureRedirect: "/login" }, (err: any, user: {
-    role: any; _id: any; userName: any; email: any; firstName: any;
-    lastName: any; emailVerificationStatus: any; }, info: any) => {
-    if (err || !user) {
-      return res.redirect("/login");
-    }
+  const FRONTEND_HOME_ROUTE = process.env.PUBLIC_FRONTEND_DOMAIN!;
+  passport.authenticate(
+    "github",
+    { failureRedirect: FRONTEND_HOME_ROUTE},
+    (err: any, user: any, info: any) => {
+      if (err || !user) {
+        console.error("GitHub Authentication failed:", err);
+        return res.redirect(FRONTEND_HOME_ROUTE);
+      }
 
-    const token = jwt.sign(
-      {
-        id: user._id,
-        role: user.role,
-      },
-      process.env.JWT_SECRET!,
-      { expiresIn: "15d" }
-    );
-    
-    const userData = {
-      userName: user.userName,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      emailVerificationStatus: user.emailVerificationStatus
-  }
-    return res.status(200).json({
-      success: true,
-      message: "Login successful",
-      token,
-      userData
-    });
-  })(req, res, next);
+      const token = jwt.sign(
+        {
+          id: user._id,
+          role: user.role,
+        },
+        process.env.JWT_SECRET!,
+        { expiresIn: "15d" }
+      );
+
+      const userData = {
+        userName: user.userName,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        profileImageUrl: user.profileImageUrl,
+        emailVerificationStatus: user.emailVerificationStatus,
+      };
+
+      console.log("GitHub Auth Success, userData:", userData);
+      res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=Login successful&token=${token}&email=${userData.email}&firstName=${userData.firstName}&userName=${userData.userName}&lastName=${userData.lastName}&emailVerificationStatus=${userData.emailVerificationStatus}&profileImageUrl=${userData.profileImageUrl}`);
+      // return res.status(200).json({
+      //   success: true,
+      //   message: "Login successful",
+      //   token,
+      //   userData,
+      // });
+    }
+  )(req, res, next);
 }
+

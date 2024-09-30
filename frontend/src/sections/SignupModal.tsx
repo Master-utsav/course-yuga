@@ -76,6 +76,41 @@ const SignupModal: React.FC = () => {
       });
     }
   };
+  
+  const handelGoogleBtn = () => {
+    try {
+      window.location.href = import.meta.env.VITE_PUBLIC_GOOGLE_SIGNUP_URL!;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error : any) {
+      console.error("Error during Google OAuth:", error);
+      toast.error(error || "An error occurred", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
+  const handelGithubBtn = () => {
+    try {
+      window.location.href = import.meta.env.VITE_PUBLIC_GITHUB_SIGNUP_URL!;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error : any) {
+      console.error("Error during Google OAuth:", error);
+      toast.error(error || "An error occurred", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }
 
   return (
     <section className="w-full mx-auto px-5 flex justify-center items-center">
@@ -219,6 +254,7 @@ const SignupModal: React.FC = () => {
               </div>
             </div>
             <motion.button
+              type="submit"
               whileTap={{ scale: 0.95 }}
               className="py-3 px-6 bg-purple-500 text-white rounded-lg shadow-md"
             >
@@ -235,6 +271,7 @@ const SignupModal: React.FC = () => {
               whileTap={{ scale: 0.9 }}
               type="button"
               className="py-3 px-6 bg-[#e7f3ff] dark:bg-slate-700 text-black  hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
+              onClick={handelGoogleBtn}
             >
               <GoogleIcon size={24} /> <span className="ml-4">Sign Up with Google</span>
             </motion.button>
@@ -243,6 +280,7 @@ const SignupModal: React.FC = () => {
               whileTap={{ scale: 0.9 }}
               type="button"
               className="py-3 px-6 bg-gray-800/20 dark:bg-slate-700 text-black dark:text-white hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all rounded-lg flex items-center justify-center"
+              onClick={handelGithubBtn}
             >
               <GitHubIcon size={24} /> <span className="ml-4">Sign Up with GitHub</span>
             </motion.button>

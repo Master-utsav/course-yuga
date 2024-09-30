@@ -18,10 +18,10 @@ const userRoute = express.Router();
 
 // User Signup/Login Routes
 userRoute.post("/signup", handleSignUpFunction);
-userRoute.post("/signup-google", handleGoogleSignUpFunction);
-userRoute.post("/signup-google/callback", handleGoogleSignUpCallbackFunction);
-userRoute.post("/signup-github", handleGithubSignUpFunction);
-userRoute.post("/signup-github/callback", handleGithubSignUpCallbackFunction);
+userRoute.get("/signup-google", handleGoogleSignUpFunction);
+userRoute.get("/signup-google/callback", handleGoogleSignUpCallbackFunction);
+userRoute.get("/signup-github", handleGithubSignUpFunction);
+userRoute.get("/signup-github/callback", handleGithubSignUpCallbackFunction);
 userRoute.post("/login", handleLoginFunction);
 
 // Email Verification Routes

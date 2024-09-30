@@ -21,6 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
   const firstName:string = localStorageUserData?.firstName || "Unknown";
   const lastName:string = localStorageUserData?.lastName || "User";
   const username:string = localStorageUserData?.userName || "unknown_user";
+  const imageUrl:string = localStorageUserData?.profileImageUrl || "";
   const firstChar:string = localStorageUserData?.firstName.charAt(0).toUpperCase() ||  "U";
   const lastChar:string = localStorageUserData?.lastName.charAt(0).toUpperCase() || "K";
   const avatarFallbackText = firstChar + lastChar 
@@ -116,7 +117,7 @@ const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
                     theme === 'dark' ? (<DashboardIcon fillColor="black" size={24}/>) : (<DashboardIcon fillColor="white" size={24}/>)
                     }
                 </motion.button>
-                <AvatarComponent avatarFallbackText={avatarFallbackText} imageUrl="https://avatars.githubusercontent.com/u/133480549?v=4" firstName={firstName} lastName={lastName} username={username}/>
+                <AvatarComponent avatarFallbackText={avatarFallbackText} imageUrl={imageUrl} firstName={firstName} lastName={lastName} username={username}/>
               </>
               )}
                

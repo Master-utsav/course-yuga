@@ -14,14 +14,12 @@ import ProfileIcon from "@/Icons/ProfileIcon";
 import BookmarkIcon from "@/Icons/BookmarkIcon";
 import SubscriptionIcon from "@/Icons/SubscriptionIcon";
 import HistoryIcon from "@/Icons/HistoryIcon";
-import { User } from "@nextui-org/react";
 import LogoutIcon from "@/Icons/LogoutIcon";
 import { useNavigate } from "react-router-dom";
 
-
 interface AvatarProps {
   avatarFallbackText?: string;
-  imageUrl?: string;
+  imageUrl?: string | "";
   firstName?: string;
   lastName?: string;
   username?: string;
@@ -29,15 +27,15 @@ interface AvatarProps {
 
 const AvatarComponent: React.FC<AvatarProps> = ({
   avatarFallbackText = "UK",
-  imageUrl = "https://avatars.githubusercontent.com/u/133480549?v=4",
   firstName = "Unknown",
+  imageUrl,
   lastName = "User",
   username = "unknow_user",
 }) => {
   const fullName = firstName + " " + lastName;
   const navigate = useNavigate();
 
-  const handelLogout = () => navigate("/logout")
+  const handelLogout = () => navigate("/logout");
   return (
     <HoverCard>
       <HoverCardTrigger>
@@ -52,27 +50,17 @@ const AvatarComponent: React.FC<AvatarProps> = ({
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="overflow-hidden backdrop-blur-md dark:bg-black/70 bg-white/70 font-ubuntu font-semibold mt-1">
-            <DropdownMenuLabel>
-              <User
-                name={<span className="text-center mx-2">{fullName}</span>}
-                className="text-center content-center"
-                description={
-                //   <Link
-                //     href="https://masterutsav.in"
-                //     size="sm"
-                //     isExternal
-                //     className="text-blue-500 text-sm"
-                //   >
-                //     @{username}
-                //   </Link>
-                <span className="text-blue-500 text-sm">
-                    @{username}
-                </span>
-                }
-                avatarProps={{
-                  src: imageUrl,
-                }}
-              />
+            <DropdownMenuLabel className="flex gap-1">
+              <Avatar className="border-2 border-purple-500">
+                <AvatarImage src={imageUrl} className="" />
+                <AvatarFallback className="font-sans font-bold text-xl dark:text-black dark:bg-white text-white bg-black ">
+                  {avatarFallbackText}
+                </AvatarFallback>
+              </Avatar>
+              <div className="text-center content-center flex-col flex">
+                <span className="text-center mx-2">{fullName}</span>
+                <span className="text-blue-500 text-sm">@{username}</span>
+              </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
 
@@ -93,8 +81,8 @@ const AvatarComponent: React.FC<AvatarProps> = ({
               <span>History</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex gap-2" onClick={handelLogout}>
-                    <LogoutIcon fillColor="red" />
-                    <span>Logout</span>
+              <LogoutIcon fillColor="red" />
+              <span>Logout</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

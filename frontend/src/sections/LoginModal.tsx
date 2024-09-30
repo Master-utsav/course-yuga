@@ -28,7 +28,6 @@ const LoginModal: React.FC = () => {
   const closeLogin = () => {
     setIsLoginOpen(false);
     navigate("/");
-    window.location.reload();
   };
 
   const {
@@ -47,6 +46,7 @@ const LoginModal: React.FC = () => {
         firstName: userData.firstName,
         lastName: userData.lastName,
         emailVerificationStatus: userData.emailVerificationStatus,
+        profileImageUrl: userData.profileImageUrl,
       });
     }
   };
@@ -69,8 +69,7 @@ const LoginModal: React.FC = () => {
           draggable: true,
           progress: undefined,
         });
-        
-        console.log(responseData.userData);
+
         initializeUserData(responseData.userData);
         closeLogin();
       } else {

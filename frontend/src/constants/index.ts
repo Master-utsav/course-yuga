@@ -127,4 +127,5 @@ export interface LoginUserDataProps{
         firstName: string;
         lastName: string;
         emailVerificationStatus: boolean;
+        profileImageUrl: string;
 }

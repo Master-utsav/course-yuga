@@ -6,6 +6,7 @@ export interface IUser extends Document {
   userName: string;
   password: string;
   email: string;
+  profileImageUrl: string | undefined;
   role: "TEACHER" | "STUDENT";
   emailVerificationOTP?: string;
   emailVerificationOTPExpires?: string;
@@ -20,6 +21,7 @@ const userSchema = new mongoose.Schema<IUser>({
   userName: { type: String, required: [true, "Username is required"] },
   password: { type: String, required: [true, "Password is required"] },
   email: { type: String, required: [true, "Email is required"] },
+  profileImageUrl: {type : String || undefined},
   role: { type: String, enum: ["TEACHER" , "STUDENT"], required: true },
   emailVerificationOTP: { type: String },
   emailVerificationOTPExpires: { type: String },
