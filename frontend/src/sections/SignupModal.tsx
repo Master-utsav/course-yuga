@@ -234,7 +234,7 @@ const SignupModal: React.FC = () => {
             <motion.button
               whileTap={{ scale: 0.9 }}
               type="button"
-              className="py-3 px-6 bg-[#e7f3ff] dark:bg-slate-700 text-black dark:text-white hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
+              className="py-3 px-6 bg-[#e7f3ff] dark:bg-slate-700 text-black  hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
             >
               <GoogleIcon size={24} /> <span className="ml-4">Sign Up with Google</span>
             </motion.button>
@@ -242,7 +242,7 @@ const SignupModal: React.FC = () => {
             <motion.button
               whileTap={{ scale: 0.9 }}
               type="button"
-              className="py-3 px-6 bg-gray-800/20 dark:bg-slate-700 text-black dark:text-white hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
+              className="py-3 px-6 bg-gray-800/20 dark:bg-slate-700 text-black dark:text-white hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all rounded-lg flex items-center justify-center"
             >
               <GitHubIcon size={24} /> <span className="ml-4">Sign Up with GitHub</span>
             </motion.button>
