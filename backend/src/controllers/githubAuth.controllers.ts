@@ -111,12 +111,15 @@ export function handleGithubSignUpFunction(req: Request, res: Response, next: Fu
 
 export function handleGithubSignUpCallbackFunction(req: Request, res: Response, next: Function) {
   const FRONTEND_HOME_ROUTE = process.env.PUBLIC_FRONTEND_DOMAIN!;
+  const FRONTEND_SIGNUP_ROUTE = process.env.PUBLIC_FRONTEND_SIGNUP_ROUTE!;
   passport.authenticate(
     "github",
-    { failureRedirect: FRONTEND_HOME_ROUTE},
+    { failureRedirect: FRONTEND_SIGNUP_ROUTE, 
+      successRedirect: FRONTEND_HOME_ROUTE,
+    },
     (err: any, user: any, info: any) => {
       if (err || !user) {
-        return res.redirect(FRONTEND_HOME_ROUTE);
+        return res.redirect(FRONTEND_SIGNUP_ROUTE);
       }
 
       const token = jwt.sign(

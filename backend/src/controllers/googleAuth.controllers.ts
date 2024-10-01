@@ -11,10 +11,11 @@ import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
+const BACKEND_DOMAIN = process.env.BACKEND_DOMAIN!;
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID!,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-  callbackURL: "http://localhost:8001/api/user/signup-google/callback"
+  callbackURL: `${BACKEND_DOMAIN}/user/signup-google/callback`
 }, async (accessToken, refreshToken, profile, done) => {
   try {
 
@@ -80,9 +81,12 @@ export function handleGoogleSignUpFunction(req: Request, res: Response, next: Fu
 export function handleGoogleSignUpCallbackFunction(req: Request, res: Response, next: Function) {
   
 const FRONTEND_HOME_ROUTE = process.env.PUBLIC_FRONTEND_DOMAIN!;
-  passport.authenticate('google', { failureRedirect: FRONTEND_HOME_ROUTE }, async (err, user, info) => {
+const FRONTEND_SIGNUP_ROUTE = process.env.PUBLIC_FRONTEND_SIGNUP_ROUTE!;
+  passport.authenticate('google', { 
+    failureRedirect: FRONTEND_SIGNUP_ROUTE, 
+    successRedirect: FRONTEND_HOME_ROUTE, }, async (err, user, info) => {
     if (err || !user) {
-      return res.redirect(FRONTEND_HOME_ROUTE);
+      return res.redirect(FRONTEND_SIGNUP_ROUTE);
     }
 
     const token = jwt.sign({

@@ -8,7 +8,7 @@ import { educatorsInfiniteScrollData } from '@/constants';
 const InfiniteCourseScroller: React.FC = () => {
     const {theme} = useTheme()
   return (
-    <div className="relative overflow-hidden w-full">
+    <div className="relative overflow-hidden w-full dark:bg-black bg-white">
       {/* Faded gradient effect */}
       <div
         className="absolute top-0 bottom-0 left-0 z-10"
@@ -27,12 +27,12 @@ const InfiniteCourseScroller: React.FC = () => {
 
       {/* Scrolling container */}
       <motion.div
-        className="flex space-x-4"
-        animate={{ x: ['0%', '-100%'] }} // Move from 0% to -100%
+        className="flex space-x-4 "
+        animate={{ x: ['0%', '-100%'] }} 
         transition={{
           repeat: Infinity,
           repeatType: 'loop',
-          duration: educatorsInfiniteScrollData.length * 2, // Adjust speed by number of images
+          duration: educatorsInfiniteScrollData.length * 2,
           ease: 'linear',
         }}
       >

@@ -14,8 +14,8 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const toastTheme: "dark" | "light" = getTheme();
-  const { isLoggedIn } = useAuthContext();
-
+  const { isLoggedIn , setIsSignupOpen} = useAuthContext();
+  
   const getToastContainerClass = (theme: "dark" | "light") => {
     return theme === "dark" ? styles.dark : styles.light;
   };
@@ -27,7 +27,12 @@ function App() {
     if (isLoggedIn && token) {
       navigate("/", { replace: true });
     }
-  }, [isLoggedIn, location, navigate]);
+
+    if(location.pathname === "/signup"){
+      setIsSignupOpen(true);
+    }
+
+  }, [isLoggedIn, location, navigate, setIsSignupOpen]);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
