@@ -30,7 +30,7 @@ const LogoutModal = () => {
   };
 
   const modalVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
+    hidden: { opacity: 0.3, scale: 0.8 },
     visible: { opacity: 1, scale: 1 },
     exit: { opacity: 0, scale: 0.8 }
   };

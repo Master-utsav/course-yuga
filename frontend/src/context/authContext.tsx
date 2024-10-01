@@ -2,6 +2,7 @@ import { LoginUserDataProps } from "@/constants";
 import { getVerifiedToken, setTokenCookie } from "@/lib/cookieService";
 import { getLocalStorageuserData } from "@/lib/getLocalStorage";
 import { createContext, useState, useContext, ReactNode, useEffect } from "react";
+import { SuccessToast, WarningToast } from "@/lib/toasts";
 
 interface AuthContextType {
   isSignupOpen: boolean;
@@ -33,12 +34,10 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<LoginUserDataProps | null>(null);
   const [localStorageUserData, setLocalStorageUserData] = useState<LoginUserDataProps | null>(null);
-
   useEffect(() => {
 
     const urlParams = new URLSearchParams(window.location.search);
     const tokenFromUrl = urlParams.get("token");
-
     if (tokenFromUrl) {
       setTokenCookie(tokenFromUrl); 
     }
@@ -60,7 +59,8 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
         };
 
         setUserData(newUserData);
-        window.location.href = import.meta.env.VITE_PUBLIC_FRONTEND_DOMAIN!
+        SuccessToast("Authentication successful");
+        WarningToast("View your DashBoard");
       }
     }
   }, []);

@@ -1,30 +1,33 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "./sections/Navbar";
 import HeroSection from "./sections/HeroSection";
-import { ThemeProvider } from "./context/ThemeProvider";
+import { getTheme, ThemeProvider } from "./context/ThemeProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuthContext } from "./context/authContext";
 import LogoutModal from "./sections/LogoutModal";
-// import { getVerifiedToken } from "./lib/cookieService";
-// import { useEffect, useState } from "react";
+import styles from '@/sass/Toast.module.scss'; 
+import React from "react";
 
 function App() {
   const location = useLocation();
-  // const [isVerified , setIsVerfied] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const toastTheme: "dark" | "light" = getTheme();
   const { isLoggedIn } = useAuthContext();
 
-  // useEffect(() => {
-  //   const token = getVerifiedToken();
-  //   if (token !== null || isLoggedIn) {
-  //     setIsVerfied(true);
-  //   }
-  //   else{
-  //     setIsVerfied(false);
-  //   }
-  // } , [isLoggedIn])
-  
+  const getToastContainerClass = (theme: "dark" | "light") => {
+    return theme === "dark" ? styles.dark : styles.light;
+  };
+
+  React.useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token'); 
+
+    if (isLoggedIn && token) {
+      navigate("/", { replace: true });
+    }
+  }, [isLoggedIn, location, navigate]);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
@@ -64,7 +67,16 @@ function App() {
             )}
           </Routes>
         </AnimatePresence>
-        <ToastContainer />
+        <ToastContainer
+        position="bottom-right"
+        className={`${styles.toastContainer} ${getToastContainerClass(toastTheme)}`}
+        toastClassName={styles.Toastify__toast}
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />
       </main>
     </ThemeProvider>
   );

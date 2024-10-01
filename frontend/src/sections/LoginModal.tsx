@@ -7,15 +7,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthContext } from "@/context/authContext";
 import { useNavigate } from "react-router-dom";
-// import GoogleIcon from "@/Icons/GoogleIcon";
-// import GitHubIcon from "@/Icons/GithubIcon";
+import GoogleIcon from "@/Icons/GoogleIcon";
+import GitHubIcon from "@/Icons/GithubIcon";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { setTokenCookie } from "@/lib/cookieService";
 import { LoginUserDataProps } from "@/constants";
 import EyeOpenIcon from "@/Icons/EyeOpenIcon";
 import EyeCloseIcon from "@/Icons/EyeCloseIcon";
 import { useTheme } from "@/context/ThemeProvider";
+import { ErrorToast, SuccessToast } from "@/lib/toasts";
+
 
 type loginSchemaData = z.infer<typeof loginSchema>;
 const LOGIN_API_URL = import.meta.env.VITE_PUBLIC_LOGIN_API_URL;
@@ -59,17 +60,9 @@ const LoginModal: React.FC = () => {
       
       if (responseData.success) {
         setTokenCookie(responseData.token);
-
-        toast.success(responseData.message, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-
+        
+        SuccessToast(responseData.message )
+        
         initializeUserData(responseData.userData);
         closeLogin();
       } else {
@@ -77,18 +70,29 @@ const LoginModal: React.FC = () => {
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error : any) {
-      toast.error(error.response?.data?.message || "An error occurred", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      ErrorToast(error.response?.data?.message );
     }
   };
 
+  const handelGoogleBtn = () => {
+    try {
+      window.location.href = import.meta.env.VITE_PUBLIC_GOOGLE_SIGNUP_URL!;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      ErrorToast("An error occurred Google OAuth" + error);
+    }
+  }
+
+  const handelGithubBtn = () => {
+    try {
+      window.location.href = import.meta.env.VITE_PUBLIC_GITHUB_SIGNUP_URL!;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      ErrorToast("An error occurred Github OAuth" + error);
+    }
+  }
+  
+  
   return (
     <section className="w-full mx-auto px-5 flex justify-center items-center">
         <motion.div
@@ -151,33 +155,35 @@ const LoginModal: React.FC = () => {
             
             <motion.button
               whileTap={{ scale: 0.95 }}
+              type="submit"
               className="py-3 px-6 bg-purple-500 text-white rounded-lg shadow-md"
             >
               Login
             </motion.button>
 
-            {/* <div className="flex items-center justify-center my-4">
+            <div className="flex items-center justify-center my-4">
               <div className="h-px bg-gray-300 w-full"></div>
               <span className="px-3 text-sm text-gray-500">OR</span>
               <div className="h-px bg-gray-300 w-full"></div>
             </div>
 
             <motion.button
-            whileTap={{scale: 0.9}}
+              whileTap={{ scale: 0.9 }}
               type="button"
-              className="py-3 px-6 bg-[#e7f3ff] dark:bg-slate-700 text-black dark:text-white hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
+              className="py-3 px-6 bg-[#e7f3ff] dark:bg-slate-700 text-black  hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
+              onClick={handelGoogleBtn}
             >
-              <GoogleIcon size={24} />{" "}
-              <span className="ml-4">Sign Up with Google</span>
+              <GoogleIcon size={24} /> <span className="ml-4">Login with Google</span>
             </motion.button>
+
             <motion.button
-              whileTap={{scale: 0.9}}
+              whileTap={{ scale: 0.9 }}
               type="button"
-              className="py-3 px-6 bg-gray-800/20 dark:bg-slate-700 text-black dark:text-white hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all dark:text-white rounded-lg flex items-center justify-center"
+              className="py-3 px-6 bg-gray-800/20 dark:bg-slate-700 text-black dark:text-white hover:shadow-sm hover:shadow-purple-700 dark:hover:shadow-purple-600 transition-all rounded-lg flex items-center justify-center"
+              onClick={handelGithubBtn}
             >
-              <GitHubIcon size={24} />{" "}
-              <span className="ml-4">Sign Up with GitHub</span>
-            </motion.button> */}
+              <GitHubIcon size={24} /> <span className="ml-4">Login with GitHub</span>
+            </motion.button>
           </form>
 
           <motion.button

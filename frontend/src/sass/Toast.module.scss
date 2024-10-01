@@ -1,0 +1,51 @@
+// Toast.module.scss
+
+.toastContainer {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 9999;
+  
+    .Toastify__toast {
+      padding: 16px 24px;
+      border-radius: 10px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease-in-out;
+    }
+  
+    .Toastify__toast--success {
+      background: rgba(72, 187, 120, 0.8); // Greenish background for success
+      color: white;
+    }
+  
+    .Toastify__toast--warning {
+      background: rgba(255, 193, 7, 0.8); // Yellowish background for warning
+      color: black;
+    }
+  
+    .Toastify__toast--error {
+      background: rgba(220, 53, 69, 0.8); // Red background for error
+      color: white;
+    }
+  
+    .Toastify__progressbar {
+      background-color: rgba(255, 255, 255, 0.4); // Glassy progress bar
+    }
+  
+    &.dark {
+      .Toastify__toast {
+        background: rgba(0, 0, 0, 0.09); // Dark glassy background
+        color: white;
+      }
+    }
+  
+    &.light {
+      .Toastify__toast {
+        background: rgba(174, 173, 173, 0.275); // Light glassy background
+        color: black;
+      }
+    }
+  }
+  

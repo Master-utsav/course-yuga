@@ -10,11 +10,11 @@ import { useNavigate } from "react-router-dom";
 import GoogleIcon from "@/Icons/GoogleIcon";
 import GitHubIcon from "@/Icons/GithubIcon";
 import axios from "axios";
-import { toast } from "react-toastify";
 import SignUpOTPModal from "@/components/SignUpOTPModal";
 import EyeCloseIcon from "@/Icons/EyeCloseIcon";
 import EyeOpenIcon from "@/Icons/EyeOpenIcon";
-import { useTheme } from "@/context/ThemeProvider";
+import {useTheme } from "@/context/ThemeProvider";
+import { ErrorToast, SuccessToast } from "@/lib/toasts";
 
 type SignupFormData = z.infer<typeof signupSchema>;
 const SIGNUP_API_URL = import.meta.env.VITE_PUBLIC_SIGNUP_API_URL;
@@ -50,30 +50,14 @@ const SignupModal: React.FC = () => {
       const responseData: { success: boolean; message: string } = response.data;
     
       if (responseData.success) {
-        toast.success(responseData.message, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        SuccessToast(responseData.message)
         setShowOTPComponent(true);
       } else {
         throw new Error(responseData.message);
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "An error occurred", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      ErrorToast(error.response?.data?.message);
     }
   };
   
@@ -81,37 +65,19 @@ const SignupModal: React.FC = () => {
     try {
       window.location.href = import.meta.env.VITE_PUBLIC_GOOGLE_SIGNUP_URL!;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error : any) {
-      console.error("Error during Google OAuth:", error);
-      toast.error(error || "An error occurred", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+    } catch (error: any) {
+      ErrorToast("An error occurred Google OAuth" + error);
     }
   }
   const handelGithubBtn = () => {
     try {
       window.location.href = import.meta.env.VITE_PUBLIC_GITHUB_SIGNUP_URL!;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error : any) {
-      console.error("Error during Google OAuth:", error);
-      toast.error(error || "An error occurred", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+    }catch (error: any) {
+      ErrorToast("An error occurred Github OAuth" + error);
     }
   }
-
+  
   return (
     <section className="w-full mx-auto px-5 flex justify-center items-center">
       {!showOTPComponent ? (

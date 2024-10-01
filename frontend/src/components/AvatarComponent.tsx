@@ -35,7 +35,10 @@ const AvatarComponent: React.FC<AvatarProps> = ({
   const fullName = firstName + " " + lastName;
   const navigate = useNavigate();
 
-  const handelLogout = () => navigate("/logout");
+  const handleLogout = () => {
+    navigate("/logout")
+    
+  };
   return (
     <HoverCard>
       <HoverCardTrigger>
@@ -51,7 +54,7 @@ const AvatarComponent: React.FC<AvatarProps> = ({
           </DropdownMenuTrigger>
           <DropdownMenuContent className="overflow-hidden backdrop-blur-md dark:bg-black/70 bg-white/70 font-ubuntu font-semibold mt-1">
             <DropdownMenuLabel className="flex gap-1">
-              <Avatar className="border-2 border-purple-500">
+              <Avatar className="border-2 border-blue-500">
                 <AvatarImage src={imageUrl} className="" />
                 <AvatarFallback className="font-sans font-bold text-xl dark:text-black dark:bg-white text-white bg-black ">
                   {avatarFallbackText}
@@ -80,7 +83,7 @@ const AvatarComponent: React.FC<AvatarProps> = ({
               <HistoryIcon fillColor="rgb(245 158 11)" />
               <span>History</span>
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex gap-2" onClick={handelLogout}>
+            <DropdownMenuItem className="flex gap-2" onClick={handleLogout}>
               <LogoutIcon fillColor="red" />
               <span>Logout</span>
             </DropdownMenuItem>

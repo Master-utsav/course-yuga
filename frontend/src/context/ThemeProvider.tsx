@@ -64,6 +64,16 @@ export function ThemeProvider({
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
+export const getTheme = () => {
+  if(localStorage.getItem("vite-ui-theme") === "light" || localStorage.getItem("vite-ui-theme") === "dark" ){
+    return localStorage.getItem("vite-ui-theme") as "light" | "dark"
+  }
+  else{
+    return "dark";
+  }
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext)
 
