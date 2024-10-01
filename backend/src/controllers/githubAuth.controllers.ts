@@ -7,9 +7,9 @@ import User from "../models/User.model";
 import { generateDummyPassword } from "../validchecks/checkAuthConstraints";
 import { sendGithubAuthPasswordMail } from "../helpers/mailer";
 import dotenv from "dotenv";
+import bcrypt from "bcryptjs";
 
 dotenv.config();
-
 
 passport.use(
   new GitHubStrategy(
@@ -27,6 +27,7 @@ passport.use(
       try {
         let githubEmail: string | undefined;
         let randomPassword: string;
+        let hashedPassword: string;
         let profileImageUrl: string | undefined;
 
         if (profile?.emails?.length) {
@@ -50,6 +51,7 @@ passport.use(
         }
 
         randomPassword = generateDummyPassword(githubEmail);
+        hashedPassword = await bcrypt.hash(randomPassword, 10);
 
         if (!randomPassword) {
           return done(new Error("Error generating random password"), undefined);
@@ -71,7 +73,7 @@ passport.use(
             lastName,
             userName: profile.username.replace(/ /g, "_"),
             email: githubEmail,
-            password: randomPassword,
+            password: hashedPassword,
             profileImageUrl,
             emailVerificationStatus: true,
             role: "STUDENT",
@@ -114,7 +116,6 @@ export function handleGithubSignUpCallbackFunction(req: Request, res: Response, 
     { failureRedirect: FRONTEND_HOME_ROUTE},
     (err: any, user: any, info: any) => {
       if (err || !user) {
-        console.error("GitHub Authentication failed:", err);
         return res.redirect(FRONTEND_HOME_ROUTE);
       }
 
@@ -136,14 +137,7 @@ export function handleGithubSignUpCallbackFunction(req: Request, res: Response, 
         emailVerificationStatus: user.emailVerificationStatus,
       };
 
-      console.log("GitHub Auth Success, userData:", userData);
       res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=Login successful&token=${token}&email=${userData.email}&firstName=${userData.firstName}&userName=${userData.userName}&lastName=${userData.lastName}&emailVerificationStatus=${userData.emailVerificationStatus}&profileImageUrl=${userData.profileImageUrl}`);
-      // return res.status(200).json({
-      //   success: true,
-      //   message: "Login successful",
-      //   token,
-      //   userData,
-      // });
     }
   )(req, res, next);
 }
