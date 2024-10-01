@@ -11,12 +11,13 @@ import bcrypt from "bcryptjs";
 
 dotenv.config();
 
+const BACKEND_DOMAIN = process.env.BACKEND_DOMAIN!;
 passport.use(
   new GitHubStrategy(
     {
       clientID: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-      callbackURL: "http://localhost:8001/api/user/signup-github/callback",
+      callbackURL: `${BACKEND_DOMAIN}/user/signup-github/callback`,
     },
     async (
       accessToken: string,
