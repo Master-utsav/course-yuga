@@ -1,3 +1,16 @@
+import BookmarkIcon2 from "@/Icons/BookmarkIcon2";
+import CoursesIcon from "@/Icons/CoursesIcon";
+import DashboardIcon from "@/Icons/DashboardIcon";
+import HelpIcon from "@/Icons/HelpIcon";
+import HistoryIcon from "@/Icons/HistoryIcon";
+import HomeIcon from "@/Icons/HomeIcon";
+import RefreshIcon from "@/Icons/RefreshIcon";
+import SaveForLaterIcon from "@/Icons/SaveForLaterIcon";
+import SettingIcon from "@/Icons/SettingIcon";
+import SubscriptionIcon from "@/Icons/SubscriptionIcon";
+import TodoIcon from "@/Icons/TodoIcon";
+
+
 export const NavItemsArray = [
     {
         id: 1,
@@ -129,3 +142,87 @@ export interface LoginUserDataProps{
         emailVerificationStatus: boolean;
         profileImageUrl: string;
 }
+
+interface DashBoardIconProps {
+    fillColor?: string;
+    size?: number;
+  }
+  
+  interface DashboardNavItemProps {
+    theme: string;
+    Icon: React.ComponentType<DashBoardIconProps>;
+    title: string;
+    link: string;
+  }
+
+export const DashBoardNavItems: DashboardNavItemProps[] = [
+    {
+      theme: "dark", 
+      Icon: HomeIcon,  
+      title: "Homepage",
+      link: "/",
+    },
+    {
+      theme: "dark",
+      Icon: DashboardIcon,  
+      title: "Dashboard",
+      link: "/user/dashboard",
+    },
+    {
+      theme: "dark",
+      Icon: BookmarkIcon2,  
+      title: "Bookmarks",
+      link: "/user/bookmarks",
+    },
+    {
+      theme: "dark",
+      Icon: CoursesIcon,  
+      title: "Courses",
+      link: "/user/courses",
+    },
+    {
+      theme: "dark",
+      Icon: SubscriptionIcon,  
+      title: "Subscription",
+      link: "/user/subscription",
+    },
+    {
+      theme: "dark",
+      Icon: SaveForLaterIcon,  
+      title: "Watchlist",
+      link: "/user/watchlist",
+    },
+    {
+      theme: "dark",
+      Icon: TodoIcon,  
+      title: "Todo-List",
+      link: "/user/todo-list",
+    },
+    {
+      theme: "dark",
+      Icon: HistoryIcon,  
+      title: "History",
+      link: "/user/history",
+    },
+  ];
+  
+  export const DashBoardNavItems2: DashboardNavItemProps[] = [
+    {   
+        theme: "dark",
+        Icon: RefreshIcon,  
+        title: "Refresh",
+        link: "/user/refresh",
+    },
+    {   
+        theme: "dark",
+        Icon: SettingIcon,  
+        title: "Setting",
+        link: "/user/setting",
+    },
+    {   
+        theme: "dark",
+        Icon: HelpIcon,  
+        title: "Help",
+        link: "/help",
+    },
+  ]

@@ -1,12 +1,12 @@
 import React from 'react';
 
 interface HelpIconProps {
-  strokeColor?: string;
   fillColor?: string;
   size?: number;
 }
 
-const HelpIcon: React.FC<HelpIconProps> = ({ strokeColor = '#000000', fillColor = '#000000', size = 24 }) => {
+const HelpIcon: React.FC<HelpIconProps> = ({ fillColor = '#000000', size = 24 }) => {
+  const  strokeColor = fillColor;
   return (
     <svg
       width={size}

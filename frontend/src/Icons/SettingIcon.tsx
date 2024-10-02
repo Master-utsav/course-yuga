@@ -1,11 +1,12 @@
 import React from 'react';
 
 interface SettingIconProps {
-  strokeColor?: string;
+  fillColor?: string;
   size?: number;
 }
 
-const SettingIcon: React.FC<SettingIconProps> = ({ strokeColor = '#292D32', size = 24 }) => {
+const SettingIcon: React.FC<SettingIconProps> = ({ fillColor = '#292D32', size = 24 }) => {
+  const strokeColor = fillColor;
   return (
     <svg
       width={size}

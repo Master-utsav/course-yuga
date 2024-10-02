@@ -2,39 +2,46 @@ import React from "react";
 import styles from "../sass/Navbar.module.scss";
 import NavItems from "../components/NavItems";
 // import StaggeredBlurTextEffect from "../Effects/StaggeredBlurTextEffect";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuthContext } from "../context/authContext";
 import { ModeToggle } from "@/components/ThemeBtn";
 import { useTheme } from "@/context/ThemeProvider";
 import DashboardIcon from "@/Icons/DashboardIcon";
 import AvatarComponent from "@/components/AvatarComponent";
+import Logo from "@/components/Logo";
 
-interface NavbarProps{
-  isUserLoggedIn: boolean
+interface NavbarProps {
+  isUserLoggedIn: boolean;
 }
-const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
+const Navbar: React.FC<NavbarProps> = ({ isUserLoggedIn }) => {
   const [isOpen, isSetOpen] = React.useState<boolean>(false);
-  const { setIsSignupOpen , setIsLoginOpen , localStorageUserData} = useAuthContext();
-  const {theme} = useTheme()
+  const {
+    setIsSignupOpen,
+    setIsLoginOpen,
+    localStorageUserData,
+  } = useAuthContext();
+  const { theme } = useTheme();
   const navigate = useNavigate();
-  const firstName:string = localStorageUserData?.firstName || "Unknown";
-  const lastName:string = localStorageUserData?.lastName || "User";
-  const username:string = localStorageUserData?.userName || "unknown_user";
-  const imageUrl:string = localStorageUserData?.profileImageUrl || "";
-  const firstChar:string = localStorageUserData?.firstName.charAt(0).toUpperCase() ||  "U";
-  const lastChar:string = localStorageUserData?.lastName.charAt(0).toUpperCase() || "K";
-  const avatarFallbackText = firstChar + lastChar 
-  
+  const firstName: string = localStorageUserData?.firstName || "Unknown";
+  const lastName: string = localStorageUserData?.lastName || "User";
+  const username: string = localStorageUserData?.userName || "unknown_user";
+  const imageUrl: string = localStorageUserData?.profileImageUrl || "";
+  const firstChar: string =
+    localStorageUserData?.firstName.charAt(0).toUpperCase() || "U";
+  const lastChar: string =
+    localStorageUserData?.lastName.charAt(0).toUpperCase() || "K";
+  const avatarFallbackText = firstChar + lastChar;
+
   const handleSignupClick = () => {
     setIsSignupOpen(true);
     setIsLoginOpen(false);
-    navigate('/signup');
+    navigate("/signup");
   };
   const handleLoginClick = () => {
     setIsLoginOpen(true);
     setIsSignupOpen(false);
-    navigate('/login'); 
+    navigate("/login");
   };
   const toggleMenu = () => {
     isSetOpen((prevIsOpen) => !prevIsOpen);
@@ -45,31 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
       <div className="max-w-full  sm:py-2 ">
         <div className="flex xl:flex-row flex-col justify-between xl:pt-4 xl:pb-1 py-4  items-center font-noto-sans xl:gap-20 md:gap-5 gap-3">
           <div className="flex justify-start py-2 items-center font-noto-sans">
-            <Link
-              to="/"
-              className=""
-            >
-                {theme === 'dark' ? (<motion.img
-                initial={{ opacity: 0.5, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                src="images/dark-mode-logo.png"
-                alt="cryptoBag"
-                className="size-11 object-cover w-40"
-              />) : (
-                <motion.img
-                initial={{ opacity: 0.5, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                src="images/light-mode-logo.png"
-                alt="cryptoBag"
-                className="size-11 object-cover w-40"
-              />
-              )}
-              
-             
-            </Link>
-
+            <Logo theme={theme} className="w-40" />
             <button
               onClick={toggleMenu}
               className={`${styles["menu-btn"]} sm:hidden flex`}
@@ -81,54 +64,57 @@ const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
                 }`}
               ></div>
             </button>
-
-            
-            
           </div>
           <nav className={`sm:flex hidden font-bold`}>
-              <NavItems />
-            </nav>
-            <div className="flex gap-4">
-              {!isUserLoggedIn ? (<>
-              <motion.button
-                    whileTap={{ scale: 0.8 }}
-                    className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all border-2 border-purple-500 "
-                    onClick={handleSignupClick}
+            <NavItems />
+          </nav>
+          <div className="flex gap-4">
+            {!isUserLoggedIn ? (
+              <>
+                <motion.button
+                  whileTap={{ scale: 0.8 }}
+                  className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all border-2 border-purple-500 "
+                  onClick={handleSignupClick}
                 >
-                    Signup
+                  Signup
                 </motion.button>
                 <motion.button
-                    whileTap={{ scale: 0.8 }}
-                    className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all border-2 border-purple-500"
-                    onClick={handleLoginClick}
+                  whileTap={{ scale: 0.8 }}
+                  className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all border-2 border-purple-500"
+                  onClick={handleLoginClick}
                 >
-                    Login
+                  Login
                 </motion.button>
-              </>)
-              :
-              (<>
-                  <motion.button
-                    whileTap={{ scale: 0.8 }}
-                    className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all flex gap-2 border-2 border-purple-500"
-                    onClick={() => navigate("/user/dashboard")}
-                >
-                    <span className="font-ubuntu">Dashboard</span> 
-                    {
-                    theme === 'dark' ? (<DashboardIcon fillColor="black" size={24}/>) : (<DashboardIcon fillColor="white" size={24}/>)
-                    }
-                </motion.button>
-                <AvatarComponent avatarFallbackText={avatarFallbackText} imageUrl={imageUrl} firstName={firstName} lastName={lastName} username={username}/>
               </>
-              )}
-               
-                <div  className="w-full rounded-3xl font-semibold shadow-md transition-all ">
-                <ModeToggle/>
-                </div>
+            ) : (
+              <>
+                <motion.button
+                  whileTap={{ scale: 0.8 }}
+                  className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all flex gap-2 border-2 border-purple-500"
+                  onClick={() => navigate("/user/dashboard")}
+                >
+                  <span className="font-ubuntu">Dashboard</span>
+                  {theme === "dark" ? (
+                    <DashboardIcon fillColor="black" size={24} />
+                  ) : (
+                    <DashboardIcon fillColor="white" size={24} />
+                  )}
+                </motion.button>
+                <AvatarComponent
+                  avatarFallbackText={avatarFallbackText}
+                  imageUrl={imageUrl}
+                  firstName={firstName}
+                  lastName={lastName}
+                  username={username}
+                />
+              </>
+            )}
+
+            <div className="w-full rounded-3xl font-semibold shadow-md transition-all ">
+              <ModeToggle />
             </div>
-
+          </div>
         </div>
-
-        
       </div>
 
       {/* Sidebar Menu */}

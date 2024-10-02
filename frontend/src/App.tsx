@@ -11,6 +11,8 @@ import styles from "@/sass/Toast.module.scss";
 import React from "react";
 import PageTransitionBoxAnimation from "./Effects/PageTransitionBoxAnimation";
 import DashboardRoutes from "./sections/DashBoardRoutes";
+import Help from "./sections/Help";
+import EditProfile from "./sections/EditProfile";
 
 function App() {
   const location = useLocation();
@@ -64,7 +66,7 @@ function App() {
                 element={
                   <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
                     <Navbar isUserLoggedIn={isLoggedIn} />
-                    <LogoutModal />
+                    <Help />
                   </PageTransitionBoxAnimation>
                 }
               />
@@ -73,15 +75,13 @@ function App() {
                 element={
                   <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
                     <Navbar isUserLoggedIn={isLoggedIn} />
-                    <LogoutModal />
+                    <EditProfile />
                   </PageTransitionBoxAnimation>
                 }
               />
               {/* All dashboard routes */}
               <Route path="/user/*" element={
-                <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
                     <DashboardRoutes />
-                  </PageTransitionBoxAnimation>
                 } 
               />
             </>
