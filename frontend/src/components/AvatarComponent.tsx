@@ -97,7 +97,7 @@ const AvatarComponent: React.FC<AvatarProps> = ({
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="border-b-2 flex gap-2" onClick={handleHelp}>
-              <HelpIcon fillColor="rgb(245 0 11)" strokeColor="rgb(245 0 11)"/>
+              <HelpIcon fillColor="rgb(245 0 11)" />
               <span>Help</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex gap-2" onClick={handleLogout}>

@@ -16,7 +16,7 @@ const Logo: React.FC<LogoProps> = ({theme , className}) => {
             initial={{ opacity: 0.5, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            src="/images/dark-mode-logo.png"
+            src="/images/course-yuga-logo-dark-mode-5.png"
             alt="cryptoBag"
             className={cn(`object-cover w-32` , className)}
           />
@@ -25,7 +25,7 @@ const Logo: React.FC<LogoProps> = ({theme , className}) => {
             initial={{ opacity: 0.5, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            src="/images/light-mode-logo.png"
+            src="/images/course-yuga-logo-light-mode-5.png"
             alt="cryptoBag"
             className={cn(`object-cover w-32 ` , className)}
           />
