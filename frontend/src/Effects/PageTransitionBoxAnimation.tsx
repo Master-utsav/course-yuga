@@ -59,9 +59,9 @@ const perspective: Variants = {
   exit: {
     y: -100,
     scale: 0.7,
-    opacity: 0.3,
+    opacity: 0.0,
     transition: {
-      duration: 1.4,
+      duration: 1.2,
       ease : [0.76, 0, 0.24, 1]
     }
   },
@@ -71,7 +71,7 @@ const PageTransitionBoxAnimation = ({ children , className = "bg-black" }: PageT
 
   return (
     <div className="inner ">
-      <motion.div  {...anim(slide)} className={cn("fixed top-0 left-0 w-[100vw] h-[100vh] z-50 text-center flex justify-center items-center text-black text-5xl font-bold font-noto-sans", className)}/>
+      <motion.div  {...anim(slide)} className={cn("fixed top-0 left-0 right-0 w-[100vw] h-[100vh] z-50 text-center flex justify-center items-center text-black text-5xl font-bold font-noto-sans", className)}/>
         <motion.div  {...anim(perspective)}>
           <motion.div  {...anim(opacity)}>
             {/* <Navbar/> */}

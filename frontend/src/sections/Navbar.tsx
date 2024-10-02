@@ -55,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 src="images/dark-mode-logo.png"
                 alt="cryptoBag"
-                className="size-12 object-cover w-40"
+                className="size-11 object-cover w-40"
               />) : (
                 <motion.img
                 initial={{ opacity: 0.5, scale: 0 }}
@@ -63,7 +63,7 @@ const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 src="images/light-mode-logo.png"
                 alt="cryptoBag"
-                className="size-12 object-cover w-40"
+                className="size-11 object-cover w-40"
               />
               )}
               
@@ -110,7 +110,7 @@ const Navbar: React.FC<NavbarProps> = ({isUserLoggedIn}) => {
                   <motion.button
                     whileTap={{ scale: 0.8 }}
                     className="w-full py-2 px-6 bg-black text-white dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all flex gap-2 border-2 border-purple-500"
-                    onClick={() => navigate("/dashboard")}
+                    onClick={() => navigate("/user/dashboard")}
                 >
                     <span className="font-ubuntu">Dashboard</span> 
                     {

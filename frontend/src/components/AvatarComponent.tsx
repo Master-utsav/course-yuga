@@ -15,7 +15,8 @@ import BookmarkIcon from "@/Icons/BookmarkIcon";
 import SubscriptionIcon from "@/Icons/SubscriptionIcon";
 import HistoryIcon from "@/Icons/HistoryIcon";
 import LogoutIcon from "@/Icons/LogoutIcon";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import HelpIcon from "@/Icons/HelpIcon";
 
 interface AvatarProps {
   avatarFallbackText?: string;
@@ -37,8 +38,14 @@ const AvatarComponent: React.FC<AvatarProps> = ({
 
   const handleLogout = () => {
     navigate("/logout")
-    
   };
+  const handleHelp = () => {
+    navigate("/help")
+  };
+  const handleEditProfile = () => {
+    navigate("/edit-profile")
+  };
+
   return (
     <HoverCard>
       <HoverCardTrigger>
@@ -67,21 +74,31 @@ const AvatarComponent: React.FC<AvatarProps> = ({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem className="border-b-2 flex gap-2">
+            <DropdownMenuItem className="border-b-2 flex gap-2" onClick={handleEditProfile}>
               <ProfileIcon fillColor="rgb(74 222 128)" />
               <span>Edit Profile</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="border-b-2 flex gap-2">
-              <BookmarkIcon fillColor="rgb(168 85 247)" />
-              <span>Bookmarks</span>
+              <Link to={"/user/bookmarks"} className="flex gap-2">
+                <BookmarkIcon fillColor="rgb(168 85 247)" />
+                <span>Bookmarks</span>
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="border-b-2 flex gap-2">
-              <SubscriptionIcon fillColor="rgb(37 99 235)" />
-              <span>Subscriptions</span>
+              <Link to={"/user/subscription"} className="flex gap-2">
+                <SubscriptionIcon fillColor="rgb(37 99 235)" />
+                <span>Subscriptions</span>
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem className="border-b-2 flex gap-2">
-              <HistoryIcon fillColor="rgb(245 158 11)" />
-              <span>History</span>
+              <Link to={"/user/history"} className="flex gap-2">
+                <HistoryIcon fillColor="rgb(245 158 11)" />
+                <span>History</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="border-b-2 flex gap-2" onClick={handleHelp}>
+              <HelpIcon fillColor="rgb(245 0 11)" strokeColor="rgb(245 0 11)"/>
+              <span>Help</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex gap-2" onClick={handleLogout}>
               <LogoutIcon fillColor="red" />
