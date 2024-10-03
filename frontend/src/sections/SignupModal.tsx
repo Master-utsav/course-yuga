@@ -212,9 +212,9 @@ const SignupModal: React.FC = () => {
                 }
                 </div>
                 </div>
-                {errors.password && (
+                {errors.confirmPassword && (
                   <p className="text-red-500 text-sm text-end w-[90%]">
-                    {errors.password.message}
+                    {errors.confirmPassword.message}
                   </p>
                 )}
               </div>

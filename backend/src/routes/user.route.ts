@@ -3,6 +3,8 @@ import {
     handleDeleteAccountFunction, 
     handleResendVerficationOTPFunction, 
     handleLoginFunction, 
+    handleChangePasswordFunction, 
+    handleChangePasswordVerificationOTP, 
     handleResetPasswordFunction, 
     handleResetPasswordVerificationOTP, 
     handleSignUpFunction, 
@@ -28,9 +30,13 @@ userRoute.post("/login", handleLoginFunction);
 userRoute.post("/verify-email", handleResendVerficationOTPFunction);
 userRoute.post("/verify-email-otp", handleEmailVerificationOTP);
 
+// Password Change Routes
+userRoute.post("/change-password", authenticateToken, handleChangePasswordFunction);
+userRoute.post("/change-password-otp", authenticateToken, handleChangePasswordVerificationOTP);
+
 // Password Reset Routes
-userRoute.post("/reset-password", authenticateToken, handleResetPasswordFunction);
-userRoute.post("/reset-password-otp", authenticateToken, handleResetPasswordVerificationOTP);
+userRoute.post("/reset-password", handleResetPasswordFunction);
+userRoute.post("/reset-password-otp", handleResetPasswordVerificationOTP);
 
 // User Update and Deletion Routes
 userRoute.put("/update-user", authenticateToken, handleUpdateUserFunction);

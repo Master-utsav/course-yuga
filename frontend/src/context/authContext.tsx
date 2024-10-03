@@ -15,6 +15,8 @@ interface AuthContextType {
   setIsLoggedIn: (value: boolean) => void;
   localStorageUserData: LoginUserDataProps | null;
   setLocalStorageUserData: (user: LoginUserDataProps) => void;
+  isResetPasswordOpen: boolean;
+  setIsResetPasswordOpen: (value: boolean) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,6 +34,7 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
   const [isSignupOpen, setIsSignupOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isResetPasswordOpen, setIsResetPasswordOpen] = useState(false);
   const [userData, setUserData] = useState<LoginUserDataProps | null>(null);
   const [localStorageUserData, setLocalStorageUserData] = useState<LoginUserDataProps | null>(null);
   useEffect(() => {
@@ -86,6 +89,8 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
       setIsLoggedIn, 
       localStorageUserData, 
       setLocalStorageUserData,
+      isResetPasswordOpen,
+      setIsResetPasswordOpen,
     }}>
       {children}
     </AuthContext.Provider>

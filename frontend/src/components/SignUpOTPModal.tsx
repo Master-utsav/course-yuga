@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GetStartedAnimatedBtn from "./GetStartedAnimatedBtn";
-import { toast } from "react-toastify";
 import axios from "axios";
+import { ErrorToast, SuccessToast } from "@/lib/toasts";
 
 const Verify_Email_OTP_API_URL = import.meta.env
   .VITE_PUBLIC_Verify_Email_OTP_API_URL;
@@ -41,15 +41,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
           response.data;
 
         if (responseData.success) {
-          toast.success(responseData.message, {
-            position: "bottom-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          SuccessToast(responseData.message);
           setIsLoginOpen(true);
           closeSignup();
         } else {
@@ -57,26 +49,10 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
         }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
-        toast.error(error.response?.data?.message || "An error occurred", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        ErrorToast(error.response?.data?.message);
       }
     } else {
-      toast.error("Otp must be of 6 numbers", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      ErrorToast("Otp must be of 6 numbers");
     }
   }
   const handleChange = (

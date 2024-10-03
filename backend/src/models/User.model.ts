@@ -11,8 +11,10 @@ export interface IUser extends Document {
   emailVerificationOTP?: string;
   emailVerificationOTPExpires?: string;
   emailVerificationStatus?: boolean;
+  emailSendTime?: string;
   passwordResetOTP?: string;
   passwordResetOTPExpires?: string;
+  passwordSendTime?: string;
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -26,8 +28,10 @@ const userSchema = new mongoose.Schema<IUser>({
   emailVerificationOTP: { type: String },
   emailVerificationOTPExpires: { type: String },
   emailVerificationStatus: { type: Boolean, default: false },
+  emailSendTime: { type: String },
   passwordResetOTP: { type: String },
   passwordResetOTPExpires: { type: String },
+  passwordSendTime: { type: String },
 }, 
 { 
   timestamps: true 

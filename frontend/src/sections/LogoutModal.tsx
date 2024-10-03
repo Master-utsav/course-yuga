@@ -2,8 +2,8 @@ import { userLogout } from "@/lib/getLocalStorage";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import WarningIcon from "@/Icons/WarningIcon";
-import { toast } from "react-toastify";
 import { useAuthContext } from "@/context/authContext";
+import { SuccessToast } from "@/lib/toasts";
 
 const LogoutModal = () => {
   const navigate = useNavigate();
@@ -13,15 +13,7 @@ const LogoutModal = () => {
     userLogout();
     setIsLoggedIn(false);
     navigate("/");
-    toast.success("Logout Successful" , {
-      position: "bottom-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
+    SuccessToast("Logout Successful");
   };
   
 

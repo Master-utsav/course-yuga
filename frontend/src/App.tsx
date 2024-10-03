@@ -13,6 +13,7 @@ import PageTransitionBoxAnimation from "./Effects/PageTransitionBoxAnimation";
 import DashboardRoutes from "./sections/DashBoardRoutes";
 import Help from "./sections/Help";
 import EditProfile from "./sections/EditProfile";
+import HeroLeftSection from "./components/HeroLeftSection";
 
 function App() {
   const location = useLocation();
@@ -41,6 +42,15 @@ function App() {
     <main className="max-w-full mx-auto relative dark:bg-black bg-white">
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
+          <Route
+            path="/reset-password"
+            element={
+              <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
+                <Navbar isUserLoggedIn={isLoggedIn} />
+                <HeroLeftSection/>
+              </PageTransitionBoxAnimation>
+            }
+            />
           {isLoggedIn ? (
             <>
               <Route

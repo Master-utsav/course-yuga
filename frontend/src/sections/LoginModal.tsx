@@ -6,7 +6,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthContext } from "@/context/authContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleIcon from "@/Icons/GoogleIcon";
 import GitHubIcon from "@/Icons/GithubIcon";
 import axios from "axios";
@@ -23,7 +23,7 @@ const LOGIN_API_URL = import.meta.env.VITE_PUBLIC_LOGIN_API_URL;
 
 const LoginModal: React.FC = () => {
   const navigate = useNavigate();
-  const { setIsLoginOpen , setUserData} = useAuthContext();
+  const { setIsLoginOpen , setUserData , setIsResetPasswordOpen , setIsSignupOpen} = useAuthContext();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const {theme} = useTheme();
   const closeLogin = () => {
@@ -92,6 +92,11 @@ const LoginModal: React.FC = () => {
     }
   }
   
+  const handleResetPasswordModal = () => {
+    setIsSignupOpen(false);
+    setIsLoginOpen(false);
+    setIsResetPasswordOpen(true);
+  }
   
   return (
     <section className="w-full mx-auto px-5 flex justify-center items-center">
@@ -152,6 +157,9 @@ const LoginModal: React.FC = () => {
                 </p>
               )}
             </div>
+            <Link to="/reset-password" onClick={handleResetPasswordModal} className="flex justify-end cursor-pointer">
+              <span className="font-ubuntu hover:text-blue-500 dark:text-white/80 text-black/80">forgot password?{" "}</span>
+            </Link>
             
             <motion.button
               whileTap={{ scale: 0.95 }}

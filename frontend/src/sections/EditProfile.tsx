@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import React from 'react'
 
 const modalVariants = {
   hidden: { opacity: 0.3, scale: 0.8 },

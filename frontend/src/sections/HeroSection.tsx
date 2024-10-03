@@ -4,9 +4,10 @@ import HeroRightSection from "../components/HeroRightSection";
 import SignupModal from "./SignupModal";
 import { useAuthContext } from "../context/authContext";
 import LoginModal from "./LoginModal";
+import ResetPassword from "./ResetPassword";
 
 const HeroSection: React.FunctionComponent = () => {
-  const { isSignupOpen, isLoginOpen } = useAuthContext();
+  const { isSignupOpen, isLoginOpen , isResetPasswordOpen } = useAuthContext();
 
   return (
     <section className="max-w-7xl mx-auto flex-row flex pt-24 gap-5">
@@ -14,6 +15,8 @@ const HeroSection: React.FunctionComponent = () => {
         <LoginModal />
       ) : isSignupOpen ? (
         <SignupModal />
+      ) : isResetPasswordOpen ? (
+        <ResetPassword />
       ) : (
         <HeroLeftSection />
       )}
