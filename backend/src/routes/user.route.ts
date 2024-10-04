@@ -40,6 +40,6 @@ userRoute.post("/reset-password-otp", handleResetPasswordVerificationOTP);
 
 // User Update and Deletion Routes
 userRoute.put("/update-user", authenticateToken, handleUpdateUserFunction);
-userRoute.delete("/delete-account", authenticateToken, handleDeleteAccountFunction);
+userRoute.post("/delete-account", authenticateToken, handleDeleteAccountFunction);
 
 export default userRoute;

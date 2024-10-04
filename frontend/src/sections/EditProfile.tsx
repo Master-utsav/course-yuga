@@ -5,10 +5,10 @@ import { useTheme } from "@/context/ThemeProvider";
 import { motion } from "framer-motion";
 import { BioTextArea } from "@/components/BioTextArea";
 import EditButton from "@/components/EditButton";
-import EditProfileSection2 from "./editProfileSection2";
 import EditProfileSection3 from "./EditProfileSection3";
 import ChangeRole from "@/components/ChangeRole";
 import EditProfileSection4 from "./EditProfileSection4";
+import EditProfileSection2 from "./EditProfileSection2";
 
 const modalVariants = {
   hidden: { opacity: 0.3, scale: 0.8 },
