@@ -5,7 +5,7 @@ interface EditIconProps {
   size?: number;
 }
 
-const EditIcon: React.FC<EditIconProps> = ({ fillColor = '#000', size = 24 }) => {
+const EditIcon: React.FC<EditIconProps> = ({ fillColor = '#000', size = 20 }) => {
   return (
     <svg
       width={size}

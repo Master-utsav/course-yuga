@@ -76,18 +76,18 @@ const EditProfileSection4 = () => {
   return (
     <div className="w-full flex flex-col sm:flex-row justify-between items-start px-2 py-4 gap-3">
       {/* Delete Account Button */}
-      <div className="flex flex-col space-y-4">
+      <div className="flex flex-row space-x-4">
         <Button
-          className="bg-amber-700/50 hover:bg-amber-600 font-semibold font-ubuntu text-black dark:text-white/80"
+          className="dark:bg-amber-700/50 bg-amber-300 hover:bg-amber-600 font-semibold font-ubuntu text-black dark:text-white/80"
           onClick={handleChangePassword}
         >
           Change Password
         </Button>
-      <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div>
+      {/* <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div> */}
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="bg-red-600/50 hover:bg-red-500 transition-colors duration-200 font-semibold font-ubuntu text-black dark:text-white/80">
+            <Button className="dark:bg-red-600/50 bg-red-300 hover:bg-red-600 dark:hover:bg-red-500 transition-colors duration-200 font-semibold font-ubuntu text-black dark:text-white/80">
               Delete Account
             </Button>
           </DialogTrigger>

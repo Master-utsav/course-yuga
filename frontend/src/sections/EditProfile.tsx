@@ -1,14 +1,13 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import DOBDatePicker from "@/components/DOBDatePicker";
 import { useAuthContext } from "@/context/authContext";
 import { useTheme } from "@/context/ThemeProvider";
 import { motion } from "framer-motion";
 import { BioTextArea } from "@/components/BioTextArea";
 import EditButton from "@/components/EditButton";
 import EditProfileSection3 from "./EditProfileSection3";
-import ChangeRole from "@/components/ChangeRole";
 import EditProfileSection4 from "./EditProfileSection4";
 import EditProfileSection2 from "./EditProfileSection2";
+import StatusField from "@/components/StatusField";
 
 const modalVariants = {
   hidden: { opacity: 0.3, scale: 0.8 },
@@ -23,7 +22,8 @@ const EditProfile = () => {
   const firstName: string = localStorageUserData?.firstName || "Unknown";
   const lastName: string = localStorageUserData?.lastName || "User";
   const fullName: string = firstName + " " + lastName;
-  // const userEmail: string = localStorageUserData?.email || "unknown_user@gmail.com";
+  const userEmail: string = localStorageUserData?.email || "unknown_user@gmail.com";
+  const isEmailVerified = localStorageUserData?.emailVerificationStatus || false;
   const username = localStorageUserData?.userName || "unknown_user";
   const imageUrl: string = localStorageUserData?.profileImageUrl || "";
   const firstChar: string =
@@ -34,7 +34,7 @@ const EditProfile = () => {
   return (
     <section className="w-full flex items-center justify-center bg-white dark:bg-black  backdrop-blur-lg transition-opacity duration-300 relative py-28 z-20">
       <motion.div
-        className="w-[80%] mx-auto dark:bg-white/5  bg-white-800/30 rounded-lg p-6 shadow-2xl dark:shadow-sm dark:shadow-white/20 border-2 dark:border-white/20 border-black/40"
+        className="w-[80%] mx-auto dark:bg-white/5  bg-white-800/30 rounded-lg p-6 shadow-2xl dark:shadow-sm dark:shadow-white/20 border-2 dark:border-white/20 border-purple-500/20"
         variants={modalVariants}
         initial="hidden"
         animate="visible"
@@ -63,10 +63,9 @@ const EditProfile = () => {
                 username={username}
               />
             </div>
-            <div className="flex  items-center justify-between">
-              <DOBDatePicker />
-            </div>
-            <ChangeRole theme={theme} />
+            <StatusField inputValue={userEmail} isInputVerified={isEmailVerified} type="email"/>
+            <StatusField inputValue={""} isInputVerified={isEmailVerified} type="mobile"/>
+            {/* <ChangeRole theme={theme} /> */}
           </div>
 
           <BioTextArea />
@@ -90,7 +89,7 @@ const EditProfile = () => {
         <div className="flex items-center justify-center my-4">
           <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[2px]"></div>
         </div>
-        <EditProfileSection4/>
+        <EditProfileSection4 />
       </motion.div>
     </section>
   );
