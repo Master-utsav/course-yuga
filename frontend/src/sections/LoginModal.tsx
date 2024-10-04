@@ -23,11 +23,10 @@ const LOGIN_API_URL = import.meta.env.VITE_PUBLIC_LOGIN_API_URL;
 
 const LoginModal: React.FC = () => {
   const navigate = useNavigate();
-  const { setIsLoginOpen , setUserData , setIsResetPasswordOpen , setIsSignupOpen} = useAuthContext();
+  const {setUserData} = useAuthContext();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const {theme} = useTheme();
   const closeLogin = () => {
-    setIsLoginOpen(false);
     navigate("/");
   };
 
@@ -55,7 +54,6 @@ const LoginModal: React.FC = () => {
   const onSubmit = async (data: loginSchemaData) => {
     try {
       const response = await axios.post(LOGIN_API_URL, data);
-
       const responseData: { success: boolean; message: string; token: string , userData: LoginUserDataProps} = response.data;
       
       if (responseData.success) {
@@ -90,12 +88,6 @@ const LoginModal: React.FC = () => {
     } catch (error: any) {
       ErrorToast("An error occurred Github OAuth" + error);
     }
-  }
-  
-  const handleResetPasswordModal = () => {
-    setIsSignupOpen(false);
-    setIsLoginOpen(false);
-    setIsResetPasswordOpen(true);
   }
   
   return (
@@ -157,7 +149,7 @@ const LoginModal: React.FC = () => {
                 </p>
               )}
             </div>
-            <Link to="/reset-password" onClick={handleResetPasswordModal} className="flex justify-end cursor-pointer">
+            <Link to="/reset-password" className="flex justify-end cursor-pointer">
               <span className="font-ubuntu hover:text-blue-500 dark:text-white/80 text-black/80">forgot password?{" "}</span>
             </Link>
             

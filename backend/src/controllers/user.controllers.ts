@@ -121,7 +121,8 @@ export async function handleLoginFunction(req: Request, res: Response) {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
-            emailVerificationStatus: user.emailVerificationStatus
+            emailVerificationStatus: user.emailVerificationStatus,
+            profileImageUrl: user.profileImageUrl || "",
         }
     
         return res.status(200).json({ success: true, message: "Login successful", token , userData});
@@ -205,6 +206,20 @@ export async function handleChangePasswordFunction(req: AuthenticatedRequest, re
         if(!user?.emailVerificationStatus){
             return res.status(400).json({success : false , message : "email not verified"})
         }
+
+        if(user && user.passwordResetOTPExpires){
+            const emailTime = user.passwordResetOTPExpires;
+            const currentTime = Date.now();
+            const remainingTime = emailTime - currentTime;
+            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+            if(remainingTime > 0){
+            return res.status(404).json({success : false , message : `try after ${minutes}min ${seconds}s`})
+            }
+            else{
+                await sendResetPasswordVerification(user.email, user._id)
+            }
+        }
         
         if(user && user.passwordSendTime){
             const emailTime = user.passwordSendTime;
@@ -217,6 +232,7 @@ export async function handleChangePasswordFunction(req: AuthenticatedRequest, re
             return res.status(404).json({success : false , message : `try after ${hours}hr ${minutes}min ${seconds}s`})
             }
         }
+
 
         await sendResetPasswordVerification(user.email, user._id)
 
@@ -291,6 +307,20 @@ export async function handleResetPasswordFunction(req : Request , res: Response)
         }
         if(!user?.emailVerificationStatus){
             return res.status(400).json({success : false , message : "email not verified"})
+        }
+
+        if(user && user.passwordResetOTPExpires){
+            const emailTime = user.passwordResetOTPExpires;
+            const currentTime = Date.now();
+            const remainingTime = emailTime - currentTime;
+            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+            if(remainingTime > 0){
+            return res.status(404).json({success : false , message : `try after ${minutes}min ${seconds}s`})
+            }
+            else{
+                await sendResetPasswordVerification(user.email, user._id)
+            }
         }
 
         if(user && user.passwordSendTime){

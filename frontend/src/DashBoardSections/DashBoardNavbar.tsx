@@ -57,6 +57,7 @@ const DashBoardNavbar: React.FC = () => {
             {DashBoardNavItems.map((item, index) => (
               <DashboardNavItem
                 key={index}
+                index={index}
                 theme={theme}
                 Icon={item.Icon}
                 title={item.title}
@@ -70,6 +71,7 @@ const DashBoardNavbar: React.FC = () => {
             {DashBoardNavItems2.map((item, index) => (
               <DashboardNavItem
                 key={index}
+                index={index}
                 theme={theme}
                 Icon={item.Icon}
                 title={item.title}

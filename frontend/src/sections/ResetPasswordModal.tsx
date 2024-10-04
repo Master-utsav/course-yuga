@@ -4,8 +4,7 @@ import CrossIcon from "@/Icons/CrossIcon";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuthContext } from "@/context/authContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ErrorToast, SuccessToast } from "@/lib/toasts";
 import ResetOTPModal from "@/components/ResetOTPModal";
@@ -21,19 +20,15 @@ const ResetPasswordSchema = z.object({
 type ResetPasswordSchemaData = z.infer<typeof ResetPasswordSchema>;
 const RESET_PASSWORD_API_URL = import.meta.env.VITE_PUBLIC_RESET_PASSWORD_API_URL!;
 
-const ResetPassword: React.FC = () => {
+const ResetPasswordModal: React.FC = () => {
   const navigate = useNavigate();
-  const {setIsResetPasswordOpen} = useAuthContext();
   const [showOTPComponent, setShowOTPComponent] = useState(false);
-
+  
   const closeResetPassword = () => {
-    setIsResetPasswordOpen(false);
-    navigate("/");
+    setShowOTPComponent(false);
+    navigate("/login");
   };
   
-  const handleResetPasswordOTPModal = () => {
-    setShowOTPComponent(true);
-  }
   const {
     register,
     handleSubmit,
@@ -62,8 +57,14 @@ const ResetPassword: React.FC = () => {
     }
   };
   
+  const handleAlreadyHaveAnOTP = () => {
+    navigate("/reset-password")
+    setShowOTPComponent(true);
+  }
+
+  
   return (
-    <section className="w-full mx-auto px-5 flex justify-center items-center">
+    <section className="w-full mx-auto px-5 flex justify-center items-center ">
         {!showOTPComponent ? 
         (<motion.div
           initial={{ opacity: 0, scale: 0.5 }}
@@ -92,9 +93,9 @@ const ResetPassword: React.FC = () => {
                 <p className="text-red-500 text-sm">{errors.email.message}</p>
                 )}
             </div>
-            <Link to="/reset-password" onClick={handleResetPasswordOTPModal} className="flex justify-end cursor-pointer">
+            <span onClick={handleAlreadyHaveAnOTP} className="flex justify-end cursor-pointer">
               <span className="font-ubuntu hover:text-blue-500 dark:text-white/80 text-black/80">Already have an OTP?{" "}</span>
-            </Link>
+            </span>
             <motion.button
               whileTap={{ scale: 0.95 }}
               type="submit"
@@ -118,4 +119,4 @@ const ResetPassword: React.FC = () => {
   );
 };
 
-export default ResetPassword;
+export default ResetPasswordModal;

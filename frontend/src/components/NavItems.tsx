@@ -3,19 +3,13 @@ import { NavItemsArray } from "../constants/index";
 import { NavLink } from "react-router-dom";
 import TextHoverJumbledAnimationEffect from "../Effects/TextHoverJumbledAnimationEffect";
 import { cn } from "@/lib/utils";
-import { useAuthContext } from "../context/authContext";
 
 interface NavItemsProps{
     navListBgForSmallScreen?: string
 }
 const NavItems: React.FC<NavItemsProps> = ({navListBgForSmallScreen="bg-transparent"}) => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
-  const {setIsSignupOpen , setIsLoginOpen} = useAuthContext();
-
-  const handleNavigationClick = () => {
-    setIsSignupOpen(false);
-    setIsLoginOpen(false);
-  }
+  
   return (
     <ul className="nav-ul">
       {NavItemsArray.map((item) => (
@@ -24,7 +18,6 @@ const NavItems: React.FC<NavItemsProps> = ({navListBgForSmallScreen="bg-transpar
           key={item.id}
           onMouseEnter={() => setHoveredId(item.id)}
           onMouseLeave={() => setHoveredId(null)}
-          onClick={handleNavigationClick}
         >
         <NavLink to={item.href} className="nav-li_a z-10">
           <TextHoverJumbledAnimationEffect text={`${item.name}`} isHovered={hoveredId === item.id} />

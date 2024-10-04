@@ -5,7 +5,6 @@ import { signupSchema } from "@/validChecksSchema/zodSchemas";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuthContext } from "@/context/authContext";
 import { useNavigate } from "react-router-dom";
 import GoogleIcon from "@/Icons/GoogleIcon";
 import GitHubIcon from "@/Icons/GithubIcon";
@@ -22,13 +21,11 @@ const SIGNUP_API_URL = import.meta.env.VITE_PUBLIC_SIGNUP_API_URL;
 const SignupModal: React.FC = () => {
   const navigate = useNavigate();
   const {theme} = useTheme();
-  const { setIsSignupOpen } = useAuthContext();
   const [showOTPComponent, setShowOTPComponent] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
   const closeSignup = () => {
-    setIsSignupOpen(false);
     navigate("/");
   };
 

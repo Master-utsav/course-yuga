@@ -1,4 +1,3 @@
-import { useAuthContext } from "@/context/authContext";
 import { useTheme } from "@/context/ThemeProvider";
 import EyeCloseIcon from "@/Icons/EyeCloseIcon";
 import EyeOpenIcon from "@/Icons/EyeOpenIcon";
@@ -45,6 +44,8 @@ interface OTPComponentProps {
 
 const RESET_PASSWORD_OTP_API_URL = import.meta.env
   .VITE_PUBLIC_RESET_PASSWORD_OTP_API_URL!;
+const RESET_PASSWORD_API_URL = import.meta.env
+  .VITE_PUBLIC_RESET_PASSWORD_API_URL!;
 
 const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
   const [otp, setOtp] = React.useState<string[]>(Array(6).fill(""));
@@ -55,7 +56,6 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
   );
   const navigate = useNavigate();
   const { theme } = useTheme();
-  const { setIsResetPasswordOpen, setIsLoginOpen } = useAuthContext();
 
   // Initialize react-hook-form with Zod resolver
   const {
@@ -67,8 +67,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
   });
 
   const closeSignup = () => {
-    setIsResetPasswordOpen(false);
-    navigate("/");
+    navigate("/login");
   };
 
   async function submitOTP(data: FieldValues) {
@@ -90,7 +89,6 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
 
       if (responseData.success) {
         SuccessToast(responseData.message);
-        setIsLoginOpen(true);
         closeSignup();
       } else {
         throw new Error(responseData.message);
@@ -125,12 +123,30 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
     }
   };
 
-  const handleResend = () => {
+  const handleResend = async() => {
     setIsResendEnabled(false);
+    await resendOTP(userEmail);
     // Add logic for resending OTP here
     setTimeout(() => {
       setIsResendEnabled(true);
-    }, 30000); // Enable resend after 30 seconds
+    }, 600000); // Enable resend after 10min 
+  };
+
+  const resendOTP = async (userEmail: string) => {
+    try {
+      const response = await axios.post(RESET_PASSWORD_API_URL, {email : userEmail});
+
+      const responseData: { success: boolean; message: string} = response.data;
+      
+      if (responseData.success) {   
+        SuccessToast(responseData.message )
+      } else {
+        throw new Error(responseData.message);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error : any) {
+      ErrorToast(error.response?.data?.message);
+    }
   };
 
   return (
@@ -145,7 +161,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
         Change Your Password
       </h3>
       <p className="mb-6">
-        6 Digit OTP sent to <span className="font-bold">{userEmail}</span>
+        6 Digit OTP sent to <span className="font-bold">{userEmail? userEmail : "your registered email"}</span>
       </p>
 
       <div className="flex justify-center space-x-2 mb-4">
@@ -257,7 +273,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
           </div>
         </div>
 
-        <div className="w-full" onClick={handleSubmit(submitOTP)}>
+        <div className="w-full py-2" onClick={handleSubmit(submitOTP)}>
           <GetStartedAnimatedBtn BtnText={"Submit"} />
         </div>
       </form>
@@ -271,6 +287,9 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       </motion.button>
     </motion.div>
   );
-};
+
+}
 
 export default ResetOTPModal;
+
+

@@ -114,7 +114,8 @@
       }
 
       .dashboard_li_item:hover::before {
-        @apply w-full px-2;
+        filter: blur(1px);
+        @apply w-full px-2 ;
       }
       
       

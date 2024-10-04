@@ -1,4 +1,3 @@
-import { useAuthContext } from "@/context/authContext";
 import CrossIcon from "@/Icons/CrossIcon";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
@@ -21,10 +20,8 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const [isResendEnabled, setIsResendEnabled] = useState(true);
   const navigate = useNavigate();
-  const { setIsSignupOpen , setIsLoginOpen } = useAuthContext();
 
   const closeSignup = () => {
-    setIsSignupOpen(false);
     navigate("/");
   };
 
@@ -42,8 +39,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
 
         if (responseData.success) {
           SuccessToast(responseData.message);
-          setIsLoginOpen(true);
-          closeSignup();
+          navigate("/login")
         } else {
           throw new Error(responseData.message);
         }
@@ -74,7 +70,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       !value &&
       (e.nativeEvent as InputEvent).inputType === "deleteContentBackward" &&
       index > 0
-    ) {
+    ) { 
       // Focus on the previous input when backspace is pressed and input is empty
       const prevSibling = document.getElementById(`otp-input-${index - 1}`);
       prevSibling?.focus();

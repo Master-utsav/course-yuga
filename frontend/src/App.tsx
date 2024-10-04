@@ -13,13 +13,12 @@ import PageTransitionBoxAnimation from "./Effects/PageTransitionBoxAnimation";
 import DashboardRoutes from "./sections/DashBoardRoutes";
 import Help from "./sections/Help";
 import EditProfile from "./sections/EditProfile";
-import HeroLeftSection from "./components/HeroLeftSection";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const { theme } = useTheme();
-  const { isLoggedIn, setIsSignupOpen } = useAuthContext();
+  const { isLoggedIn } = useAuthContext();
 
   const getToastContainerClass = (theme: string) => {
     return theme === "dark" ? styles.dark : styles.light;
@@ -32,34 +31,21 @@ function App() {
     if (isLoggedIn && token) {
       navigate("/", { replace: true });
     }
-
-    if (location.pathname === "/signup") {
-      setIsSignupOpen(true);
-    }
-  }, [isLoggedIn, location, navigate, setIsSignupOpen]);
+  }, [isLoggedIn, location, navigate]);
 
   return (
     <main className="max-w-full mx-auto relative dark:bg-black bg-white">
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
-          <Route
-            path="/reset-password"
-            element={
-              <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
-                <Navbar isUserLoggedIn={isLoggedIn} />
-                <HeroLeftSection/>
-              </PageTransitionBoxAnimation>
-            }
-            />
           {isLoggedIn ? (
             <>
               <Route
                 path="/"
                 element={
-                  <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
+                  <>
                     <Navbar isUserLoggedIn={isLoggedIn} />
-                    <HeroSection />
-                  </PageTransitionBoxAnimation>
+                    <HeroSection route="homepage"/>
+                  </>
                 }
               />
               <Route
@@ -83,17 +69,23 @@ function App() {
               <Route
                 path="/edit-profile"
                 element={
-                  <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
+                  <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <EditProfile />
+                  </>
+                }
+              />
+              <Route
+                path="/reset-password"
+                element={
+                  <>
                     <Navbar isUserLoggedIn={isLoggedIn} />
-                    <EditProfile />
-                  </PageTransitionBoxAnimation>
+                    <HeroSection route="reset-password" />
+                  </>
                 }
               />
               {/* All dashboard routes */}
-              <Route path="/user/*" element={
-                    <DashboardRoutes />
-                } 
-              />
+              <Route path="/user/*" element={<DashboardRoutes />} />
             </>
           ) : (
             <>
@@ -102,7 +94,7 @@ function App() {
                 element={
                   <>
                     <Navbar isUserLoggedIn={isLoggedIn} />
-                    <HeroSection />
+                    <HeroSection route="signup" />
                   </>
                 }
               />
@@ -111,7 +103,16 @@ function App() {
                 element={
                   <>
                     <Navbar isUserLoggedIn={isLoggedIn} />
-                    <HeroSection />
+                    <HeroSection route="login" />
+                  </>
+                }
+              />
+              <Route
+                path="/reset-password"
+                element={
+                  <>
+                    <Navbar isUserLoggedIn={isLoggedIn} />
+                    <HeroSection route="reset-password" />
                   </>
                 }
               />
@@ -120,7 +121,7 @@ function App() {
                 element={
                   <>
                     <Navbar isUserLoggedIn={isLoggedIn} />
-                    <HeroSection />
+                    <HeroSection route="homepage" />
                   </>
                 }
               />
@@ -130,9 +131,7 @@ function App() {
       </AnimatePresence>
       <ToastContainer
         position="bottom-right"
-        className={`${styles.toastContainer} ${getToastContainerClass(
-          theme
-        )}`}
+        className={`${styles.toastContainer} ${getToastContainerClass(theme)}`}
         toastClassName={styles.Toastify__toast}
         autoClose={3000}
         hideProgressBar={false}

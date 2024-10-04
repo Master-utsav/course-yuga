@@ -17,8 +17,6 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ isUserLoggedIn }) => {
   const [isOpen, isSetOpen] = React.useState<boolean>(false);
   const {
-    setIsSignupOpen,
-    setIsLoginOpen,
     localStorageUserData,
   } = useAuthContext();
   const { theme } = useTheme();
@@ -34,13 +32,9 @@ const Navbar: React.FC<NavbarProps> = ({ isUserLoggedIn }) => {
   const avatarFallbackText = firstChar + lastChar;
 
   const handleSignupClick = () => {
-    setIsSignupOpen(true);
-    setIsLoginOpen(false);
     navigate("/signup");
   };
   const handleLoginClick = () => {
-    setIsLoginOpen(true);
-    setIsSignupOpen(false);
     navigate("/login");
   };
   const toggleMenu = () => {
