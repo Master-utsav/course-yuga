@@ -36,9 +36,9 @@ const EditButton: React.FC<EditButtonProps> = ({
       <DialogTrigger asChild>
         <Button variant="outline" className="p-2">
           {theme === "dark" ? (
-            <EditIcon fillColor="white" />
+            <EditIcon fillColor="gray" />
           ) : (
-            <EditIcon fillColor="black" />
+            <EditIcon fillColor="gray" />
           )}
         </Button>
       </DialogTrigger>

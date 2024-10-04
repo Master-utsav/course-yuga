@@ -9,7 +9,7 @@ const EditProfileSection3 = () => {
         <SelectInput label='Select State' />
         <SelectInput label='Select City' />
         </div>
-        <Button type='submit' >Update</Button>
+        <Button type='submit' className='font-medium font-ubuntu'>Update</Button>
     </div>
   )
 }

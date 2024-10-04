@@ -11,14 +11,14 @@ const ChangeRole: React.FC<ChangeRoleProps> = ({ theme }) => {
       label=""
       placeholder="Change your Role"
       labelPlacement="outside"
-      className="max-w-xs border-2 rounded-md border-black dark:border-gray-600"
+      className="w-1/2 max-w-xl flex flex-row gap-4 border-2 rounded-md dark:border-white/20 border-black/40 py-1"
       style={{ background: "transparent" }}
       disableSelectorIconRotation
       selectorIcon={
         theme === "dark" ? (
-          <SelectorIcon fillColor="white" />
+          <SelectorIcon fillColor="gray" />
         ) : (
-          <SelectorIcon fillColor="black" />
+          <SelectorIcon fillColor="gray" />
         )
       }
     >

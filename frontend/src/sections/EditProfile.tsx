@@ -34,7 +34,7 @@ const EditProfile = () => {
   return (
     <section className="w-full flex items-center justify-center bg-white dark:bg-black  backdrop-blur-lg transition-opacity duration-300 relative py-28 z-20">
       <motion.div
-        className="w-[80%] mx-auto dark:bg-white/5  bg-black/5 rounded-lg p-6 shadow-2xl dark:shadow-sm dark:shadow-white border-2 dark:border-white border-black"
+        className="w-[80%] mx-auto dark:bg-white/5  bg-white-800/30 rounded-lg p-6 shadow-2xl dark:shadow-sm dark:shadow-white/20 border-2 dark:border-white/20 border-black/40"
         variants={modalVariants}
         initial="hidden"
         animate="visible"
@@ -72,23 +72,23 @@ const EditProfile = () => {
           <BioTextArea />
         </div>
         <div className="flex items-center justify-center my-4">
-          <div className="h-px bg-gray-300 w-full"></div>
+          <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div>
           <span className="px-3 whitespace-nowrap text-gray-500 text-center font-semibold font-ubuntu text-base">
             Personal Information
           </span>
-          <div className="h-px bg-gray-300 w-full"></div>
+          <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div>
         </div>
         <EditProfileSection2 />
         <div className="flex items-center justify-center my-4">
-          <div className="h-px bg-gray-300 w-full"></div>
+          <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div>
           <span className="px-3 text-gray-500 whitespace-nowrap  text-center font-semibold font-ubuntu text-base">
             Update your address
           </span>
-          <div className="h-px bg-gray-300 w-full"></div>
+          <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div>
         </div>
         <EditProfileSection3 />
         <div className="flex items-center justify-center my-4">
-          <div className="h-px bg-gray-300 w-full"></div>
+          <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[2px]"></div>
         </div>
         <EditProfileSection4/>
       </motion.div>

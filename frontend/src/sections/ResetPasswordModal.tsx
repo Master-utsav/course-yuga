@@ -26,7 +26,7 @@ const ResetPasswordModal: React.FC = () => {
   
   const closeResetPassword = () => {
     setShowOTPComponent(false);
-    navigate("/login");
+    navigate("/");
   };
   
   const {

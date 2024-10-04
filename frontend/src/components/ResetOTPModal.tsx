@@ -67,7 +67,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
   });
 
   const closeSignup = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   async function submitOTP(data: FieldValues) {

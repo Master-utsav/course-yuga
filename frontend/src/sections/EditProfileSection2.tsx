@@ -69,7 +69,7 @@ const EditProfileSection2 = () => {
               </div>
             </div>
 
-            <Button type="submit" >Update</Button>
+            <Button type="submit" className="font-medium font-ubuntu">Update</Button>
           
         </form>
   )
