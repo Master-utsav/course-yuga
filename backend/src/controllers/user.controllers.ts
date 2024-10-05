@@ -5,6 +5,33 @@ import bcrypt from "bcryptjs";
 import { checkConstraints, checkLoginConstraintsAsEmail, checkLoginConstraintsAsUserName, checkPasswordConstraints, returnIdentity } from "../validchecks/checkAuthConstraints";
 import { emailVerificationAlert, sendEmailVerification, sendResetPasswordVerification } from "../helpers/mailer";
 import { AuthenticatedRequest } from "../middleware/auth.middleware";
+import twilio from "twilio"
+
+export async function handleGetUserDataFunction(req: AuthenticatedRequest , res: Response){
+    try {
+        const userId = req.userId;
+        const user = await User.findById(userId);
+        if(!user){
+            return res.status(404).json({success : false , message : "User not found"})
+        }
+        const data = {
+            userName : user.userName,
+            firstName : user.firstName,
+            lastName : user.lastName,
+            email : user.email,
+            emailVerificationStatus : user.emailVerificationStatus,
+            profileImageUrl : user.profileImageUrl,
+            phoneNumber: user.phoneNumber,
+            phoneNumberVerificationStatus : user.phoneNumberVerificationStatus,
+            role: user.role
+        }
+        return res.status(200).json({success : true , data})
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({success : false , message : "Internal Server Error"})
+    }
+}
 
 export async function handleSignUpFunction(req: Request, res: Response) {
   try {
@@ -459,38 +486,92 @@ export async function handleDeleteAccountFunction(req: AuthenticatedRequest, res
     }
 }
 
+export async function handlePhoneNumberOTPCheckFunction(req : AuthenticatedRequest, res: Response) {
+    const userId = req.userId;
+    const { to, code } = req.body;
 
-
-// export async function handleEmailVerficationFunction(req: Request, res: Response) {
-//     try {
-//         const {email, userId} = req.body();
-       
-//         const user = await User.findOne({$and : [{email} , {_id : userId}]})
-//         if (!user) {
-//            return res.status(400).json({success : false , message : "user doesn't exists"})
-//         }
-        
-//         if(user && user.emailVerificationStatus){
-//            return res.status(400).json({success : false , message : "email already Verified exists"})
-//         }
-
-//         if(user?.emailSendTime !== undefined){
-//             const emailTime = user.emailSendTime.getTime();
-//             const currentTime = Date.now();
-//             const remainingTime = emailTime - currentTime;
-//             const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-//             const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-//             const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-//             if(remainingTime > 0){
-//                return res.status(404).json({success : false , message : `try after ${hours}hr ${minutes}min ${seconds}s`})
-//             }
-//         }
-        
-//         await sendEmailVerification(user.email, user._id)
-
-//         return res.status(200).json({message: "verification mail send successfully", success : true});
-
-//     } catch (error) {
-//         return res.status(500).json({success : false , message : "Internal Server Error"})
-//     }
-// }
+    const user = await User.findById(userId);
+  
+    if(!user){
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      })
+    }
+  
+    if (!to || !code) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing required parameters: to, code',
+      });
+    }
+  
+    try {
+      const client = twilio(process.env.TWILIO_ACCOUNT_SID!, process.env.TWILIO_AUTH_TOKEN!);
+      const VERIFY_SERVICE_SID = process.env.TWILIO_VERIFY_SERVICE_SID!;
+  
+      const check = await client.verify.services(VERIFY_SERVICE_SID)
+        .verificationChecks.create({ to, code });
+  
+      if (check.status === 'approved') {
+        await User.findByIdAndUpdate(userId, { $set: { phoneNumberVerificationStatus: true , phoneNumber: to } });
+        return res.status(200).json({
+          success: true,
+          message: 'Verification successful.',
+        });
+      } else {
+        return res.status(400).json({
+          success: false,
+          message: 'Incorrect OTP.',
+        });
+      }
+    } catch (error: any) {
+      console.error(error.message);
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  }
+  
+  export async function handlePhoneNumberOTPSendFunction(req : AuthenticatedRequest , res : Response) {
+    const userId = req.userId;
+    const { to, channel = 'sms', locale = 'en' } = req.body;
+  
+    if (!to || to.trim() === '') {
+      return res.status(400).json({
+        success: false,
+        message: "Missing 'to' parameter; please provide a phone number or email.",
+      });
+    }
+  
+    const user = await User.findById(userId);
+  
+    if(!user){
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      })
+    }
+  
+    try {
+      const client = twilio(process.env.TWILIO_ACCOUNT_SID!, process.env.TWILIO_AUTH_TOKEN!);
+      const VERIFY_SERVICE_SID = process.env.TWILIO_VERIFY_SERVICE_SID!;
+  
+       await client.verify.services(VERIFY_SERVICE_SID)
+        .verifications.create({
+          to,
+          channel,
+          locale,
+        });
+  
+      return res.status(200).json({ success: true , message: `OTP sent to ${to}`});
+  
+    } catch (error: any) {
+      console.error(error.message);
+      return res.status(error.status || 500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  }

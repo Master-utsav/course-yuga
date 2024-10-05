@@ -5,6 +5,8 @@ import { Button } from "@nextui-org/react";
 import DOBDatePicker from "@/components/DOBDatePicker";
 import ChangeRole from "@/components/ChangeRole";
 import { useTheme } from "@/context/ThemeProvider";
+import { CountryCodeData } from "@/constants";
+import MobileNumber from "@/components/MobileNumber";
 
 const firstNameRegex = /^[a-zA-Z]{2,}$/;
 
@@ -23,6 +25,12 @@ const editProfileLastAndFullNameSchema = z.object({
     }),
 });
 
+interface CountryCodeData {
+  countryname: string;
+  countrycode: string;
+  flagurl: string;
+}
+
 type editProfileLastAndFullNameData = z.infer<
   typeof editProfileLastAndFullNameSchema
 >;
@@ -36,9 +44,12 @@ const EditProfileSection2 = () => {
   });
 
   const { theme } = useTheme();
+
   const onSubmit = (data: editProfileLastAndFullNameData) => {
     console.log(data);
   };
+
+
   return (
     <form
       className="w-full flex flex-col justify-between items-start px-2 py-4 gap-3"
@@ -46,7 +57,7 @@ const EditProfileSection2 = () => {
     >
       <div className="relative w-full flex flex-col items-start justify-between gap-2 ">
         <div className="relative w-full flex flex-col sm:flex-row items-start justify-between gap-2 ">
-          <div className=" w-full flex justify-center flex-col items-start">
+          <div className="w-full flex justify-center flex-col items-start">
             <input
               type="text"
               placeholder="First Name"
@@ -79,22 +90,9 @@ const EditProfileSection2 = () => {
         </div>
 
         <div className="flex flex-row w-full gap-2">
-          <div className="w-1/2 flex justify-center flex-col items-start">
-            <input
-              type="text"
-              placeholder="Mobile Number"
-              className={`p-3 border rounded-md w-full text-black dark:text-white dark:bg-black/10 bg-white-800/10 dark:border-white-800/20 border-black/20 ${
-                errors.lastName ? "border-red-500" : ""
-              }`}
-              {...register("lastName")}
-            />
-            {errors.lastName && (
-              <p className="text-red-500 text-sm text-end">
-                {errors.lastName.message}
-              </p>
-            )}
+            <MobileNumber CountryCodeData={CountryCodeData} theme={theme} /> 
           </div>
-          <div className="w-1/2 flex  items-center justify-between gap-2">
+          <div className="w-full flex  items-center justify-between gap-2">
             <DOBDatePicker />
             <ChangeRole theme={theme} />
           </div>
@@ -102,9 +100,9 @@ const EditProfileSection2 = () => {
         <Button type="submit" className="font-medium font-ubuntu">
           Update
         </Button>
-      </div>
     </form>
   );
 };
 
 export default EditProfileSection2;
+

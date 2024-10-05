@@ -19,7 +19,7 @@ function App() {
   const navigate = useNavigate();
   const { theme } = useTheme();
   const { isLoggedIn } = useAuthContext();
-
+  
   const getToastContainerClass = (theme: string) => {
     return theme === "dark" ? styles.dark : styles.light;
   };

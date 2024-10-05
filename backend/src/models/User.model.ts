@@ -15,6 +15,9 @@ export interface IUser extends Document {
   passwordResetOTP?: string;
   passwordResetOTPExpires?: string;
   passwordSendTime?: string;
+  phoneNumber?: string;
+  phoneNumberVerificationStatus?: boolean;
+
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -32,6 +35,8 @@ const userSchema = new mongoose.Schema<IUser>({
   passwordResetOTP: { type: String },
   passwordResetOTPExpires: { type: String },
   passwordSendTime: { type: String },
+  phoneNumber: {type: String },
+  phoneNumberVerificationStatus: {type :Boolean , default: false}
 }, 
 { 
   timestamps: true 

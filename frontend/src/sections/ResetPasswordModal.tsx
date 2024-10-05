@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ErrorToast, SuccessToast } from "@/lib/toasts";
 import ResetOTPModal from "@/components/ResetOTPModal";
+import { USER_API } from "@/lib/env";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ResetPasswordSchema = z.object({
@@ -18,7 +19,6 @@ const ResetPasswordSchema = z.object({
 })
 
 type ResetPasswordSchemaData = z.infer<typeof ResetPasswordSchema>;
-const RESET_PASSWORD_API_URL = import.meta.env.VITE_PUBLIC_RESET_PASSWORD_API_URL!;
 
 const ResetPasswordModal: React.FC = () => {
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ const ResetPasswordModal: React.FC = () => {
   const formData = getValues();
   const onSubmit = async (data: ResetPasswordSchemaData) => {
     try {
-      const response = await axios.post(RESET_PASSWORD_API_URL, data);
+      const response = await axios.post(`${USER_API}reset-password`, data);
 
       const responseData: { success: boolean; message: string} = response.data;
       

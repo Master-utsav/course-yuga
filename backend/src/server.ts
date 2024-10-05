@@ -17,8 +17,8 @@ app.get("/", (req: Request, res: Response) => {
     res.send("Welcome to Yugpath-Shiksha");
 });
 
-app.use("/api/user" , userRoute);
-app.use("/api/course" , courseRoute);
+app.use("/api/v1/user" , userRoute);
+app.use("/api/v1/course" , courseRoute);
 
 app.listen(PORT, () => {
     console.log("Server started on port : " + PORT);

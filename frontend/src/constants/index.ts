@@ -252,3 +252,975 @@ export const DashBoardNavItems: DashboardNavItemProps[] = [
     "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
   ];
   
+  export const CountryCodeData: {countryname: string , countrycode: string , flagurl: string}[] = [
+    {
+      "countryname": "Afghanistan",
+      "countrycode": "+93",
+      "flagurl": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_the_Taliban.svg"
+    },
+    {
+      "countryname": "Albania",
+      "countrycode": "+355",
+      "flagurl": "https://flagcdn.com/al.svg"
+    },
+    {
+      "countryname": "Algeria",
+      "countrycode": "+213",
+      "flagurl": "https://flagcdn.com/dz.svg"
+    },
+    {
+      "countryname": "Andorra",
+      "countrycode": "+376",
+      "flagurl": "https://flagcdn.com/ad.svg"
+    },
+    {
+      "countryname": "Angola",
+      "countrycode": "+244",
+      "flagurl": "https://flagcdn.com/ao.svg"
+    },
+    {
+      "countryname": "Antigua and Barbuda",
+      "countrycode": "+1268",
+      "flagurl": "https://flagcdn.com/ag.svg"
+    },
+    {
+      "countryname": "Argentina",
+      "countrycode": "+54",
+      "flagurl": "https://flagcdn.com/ar.svg"
+    },
+    {
+      "countryname": "Armenia",
+      "countrycode": "+374",
+      "flagurl": "https://flagcdn.com/am.svg"
+    },
+    {
+      "countryname": "Australia",
+      "countrycode": "+61",
+      "flagurl": "https://flagcdn.com/au.svg"
+    },
+    {
+      "countryname": "Austria",
+      "countrycode": "+43",
+      "flagurl": "https://flagcdn.com/at.svg"
+    },
+    {
+      "countryname": "Azerbaijan",
+      "countrycode": "+994",
+      "flagurl": "https://flagcdn.com/az.svg"
+    },
+    {
+      "countryname": "Bahamas",
+      "countrycode": "+1242",
+      "flagurl": "https://flagcdn.com/bs.svg"
+    },
+    {
+      "countryname": "Bahrain",
+      "countrycode": "+973",
+      "flagurl": "https://flagcdn.com/bh.svg"
+    },
+    {
+      "countryname": "Bangladesh",
+      "countrycode": "+880",
+      "flagurl": "https://flagcdn.com/bd.svg"
+    },
+    {
+      "countryname": "Barbados",
+      "countrycode": "+1246",
+      "flagurl": "https://flagcdn.com/bb.svg"
+    },
+    {
+      "countryname": "Belarus",
+      "countrycode": "+375",
+      "flagurl": "https://flagcdn.com/by.svg"
+    },
+    {
+      "countryname": "Belgium",
+      "countrycode": "+32",
+      "flagurl": "https://flagcdn.com/be.svg"
+    },
+    {
+      "countryname": "Belize",
+      "countrycode": "+501",
+      "flagurl": "https://flagcdn.com/bz.svg"
+    },
+    {
+      "countryname": "Benin",
+      "countrycode": "+229",
+      "flagurl": "https://flagcdn.com/bj.svg"
+    },
+    {
+      "countryname": "Bhutan",
+      "countrycode": "+975",
+      "flagurl": "https://flagcdn.com/bt.svg"
+    },
+    {
+      "countryname": "Bolivia",
+      "countrycode": "+591",
+      "flagurl": "https://flagcdn.com/bo.svg"
+    },
+    {
+      "countryname": "Bosnia and Herzegovina",
+      "countrycode": "+387",
+      "flagurl": "https://flagcdn.com/ba.svg"
+    },
+    {
+      "countryname": "Botswana",
+      "countrycode": "+267",
+      "flagurl": "https://flagcdn.com/bw.svg"
+    },
+    {
+      "countryname": "Brazil",
+      "countrycode": "+55",
+      "flagurl": "https://flagcdn.com/br.svg"
+    },
+    {
+      "countryname": "Brunei",
+      "countrycode": "+673",
+      "flagurl": "https://flagcdn.com/bn.svg"
+    },
+    {
+      "countryname": "Bulgaria",
+      "countrycode": "+359",
+      "flagurl": "https://flagcdn.com/bg.svg"
+    },
+    {
+      "countryname": "Burkina Faso",
+      "countrycode": "+226",
+      "flagurl": "https://flagcdn.com/bf.svg"
+    },
+    {
+      "countryname": "Burundi",
+      "countrycode": "+257",
+      "flagurl": "https://flagcdn.com/bi.svg"
+    },
+    {
+      "countryname": "Cape Verde",
+      "countrycode": "+238",
+      "flagurl": "https://flagcdn.com/cv.svg"
+    },
+    {
+      "countryname": "Cambodia",
+      "countrycode": "+855",
+      "flagurl": "https://flagcdn.com/kh.svg"
+    },
+    {
+      "countryname": "Cameroon",
+      "countrycode": "+237",
+      "flagurl": "https://flagcdn.com/cm.svg"
+    },
+    {
+      "countryname": "Canada",
+      "countrycode": "+1",
+      "flagurl": "https://flagcdn.com/ca.svg"
+    },
+    {
+      "countryname": "Central African Republic",
+      "countrycode": "+236",
+      "flagurl": "https://flagcdn.com/cf.svg"
+    },
+    {
+      "countryname": "Chad",
+      "countrycode": "+235",
+      "flagurl": "https://flagcdn.com/td.svg"
+    },
+    {
+      "countryname": "Chile",
+      "countrycode": "+56",
+      "flagurl": "https://flagcdn.com/cl.svg"
+    },
+    {
+      "countryname": "Taiwan",
+      "countrycode": "+886",
+      "flagurl": "https://flagcdn.com/tw.svg"
+    },
+    {
+      "countryname": "Colombia",
+      "countrycode": "+57",
+      "flagurl": "https://flagcdn.com/co.svg"
+    },
+    {
+      "countryname": "Comoros",
+      "countrycode": "+269",
+      "flagurl": "https://flagcdn.com/km.svg"
+    },
+    {
+      "countryname": "Republic of the Congo",
+      "countrycode": "+242",
+      "flagurl": "https://flagcdn.com/cg.svg"
+    },
+    {
+      "countryname": "DR Congo",
+      "countrycode": "+243",
+      "flagurl": "https://flagcdn.com/cd.svg"
+    },
+    {
+      "countryname": "Costa Rica",
+      "countrycode": "+506",
+      "flagurl": "https://flagcdn.com/cr.svg"
+    },
+    {
+      "countryname": "Croatia",
+      "countrycode": "+385",
+      "flagurl": "https://flagcdn.com/hr.svg"
+    },
+    {
+      "countryname": "Cuba",
+      "countrycode": "+53",
+      "flagurl": "https://flagcdn.com/cu.svg"
+    },
+    {
+      "countryname": "Cyprus",
+      "countrycode": "+357",
+      "flagurl": "https://flagcdn.com/cy.svg"
+    },
+    {
+      "countryname": "Czechia",
+      "countrycode": "+420",
+      "flagurl": "https://flagcdn.com/cz.svg"
+    },
+    {
+      "countryname": "Denmark",
+      "countrycode": "+45",
+      "flagurl": "https://flagcdn.com/dk.svg"
+    },
+    {
+      "countryname": "Djibouti",
+      "countrycode": "+253",
+      "flagurl": "https://flagcdn.com/dj.svg"
+    },
+    {
+      "countryname": "Dominican Republic",
+      "countrycode": "+1809",
+      "flagurl": "https://flagcdn.com/do.svg"
+    },
+    {
+      "countryname": "Dominican Republic",
+      "countrycode": "+1809",
+      "flagurl": "https://flagcdn.com/do.svg"
+    },
+    {
+      "countryname": "Timor-Leste",
+      "countrycode": "+670",
+      "flagurl": "https://flagcdn.com/tl.svg"
+    },
+    {
+      "countryname": "Ecuador",
+      "countrycode": "+593",
+      "flagurl": "https://flagcdn.com/ec.svg"
+    },
+    {
+      "countryname": "Egypt",
+      "countrycode": "+20",
+      "flagurl": "https://flagcdn.com/eg.svg"
+    },
+    {
+      "countryname": "El Salvador",
+      "countrycode": "+503",
+      "flagurl": "https://flagcdn.com/sv.svg"
+    },
+    {
+      "countryname": "Equatorial Guinea",
+      "countrycode": "+240",
+      "flagurl": "https://flagcdn.com/gq.svg"
+    },
+    {
+      "countryname": "Eritrea",
+      "countrycode": "+291",
+      "flagurl": "https://flagcdn.com/er.svg"
+    },
+    {
+      "countryname": "Estonia",
+      "countrycode": "+372",
+      "flagurl": "https://flagcdn.com/ee.svg"
+    },
+    {
+      "countryname": "Eswatini",
+      "countrycode": "+268",
+      "flagurl": "https://flagcdn.com/sz.svg"
+    },
+    {
+      "countryname": "Ethiopia",
+      "countrycode": "+251",
+      "flagurl": "https://flagcdn.com/et.svg"
+    },
+    {
+      "countryname": "Fiji",
+      "countrycode": "+679",
+      "flagurl": "https://flagcdn.com/fj.svg"
+    },
+    {
+      "countryname": "Finland",
+      "countrycode": "+358",
+      "flagurl": "https://flagcdn.com/fi.svg"
+    },
+    {
+      "countryname": "France",
+      "countrycode": "+33",
+      "flagurl": "https://flagcdn.com/fr.svg"
+    },
+    {
+      "countryname": "Gabon",
+      "countrycode": "+241",
+      "flagurl": "https://flagcdn.com/ga.svg"
+    },
+    {
+      "countryname": "Gambia",
+      "countrycode": "+220",
+      "flagurl": "https://flagcdn.com/gm.svg"
+    },
+    {
+      "countryname": "South Georgia",
+      "countrycode": "+500",
+      "flagurl": "https://flagcdn.com/gs.svg"
+    },
+    {
+      "countryname": "Germany",
+      "countrycode": "+49",
+      "flagurl": "https://flagcdn.com/de.svg"
+    },
+    {
+      "countryname": "Ghana",
+      "countrycode": "+233",
+      "flagurl": "https://flagcdn.com/gh.svg"
+    },
+    {
+      "countryname": "Greece",
+      "countrycode": "+30",
+      "flagurl": "https://flagcdn.com/gr.svg"
+    },
+    {
+      "countryname": "Grenada",
+      "countrycode": "+1473",
+      "flagurl": "https://flagcdn.com/gd.svg"
+    },
+    {
+      "countryname": "Guatemala",
+      "countrycode": "+502",
+      "flagurl": "https://flagcdn.com/gt.svg"
+    },
+    {
+      "countryname": "Guinea-Bissau",
+      "countrycode": "+245",
+      "flagurl": "https://flagcdn.com/gw.svg"
+    },
+    {
+      "countryname": "Guinea-Bissau",
+      "countrycode": "+245",
+      "flagurl": "https://flagcdn.com/gw.svg"
+    },
+    {
+      "countryname": "Guyana",
+      "countrycode": "+592",
+      "flagurl": "https://flagcdn.com/gy.svg"
+    },
+    {
+      "countryname": "Haiti",
+      "countrycode": "+509",
+      "flagurl": "https://flagcdn.com/ht.svg"
+    },
+    {
+      "countryname": "Honduras",
+      "countrycode": "+504",
+      "flagurl": "https://flagcdn.com/hn.svg"
+    },
+    {
+      "countryname": "Hungary",
+      "countrycode": "+36",
+      "flagurl": "https://flagcdn.com/hu.svg"
+    },
+    {
+      "countryname": "Iceland",
+      "countrycode": "+354",
+      "flagurl": "https://flagcdn.com/is.svg"
+    },
+    {
+      "countryname": "India",
+      "countrycode": "+91",
+      "flagurl": "https://flagcdn.com/in.svg"
+    },
+    {
+      "countryname": "Indonesia",
+      "countrycode": "+62",
+      "flagurl": "https://flagcdn.com/id.svg"
+    },
+    {
+      "countryname": "Iran",
+      "countrycode": "+98",
+      "flagurl": "https://flagcdn.com/ir.svg"
+    },
+    {
+      "countryname": "Iraq",
+      "countrycode": "+964",
+      "flagurl": "https://flagcdn.com/iq.svg"
+    },
+    {
+      "countryname": "United Kingdom",
+      "countrycode": "+44",
+      "flagurl": "https://flagcdn.com/gb.svg"
+    },
+    {
+      "countryname": "Israel",
+      "countrycode": "+972",
+      "flagurl": "https://flagcdn.com/il.svg"
+    },
+    {
+      "countryname": "Italy",
+      "countrycode": "+39",
+      "flagurl": "https://flagcdn.com/it.svg"
+    },
+    {
+      "countryname": "Jamaica",
+      "countrycode": "+1876",
+      "flagurl": "https://flagcdn.com/jm.svg"
+    },
+    {
+      "countryname": "Japan",
+      "countrycode": "+81",
+      "flagurl": "https://flagcdn.com/jp.svg"
+    },
+    {
+      "countryname": "Jordan",
+      "countrycode": "+962",
+      "flagurl": "https://flagcdn.com/jo.svg"
+    },
+    {
+      "countryname": "Kazakhstan",
+      "countrycode": "+76",
+      "flagurl": "https://flagcdn.com/kz.svg"
+    },
+    {
+      "countryname": "Kenya",
+      "countrycode": "+254",
+      "flagurl": "https://flagcdn.com/ke.svg"
+    },
+    {
+      "countryname": "Kiribati",
+      "countrycode": "+686",
+      "flagurl": "https://flagcdn.com/ki.svg"
+    },
+    {
+      "countryname": "North Korea",
+      "countrycode": "+850",
+      "flagurl": "https://flagcdn.com/kp.svg"
+    },
+    {
+      "countryname": "South Korea",
+      "countrycode": "+82",
+      "flagurl": "https://flagcdn.com/kr.svg"
+    },
+    {
+      "countryname": "Kuwait",
+      "countrycode": "+965",
+      "flagurl": "https://flagcdn.com/kw.svg"
+    },
+    {
+      "countryname": "Kyrgyzstan",
+      "countrycode": "+996",
+      "flagurl": "https://flagcdn.com/kg.svg"
+    },
+    {
+      "countryname": "Laos",
+      "countrycode": "+856",
+      "flagurl": "https://flagcdn.com/la.svg"
+    },
+    {
+      "countryname": "Latvia",
+      "countrycode": "+371",
+      "flagurl": "https://flagcdn.com/lv.svg"
+    },
+    {
+      "countryname": "Lebanon",
+      "countrycode": "+961",
+      "flagurl": "https://flagcdn.com/lb.svg"
+    },
+    {
+      "countryname": "Lesotho",
+      "countrycode": "+266",
+      "flagurl": "https://flagcdn.com/ls.svg"
+    },
+    {
+      "countryname": "Liberia",
+      "countrycode": "+231",
+      "flagurl": "https://flagcdn.com/lr.svg"
+    },
+    {
+      "countryname": "Libya",
+      "countrycode": "+218",
+      "flagurl": "https://flagcdn.com/ly.svg"
+    },
+    {
+      "countryname": "Liechtenstein",
+      "countrycode": "+423",
+      "flagurl": "https://flagcdn.com/li.svg"
+    },
+    {
+      "countryname": "Lithuania",
+      "countrycode": "+370",
+      "flagurl": "https://flagcdn.com/lt.svg"
+    },
+    {
+      "countryname": "Luxembourg",
+      "countrycode": "+352",
+      "flagurl": "https://flagcdn.com/lu.svg"
+    },
+    {
+      "countryname": "Madagascar",
+      "countrycode": "+261",
+      "flagurl": "https://flagcdn.com/mg.svg"
+    },
+    {
+      "countryname": "Malawi",
+      "countrycode": "+265",
+      "flagurl": "https://flagcdn.com/mw.svg"
+    },
+    {
+      "countryname": "Malaysia",
+      "countrycode": "+60",
+      "flagurl": "https://flagcdn.com/my.svg"
+    },
+    {
+      "countryname": "Maldives",
+      "countrycode": "+960",
+      "flagurl": "https://flagcdn.com/mv.svg"
+    },
+    {
+      "countryname": "Mali",
+      "countrycode": "+223",
+      "flagurl": "https://flagcdn.com/ml.svg"
+    },
+    {
+      "countryname": "Malta",
+      "countrycode": "+356",
+      "flagurl": "https://flagcdn.com/mt.svg"
+    },
+    {
+      "countryname": "Marshall Islands",
+      "countrycode": "+692",
+      "flagurl": "https://flagcdn.com/mh.svg"
+    },
+    {
+      "countryname": "Mauritania",
+      "countrycode": "+222",
+      "flagurl": "https://flagcdn.com/mr.svg"
+    },
+    {
+      "countryname": "Mauritius",
+      "countrycode": "+230",
+      "flagurl": "https://flagcdn.com/mu.svg"
+    },
+    {
+      "countryname": "Mexico",
+      "countrycode": "+52",
+      "flagurl": "https://flagcdn.com/mx.svg"
+    },
+    {
+      "countryname": "Micronesia",
+      "countrycode": "+691",
+      "flagurl": "https://flagcdn.com/fm.svg"
+    },
+    {
+      "countryname": "Moldova",
+      "countrycode": "+373",
+      "flagurl": "https://flagcdn.com/md.svg"
+    },
+    {
+      "countryname": "Monaco",
+      "countrycode": "+377",
+      "flagurl": "https://flagcdn.com/mc.svg"
+    },
+    {
+      "countryname": "Mongolia",
+      "countrycode": "+976",
+      "flagurl": "https://flagcdn.com/mn.svg"
+    },
+    {
+      "countryname": "Montenegro",
+      "countrycode": "+382",
+      "flagurl": "https://flagcdn.com/me.svg"
+    },
+    {
+      "countryname": "Morocco",
+      "countrycode": "+212",
+      "flagurl": "https://flagcdn.com/ma.svg"
+    },
+    {
+      "countryname": "Mozambique",
+      "countrycode": "+258",
+      "flagurl": "https://flagcdn.com/mz.svg"
+    },
+    {
+      "countryname": "Myanmar",
+      "countrycode": "+95",
+      "flagurl": "https://flagcdn.com/mm.svg"
+    },
+    {
+      "countryname": "Namibia",
+      "countrycode": "+264",
+      "flagurl": "https://flagcdn.com/na.svg"
+    },
+    {
+      "countryname": "Nauru",
+      "countrycode": "+674",
+      "flagurl": "https://flagcdn.com/nr.svg"
+    },
+    {
+      "countryname": "Nepal",
+      "countrycode": "+977",
+      "flagurl": "https://flagcdn.com/np.svg"
+    },
+    {
+      "countryname": "Netherlands",
+      "countrycode": "+31",
+      "flagurl": "https://flagcdn.com/nl.svg"
+    },
+    {
+      "countryname": "New Zealand",
+      "countrycode": "+64",
+      "flagurl": "https://flagcdn.com/nz.svg"
+    },
+    {
+      "countryname": "Nicaragua",
+      "countrycode": "+505",
+      "flagurl": "https://flagcdn.com/ni.svg"
+    },
+    {
+      "countryname": "Niger",
+      "countrycode": "+227",
+      "flagurl": "https://flagcdn.com/ne.svg"
+    },
+    {
+      "countryname": "Nigeria",
+      "countrycode": "+234",
+      "flagurl": "https://flagcdn.com/ng.svg"
+    },
+    {
+      "countryname": "North Macedonia",
+      "countrycode": "+389",
+      "flagurl": "https://flagcdn.com/mk.svg"
+    },
+    {
+      "countryname": "Norway",
+      "countrycode": "+47",
+      "flagurl": "https://flagcdn.com/no.svg"
+    },
+    {
+      "countryname": "Romania",
+      "countrycode": "+40",
+      "flagurl": "https://flagcdn.com/ro.svg"
+    },
+    {
+      "countryname": "Pakistan",
+      "countrycode": "+92",
+      "flagurl": "https://flagcdn.com/pk.svg"
+    },
+    {
+      "countryname": "Palau",
+      "countrycode": "+680",
+      "flagurl": "https://flagcdn.com/pw.svg"
+    },
+    {
+      "countryname": "Panama",
+      "countrycode": "+507",
+      "flagurl": "https://flagcdn.com/pa.svg"
+    },
+    {
+      "countryname": "Papua New Guinea",
+      "countrycode": "+675",
+      "flagurl": "https://flagcdn.com/pg.svg"
+    },
+    {
+      "countryname": "Paraguay",
+      "countrycode": "+595",
+      "flagurl": "https://flagcdn.com/py.svg"
+    },
+    {
+      "countryname": "Peru",
+      "countrycode": "+51",
+      "flagurl": "https://flagcdn.com/pe.svg"
+    },
+    {
+      "countryname": "Philippines",
+      "countrycode": "+63",
+      "flagurl": "https://flagcdn.com/ph.svg"
+    },
+    {
+      "countryname": "Poland",
+      "countrycode": "+48",
+      "flagurl": "https://flagcdn.com/pl.svg"
+    },
+    {
+      "countryname": "Portugal",
+      "countrycode": "+351",
+      "flagurl": "https://flagcdn.com/pt.svg"
+    },
+    {
+      "countryname": "Qatar",
+      "countrycode": "+974",
+      "flagurl": "https://flagcdn.com/qa.svg"
+    },
+    {
+      "countryname": "Romania",
+      "countrycode": "+40",
+      "flagurl": "https://flagcdn.com/ro.svg"
+    },
+    {
+      "countryname": "Russia",
+      "countrycode": "+73",
+      "flagurl": "https://flagcdn.com/ru.svg"
+    },
+    {
+      "countryname": "Rwanda",
+      "countrycode": "+250",
+      "flagurl": "https://flagcdn.com/rw.svg"
+    },
+    {
+      "countryname": "Saint Kitts and Nevis",
+      "countrycode": "+1869",
+      "flagurl": "https://flagcdn.com/kn.svg"
+    },
+    {
+      "countryname": "Saint Lucia",
+      "countrycode": "+1758",
+      "flagurl": "https://flagcdn.com/lc.svg"
+    },
+    {
+      "countryname": "Saint Vincent and the Grenadines",
+      "countrycode": "+1784",
+      "flagurl": "https://flagcdn.com/vc.svg"
+    },
+    {
+      "countryname": "American Samoa",
+      "countrycode": "+1684",
+      "flagurl": "https://flagcdn.com/as.svg"
+    },
+    {
+      "countryname": "San Marino",
+      "countrycode": "+378",
+      "flagurl": "https://flagcdn.com/sm.svg"
+    },
+    {
+      "countryname": "São Tomé and Príncipe",
+      "countrycode": "+239",
+      "flagurl": "https://flagcdn.com/st.svg"
+    },
+    {
+      "countryname": "Saudi Arabia",
+      "countrycode": "+966",
+      "flagurl": "https://flagcdn.com/sa.svg"
+    },
+    {
+      "countryname": "Senegal",
+      "countrycode": "+221",
+      "flagurl": "https://flagcdn.com/sn.svg"
+    },
+    {
+      "countryname": "Serbia",
+      "countrycode": "+381",
+      "flagurl": "https://flagcdn.com/rs.svg"
+    },
+    {
+      "countryname": "Seychelles",
+      "countrycode": "+248",
+      "flagurl": "https://flagcdn.com/sc.svg"
+    },
+    {
+      "countryname": "Sierra Leone",
+      "countrycode": "+232",
+      "flagurl": "https://flagcdn.com/sl.svg"
+    },
+    {
+      "countryname": "Singapore",
+      "countrycode": "+65",
+      "flagurl": "https://flagcdn.com/sg.svg"
+    },
+    {
+      "countryname": "Slovakia",
+      "countrycode": "+421",
+      "flagurl": "https://flagcdn.com/sk.svg"
+    },
+    {
+      "countryname": "Slovenia",
+      "countrycode": "+386",
+      "flagurl": "https://flagcdn.com/si.svg"
+    },
+    {
+      "countryname": "Solomon Islands",
+      "countrycode": "+677",
+      "flagurl": "https://flagcdn.com/sb.svg"
+    },
+    {
+      "countryname": "Somalia",
+      "countrycode": "+252",
+      "flagurl": "https://flagcdn.com/so.svg"
+    },
+    {
+      "countryname": "South Africa",
+      "countrycode": "+27",
+      "flagurl": "https://flagcdn.com/za.svg"
+    },
+    {
+      "countryname": "South Sudan",
+      "countrycode": "+211",
+      "flagurl": "https://flagcdn.com/ss.svg"
+    },
+    {
+      "countryname": "Spain",
+      "countrycode": "+34",
+      "flagurl": "https://flagcdn.com/es.svg"
+    },
+    {
+      "countryname": "Sri Lanka",
+      "countrycode": "+94",
+      "flagurl": "https://flagcdn.com/lk.svg"
+    },
+    {
+      "countryname": "Sudan",
+      "countrycode": "+249",
+      "flagurl": "https://flagcdn.com/sd.svg"
+    },
+    {
+      "countryname": "Suriname",
+      "countrycode": "+597",
+      "flagurl": "https://flagcdn.com/sr.svg"
+    },
+    {
+      "countryname": "Sweden",
+      "countrycode": "+46",
+      "flagurl": "https://flagcdn.com/se.svg"
+    },
+    {
+      "countryname": "Switzerland",
+      "countrycode": "+41",
+      "flagurl": "https://flagcdn.com/ch.svg"
+    },
+    {
+      "countryname": "Syria",
+      "countrycode": "+963",
+      "flagurl": "https://flagcdn.com/sy.svg"
+    },
+    {
+      "countryname": "Taiwan",
+      "countrycode": "+886",
+      "flagurl": "https://flagcdn.com/tw.svg"
+    },
+    {
+      "countryname": "Tajikistan",
+      "countrycode": "+992",
+      "flagurl": "https://flagcdn.com/tj.svg"
+    },
+    {
+      "countryname": "Tanzania",
+      "countrycode": "+255",
+      "flagurl": "https://flagcdn.com/tz.svg"
+    },
+    {
+      "countryname": "Thailand",
+      "countrycode": "+66",
+      "flagurl": "https://flagcdn.com/th.svg"
+    },
+    {
+      "countryname": "Togo",
+      "countrycode": "+228",
+      "flagurl": "https://flagcdn.com/tg.svg"
+    },
+    {
+      "countryname": "Tonga",
+      "countrycode": "+676",
+      "flagurl": "https://flagcdn.com/to.svg"
+    },
+    {
+      "countryname": "Trinidad and Tobago",
+      "countrycode": "+1868",
+      "flagurl": "https://flagcdn.com/tt.svg"
+    },
+    {
+      "countryname": "Tunisia",
+      "countrycode": "+216",
+      "flagurl": "https://flagcdn.com/tn.svg"
+    },
+    {
+      "countryname": "Turkey",
+      "countrycode": "+90",
+      "flagurl": "https://flagcdn.com/tr.svg"
+    },
+    {
+      "countryname": "Turkmenistan",
+      "countrycode": "+993",
+      "flagurl": "https://flagcdn.com/tm.svg"
+    },
+    {
+      "countryname": "Tuvalu",
+      "countrycode": "+688",
+      "flagurl": "https://flagcdn.com/tv.svg"
+    },
+    {
+      "countryname": "Uganda",
+      "countrycode": "+256",
+      "flagurl": "https://flagcdn.com/ug.svg"
+    },
+    {
+      "countryname": "Ukraine",
+      "countrycode": "+380",
+      "flagurl": "https://flagcdn.com/ua.svg"
+    },
+    {
+      "countryname": "United Arab Emirates",
+      "countrycode": "+971",
+      "flagurl": "https://flagcdn.com/ae.svg"
+    },
+    {
+      "countryname": "United Kingdom",
+      "countrycode": "+44",
+      "flagurl": "https://flagcdn.com/gb.svg"
+    },
+    {
+      "countryname": "United States",
+      "countrycode": "+1201",
+      "flagurl": "https://flagcdn.com/us.svg"
+    },
+    {
+      "countryname": "Uruguay",
+      "countrycode": "+598",
+      "flagurl": "https://flagcdn.com/uy.svg"
+    },
+    {
+      "countryname": "Uzbekistan",
+      "countrycode": "+998",
+      "flagurl": "https://flagcdn.com/uz.svg"
+    },
+    {
+      "countryname": "Vanuatu",
+      "countrycode": "+678",
+      "flagurl": "https://flagcdn.com/vu.svg"
+    },
+    {
+      "countryname": "Vatican City",
+      "countrycode": "+3906698",
+      "flagurl": "https://flagcdn.com/va.svg"
+    },
+    {
+      "countryname": "Venezuela",
+      "countrycode": "+58",
+      "flagurl": "https://flagcdn.com/ve.svg"
+    },
+    {
+      "countryname": "Vietnam",
+      "countrycode": "+84",
+      "flagurl": "https://flagcdn.com/vn.svg"
+    },
+    {
+      "countryname": "Yemen",
+      "countrycode": "+967",
+      "flagurl": "https://flagcdn.com/ye.svg"
+    },
+    {
+      "countryname": "Zambia",
+      "countrycode": "+260",
+      "flagurl": "https://flagcdn.com/zm.svg"
+    },
+    {
+      "countryname": "Zimbabwe",
+      "countrycode": "+263",
+      "flagurl": "https://flagcdn.com/zw.svg"
+    }
+  ];

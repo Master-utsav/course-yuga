@@ -9,7 +9,10 @@ import {
     handleResetPasswordVerificationOTP, 
     handleSignUpFunction, 
     handleUpdateUserFunction, 
-    handleEmailVerificationOTP, 
+    handleEmailVerificationOTP,
+    handlePhoneNumberOTPSendFunction,
+    handlePhoneNumberOTPCheckFunction,
+    handleGetUserDataFunction
 } from "../controllers/user.controllers";
 
 import { authenticateToken } from "../middleware/auth.middleware";
@@ -18,6 +21,8 @@ import { handleGithubSignUpCallbackFunction, handleGithubSignUpFunction } from "
 
 const userRoute = express.Router();
 
+// User Data Get
+userRoute.get("/get-user", authenticateToken , handleGetUserDataFunction);
 // User Signup/Login Routes
 userRoute.post("/signup", handleSignUpFunction);
 userRoute.get("/signup-google", handleGoogleSignUpFunction);
@@ -29,6 +34,10 @@ userRoute.post("/login", handleLoginFunction);
 // Email Verification Routes
 userRoute.post("/verify-email", handleResendVerficationOTPFunction);
 userRoute.post("/verify-email-otp", handleEmailVerificationOTP);
+
+// Mobile Number Verification Routes
+userRoute.post("/verify-mobile-number-otp-check", authenticateToken ,  handlePhoneNumberOTPCheckFunction);
+userRoute.post("/verify-mobile-number-send-otp", authenticateToken , handlePhoneNumberOTPSendFunction);
 
 // Password Change Routes
 userRoute.post("/change-password", authenticateToken, handleChangePasswordFunction);

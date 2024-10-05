@@ -11,6 +11,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import GetStartedAnimatedBtn from "./GetStartedAnimatedBtn";
 import CrossIcon from "@/Icons/CrossIcon";
+import { USER_API } from "@/lib/env";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -42,11 +43,6 @@ interface OTPComponentProps {
   userEmail: string;
 }
 
-const RESET_PASSWORD_OTP_API_URL = import.meta.env
-  .VITE_PUBLIC_RESET_PASSWORD_OTP_API_URL!;
-const RESET_PASSWORD_API_URL = import.meta.env
-  .VITE_PUBLIC_RESET_PASSWORD_API_URL!;
-
 const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
   const [otp, setOtp] = React.useState<string[]>(Array(6).fill(""));
   const [isResendEnabled, setIsResendEnabled] = React.useState(true);
@@ -57,7 +53,6 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
   const navigate = useNavigate();
   const { theme } = useTheme();
 
-  // Initialize react-hook-form with Zod resolver
   const {
     register,
     handleSubmit,
@@ -79,7 +74,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
 
     const { password } = data;
     try {
-      const response = await axios.post(RESET_PASSWORD_OTP_API_URL, {
+      const response = await axios.post(`${USER_API}reset-password-otp`, {
         email: userEmail,
         otp: otpValue,
         newPassword: password,
@@ -134,7 +129,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
 
   const resendOTP = async (userEmail: string) => {
     try {
-      const response = await axios.post(RESET_PASSWORD_API_URL, {email : userEmail});
+      const response = await axios.post(`${USER_API}reset-password`, {email : userEmail});
 
       const responseData: { success: boolean; message: string} = response.data;
       

@@ -17,8 +17,8 @@ import { ErrorToast, SuccessToast } from "@/lib/toasts";
 import { useNavigate } from "react-router-dom";
 import { getVerifiedToken } from "@/lib/cookieService";
 import { userLogout } from "@/lib/getLocalStorage";
+import { USER_API } from "@/lib/env";
 
-const USER_DELETE_URL = import.meta.env.VITE_PUBLIC_USER_DELETE_URL!;
 // Password Validation Schema
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -48,10 +48,9 @@ const EditProfileSection4 = () => {
 
   const navigate = useNavigate();
   const submitOTP = async (data: FieldValues) => {
-    console.log(USER_DELETE_URL);
     const jwt = getVerifiedToken();
     try {
-      const response = await axios.post(USER_DELETE_URL, data, {
+      const response = await axios.post(`${USER_API}delete-account`, data, {
         headers: {
           Authorization: `Bearer ${jwt}`,
           "Content-Type": "application/json",
@@ -67,7 +66,7 @@ const EditProfileSection4 = () => {
     } catch (error :any) {
       ErrorToast(error.response?.data?.message || "Something went wrong");
     }
-    console.log("Password:", data.password as string);
+    
   };
 
   const handleChangePassword = () => {

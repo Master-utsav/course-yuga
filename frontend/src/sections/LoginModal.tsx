@@ -16,10 +16,9 @@ import EyeOpenIcon from "@/Icons/EyeOpenIcon";
 import EyeCloseIcon from "@/Icons/EyeCloseIcon";
 import { useTheme } from "@/context/ThemeProvider";
 import { ErrorToast, SuccessToast } from "@/lib/toasts";
-
+import { USER_API } from "@/lib/env";
 
 type loginSchemaData = z.infer<typeof loginSchema>;
-const LOGIN_API_URL = import.meta.env.VITE_PUBLIC_LOGIN_API_URL;
 
 const LoginModal: React.FC = () => {
   const navigate = useNavigate();
@@ -53,7 +52,7 @@ const LoginModal: React.FC = () => {
 
   const onSubmit = async (data: loginSchemaData) => {
     try {
-      const response = await axios.post(LOGIN_API_URL, data);
+      const response = await axios.post(`${USER_API}login`, data);
       const responseData: { success: boolean; message: string; token: string , userData: LoginUserDataProps} = response.data;
       
       if (responseData.success) {
@@ -74,18 +73,17 @@ const LoginModal: React.FC = () => {
 
   const handelGoogleBtn = () => {
     try {
-      window.location.href = import.meta.env.VITE_PUBLIC_GOOGLE_SIGNUP_URL!;
+      window.location.href = `${USER_API}signup-google`
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       ErrorToast("An error occurred Google OAuth" + error);
     }
   }
-
   const handelGithubBtn = () => {
     try {
-      window.location.href = import.meta.env.VITE_PUBLIC_GITHUB_SIGNUP_URL!;
+      window.location.href = `${USER_API}signup-github`;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
+    }catch (error: any) {
       ErrorToast("An error occurred Github OAuth" + error);
     }
   }

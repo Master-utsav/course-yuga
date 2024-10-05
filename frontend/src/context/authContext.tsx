@@ -59,7 +59,7 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
       }
     }
   }, []);
-
+  
   useEffect(() => {
     const verifiedToken = getVerifiedToken();
     if (userData !== null) {

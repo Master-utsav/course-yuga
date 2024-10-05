@@ -5,9 +5,8 @@ import { useNavigate } from "react-router-dom";
 import GetStartedAnimatedBtn from "./GetStartedAnimatedBtn";
 import axios from "axios";
 import { ErrorToast, SuccessToast } from "@/lib/toasts";
+import { USER_API } from "@/lib/env";
 
-const Verify_Email_OTP_API_URL = import.meta.env
-  .VITE_PUBLIC_Verify_Email_OTP_API_URL;
 interface OTPComponentProps {
   userEmail: string;
 }
@@ -29,7 +28,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
     const otpValue = otp.join("");
     if (isValidOtp(otpValue)) {
       try {
-        const response = await axios.post(Verify_Email_OTP_API_URL, {
+        const response = await axios.post(`${USER_API}verify-email-otp`, {
           email: userEmail,
           otp: otpValue,
         });
