@@ -6,31 +6,45 @@ import { Chip } from "@nextui-org/react";
 interface StatusFieldProps {
   inputValue: string;
   isInputVerified: boolean;
-  type: "email" | "mobile" | "dob" ;
+  type: "email" | "mobile" | "dob" | "address";
+  countryCode?: string;
 }
 const StatusField: React.FC<StatusFieldProps> = ({
   inputValue,
   isInputVerified,
   type,
+  countryCode,
 }) => {
   const isInputEmpty: boolean = inputValue.trim() !== "";
-
+  const inputValueNumber = type === "mobile" && isInputEmpty ? "X".repeat(inputValue.length - 4) + inputValue.slice(-4) : inputValue;
+  console.log(inputValueNumber)
   return (
-    <div className="w-[calc(50% - 5%) flex justify-between flex-row items-center gap-2 relative">
-      <input
-        type="text"
-        placeholder={
-          !isInputEmpty
-            ? type === "email"
-              ? "update your email now"
-              : type === "dob"
-              ? "update your date of birth"
-              : "update your mobile number now"
-            : inputValue
-        }
-        className={`p-1 pl-2  border rounded-xl text-sm  text-black dark:text-white w-3/4 text-start`}
-        disabled={true}
-      />
+    <div className="w-[calc(50% - 2%) flex justify-between flex-row items-center gap-2 relative">
+      <div
+        className={`p-1 pl-2  border-b-[1px] rounded-xl text-sm  text-black dark:text-white w-3/4 text-start font-ubuntu`}
+      >
+        <span className="text-sm font-semibold dark:text-white/60 text-black/60">
+          {type === "email"
+            ? "Email : "
+            : type === "dob"
+            ? "DOB : "
+            : countryCode
+            ? `${countryCode} `
+            : type === "address"
+            ? "Address : "
+            : "Contact : "}
+        </span>
+        {!isInputEmpty
+          ? type === "email"
+            ? "update your email now"
+            : type === "dob"
+            ? "update your date of birth"
+            : type === "address"
+            ? "update your address"
+            : "update your mobile no."
+          : type === "mobile" ? inputValueNumber :  inputValue}
+      </div>
+
       {isInputEmpty ? (
         isInputVerified ? (
           <Chip
@@ -39,7 +53,7 @@ const StatusField: React.FC<StatusFieldProps> = ({
             color="success"
             className="font-ubuntu text-xs"
           >
-            {type === "dob" ? "Submitted" : "Verified" }
+            {(type === "dob" || type === "address") ? "Submitted" : "Verified"}
           </Chip>
         ) : (
           <Chip

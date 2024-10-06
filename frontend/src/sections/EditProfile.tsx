@@ -12,6 +12,7 @@ import { getVerifiedToken } from "@/lib/cookieService";
 import { useCallback, useEffect, useState } from "react";
 import { ErrorToast } from "@/lib/toasts";
 import axios from "axios";
+import { Button } from "@nextui-org/react";
 
 interface UserDataProps {
   firstName: string;
@@ -21,8 +22,12 @@ interface UserDataProps {
   username: string;
   profileImageUrl: string;
   emailVerificationStatus: boolean;
-  phoneNumber: string;
+  phoneNumber: {
+    code: string;
+    number: string;
+  };
   phoneNumberVerificationStatus: boolean;
+  address: string;
   bio: string;
   userDob: string;
   role: string;
@@ -33,11 +38,15 @@ const defaultUserData: UserDataProps = {
   firstName: "Unknown",
   lastName: "User",
   fullName: "Unknown User",
-  email: "unknown_user@gmail.com",
+  email: "unknown@gmail.com",
   username: "unknown_user",
   profileImageUrl: "",
   emailVerificationStatus: false,
-  phoneNumber: "",
+  phoneNumber: {
+    code: "",
+    number: "",
+  },
+  address: "",
   phoneNumberVerificationStatus: false,
   userDob: "",
   bio: "",
@@ -66,16 +75,21 @@ const EditProfile = () => {
 
       if (response && response.data && response.data.success) {
         const responseData = response.data.data;
+        
         setUserData({
           firstName: responseData.firstName || "Unknown",
           lastName: responseData.lastName || "User",
           fullName:  (responseData.firstName + " " + responseData.lastName) || "Unknown User",
-          email: responseData.email || "unknown_user@gmail.com",
+          email: responseData.email || "unknown@gmail.com",
           username: responseData.userName || "unknown_user",
           profileImageUrl: responseData.profileImageUrl || "",
           emailVerificationStatus:
             responseData.emailVerificationStatus || false,
-          phoneNumber: responseData.phoneNumber || "",
+          phoneNumber: {
+            code: responseData.phoneNumber.code || "",
+            number: responseData.phoneNumber.number || "",
+          },
+          address: responseData.address.country !== undefined ? responseData.address.city + ", " + responseData.address.state + ", " + responseData.address.country :  "",
           phoneNumberVerificationStatus:
             responseData.phoneNumberVerificationStatus || false,
           bio: responseData.bio || "",
@@ -110,9 +124,10 @@ const EditProfile = () => {
         transition={{ duration: 0.3 }}
       >
         <div className="w-full flex justify-between items-start px-2 py-4">
-          <div className="w-full flex flex-col space-y-4">
-            <div className="w-full flex  items-center justify-between pr-10 ">
-              <div className="w-full flex items-center justify-start space-x-2">
+          <div className="w-full flex gap-4 relative justify-start items-center">
+            <div className="w-[90%] bg-white rounded-2xl dark:bg-black/20 border-[1px] shadow-sm dark:shadow-white-600 border-black/40 dark:border-white/10 flex justify-center items-center flex-col px-4 pb-4 gap-2">
+            <div className="w-full flex  items-center justify-between ">
+              <div className="w-full flex items-center justify-center space-x-2 pt-2">
                 <Avatar className="border-2 border-blue-500">
                   <AvatarImage src={userData.profileImageUrl} className="" />
                   <AvatarFallback className="font-bold text-xl dark:text-black font-ubuntu dark:bg-white text-white bg-black ">
@@ -131,15 +146,19 @@ const EditProfile = () => {
                 username={userData.username}
               />
             </div>
-            <div className="w-1/2 flex flex-col gap-2 justify-start relative">
+            <div className="w-full rounded-xl flex  gap-4 justify-center items-center relative py-1 border-b-[1px] font-ubuntu font-light">
+              <span className="font-semibold font-ubuntu">Bio</span>{`"`}{userData.bio}{`"`}
+            </div>
+            <div className="w-full flex flex-col gap-2 justify-start relative">
               <StatusField
                 inputValue={userData.email}
                 isInputVerified={userData.emailVerificationStatus}
                 type="email"
               />
               <StatusField
-                inputValue={userData.phoneNumber}
+                inputValue={userData.phoneNumber.number}
                 isInputVerified={userData.phoneNumberVerificationStatus}
+                countryCode={userData.phoneNumber.code}
                 type="mobile"
               />
               <StatusField
@@ -147,16 +166,23 @@ const EditProfile = () => {
                 isInputVerified={userData.userDob !== "" ? true : false}
                 type="dob"
               />
+              <StatusField
+                inputValue={userData.address}
+                isInputVerified={userData.address !== "" ? true : false}
+                type="address"
+              />
             </div>
             
             {/* <ChangeRole theme={theme} /> */}
           </div>
+        </div>
+            
 
           <BioForm />
         </div>
         <div className="flex items-center justify-center my-4">
           <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div>
-          <span className="px-3 whitespace-nowrap text-gray-500 text-center font-semibold font-ubuntu text-base">
+          <span className="px-3 whitespace-nowrap dark:text-white/60 text-black/60 text-center font-semibold font-ubuntu text-base">
             Personal Information
           </span>
           <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div>
@@ -164,12 +190,24 @@ const EditProfile = () => {
         <EditProfileSection2 />
         <div className="flex items-center justify-center my-4">
           <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div>
-          <span className="px-3 text-gray-500 whitespace-nowrap  text-center font-semibold font-ubuntu text-base">
+          <span className="px-3  whitespace-nowrap  dark:text-white/60 text-black/60  text-center font-semibold font-ubuntu text-base">
             Update your address
           </span>
           <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div>
         </div>
         <EditProfileSection3 />
+        <div className="flex items-center justify-center my-4">
+          <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div>
+          <span className="px-3  whitespace-nowrap dark:text-white/60 text-black/60  text-center font-semibold font-ubuntu text-base">
+            Apply Changes
+          </span>
+          <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div>
+        </div>
+        <div className="w-full flex justify-center">
+          <Button className="w-full mx-auto dark:bg-white-600 dark:hover:bg-white-700 transition-colors duration-200 font-semibold font-ubuntu dark:text-black/80 place-items-end" onClick={getUserData}>
+          Apply Changes
+        </Button>
+        </div>
         <div className="flex items-center justify-center my-4">
           <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[2px]"></div>
         </div>
@@ -179,4 +217,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default EditProfile ;

@@ -73,11 +73,10 @@ const EditProfileSection4 = () => {
     navigate("/reset-password");
   };
   return (
-    <div className="w-full flex flex-col sm:flex-row justify-between items-start px-2 py-4 gap-3">
+    <div className="w-full flex sm:flex-row justify-between items-start px-2 py-4 gap-3">
       {/* Delete Account Button */}
-      <div className="flex flex-row space-x-4">
         <Button
-          className="dark:bg-amber-700/50 bg-amber-300 hover:bg-amber-600 font-semibold font-ubuntu text-black dark:text-white/80"
+          className="w-full dark:bg-amber-700/50 bg-amber-300 hover:bg-amber-600 font-semibold font-ubuntu text-black dark:text-white/80"
           onClick={handleChangePassword}
         >
           Change Password
@@ -86,7 +85,7 @@ const EditProfileSection4 = () => {
 
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="dark:bg-red-600/50 bg-red-300 hover:bg-red-600 dark:hover:bg-red-500 transition-colors duration-200 font-semibold font-ubuntu text-black dark:text-white/80">
+            <Button className="dark:bg-red-600/50 bg-red-300 hover:bg-red-600 dark:hover:bg-red-500 transition-colors duration-200 font-semibold font-ubuntu text-black dark:text-white/80 w-full">
               Delete Account
             </Button>
           </DialogTrigger>
@@ -161,10 +160,6 @@ const EditProfileSection4 = () => {
           </DialogContent>
         </Dialog>
       </div>
-      <Button className="dark:bg-white-600 dark:hover:bg-white-700 transition-colors duration-200 font-semibold font-ubuntu dark:text-black/80">
-        Apply Changes
-      </Button>
-    </div>
   );
 };
 

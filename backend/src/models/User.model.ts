@@ -10,7 +10,11 @@ export interface IUser extends Document {
   role: "TEACHER" | "STUDENT";
   userDob?: string;
   bio?: string;
-  address?: string;
+  address?: {
+    country: string;
+    state: string;
+    city: string;
+  };
   emailVerificationOTP?: string;
   emailVerificationOTPExpires?: string;
   emailVerificationStatus?: boolean;
@@ -18,7 +22,10 @@ export interface IUser extends Document {
   passwordResetOTP?: string;
   passwordResetOTPExpires?: string;
   passwordSendTime?: string;
-  phoneNumber?: string;
+  phoneNumber?: {
+    code: string;   
+    number: string; 
+  };
   phoneNumberVerificationStatus?: boolean;
 
 }
@@ -38,11 +45,18 @@ const userSchema = new mongoose.Schema<IUser>({
   passwordResetOTP: { type: String },
   passwordResetOTPExpires: { type: String },
   passwordSendTime: { type: String },
-  phoneNumber: {type: String },
+  phoneNumber: {
+    code: { type: String}, 
+    number: { type: String}
+  },
   phoneNumberVerificationStatus: {type :Boolean , default: false},
   userDob: { type: String },
   bio: { type: String, default: "Hey, I am using LMS" , max: [500, "bio must be within the 500 chars" ]},
-  address: { type: String },
+  address: { 
+    country : {type: String },
+    city : {type: String },
+    state : {type: String }
+  },
 }, 
 { 
   timestamps: true 

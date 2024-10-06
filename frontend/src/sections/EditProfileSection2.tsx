@@ -1,8 +1,8 @@
 import { useTheme } from "@/context/ThemeProvider";
 import { CountryCodeData } from "@/constants";
-import MobileNumber from "@/components/MobileNumber";
 import DobAndRoleForm from "@/components/DobAndRoleForm";
 import FirstAndLastNameForm from "@/components/FirstAndLastNameForm";
+import MobileNumberForm from "@/components/MobileNumberForm";
 
 interface CountryCodeData {
   countryname: string;
@@ -18,7 +18,7 @@ const EditProfileSection2 = () => {
       <div className="relative w-full flex flex-col items-start justify-between gap-2">
         <FirstAndLastNameForm />
         <div className="flex flex-row w-full">
-          <MobileNumber CountryCodeData={CountryCodeData} theme={theme} />
+          <MobileNumberForm CountryCodeData={CountryCodeData} theme={theme} />
         </div>
         <DobAndRoleForm theme={theme} />
       </div>

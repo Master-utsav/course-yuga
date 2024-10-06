@@ -22,8 +22,8 @@ const FormSchema = z.object({
     .min(10, {
       message: "Bio must be at least 10 characters.",
     })
-    .max(160, {
-      message: "Bio must not be longer than 30 characters.",
+    .max(500, {
+      message: "Bio must not be longer than 500 characters.",
     }),
 })
 
@@ -65,11 +65,13 @@ export function BioForm() {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           render={({ field }: { field: any }) => (
             <FormItem>
-              <FormLabel>Update your Bio</FormLabel>
+              <FormLabel className="font-ubuntu font-semibold text-xl">Update your Bio</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Update you Bio / tell more about yourself"
                   className="resize-none"
+                  maxLength={500}
+                  rows={7}
                   {...field}
                 />
               </FormControl>

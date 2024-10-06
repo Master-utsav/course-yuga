@@ -121,7 +121,7 @@ const DobAndRoleForm: React.FC<DobAndRoleFormProps> = ({ theme }) => {
       </div>
 
       <Button
-        className="font-ubuntu text-semibold"
+        className="font-ubuntu font-medium"
         type="button"
         onClick={handleSubmit(onSubmit)}
       >
