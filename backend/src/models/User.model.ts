@@ -8,6 +8,9 @@ export interface IUser extends Document {
   email: string;
   profileImageUrl: string | undefined;
   role: "TEACHER" | "STUDENT";
+  userDob?: string;
+  bio?: string;
+  address?: string;
   emailVerificationOTP?: string;
   emailVerificationOTPExpires?: string;
   emailVerificationStatus?: boolean;
@@ -36,7 +39,10 @@ const userSchema = new mongoose.Schema<IUser>({
   passwordResetOTPExpires: { type: String },
   passwordSendTime: { type: String },
   phoneNumber: {type: String },
-  phoneNumberVerificationStatus: {type :Boolean , default: false}
+  phoneNumberVerificationStatus: {type :Boolean , default: false},
+  userDob: { type: String },
+  bio: { type: String, default: "Hey, I am using LMS" , max: [500, "bio must be within the 500 chars" ]},
+  address: { type: String },
 }, 
 { 
   timestamps: true 

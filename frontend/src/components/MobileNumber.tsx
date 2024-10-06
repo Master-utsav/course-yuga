@@ -145,7 +145,7 @@ const MobileNumber: React.FC<CountrySelectProps> = ({
   return (
     <div className="w-full flex items-center justify-start gap-2 relative">
       {/* Country and Mobile Number Input */}
-      <div className="w-1/2 flex justify-center flex-row items-start border rounded-md text-black dark:text-white dark:bg-black/10 bg-white-800/10 relative">
+      <div className="w-1/2 flex justify-center flex-row items-start border rounded-md text-black dark:text-white dark:bg-black/10 bg-white-800/10 relative ">
         <div className="relative w-1/2">
           {/* Custom dropdown */}
           <div
@@ -180,7 +180,7 @@ const MobileNumber: React.FC<CountrySelectProps> = ({
 
           {/* Dropdown menu */}
           {dropdownOpen && (
-            <div className="z-[999] absolute w-full bg-white/20 dark:bg-black dark:text-white text-black shadow-md mt-2 rounded-md max-h-48 overflow-y-auto scrollbar-none">
+            <div className="z-[999] absolute w-full bg-white dark:bg-black dark:text-white text-black shadow-md mt-2 rounded-md max-h-48 overflow-y-auto scrollbar-none">
               {CountryCodeData.map((data, index) => (
                 <div
                   key={index}
@@ -270,7 +270,7 @@ const MobileNumber: React.FC<CountrySelectProps> = ({
             maxLength={6} // Limit input to 6 digits
           />
 
-          {errors.otp && <p className="text-red-500">{errors.otp.message}</p>}
+          {errors.otp && <p className="text-red-500 text-sm text-end">{errors.otp.message}</p>}
           {showOtpField && !errors.otp && (
             <Button
               className="font-ubuntu text-semibold"

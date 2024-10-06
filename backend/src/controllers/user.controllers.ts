@@ -23,7 +23,9 @@ export async function handleGetUserDataFunction(req: AuthenticatedRequest , res:
             profileImageUrl : user.profileImageUrl,
             phoneNumber: user.phoneNumber,
             phoneNumberVerificationStatus : user.phoneNumberVerificationStatus,
-            role: user.role
+            role: user.role,
+            bio: user.bio,
+            userDob: user.userDob
         }
         return res.status(200).json({success : true , data})
 
@@ -425,33 +427,50 @@ export async function handleResetPasswordVerificationOTP(req: Request, res: Resp
 
 export async function handleUpdateUserFunction(req: AuthenticatedRequest, res: Response) {
     try {
-        const userId = req.userId;
-        const { firstName, userName } = req.body;
+      const userId = req.userId;
+      const { firstName, lastName, userDob, role, address, bio } = req.body;
+  
+      if (!userId) {
+        return res.status(401).json({ success: false, message: 'Unauthorized: No user found' });
+      }
+  
+      // Initialize updateData object with optional fields if they are not null or undefined
+      const updateData: { 
+        firstName?: string; 
+        lastName?: string; 
+        userDob?: string; 
+        role?: string; 
+        address?: string; 
+        bio?: string;
+      } = {};
+  
+      if (firstName != null) updateData.firstName = firstName;
+      if (lastName != null) updateData.lastName = lastName;
+      if (userDob != null) updateData.userDob = userDob;
+      if (role != null) updateData.role = role;
+      if (address != null) updateData.address = address;
+      if (bio != null) updateData.bio = bio;
+  
+      if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({ success: false, message: 'No fields to update' });
+      }
+  
+      const user = await User.findByIdAndUpdate(userId, { $set: updateData }, { new: true });
+  
+      if (!user) {
+        return res.status(404).json({ success: false, message: 'User not found' });
+      }
 
-        if (!userId) {
-            return res.status(401).json({ success: false, message: 'Unauthorized: No user found' });
-        }
-
-        const updateData: { firstName?: string; userName?: string } = {};
-        if (firstName) updateData.firstName = firstName;
-        if (userName) updateData.userName = userName;
-
-        if (Object.keys(updateData).length === 0) {
-            return res.status(400).json({ success: false, message: 'No fields to update' });
-        }
-
-        const user = await User.findByIdAndUpdate(userId, { $set: updateData }, { new: true });
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
-        }
-
-        return res.status(200).json({ success: true, message: 'User updated successfully', user });
-
+      await user.save();
+  
+      return res.status(200).json({ success: true, message: 'User updated successfully'});
+  
     } catch (error) {
-        console.error('Error updating user:', error);
-        return res.status(500).json({ success: false, message: 'Internal Server Error' });
+      console.error('Error updating user:', error);
+      return res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
-}
+  }
+  
 
 export async function handleDeleteAccountFunction(req: AuthenticatedRequest, res: Response) {
     const userId = req.userId; 
@@ -510,7 +529,7 @@ export async function handlePhoneNumberOTPCheckFunction(req : AuthenticatedReque
       const client = twilio(process.env.TWILIO_ACCOUNT_SID!, process.env.TWILIO_AUTH_TOKEN!);
       const VERIFY_SERVICE_SID = process.env.TWILIO_VERIFY_SERVICE_SID!;
   
-      const check = await client.verify.services(VERIFY_SERVICE_SID)
+      const check = await client.verify.v2.services(VERIFY_SERVICE_SID)
         .verificationChecks.create({ to, code });
   
       if (check.status === 'approved') {
@@ -558,7 +577,7 @@ export async function handlePhoneNumberOTPCheckFunction(req : AuthenticatedReque
       const client = twilio(process.env.TWILIO_ACCOUNT_SID!, process.env.TWILIO_AUTH_TOKEN!);
       const VERIFY_SERVICE_SID = process.env.TWILIO_VERIFY_SERVICE_SID!;
   
-       await client.verify.services(VERIFY_SERVICE_SID)
+       await client.verify.v2.services(VERIFY_SERVICE_SID)
         .verifications.create({
           to,
           channel,

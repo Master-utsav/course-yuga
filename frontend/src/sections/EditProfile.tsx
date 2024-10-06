@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTheme } from "@/context/ThemeProvider";
 import { motion } from "framer-motion";
-import { BioTextArea } from "@/components/BioTextArea";
+import { BioForm } from "@/components/BioForm";
 import EditButton from "@/components/EditButton";
 import EditProfileSection3 from "./EditProfileSection3";
 import EditProfileSection4 from "./EditProfileSection4";
@@ -24,6 +24,7 @@ interface UserDataProps {
   phoneNumber: string;
   phoneNumberVerificationStatus: boolean;
   bio: string;
+  userDob: string;
   role: string;
   avatarFallbackText: string;
 }
@@ -38,6 +39,7 @@ const defaultUserData: UserDataProps = {
   emailVerificationStatus: false,
   phoneNumber: "",
   phoneNumberVerificationStatus: false,
+  userDob: "",
   bio: "",
   role: "STUDENT",
   avatarFallbackText: "U" + "K", // Default fallback for avatar text
@@ -78,6 +80,7 @@ const EditProfile = () => {
             responseData.phoneNumberVerificationStatus || false,
           bio: responseData.bio || "",
           role: responseData.role || "STUDENT",
+          userDob: responseData.userDob || "",
           avatarFallbackText:
             (responseData.firstName.charAt(0).toUpperCase() || "U") +
             (responseData.lastName.charAt(0).toUpperCase() || "K"),
@@ -128,20 +131,28 @@ const EditProfile = () => {
                 username={userData.username}
               />
             </div>
-            <StatusField
-              inputValue={userData.email}
-              isInputVerified={userData.emailVerificationStatus}
-              type="email"
-            />
-            <StatusField
-              inputValue={userData.phoneNumber}
-              isInputVerified={userData.phoneNumberVerificationStatus}
-              type="mobile"
-            />
+            <div className="w-1/2 flex flex-col gap-2 justify-start relative">
+              <StatusField
+                inputValue={userData.email}
+                isInputVerified={userData.emailVerificationStatus}
+                type="email"
+              />
+              <StatusField
+                inputValue={userData.phoneNumber}
+                isInputVerified={userData.phoneNumberVerificationStatus}
+                type="mobile"
+              />
+              <StatusField
+                inputValue={userData.userDob}
+                isInputVerified={userData.userDob !== "" ? true : false}
+                type="dob"
+              />
+            </div>
+            
             {/* <ChangeRole theme={theme} /> */}
           </div>
 
-          <BioTextArea />
+          <BioForm />
         </div>
         <div className="flex items-center justify-center my-4">
           <div className="h-px border-black/40 dark:border-gray-300/20 w-full rounded-xl border-dotted border-[1px]"></div>

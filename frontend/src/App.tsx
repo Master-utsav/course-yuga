@@ -32,6 +32,8 @@ function App() {
       navigate("/", { replace: true });
     }
   }, [isLoggedIn, location, navigate]);
+  
+  
 
   return (
     <main className="max-w-full mx-auto relative dark:bg-black bg-white">

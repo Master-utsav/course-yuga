@@ -11,7 +11,10 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
-import { SuccessToast } from "@/lib/toasts"
+import { ErrorToast, SuccessToast } from "@/lib/toasts"
+import axios from "axios"
+import { getVerifiedToken } from "@/lib/cookieService"
+import { USER_API } from "@/lib/env"
 
 const FormSchema = z.object({
   bio: z
@@ -24,14 +27,33 @@ const FormSchema = z.object({
     }),
 })
 
-export function BioTextArea() {
+export function BioForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    // TODO: adding a bio
-    SuccessToast(`Your Bio is : ${data.bio}`)
+ async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const bio = data.bio;
+    const jwt = getVerifiedToken();
+    
+    try {
+        const response = await axios.put(`${USER_API}update-user` , {bio} , {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+                "Content-Type": "application/json",
+            },
+        })
+
+        if(response && response.data && response.data.success){
+            SuccessToast(response.data.message);
+        }
+        else{
+            ErrorToast(response.data.message);
+        }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+        ErrorToast(error.response?.data?.message);
+    }
   }
 
   return (
