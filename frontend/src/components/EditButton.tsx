@@ -88,6 +88,7 @@ const EditButton: React.FC<EditButtonProps> = ({
         );
         if (response && response.data && response.data.success) {
           SuccessToast(response.data.message);
+          setUpdatedImageFile(null);
         } else {
           ErrorToast(response.data.message);
         }

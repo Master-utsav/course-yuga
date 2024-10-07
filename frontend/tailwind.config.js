@@ -7,7 +7,8 @@ export default {
   	extend: {
   		fontFamily: {
   			'noto-sans': ['Noto Sans', 'sans-serif'],
-  			ubuntu: ['Ubuntu', 'sans-serif']
+  			ubuntu: ['Ubuntu', 'sans-serif'],
+  			'libre': ['Libre Baskerville', 'serif']
   		},
   		clipPath: {
   			'wave-enter': 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
