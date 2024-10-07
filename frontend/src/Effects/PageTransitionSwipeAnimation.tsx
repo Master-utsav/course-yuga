@@ -15,7 +15,7 @@ const PageTransitionSwipeAnimation = ({ children }: PageTransitionProps) => {
 
   return (
     <motion.section
-    className="h-screen w-full flex items-center justify-center bg-white-800 dark:bg-gray-900 backdrop-blur-lg transition-opacity duration-300 z-40"
+    className="w-[82%] ml-[18%] relative flex items-start justify-start bg-white-800 dark:bg-gray-900 backdrop-blur-lg transition-opacity duration-300 z-40 "
     variants={DashBoardPageVariants}
     initial="hidden"
     animate="visible"

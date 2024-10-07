@@ -13,7 +13,7 @@ import DashBoard from "@/sections/DashBoardSections/DashBoard";
 
 const DashboardRoutes: React.FC = () => {
   return (
-    <main className="max-w-full flex flex-row mx-auto relative dark:bg-black bg-white overflow-x-hidden">
+    <main className="w-full flex flex-row relative dark:bg-black bg-white overflow-x-hidden">
       <DashBoardNavbar />
       <Routes>
         <Route path="/dashboard" element={<DashBoard />} />

@@ -260,6 +260,11 @@
         scrollbar-width: none;
         
     }
+
+    .scrollbar-thin{
+        -ms-overflow-style: none;
+        scrollbar-width: thin;
+    }
 }
 
 .waving-hand {

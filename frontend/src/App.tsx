@@ -38,7 +38,7 @@ function App() {
   
 
   return (
-    <main className="max-w-full mx-auto relative dark:bg-black bg-white">
+    <main className="max-w-full mx-auto relative dark:bg-black bg-white ">
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           {isLoggedIn ? (

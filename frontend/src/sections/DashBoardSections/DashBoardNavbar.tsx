@@ -28,8 +28,8 @@ const DashBoardNavbar: React.FC = () => {
   const avatarFallbackText = firstChar + lastChar;
 
   return (
-    <div className="flex dark:bg-gray-950 dark:text-white bg-gray-100 text-black relative rounded-lg h-screen z-50">
-      <div className="flex flex-col py-4 px-1 space-y-4 transition-transform duration-300 ease-in-out w-full  justify-between">
+    <div className="fixed flex dark:bg-gray-950 dark:text-white bg-gray-100 text-black  rounded-lg h-screen z-50 w-[18%]">
+      <div className="flex flex-col py-4 px-1 space-y-4 transition-transform duration-300 ease-in-out w-full justify-between">
         <div className="flex flex-col space-y-0 ">
           <div className="flex justify-between items-center pt-2 pb-6">
             <Logo theme={theme} className="object-cover w-32"/>

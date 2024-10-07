@@ -135,6 +135,82 @@ export const educatorsInfiniteScrollData = [
     },
 ]
 
+export const courses = [
+  {
+    id: 1,
+    courseName: "MERN Web Development",
+    tutorName: "Harkirat Singh",
+    description:
+      "Master the MERN stack (MongoDB, Express, React, Node) to build full-stack web applications from scratch. Learn how to integrate frontend and backend with modern web technologies.",
+    image: "https://appxcontent.kaxa.in/paid_course3/2024-07-09-0.40079486154772104.png",
+    progress: 23,
+  },
+  {
+    id: 2,
+    courseName: "Web3 Development",
+    tutorName: "Harkirat Singh",
+    description:
+      "Dive into the world of decentralized applications and blockchain with Web3 development. Learn smart contracts, decentralized finance (DeFi), and how to create DApps on Ethereum.",
+    image: "https://appxcontent.kaxa.in/paid_course3/2024-07-07-0.8201249093606604.png",
+    progress: 47,
+  },
+  {
+    id: 3,
+    courseName: "Youtube DSA C++",
+    tutorName: "Shardha Khapra",
+    description:
+      "This YouTube course focuses on Data Structures and Algorithms (DSA) in C++. Learn core concepts like arrays, stacks, queues, linked lists, and algorithms to ace coding interviews.",
+    image: "https://img.youtube.com/vi/1yrh60og6qc/maxresdefault.jpg",
+    progress: 86,
+  },
+  {
+    id: 4,
+    courseName: "DSA in C++",
+    tutorName: "Love Babbar",
+    description:
+      "Learn Data Structures and Algorithms in C++ with one of the most comprehensive and popular courses. This course is designed to help you master key topics for technical interviews.",
+    image: "https://img.youtube.com/vi/9kQ1JUDleWg/maxresdefault.jpg",
+    progress: 71,
+  },
+  {
+    id: 5,
+    courseName: "Web Development",
+    tutorName: "Code with Harry",
+    description:
+      "Master the MERN stack (MongoDB, Express, React, Node) to build full-stack web applications from scratch. Learn how to integrate frontend and backend with modern web technologies.",
+    image: "https://img.youtube.com/vi/tVzUXW6siu0/maxresdefault.jpg",
+    progress: 12,
+  },
+  {
+    id: 6,
+    courseName: "Python & Machine Learning",
+    tutorName: "Code with Harry",
+    description:
+      "Learn Python programming from scratch and dive deep into Machine Learning concepts. This course covers Python fundamentals and advanced ML algorithms, preparing you for real-world applications.",
+    image: "https://img.youtube.com/vi/7wnove7K-ZQ/maxresdefault.jpg",
+    progress: 36,
+  },
+  {
+    id: 7,
+    courseName: "Next.js",
+    tutorName: "Hitesh Chaudary",
+    description:
+      "Master Next.js, the React framework for production. Learn how to build server-side rendered web applications, improve performance with static generation, and create modern web apps effortlessly.",
+    image: "https://img.youtube.com/vi/zLJoVRleOuc/maxresdefault.jpg",
+    progress: 65,
+  },
+  {
+    id: 8,
+    courseName: "Rust",
+    tutorName: "Harkirat Singh",
+    description:
+      "Explore Rust, a modern systems programming language that focuses on speed, memory safety, and parallelism. This course teaches you how to write efficient, concurrent, and safe code using Rust.",
+    image: "https://img.youtube.com/vi/qP7LzZqGh30/maxresdefault.jpg",
+    progress: 78,
+  },
+];
+
+
 export interface LoginUserDataProps{
         userName: string;
         email: string;
