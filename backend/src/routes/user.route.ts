@@ -12,12 +12,14 @@ import {
     handleEmailVerificationOTP,
     handlePhoneNumberOTPSendFunction,
     handlePhoneNumberOTPCheckFunction,
-    handleGetUserDataFunction
+    handleGetUserDataFunction,
+    handleUpdateUserImageFunction
 } from "../controllers/user.controllers";
 
 import { authenticateToken } from "../middleware/auth.middleware";
 import { handleGoogleSignUpCallbackFunction, handleGoogleSignUpFunction } from "../controllers/googleAuth.controllers";
 import { handleGithubSignUpCallbackFunction, handleGithubSignUpFunction } from "../controllers/githubAuth.controllers";
+import { upload } from "../middleware/multer.middleware";
 
 const userRoute = express.Router();
 
@@ -46,6 +48,9 @@ userRoute.post("/change-password-otp", authenticateToken, handleChangePasswordVe
 // Password Reset Routes
 userRoute.post("/reset-password", handleResetPasswordFunction);
 userRoute.post("/reset-password-otp", handleResetPasswordVerificationOTP);
+
+// User Update Image or Upload Image
+userRoute.post("/update-user-image", authenticateToken , upload.single("image"), handleUpdateUserImageFunction);
 
 // User Update and Deletion Routes
 userRoute.put("/update-user", authenticateToken, handleUpdateUserFunction);

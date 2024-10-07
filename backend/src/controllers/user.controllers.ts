@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User, { IUser } from "../models/User.model";
 import jwt from "jsonwebtoken";
+import fs from "fs";
 import bcrypt from "bcryptjs";
 import {
   checkConstraints,
@@ -16,6 +17,7 @@ import {
 } from "../helpers/mailer";
 import { AuthenticatedRequest } from "../middleware/auth.middleware";
 import twilio from "twilio";
+import { cloudinaryUploadFile } from "../utils/cloudinary.config";
 
 export async function handleGetUserDataFunction(
   req: AuthenticatedRequest,
@@ -83,12 +85,10 @@ export async function handleSignUpFunction(req: Request, res: Response) {
     }
 
     if (user && user.emailVerificationStatus === true) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "User already exists with this email",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "User already exists with this email",
+      });
     }
 
     const username = await User.findOne({ userName: userName });
@@ -114,12 +114,10 @@ export async function handleSignUpFunction(req: Request, res: Response) {
 
     await sendEmailVerification(email, userId);
 
-    return res
-      .status(201)
-      .json({
-        success: true,
-        message: "signed up successfully, please verify your email",
-      });
+    return res.status(201).json({
+      success: true,
+      message: "signed up successfully, please verify your email",
+    });
   } catch (error) {
     console.log(error);
     return res
@@ -280,12 +278,10 @@ export async function handleResendVerficationOTPFunction(
       );
       const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
       if (remainingTime > 0) {
-        return res
-          .status(404)
-          .json({
-            success: false,
-            message: `try after ${minutes}min ${seconds}s`,
-          });
+        return res.status(404).json({
+          success: false,
+          message: `try after ${minutes}min ${seconds}s`,
+        });
       }
     }
 
@@ -329,12 +325,10 @@ export async function handleChangePasswordFunction(
       );
       const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
       if (remainingTime > 0) {
-        return res
-          .status(404)
-          .json({
-            success: false,
-            message: `try after ${minutes}min ${seconds}s`,
-          });
+        return res.status(404).json({
+          success: false,
+          message: `try after ${minutes}min ${seconds}s`,
+        });
       } else {
         await sendResetPasswordVerification(user.email, user._id);
       }
@@ -350,12 +344,10 @@ export async function handleChangePasswordFunction(
       );
       const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
       if (remainingTime > 0) {
-        return res
-          .status(404)
-          .json({
-            success: false,
-            message: `try after ${hours}hr ${minutes}min ${seconds}s`,
-          });
+        return res.status(404).json({
+          success: false,
+          message: `try after ${hours}hr ${minutes}min ${seconds}s`,
+        });
       }
     }
 
@@ -463,12 +455,10 @@ export async function handleResetPasswordFunction(req: Request, res: Response) {
       );
       const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
       if (remainingTime > 0) {
-        return res
-          .status(404)
-          .json({
-            success: false,
-            message: `try after ${minutes}min ${seconds}s`,
-          });
+        return res.status(404).json({
+          success: false,
+          message: `try after ${minutes}min ${seconds}s`,
+        });
       } else {
         await sendResetPasswordVerification(user.email, user._id);
       }
@@ -484,12 +474,10 @@ export async function handleResetPasswordFunction(req: Request, res: Response) {
       );
       const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
       if (remainingTime > 0) {
-        return res
-          .status(404)
-          .json({
-            success: false,
-            message: `try after ${hours}hr ${minutes}min ${seconds}s`,
-          });
+        return res.status(404).json({
+          success: false,
+          message: `try after ${hours}hr ${minutes}min ${seconds}s`,
+        });
       }
     }
 
@@ -575,7 +563,15 @@ export async function handleUpdateUserFunction(
 ) {
   try {
     const userId = req.userId;
-    const { firstName, lastName, userDob, role, address, bio } = req.body;
+    const {
+      firstName,
+      lastName,
+      userDob,
+      role,
+      address,
+      bio,
+      userName,
+    } = req.body;
 
     if (!userId) {
       return res
@@ -590,11 +586,12 @@ export async function handleUpdateUserFunction(
       userDob?: string;
       role?: string;
       address?: {
-        country : string,
-        city : string,
-        state : string
+        country: string;
+        city: string;
+        state: string;
       };
       bio?: string;
+      userName?: string;
     } = {};
 
     if (firstName != null) updateData.firstName = firstName;
@@ -603,6 +600,16 @@ export async function handleUpdateUserFunction(
     if (role != null) updateData.role = role;
     if (address != null) updateData.address = address;
     if (bio != null) updateData.bio = bio;
+    if (userName != null) updateData.userName = userName;
+
+    const isUser = await User.find({userName : userName});
+    
+    if (isUser.length !== 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "username already exists" });
+    }
+
 
     if (Object.keys(updateData).length === 0) {
       return res
@@ -712,9 +719,8 @@ export async function handlePhoneNumberOTPCheckFunction(
     }
     return phoneNumber;
   }
-  
-  const number = removeCountryCode(to , countryCode);
 
+  const number = removeCountryCode(to, countryCode);
 
   try {
     const client = twilio(
@@ -776,6 +782,27 @@ export async function handlePhoneNumberOTPSendFunction(
       message: "User not found",
     });
   }
+  const userNumber = user.phoneNumber.number + user.phoneNumber.code;
+
+  if (userNumber !== undefined && userNumber === to) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Phone number is already verified" });
+  }
+
+  const isUser = await User.findOne({
+  $expr: {
+    $eq: [
+      { $concat: ["$phoneNumber.code", "$phoneNumber.number"] },
+      to
+    ]
+  }
+});
+
+
+  if(isUser){
+    return res.status(400).json({success: false , message : "number already exists"});
+  }
 
   try {
     const client = twilio(
@@ -793,10 +820,54 @@ export async function handlePhoneNumberOTPSendFunction(
     return res
       .status(200)
       .json({ success: true, message: `OTP sent to ${to}` });
-  } catch (error : any) {
+  } catch (error: any) {
     return res.status(error.status || 500).json({
       success: false,
       message: error.message,
     });
+  }
+}
+
+export async function handleUpdateUserImageFunction(req : AuthenticatedRequest, res: Response) {
+  try {
+    const userId = req.userId;
+
+    if (!req.file) {
+      return res.status(400).json({ message: "No image file uploaded." });
+    }
+
+    const localFilePath = req.file.path;
+
+    const uploadResult = await cloudinaryUploadFile(localFilePath);
+    
+    if (!uploadResult) {
+      return res.status(500).json({ message: "Failed to upload image to Cloudinary." });
+    }
+
+    fs.unlink(localFilePath, (err:any) => {
+      if (err) {
+        console.error("Error deleting local file:", err);
+      }
+    });
+
+    const updatedUser = await User.findByIdAndUpdate(userId , {
+      $set : {
+        profileImageUrl : uploadResult.url
+      }
+    })
+    
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    await updatedUser.save();
+    
+    return res.status(200).json({
+      success: true,
+      message: "Image uploaded successfully.",
+    });
+  } catch (error) {
+    console.error("Error updating user image:", error);
+    return res.status(500).json({success: false, message: "An error occurred while uploading the image." });
   }
 }

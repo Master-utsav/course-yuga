@@ -1,3 +1,4 @@
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,25 +13,90 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import EditIcon from "@/Icons/EditIcon";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { getVerifiedToken } from "@/lib/cookieService";
+import axios from "axios";
+import { USER_API } from "@/lib/env";
+import { ErrorToast, SuccessToast } from "@/lib/toasts";
 
 interface EditButtonProps {
   theme: string;
-  imageUrl?: string | "https://github.com/Master-utsav/course-yuga/blob/main/frontend/favicon/android-chrome-512x512.png";
-  avatarFallbackText?: string | "UG";
-  username?: string | "unknown_user";
+  imageUrl: string;
+  avatarFallbackText: string;
+  userName: string;
 }
+
 const EditButton: React.FC<EditButtonProps> = ({
   theme,
   imageUrl,
   avatarFallbackText,
-  username,
+  userName,
 }) => {
+  const [updatedUserName, setUpdatedUserName] = React.useState<string>(
+    userName
+  );
+  const [updatedImageFile, setUpdatedImageFile] = React.useState<File | null>(null);
 
-    console.log(theme,
-        imageUrl,
-        avatarFallbackText,
-        username,)
-        console.log("edit button renders")
+  const handleEditBtnSubmit = async () => {
+    const jwt = getVerifiedToken();
+    const userName = updatedUserName;
+
+    try {
+      const response = await axios.put(
+        `${USER_API}update-user`,
+        { userName },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response && response.data && response.data.success) {
+        SuccessToast(response.data.message);
+      } else {
+        ErrorToast(response.data.message);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      ErrorToast(error.response?.data?.message);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file !== undefined) {
+      setUpdatedImageFile(file as File);
+    }
+  };
+
+  const handleImageEditBtnSubmit = async () => {
+    if(updatedImageFile){
+      const formData = new FormData();
+      formData.append("image", updatedImageFile);
+      const jwt = getVerifiedToken();
+
+      try {
+        const response = await axios.post(
+          `${USER_API}update-user-image`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (response && response.data && response.data.success) {
+          SuccessToast(response.data.message);
+        } else {
+          ErrorToast(response.data.message);
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+        ErrorToast(error.response?.data?.message);
+      }
+    }
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -49,28 +115,78 @@ const EditButton: React.FC<EditButtonProps> = ({
             Make changes to your profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid  items-center gap-2 font-ubuntu justify-center">
-            <Avatar className="border-2 border-blue-500 w-20 h-20">
-              <AvatarImage src={imageUrl} className="" />
-              <AvatarFallback className="font-sans font-bold text-xl dark:text-black dark:bg-white text-white bg-black ">
-                {avatarFallbackText}
-              </AvatarFallback>
+        <div className="flex flex-col gap-4 py-4">
+          <div className="w-full flex items-center gap-2 font-ubuntu justify-center relative">
+            <Avatar className="border-2 border-blue-500 w-28 h-28">
+              {updatedImageFile ? (
+                <img
+                src={URL.createObjectURL(updatedImageFile)} // Convert file object to URL
+                alt="Selected Avatar"
+                className="w-full h-full object-cover"
+              />
+              ) : (
+                imageUrl && (
+                  <>
+                    <AvatarImage src={imageUrl} className="" />{" "}
+                    <AvatarFallback className="font-sans font-bold text-xl dark:text-black dark:bg-white text-white bg-black ">
+                      {avatarFallbackText}
+                    </AvatarFallback>
+                  </>
+                )
+              )}
             </Avatar>
+            <div className="w-full absolute inset-0 top-10 flex flex-col items-center space-y-11 justify-center">
+                <input
+                  type="file"
+                  id="file-upload"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
+                <label htmlFor="file-upload" className="cursor-pointer">
+                  {
+                    updatedImageFile ? (
+                      <EditIcon fillColor="rgba(146, 162, 168 , 0)" size={30} />
+                    ) : (
+                      <EditIcon fillColor="white" size={30} />
+                    )
+                  }
+                </label>
+                {!!updatedImageFile && (
+                  <div className="flex justify-center items-center ">
+                    <Button
+                      type="submit"
+                      onClick={handleImageEditBtnSubmit}
+                      className="font-ubuntu font-medium"
+                    >
+                      upload
+                    </Button>
+                  </div>
+                )}
+              </div>
+            
           </div>
-          <div className="grid grid-cols-4 items-center gap-2 font-ubuntu">
-            <Label htmlFor="username" className="text-start">
+          <div className="flex flex-col items-start justify-center gap-2 font-ubuntu mt-10">
+            <Label htmlFor="userName" className="text-start">
               Username
             </Label>
             <Input
-              id="username"
-              defaultValue={`@${username}`}
+              id="userName"
+              defaultValue={`@${userName}`}
               className="col-span-4"
+              type="text"
+              onChange={(e) => setUpdatedUserName(e.target.value)}
             />
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button
+            type="submit"
+            onClick={handleEditBtnSubmit}
+            className="font-ubuntu font-medium"
+          >
+            Save changes
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

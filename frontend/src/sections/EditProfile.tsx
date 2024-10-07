@@ -19,7 +19,7 @@ interface UserDataProps {
   lastName: string;
   fullName: string;
   email: string;
-  username: string;
+  userName: string;
   profileImageUrl: string;
   emailVerificationStatus: boolean;
   phoneNumber: {
@@ -39,7 +39,7 @@ const defaultUserData: UserDataProps = {
   lastName: "User",
   fullName: "Unknown User",
   email: "unknown@gmail.com",
-  username: "unknown_user",
+  userName: "unknown_user",
   profileImageUrl: "",
   emailVerificationStatus: false,
   phoneNumber: {
@@ -75,13 +75,13 @@ const EditProfile = () => {
 
       if (response && response.data && response.data.success) {
         const responseData = response.data.data;
-        
+      
         setUserData({
           firstName: responseData.firstName || "Unknown",
           lastName: responseData.lastName || "User",
           fullName:  (responseData.firstName + " " + responseData.lastName) || "Unknown User",
           email: responseData.email || "unknown@gmail.com",
-          username: responseData.userName || "unknown_user",
+          userName: responseData.userName || "unknown_user",
           profileImageUrl: responseData.profileImageUrl || "",
           emailVerificationStatus:
             responseData.emailVerificationStatus || false,
@@ -97,7 +97,7 @@ const EditProfile = () => {
           userDob: responseData.userDob || "",
           avatarFallbackText:
             (responseData.firstName.charAt(0).toUpperCase() || "U") +
-            (responseData.lastName.charAt(0).toUpperCase() || "K"),
+            (responseData.lastName.charAt(0).toUpperCase() || "G"),
         });
       } else {
         ErrorToast(response.data.message);
@@ -136,14 +136,14 @@ const EditProfile = () => {
                 </Avatar>
                 <div className="text-center content-center flex-col flex">
                   <span className="text-center mx-2">{userData.fullName}</span>
-                  <span className="text-blue-500 text-sm">@{userData.username}</span>
+                  <span className="text-blue-500 text-sm">@{userData.userName}</span>
                 </div>
               </div>
               <EditButton
                 theme={theme}
                 avatarFallbackText={userData.avatarFallbackText}
                 imageUrl={userData.profileImageUrl}
-                username={userData.username}
+                userName={userData.userName}
               />
             </div>
             <div className="w-full rounded-xl flex  gap-4 justify-center items-center relative py-1 border-b-[1px] font-ubuntu font-light">
