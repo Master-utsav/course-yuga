@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import EditIcon from "@/Icons/EditIcon";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getVerifiedToken } from "@/lib/cookieService";
 import axios from "axios";
 import { USER_API } from "@/lib/env";

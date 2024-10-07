@@ -9,9 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import GetStartedAnimatedBtn from "./GetStartedAnimatedBtn";
 import CrossIcon from "@/Icons/CrossIcon";
 import { USER_API } from "@/lib/env";
+import GetStartedAnimatedBtn from "@/components/GetStartedAnimatedBtn";
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 

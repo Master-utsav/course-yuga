@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/context/ThemeProvider';
-import MiniCard from './ui/mini-card';
+import MiniCard from '@/components/ui/mini-card';
 import { educatorsInfiniteScrollData } from '@/constants';
 
 

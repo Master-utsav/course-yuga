@@ -1,15 +1,15 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Bookmarks from "@/DashBoardSections/Bookmarks";
-import Courses from "@/DashBoardSections/Courses";
-import Subscription from "@/DashBoardSections/Subscription";
-import Watchlist from "@/DashBoardSections/Watchlist";
-import TodoList from "@/DashBoardSections/TodoList";
-import RefreshPage from "@/DashBoardSections/RefreshPage";
-import Settings from "@/DashBoardSections/Settings";
-import History from "@/DashBoardSections/History";
-import DashBoardNavbar from "@/DashBoardSections/DashBoardNavbar";
-import DashBoard from "@/DashBoardSections/DashBoard";
+import Bookmarks from "@/sections/DashBoardSections/Bookmarks";
+import Courses from "@/sections/DashBoardSections/Courses";
+import Subscription from "@/sections/DashBoardSections/Subscription";
+import Watchlist from "@/sections/DashBoardSections/Watchlist";
+import TodoList from "@/sections/DashBoardSections/TodoList";
+import RefreshPage from "@/sections/DashBoardSections/RefreshPage";
+import Settings from "@/sections/DashBoardSections/Settings";
+import History from "@/sections/DashBoardSections/History";
+import DashBoardNavbar from "@/sections/DashBoardSections/DashBoardNavbar";
+import DashBoard from "@/sections/DashBoardSections/DashBoard";
 
 const DashboardRoutes: React.FC = () => {
   return (

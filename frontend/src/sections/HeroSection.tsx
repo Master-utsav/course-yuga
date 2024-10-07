@@ -1,9 +1,9 @@
 import React from "react";
-import HeroLeftSection from "../components/HeroLeftSection";
-import HeroRightSection from "../components/HeroRightSection";
-import SignupModal from "./SignupModal";
-import LoginModal from "./LoginModal";
-import ResetPasswordModal from "./ResetPasswordModal";
+import HeroLeftSection from "@/components/homepage/HeroLeftSection";
+import HeroRightSection from "@/components/homepage/HeroRightSection";
+import SignupModal from "@/components/modals/SignupModal";
+import LoginModal from "@/components/modals/LoginModal";
+import ResetPasswordModal from "@/components/modals/ResetPasswordModal";
 
 interface heroSectionProps{
   route: string,

@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ErrorToast, SuccessToast } from "@/lib/toasts";
-import ResetOTPModal from "@/components/ResetOTPModal";
+import ResetOTPModal from "./ResetOTPModal";
 import { USER_API } from "@/lib/env";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

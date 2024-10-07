@@ -1,4 +1,4 @@
-import SelectAddressForm from "@/components/SelectAddressForm";
+import SelectAddressForm from "@/components/editProfile/SelectAddressForm";
 
 
 const EditProfileSection3 = () => {

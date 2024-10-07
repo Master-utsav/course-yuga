@@ -46,6 +46,7 @@ export function BioForm() {
 
         if(response && response.data && response.data.success){
             SuccessToast(response.data.message);
+            form.setValue("bio" , "");
         }
         else{
             ErrorToast(response.data.message);

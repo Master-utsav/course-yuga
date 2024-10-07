@@ -6,7 +6,7 @@ const modalVariants = {
   exit: { opacity: 0, scale: 0.8 }
 };
 
-const Help = () => {
+const HelpSection = () => {
   return (
     <section className='w-full h-screen fixed inset-0 flex items-center justify-center bg-white dark:bg-black  backdrop-blur-lg transition-opacity duration-300'>
       <motion.div
@@ -24,4 +24,4 @@ const Help = () => {
   )
 }
 
-export default Help
+export default HelpSection

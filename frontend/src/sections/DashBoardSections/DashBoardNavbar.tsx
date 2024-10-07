@@ -1,4 +1,4 @@
-import DashboardNavItem from "@/components/DashboardNavItem";
+import DashboardNavItem from "@/sections/DashBoardSections/DashboardNavItem";
 import Logo from "@/components/Logo";
 import { ModeToggle } from "@/components/ThemeBtn";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

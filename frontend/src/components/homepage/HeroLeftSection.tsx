@@ -1,6 +1,6 @@
-import { heroContent , usersTooltip } from "../constants/index";
-import GetStartedAnimatedBtn from "./GetStartedAnimatedBtn";
-import TextBorderCutEffect from "../Effects/TextBorderCutEffect";
+import { heroContent , usersTooltip } from "@/constants/index";
+import GetStartedAnimatedBtn from "@/components/GetStartedAnimatedBtn";
+import TextBorderCutEffect from "@/Effects/TextBorderCutEffect";
 import DescriptionWithLoop from "./DescriptionWithLoop";
 import InfiniteCourseScroller from "./InfiniteCourseScroller";
 import AnimatedTooltip from "./AnimatedTooltip";

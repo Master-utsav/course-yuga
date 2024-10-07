@@ -1,8 +1,8 @@
 import { useTheme } from "@/context/ThemeProvider";
 import { CountryCodeData } from "@/constants";
-import DobAndRoleForm from "@/components/DobAndRoleForm";
-import FirstAndLastNameForm from "@/components/FirstAndLastNameForm";
-import MobileNumberForm from "@/components/MobileNumberForm";
+import DobAndRoleForm from "@/components/editProfile/DobAndRoleForm";
+import FirstAndLastNameForm from "@/components/editProfile/FirstAndLastNameForm";
+import MobileNumberForm from "@/components/editProfile/MobileNumberForm";
 
 interface CountryCodeData {
   countryname: string;

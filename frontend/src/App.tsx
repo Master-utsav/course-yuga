@@ -1,18 +1,18 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "./sections/Navbar";
-import HeroSection from "./sections/HeroSection";
-import { useTheme } from "./context/ThemeProvider";
+import HeroSection from "@/sections/HeroSection";
+import { useTheme } from "@/context/ThemeProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuthContext } from "./context/authContext";
-import LogoutModal from "./sections/LogoutModal";
+import { useAuthContext } from "@/context/authContext";
+import LogoutModal from "@/components/modals/LogoutModal";
 import styles from "@/sass/Toast.module.scss";
 import React from "react";
-import PageTransitionBoxAnimation from "./Effects/PageTransitionBoxAnimation";
-import DashboardRoutes from "./sections/DashBoardRoutes";
-import Help from "./sections/Help";
-import EditProfile from "./sections/EditProfile";
+import PageTransitionBoxAnimation from "@/Effects/PageTransitionBoxAnimation";
+import DashboardRoutes from "@/sections/DashBoardSections/DashBoardRoutes";
+import Help from "@/sections/HelpSection";
+import EditProfile from "@/sections/editProfile/EditProfile";
 
 function App() {
   const location = useLocation();
@@ -32,6 +32,8 @@ function App() {
       navigate("/", { replace: true });
     }
   }, [isLoggedIn, location, navigate]);
+
+  
   
   
 

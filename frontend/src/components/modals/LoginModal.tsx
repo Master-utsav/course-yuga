@@ -5,7 +5,7 @@ import { loginSchema } from "@/validChecksSchema/zodSchemas";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuthContext } from "@/context/authContext";
+// import { useAuthContext } from "@/context/authContext";
 import { Link, useNavigate } from "react-router-dom";
 import GoogleIcon from "@/Icons/GoogleIcon";
 import GitHubIcon from "@/Icons/GithubIcon";
@@ -22,7 +22,7 @@ type loginSchemaData = z.infer<typeof loginSchema>;
 
 const LoginModal: React.FC = () => {
   const navigate = useNavigate();
-  const {setUserData} = useAuthContext();
+  // const {setUserData} = useAuthContext();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const {theme} = useTheme();
   const closeLogin = () => {
@@ -37,18 +37,18 @@ const LoginModal: React.FC = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const initializeUserData = (userData: LoginUserDataProps) => {
-    if (userData) {
-      setUserData({
-        userName: userData.userName,
-        email: userData.email,
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        emailVerificationStatus: userData.emailVerificationStatus,
-        profileImageUrl: userData.profileImageUrl,
-      });
-    }
-  };
+  // const initializeUserData = (userData: LoginUserDataProps) => {
+  //   if (userData) {
+  //     setUserData({
+  //       userName: userData.userName,
+  //       email: userData.email,
+  //       firstName: userData.firstName,
+  //       lastName: userData.lastName,
+  //       emailVerificationStatus: userData.emailVerificationStatus,
+  //       profileImageUrl: userData.profileImageUrl,
+  //     });
+  //   }
+  // };
 
   const onSubmit = async (data: loginSchemaData) => {
     try {
@@ -60,7 +60,7 @@ const LoginModal: React.FC = () => {
         
         SuccessToast(responseData.message )
         
-        initializeUserData(responseData.userData);
+        // initializeUserData(responseData.userData);
         closeLogin();
       } else {
         throw new Error(responseData.message);

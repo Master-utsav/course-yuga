@@ -1,3 +1,4 @@
+import { UserDataProps } from "@/context/authContext";
 import BookmarkIcon2 from "@/Icons/BookmarkIcon2";
 import CoursesIcon from "@/Icons/CoursesIcon";
 import DashboardIcon from "@/Icons/DashboardIcon";
@@ -226,6 +227,26 @@ export const DashBoardNavItems: DashboardNavItemProps[] = [
         link: "/help",
     },
   ]
+
+  export const defaultUserData: UserDataProps = {
+    firstName: "Unknown",
+    lastName: "User",
+    fullName: "Unknown User",
+    email: "unknown@gmail.com",
+    userName: "unknown_user",
+    profileImageUrl: "",
+    emailVerificationStatus: false,
+    phoneNumber: {
+      code: "",
+      number: "",
+    },
+    address: "",
+    phoneNumberVerificationStatus: false,
+    userDob: "",
+    bio: "",
+    role: "STUDENT",
+    avatarFallbackText: "U" + "K", 
+  };
 
   export const countryName: string[] = [
     "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", 

@@ -33,7 +33,6 @@ const DashBoard = () => {
       <span className="px-2 dark:text-gray-400">
         <StaggeredBlurTextEffect text="Utsav" className="font-sans font-semibold" delayNumber={0.3} />
       </span>
-
       </div>
     </PageTransitionSwipeAnimation>
   );

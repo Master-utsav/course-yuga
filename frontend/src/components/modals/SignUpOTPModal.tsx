@@ -2,7 +2,7 @@ import CrossIcon from "@/Icons/CrossIcon";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import GetStartedAnimatedBtn from "./GetStartedAnimatedBtn";
+import GetStartedAnimatedBtn from "@/components/GetStartedAnimatedBtn";
 import axios from "axios";
 import { ErrorToast, SuccessToast } from "@/lib/toasts";
 import { USER_API } from "@/lib/env";

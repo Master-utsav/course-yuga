@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import GoogleIcon from "@/Icons/GoogleIcon";
 import GitHubIcon from "@/Icons/GithubIcon";
 import axios from "axios";
-import SignUpOTPModal from "@/components/SignUpOTPModal";
+import SignUpOTPModal from "./SignUpOTPModal";
 import EyeCloseIcon from "@/Icons/EyeCloseIcon";
 import EyeOpenIcon from "@/Icons/EyeOpenIcon";
 import {useTheme } from "@/context/ThemeProvider";

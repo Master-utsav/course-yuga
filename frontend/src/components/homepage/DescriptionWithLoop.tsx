@@ -1,5 +1,5 @@
 import React from "react";
-import { heroContent } from "../constants";
+import { heroContent } from "@/constants";
 import { motion } from "framer-motion";
 
 const DescriptionWithLoop: React.FC = () => {
