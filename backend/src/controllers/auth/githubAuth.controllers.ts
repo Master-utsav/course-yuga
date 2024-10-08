@@ -3,9 +3,9 @@ import { Request, Response } from "express";
 import passport from "passport";
 import { Strategy as GitHubStrategy } from "passport-github2";
 import jwt from "jsonwebtoken";
-import User from "../models/User.model";
-import { generateDummyPassword } from "../validchecks/checkAuthConstraints";
-import { sendGithubAuthPasswordMail } from "../helpers/mailer";
+import User from "../../models/User.model";
+import { generateDummyPassword } from "../../validchecks/checkAuthConstraints";
+import { sendGithubAuthPasswordMail } from "../../helpers/mailer";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 
@@ -132,6 +132,12 @@ export function handleGithubSignUpCallbackFunction(req: Request, res: Response, 
         { expiresIn: "15d" }
       );
 
+      res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=Login successful&token=${token}`);
+    }
+  )(req, res, next);
+}
+
+
       // const userData = {
       //   userName: user.userName,
       //   firstName: user.firstName,
@@ -141,9 +147,5 @@ export function handleGithubSignUpCallbackFunction(req: Request, res: Response, 
       //   emailVerificationStatus: user.emailVerificationStatus,
       // };
 
-      res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=Login successful&token=${token}`);
       // res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=Login successful&token=${token}&email=${userData.email}&firstName=${userData.firstName}&userName=${userData.userName}&lastName=${userData.lastName}&emailVerificationStatus=${userData.emailVerificationStatus}&profileImageUrl=${userData.profileImageUrl}`);
-    }
-  )(req, res, next);
-}
 

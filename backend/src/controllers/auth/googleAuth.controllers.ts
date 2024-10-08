@@ -3,9 +3,9 @@ import { Request, Response } from 'express';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import jwt from 'jsonwebtoken';
-import User from '../models/User.model';
-import { generateDummyPassword } from '../validchecks/checkAuthConstraints';
-import { sendGoogleAuthPasswordMail } from '../helpers/mailer';
+import User from '../../models/User.model';
+import { generateDummyPassword } from '../../validchecks/checkAuthConstraints';
+import { sendGoogleAuthPasswordMail } from '../../helpers/mailer';
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
 
@@ -94,7 +94,13 @@ const FRONTEND_SIGNUP_ROUTE = process.env.PUBLIC_FRONTEND_SIGNUP_ROUTE!;
       role: user.role,
     }, process.env.JWT_SECRET!, { expiresIn: '15d' });
 
-    // const userData = {
+    res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=Login successful&token=${token}`);
+
+  })(req, res, next);
+}
+
+
+ // const userData = {
     //   userName: user.userName,
     //   firstName: user.firstName,
     //   lastName: user.lastName,
@@ -103,7 +109,4 @@ const FRONTEND_SIGNUP_ROUTE = process.env.PUBLIC_FRONTEND_SIGNUP_ROUTE!;
     //   profileImageUrl: user.profileImageUrl
     // };
 
-    res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=Login successful&token=${token}`);
     // res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=Login successful&token=${token}&email=${userData.email}&firstName=${userData.firstName}&userName=${userData.userName}&lastName=${userData.lastName}&emailVerificationStatus=${userData.emailVerificationStatus}&profileImageUrl=${userData.profileImageUrl}`);
-  })(req, res, next);
-}
