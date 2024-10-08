@@ -1,13 +1,13 @@
 import { UserDataProps } from "@/context/authContext";
 import BookmarkIcon2 from "@/Icons/BookmarkIcon2";
-import CoursesIcon from "@/Icons/CoursesIcon";
 import DashboardIcon from "@/Icons/DashboardIcon";
+import ExamTestIcon from "@/Icons/ExamTestIcon";
 import HelpIcon from "@/Icons/HelpIcon";
 import HistoryIcon from "@/Icons/HistoryIcon";
 import HomeIcon from "@/Icons/HomeIcon";
 import RefreshIcon from "@/Icons/RefreshIcon";
-import SaveForLaterIcon from "@/Icons/SaveForLaterIcon";
-import SettingIcon from "@/Icons/SettingIcon";
+// import SaveForLaterIcon from "@/Icons/SaveForLaterIcon";
+// import SettingIcon from "@/Icons/SettingIcon";
 import SubscriptionIcon from "@/Icons/SubscriptionIcon";
 import TodoIcon from "@/Icons/TodoIcon";
 
@@ -137,76 +137,117 @@ export const educatorsInfiniteScrollData = [
 
 export const courses = [
   {
-    id: 1,
+    id: 0,
     courseName: "MERN Web Development",
     tutorName: "Harkirat Singh",
     description:
       "Master the MERN stack (MongoDB, Express, React, Node) to build full-stack web applications from scratch. Learn how to integrate frontend and backend with modern web technologies.",
     image: "https://appxcontent.kaxa.in/paid_course3/2024-07-09-0.40079486154772104.png",
     progress: 23,
+    rating: 4.5,
+    sellingPrice: 49.9,
+    originalPrice: 100,
+    currency: "$",
+    ratingCount: 2456
+
   },
   {
-    id: 2,
+    id: 1,
     courseName: "Web3 Development",
     tutorName: "Harkirat Singh",
     description:
       "Dive into the world of decentralized applications and blockchain with Web3 development. Learn smart contracts, decentralized finance (DeFi), and how to create DApps on Ethereum.",
     image: "https://appxcontent.kaxa.in/paid_course3/2024-07-07-0.8201249093606604.png",
     progress: 47,
+    rating: 4.0,
+    sellingPrice: 89.9,
+    originalPrice: 100,
+    currency: "$",
+    ratingCount: 878
+  },
+  {
+    id: 2,
+    courseName: "Rust",
+    tutorName: "Harkirat Singh",
+    description:
+      "Explore Rust, a modern systems programming language that focuses on speed, memory safety, and parallelism. This course teaches you how to write efficient, concurrent, and safe code using Rust.",
+    image: "https://img.youtube.com/vi/qP7LzZqGh30/maxresdefault.jpg",
+    progress: 86,
+    rating: 5.0,
+    sellingPrice: 99.9,
+    originalPrice: 120,
+    currency: "$",
+    ratingCount: 679
   },
   {
     id: 3,
-    courseName: "Youtube DSA C++",
-    tutorName: "Shardha Khapra",
-    description:
-      "This YouTube course focuses on Data Structures and Algorithms (DSA) in C++. Learn core concepts like arrays, stacks, queues, linked lists, and algorithms to ace coding interviews.",
-    image: "https://img.youtube.com/vi/1yrh60og6qc/maxresdefault.jpg",
-    progress: 86,
-  },
-  {
-    id: 4,
     courseName: "DSA in C++",
     tutorName: "Love Babbar",
     description:
       "Learn Data Structures and Algorithms in C++ with one of the most comprehensive and popular courses. This course is designed to help you master key topics for technical interviews.",
     image: "https://img.youtube.com/vi/9kQ1JUDleWg/maxresdefault.jpg",
     progress: 71,
+    rating: 4.5,
+    sellingPrice: 9.9,
+    originalPrice: 120,
+    currency: "$",
+    ratingCount: 1289
   },
   {
-    id: 5,
+    id: 4,
     courseName: "Web Development",
     tutorName: "Code with Harry",
     description:
       "Master the MERN stack (MongoDB, Express, React, Node) to build full-stack web applications from scratch. Learn how to integrate frontend and backend with modern web technologies.",
     image: "https://img.youtube.com/vi/tVzUXW6siu0/maxresdefault.jpg",
     progress: 12,
+    rating: 4.0,
+    sellingPrice: 29.9,
+    originalPrice: 120,
+    currency: "$",
+    ratingCount: 1564
   },
   {
-    id: 6,
+    id: 5,
     courseName: "Python & Machine Learning",
     tutorName: "Code with Harry",
     description:
       "Learn Python programming from scratch and dive deep into Machine Learning concepts. This course covers Python fundamentals and advanced ML algorithms, preparing you for real-world applications.",
     image: "https://img.youtube.com/vi/7wnove7K-ZQ/maxresdefault.jpg",
     progress: 36,
+    rating: 4.5,
+    sellingPrice: 59.9,
+    originalPrice: 100,
+    currency: "$",
+    ratingCount: 567
   },
   {
-    id: 7,
+    id: 6,
     courseName: "Next.js",
     tutorName: "Hitesh Chaudary",
     description:
       "Master Next.js, the React framework for production. Learn how to build server-side rendered web applications, improve performance with static generation, and create modern web apps effortlessly.",
     image: "https://img.youtube.com/vi/zLJoVRleOuc/maxresdefault.jpg",
     progress: 65,
+    rating: 5.0,
+    sellingPrice: 79.9,
+    originalPrice: 120,
+    currency: "$",
+    ratingCount: 432
   },
   {
-    id: 8,
-    courseName: "Rust",
-    tutorName: "Harkirat Singh",
+    id: 7,
+    courseName: "Youtube DSA C++",
+    tutorName: "Shardha Khapra",
     description:
-      "Explore Rust, a modern systems programming language that focuses on speed, memory safety, and parallelism. This course teaches you how to write efficient, concurrent, and safe code using Rust.",
-    image: "https://img.youtube.com/vi/qP7LzZqGh30/maxresdefault.jpg",
+      "This YouTube course focuses on Data Structures and Algorithms (DSA) in C++. Learn core concepts like arrays, stacks, queues, linked lists, and algorithms to ace coding interviews.",
+    image: "https://img.youtube.com/vi/1yrh60og6qc/maxresdefault.jpg",
     progress: 78,
+    rating: 3.5,
+    sellingPrice: 19.9,
+    originalPrice: 120,
+    currency: "$",
+    ratingCount: 598
   },
 ];
 
@@ -245,30 +286,25 @@ export const DashBoardNavItems: DashboardNavItemProps[] = [
       title: "Dashboard",
       link: "/user/dashboard",
     },
+    
+    {
+      theme: "dark",
+      Icon: ExamTestIcon,  
+      title: "Tests",
+      link: "/user/test",
+    },
     {
       theme: "dark",
       Icon: BookmarkIcon2,  
       title: "Bookmarks",
       link: "/user/bookmarks",
     },
-    {
-      theme: "dark",
-      Icon: CoursesIcon,  
-      title: "Courses",
-      link: "/user/courses",
-    },
-    {
-      theme: "dark",
-      Icon: SubscriptionIcon,  
-      title: "Subscription",
-      link: "/user/subscription",
-    },
-    {
-      theme: "dark",
-      Icon: SaveForLaterIcon,  
-      title: "Watchlist",
-      link: "/user/watchlist",
-    },
+    // {
+    //   theme: "dark",
+    //   Icon: SaveForLaterIcon,  
+    //   title: "Watchlist",
+    //   link: "/user/watchlist",
+    // },
     {
       theme: "dark",
       Icon: TodoIcon,  
@@ -290,12 +326,18 @@ export const DashBoardNavItems: DashboardNavItemProps[] = [
         title: "Refresh",
         link: "/user/refresh",
     },
-    {   
-        theme: "dark",
-        Icon: SettingIcon,  
-        title: "Setting",
-        link: "/user/setting",
+    {
+      theme: "dark",
+      Icon: SubscriptionIcon,  
+      title: "Subscription",
+      link: "/user/subscription",
     },
+    // {   
+    //     theme: "dark",
+    //     Icon: SettingIcon,  
+    //     title: "Setting",
+    //     link: "/user/setting",
+    // },
     {   
         theme: "dark",
         Icon: HelpIcon,  

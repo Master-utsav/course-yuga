@@ -29,6 +29,12 @@
           "scrollbar-width"
         ]
       }
+    ],
+    "axe/text-alternatives": [
+      "default",
+      {
+        "image-alt": "off"
+      }
     ]
   }
 }

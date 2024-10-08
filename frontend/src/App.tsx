@@ -14,6 +14,7 @@ import DashboardRoutes from "@/sections/DashBoardSections/DashBoardRoutes";
 import Help from "@/sections/HelpSection";
 import EditProfile from "@/sections/editProfile/EditProfile";
 import DashBoardNavbar from "@/sections/DashBoardSections/DashBoardNavbar";
+import Courses from "./sections/Courses";
 
 function App() {
   const location = useLocation();
@@ -88,6 +89,15 @@ function App() {
                 </>
               }
             />
+            <Route
+              path="/courses"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <Courses />
+                </>
+              }
+            />
             {/* All dashboard routes */}
             <Route path="/user/*" element={
               <main className="w-full flex flex-row relative dark:bg-black bg-white overflow-x-hidden">
@@ -131,6 +141,15 @@ function App() {
                 <>
                   <Navbar isUserLoggedIn={isLoggedIn} />
                   <HeroSection route="homepage" />
+                </>
+              }
+            />
+            <Route
+              path="/courses"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <Courses />
                 </>
               }
             />
