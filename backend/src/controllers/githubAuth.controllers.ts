@@ -132,16 +132,17 @@ export function handleGithubSignUpCallbackFunction(req: Request, res: Response, 
         { expiresIn: "15d" }
       );
 
-      const userData = {
-        userName: user.userName,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        profileImageUrl: user.profileImageUrl,
-        emailVerificationStatus: user.emailVerificationStatus,
-      };
+      // const userData = {
+      //   userName: user.userName,
+      //   firstName: user.firstName,
+      //   lastName: user.lastName,
+      //   email: user.email,
+      //   profileImageUrl: user.profileImageUrl,
+      //   emailVerificationStatus: user.emailVerificationStatus,
+      // };
 
-      res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=Login successful&token=${token}&email=${userData.email}&firstName=${userData.firstName}&userName=${userData.userName}&lastName=${userData.lastName}&emailVerificationStatus=${userData.emailVerificationStatus}&profileImageUrl=${userData.profileImageUrl}`);
+      res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=Login successful&token=${token}`);
+      // res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=Login successful&token=${token}&email=${userData.email}&firstName=${userData.firstName}&userName=${userData.userName}&lastName=${userData.lastName}&emailVerificationStatus=${userData.emailVerificationStatus}&profileImageUrl=${userData.profileImageUrl}`);
     }
   )(req, res, next);
 }

@@ -16,20 +16,9 @@ interface NavbarProps {
 }
 const Navbar: React.FC<NavbarProps> = ({ isUserLoggedIn }) => {
   const [isOpen, isSetOpen] = React.useState<boolean>(false);
-  const {
-    localStorageUserData,
-  } = useAuthContext();
+  const {userData} = useAuthContext();
   const { theme } = useTheme();
   const navigate = useNavigate();
-  const firstName: string = localStorageUserData?.firstName || "Unknown";
-  const lastName: string = localStorageUserData?.lastName || "User";
-  const username: string = localStorageUserData?.userName || "unknown_user";
-  const imageUrl: string = localStorageUserData?.profileImageUrl || "";
-  const firstChar: string =
-    localStorageUserData?.firstName.charAt(0).toUpperCase() || "U";
-  const lastChar: string =
-    localStorageUserData?.lastName.charAt(0).toUpperCase() || "K";
-  const avatarFallbackText = firstChar + lastChar;
 
   const handleSignupClick = () => {
     navigate("/signup");
@@ -95,11 +84,11 @@ const Navbar: React.FC<NavbarProps> = ({ isUserLoggedIn }) => {
                   )}
                 </motion.button>
                 <AvatarComponent
-                  avatarFallbackText={avatarFallbackText}
-                  imageUrl={imageUrl}
-                  firstName={firstName}
-                  lastName={lastName}
-                  username={username}
+                  avatarFallbackText={userData.avatarFallbackText}
+                  imageUrl={userData.profileImageUrl}
+                  firstName={userData.firstName}
+                  lastName={userData.lastName}
+                  username={userData.userName}
                 />
               </>
             )}

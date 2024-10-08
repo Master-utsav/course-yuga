@@ -17,7 +17,6 @@ const StatusField: React.FC<StatusFieldProps> = ({
 }) => {
   const isInputEmpty: boolean = inputValue.trim() !== "";
   const inputValueNumber = type === "mobile" && isInputEmpty ? "X".repeat(inputValue.length - 4) + inputValue.slice(-4) : inputValue;
-  console.log(inputValueNumber)
   return (
     <div className="w-[calc(50% - 2%) flex justify-between flex-row items-center gap-2 relative">
       <div

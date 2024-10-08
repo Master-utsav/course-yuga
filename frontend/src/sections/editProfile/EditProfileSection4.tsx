@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { getVerifiedToken } from "@/lib/cookieService";
 import { userLogout } from "@/lib/getLocalStorage";
 import { USER_API } from "@/lib/env";
+import { useAuthContext } from "@/context/authContext";
 
 // Password Validation Schema
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -47,7 +48,8 @@ const EditProfileSection4 = () => {
   });
 
   const navigate = useNavigate();
-  const submitOTP = async (data: FieldValues) => {
+  const {setIsLoggedIn} = useAuthContext();
+  const confirmDelete = async (data: FieldValues) => {
     const jwt = getVerifiedToken();
     try {
       const response = await axios.post(`${USER_API}delete-account`, data, {
@@ -59,6 +61,7 @@ const EditProfileSection4 = () => {
 
       if (response && response.data && response.data.success) {
         userLogout();
+        setIsLoggedIn(false);
         SuccessToast(response.data.message);
         navigate("/");
       }
@@ -126,7 +129,7 @@ const EditProfileSection4 = () => {
 
               {/* Password Input Form */}
               <form
-                onSubmit={handleSubmit(submitOTP)}
+                onSubmit={handleSubmit(confirmDelete)}
                 className="w-full flex flex-col gap-3 mt-4"
               >
                 <div className="relative w-full">

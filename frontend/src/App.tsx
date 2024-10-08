@@ -13,13 +13,14 @@ import PageTransitionBoxAnimation from "@/Effects/PageTransitionBoxAnimation";
 import DashboardRoutes from "@/sections/DashBoardSections/DashBoardRoutes";
 import Help from "@/sections/HelpSection";
 import EditProfile from "@/sections/editProfile/EditProfile";
+import DashBoardNavbar from "@/sections/DashBoardSections/DashBoardNavbar";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const { theme } = useTheme();
   const { isLoggedIn } = useAuthContext();
-  
+
   const getToastContainerClass = (theme: string) => {
     return theme === "dark" ? styles.dark : styles.light;
   };
@@ -33,106 +34,110 @@ function App() {
     }
   }, [isLoggedIn, location, navigate]);
 
-  
-  
-  
-
   return (
     <main className="max-w-full mx-auto relative dark:bg-black bg-white ">
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          {isLoggedIn ? (
-            <>
-              <Route
-                path="/"
-                element={
-                  <>
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <HeroSection route="homepage"/>
-                  </>
-                }
-              />
-              <Route
-                path="/logout"
-                element={
+      <Routes location={location} key={location.pathname}>
+        {isLoggedIn ? (
+          <>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <HeroSection route="homepage" />
+                </>
+              }
+            />
+            <Route
+              path="/logout"
+              element={
+                <AnimatePresence mode="wait">
                   <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
                     <Navbar isUserLoggedIn={isLoggedIn} />
                     <LogoutModal />
                   </PageTransitionBoxAnimation>
-                }
-              />
-              <Route
-                path="/help"
-                element={
+                </AnimatePresence>
+              }
+            />
+            <Route
+              path="/help"
+              element={
+                <AnimatePresence mode="wait">
                   <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
                     <Navbar isUserLoggedIn={isLoggedIn} />
                     <Help />
                   </PageTransitionBoxAnimation>
-                }
-              />
-              <Route
-                path="/edit-profile"
-                element={
-                  <>
+                </AnimatePresence>
+              }
+            />
+            <Route
+              path="/edit-profile"
+              element={
+                <>
                   <Navbar isUserLoggedIn={isLoggedIn} />
                   <EditProfile />
-                  </>
-                }
-              />
-              <Route
-                path="/reset-password"
-                element={
-                  <>
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <HeroSection route="reset-password" />
-                  </>
-                }
-              />
-              {/* All dashboard routes */}
-              <Route path="/user/*" element={<DashboardRoutes />} />
-            </>
-          ) : (
-            <>
-              <Route
-                path="/signup"
-                element={
-                  <>
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <HeroSection route="signup" />
-                  </>
-                }
-              />
-              <Route
-                path="/login"
-                element={
-                  <>
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <HeroSection route="login" />
-                  </>
-                }
-              />
-              <Route
-                path="/reset-password"
-                element={
-                  <>
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <HeroSection route="reset-password" />
-                  </>
-                }
-              />
-              <Route
-                path="/"
-                element={
-                  <>
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <HeroSection route="homepage" />
-                  </>
-                }
-              />
-            </>
-          )}
-        </Routes>
-      </AnimatePresence>
+                </>
+              }
+            />
+            <Route
+              path="/reset-password"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <HeroSection route="reset-password" />
+                </>
+              }
+            />
+            {/* All dashboard routes */}
+            <Route path="/user/*" element={
+              <main className="w-full flex flex-row relative dark:bg-black bg-white overflow-x-hidden">
+                <DashBoardNavbar />
+                <DashboardRoutes />
+              </main>
+              } />
+          </>
+        ) : (
+          <>
+            <Route
+              path="/signup"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <HeroSection route="signup" />
+                </>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <HeroSection route="login" />
+                </>
+              }
+            />
+            <Route
+              path="/reset-password"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <HeroSection route="reset-password" />
+                </>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <HeroSection route="homepage" />
+                </>
+              }
+            />
+          </>
+        )}
+      </Routes>
+      {/* </AnimatePresence> */}
       <ToastContainer
         position="bottom-right"
         className={`${styles.toastContainer} ${getToastContainerClass(theme)}`}

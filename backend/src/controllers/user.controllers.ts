@@ -191,18 +191,18 @@ export async function handleLoginFunction(req: Request, res: Response) {
       }
     );
 
-    const userData = {
-      userName: user.userName,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      emailVerificationStatus: user.emailVerificationStatus,
-      profileImageUrl: user.profileImageUrl || "",
-    };
+    // const userData = {
+    //   userName: user.userName,
+    //   firstName: user.firstName,
+    //   lastName: user.lastName,
+    //   email: user.email,
+    //   emailVerificationStatus: user.emailVerificationStatus,
+    //   profileImageUrl: user.profileImageUrl || "",
+    // };
 
     return res
       .status(200)
-      .json({ success: true, message: "Login successful", token, userData });
+      .json({ success: true, message: "Login successful", token });
   } catch (error) {
     return res
       .status(500)

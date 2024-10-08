@@ -56,7 +56,6 @@ const DashBoard = () => {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 1, ease: "easeOut" }}
           className="text-base text-gray-700 dark:text-gray-400 font-libre w-3/4 overflow-y-hidden font-extralight"
-          
         >
           <i>
             We're excited to have you here. You’ve made great progress so far,
@@ -74,41 +73,3 @@ const DashBoard = () => {
 
 export default DashBoard;
 
-{/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-3">
-          {courses.map((course) => (
-            <div
-              key={course.id}
-              className="w-full relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
-            > 
-            <div className="w-full relative bg-transparent">
-              <Image
-              isBlurred
-              src={course.image}
-              alt="NextUI Album Cover"
-              className=" z-0 object-cover aspect-video"
-              />
-              <div className="absolute bottom-1 right-1">
-                <CircularProgressBar progress={course.progress} />
-              </div>
-            </div>
-              
-              <div className="p-4 space-y-3">
-                <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
-                  {course.courseName}
-                </h2>
-
-                <h4 className="text-lg text-gray-600 dark:text-white/90 font-ubuntu">
-                  {course.tutorName}
-                </h4>
-
-                <i className="text-gray-600 dark:text-gray-400 text-sm font-extralight font-libre">
-                  {course.description}
-                </i>
-
-                <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
-                  View Course
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div> */}

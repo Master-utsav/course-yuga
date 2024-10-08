@@ -30,8 +30,8 @@ interface AuthContextType {
   setUserData: (user: UserDataProps) => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (value: boolean) => void;
-  localStorageUserData: UserDataProps;
-  setLocalStorageUserData: (user: UserDataProps) => void;
+  // localStorageUserData: UserDataProps;
+  // setLocalStorageUserData: (user: UserDataProps) => void;
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -48,18 +48,18 @@ export const useAuthContext = () => {
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<UserDataProps>(defaultUserData);
-  const [localStorageUserData, setLocalStorageUserData] = useState<UserDataProps>(defaultUserData);
+  // const [localStorageUserData, setLocalStorageUserData] = useState<UserDataProps>(defaultUserData);
 
   const loadUserData = useCallback(async () => {
     const userData = await fetchUserData(); 
+    console.log("auth context useCallback calls")
     if (userData) {
       setUserData(userData);
-      setLocalStorageUserData(userData);
-      localStorage.setItem("userData", JSON.stringify(userData));
+      // setLocalStorageUserData(userData);
+      // localStorage.setItem("userData", JSON.stringify(userData));
     }
   }, []);
 
-  
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -86,8 +86,8 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
         setUserData,
         isLoggedIn,
         setIsLoggedIn,
-        localStorageUserData,
-        setLocalStorageUserData,
+        // localStorageUserData,
+        // setLocalStorageUserData,
       }}
     >
       {children}

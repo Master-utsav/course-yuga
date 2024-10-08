@@ -3,15 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import WarningIcon from "@/Icons/WarningIcon";
 import { SuccessToast } from "@/lib/toasts";
+import { useAuthContext } from "@/context/authContext";
 
 const LogoutModal = () => {
   const navigate = useNavigate();
+  const {setIsLoggedIn} = useAuthContext();
   
   const handleConfirmLogout = () => {
     userLogout();
+    setIsLoggedIn(false);
     navigate("/");
     SuccessToast("Logout Successful");
-    window.location.reload();
   };
   
   const handleCancelLogout = () => {

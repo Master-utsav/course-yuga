@@ -14,18 +14,7 @@ import { Link } from "react-router-dom";
 const DashBoardNavbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true); // Toggle sidebar
   const { theme } = useTheme();
-  const { localStorageUserData } = useAuthContext();
-  const firstName: string = localStorageUserData?.firstName || "Unknown";
-  const lastName: string = localStorageUserData?.lastName || "User";
-  const fullName: string = firstName + " " + lastName;
-  const userEmail: string =
-    localStorageUserData?.email || "unknown_user@gmail.com";
-  const imageUrl: string = localStorageUserData?.profileImageUrl || "";
-  const firstChar: string =
-    localStorageUserData?.firstName.charAt(0).toUpperCase() || "U";
-  const lastChar: string =
-    localStorageUserData?.lastName.charAt(0).toUpperCase() || "K";
-  const avatarFallbackText = firstChar + lastChar;
+  const { userData } = useAuthContext();
 
   return (
     <div className="fixed flex dark:bg-gray-950 dark:text-white bg-gray-100 text-black  rounded-lg h-screen z-50 w-[18%]">
@@ -81,18 +70,18 @@ const DashBoardNavbar: React.FC = () => {
           </nav>
 
           {/* User Profile */}
-          <div className="flex items-center space-x-2 mt-4">
+          <div className="flex flex-wrap items-center justify-center gap-1 mt-4">
             <Link to={"/edit-profile"}>
               <Avatar className="border-2 border-blue-500">
-                <AvatarImage src={imageUrl} className="" />
+                <AvatarImage src={userData.profileImageUrl} className="" />
                 <AvatarFallback className="font-bold text-xl dark:text-black font-ubuntu dark:bg-white text-white bg-black ">
-                  {avatarFallbackText}
+                  {userData.avatarFallbackText}
                 </AvatarFallback>
               </Avatar>
             </Link>
-            <div className="text-center content-center flex-col flex">
-              <span className="text-center mx-2">{fullName}</span>
-              <span className="text-blue-500 text-sm">{userEmail}</span>
+            <div className="flex-col flex">
+              <span className="text-center mx-2">{userData.fullName}</span>
+              <span className="text-blue-500 text-sm break-words">{userData.email}</span>
             </div>
             <ModeToggle />
           </div>

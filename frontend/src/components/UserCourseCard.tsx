@@ -1,18 +1,19 @@
 import { motion } from "framer-motion";
 import CircularProgressBar from "./CircularProgressBar";
 import { Button , Image} from "@nextui-org/react"; // Assuming you're using NextUI's Button component
+// import { courses } from "@/constants";
 
 const cardVariants = {
-  hidden: { opacity: 0, scale: 0.8, y: 20 },
+  hidden: (i : number) => ({ opacity: 1, scale: 1, x: i * -420 , filter: "blur(8px)", zIndex: i * -1}),
   visible: (i: number) => ({
     opacity: 1,
     scale: 1,
-    y: 0,
+    filter: "blur(0px)",
+    zIndex: i * 1,
+    x: 0,
     transition: {
-      delay: i * 0.2, // Delay for staggered animation
-      type: "spring",
-      stiffness: 200,
-      damping: 20,
+      delay: i * 0.3, 
+      ease: [0.7, 0, 0.84, 0]
     },
   }),
 };

@@ -37,18 +37,6 @@ const LoginModal: React.FC = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  // const initializeUserData = (userData: LoginUserDataProps) => {
-  //   if (userData) {
-  //     setUserData({
-  //       userName: userData.userName,
-  //       email: userData.email,
-  //       firstName: userData.firstName,
-  //       lastName: userData.lastName,
-  //       emailVerificationStatus: userData.emailVerificationStatus,
-  //       profileImageUrl: userData.profileImageUrl,
-  //     });
-  //   }
-  // };
 
   const onSubmit = async (data: loginSchemaData) => {
     try {
@@ -57,10 +45,7 @@ const LoginModal: React.FC = () => {
       
       if (responseData.success) {
         setTokenCookie(responseData.token);
-        
         SuccessToast(responseData.message )
-        
-        // initializeUserData(responseData.userData);
         closeLogin();
       } else {
         throw new Error(responseData.message);

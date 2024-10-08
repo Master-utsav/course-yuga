@@ -8,13 +8,12 @@ import TodoList from "@/sections/DashBoardSections/TodoList";
 import RefreshPage from "@/sections/DashBoardSections/RefreshPage";
 import Settings from "@/sections/DashBoardSections/Settings";
 import History from "@/sections/DashBoardSections/History";
-import DashBoardNavbar from "@/sections/DashBoardSections/DashBoardNavbar";
 import DashBoard from "@/sections/DashBoardSections/DashBoard";
+import { AnimatePresence } from "framer-motion";
 
 const DashboardRoutes: React.FC = () => {
   return (
-    <main className="w-full flex flex-row relative dark:bg-black bg-white overflow-x-hidden">
-      <DashBoardNavbar />
+    <AnimatePresence mode="wait">
       <Routes>
         <Route path="/dashboard" element={<DashBoard />} />
         <Route path="/bookmarks" element={<Bookmarks />} />
@@ -26,7 +25,7 @@ const DashboardRoutes: React.FC = () => {
         <Route path="/refresh" element={<RefreshPage />} />
         <Route path="/setting" element={<Settings />} />
       </Routes>
-    </main>
+    </AnimatePresence>
   );
 };
 

@@ -21,16 +21,17 @@ const modalVariants = {
 
 const EditProfile = () => {
   const { theme } = useTheme();
-  const {userData , setUserData , setLocalStorageUserData} = useAuthContext();
+  const {userData , setUserData} = useAuthContext();
 
   const loadUserData = useCallback(async () => {
     const userData = await fetchUserData(); 
+    console.log("edit profile callback calls")
     if (userData) {
       setUserData(userData);
-      setLocalStorageUserData(userData);
-      localStorage.setItem("userData", JSON.stringify(userData));
+      // setLocalStorageUserData(userData);
+      // localStorage.setItem("userData", JSON.stringify(userData));
     }
-  }, [setLocalStorageUserData, setUserData]);
+  }, [setUserData]);
 
 
   return (
