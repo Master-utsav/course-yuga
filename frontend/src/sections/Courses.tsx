@@ -1,10 +1,14 @@
 import CourseCard from '@/components/CourseCard'
 import React from 'react'
+import CoursesNavbar from './CoursesNav'
+import Seperator from '@/components/Seperator'
 
-const Courses = () => {
+const Courses: React.FC = () => {
   return (
-    <section className="max-w-7xl mx-auto flex-row flex pt-24 gap-5 px-5">
-        <CourseCard />
+    <section className="max-w-7xl mx-auto flex-col flex xl:pt-24 md:pt-56 px-5">
+      <CoursesNavbar/>
+      <Seperator text="COURSES"/>
+      <CourseCard />
     </section>
      
   )

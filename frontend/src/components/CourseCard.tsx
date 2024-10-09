@@ -59,7 +59,7 @@ const CourseCard = () => {
               alt="course-img"
               className="z-0 object-cover aspect-video rounded-tr-[6rem] p-2"
             />
-            <div className="absolute right-2 bottom-[-1rem] dark:bg-white/10 backdrop-blur-lg bg-white p-2 rounded-xl rounded-br-[2rem] rounded-bl-[2rem] shadow-[rgba(100,_100,_111,_0.2)_0px_0px_15px_0px] text-xl font-libre font-semibold flex gap-1">
+            <div className="absolute right-2 bottom-[-1rem] dark:bg-gray-600/50 backdrop-blur-lg bg-white/50 p-2 rounded-xl rounded-br-[2rem] rounded-bl-[2rem] shadow-[rgba(100,_100,_111,_0.2)_0px_0px_15px_0px] text-xl font-libre font-semibold flex gap-1">
               <span className="text-xl font-libre font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
                 {course.currency}
               </span>
