@@ -1,10 +1,10 @@
-import { courses } from "@/constants";
 import FavoriteIcon from "@/Icons/FavoriteIcon";
 import { Button, Chip, Image } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import React from "react";
-import RatingComponent from "./RatingComponent";
+import RatingComponent from "../RatingComponent";
 import PercentageOffIcon from "@/Icons/PercentageOffIcon";
+import { useCourseContext } from "@/context/courseContext";
 
 const cardVariants = {
   hidden: (i: number) => ({
@@ -27,11 +27,13 @@ const cardVariants = {
   }),
 };
 
-const CourseCard = () => {
+
+const CourseCard: React.FC = () => {
   const [checkedItems, setCheckedItems] = React.useState<{
     [key: number]: boolean;
   }>({});
-
+  
+  const {coursesData} = useCourseContext();
   const handleCheckboxChange = (courseId: number) => {
     setCheckedItems((prev) => ({
       ...prev,
@@ -45,7 +47,7 @@ const CourseCard = () => {
       initial="hidden"
       animate="visible"
     >
-      {courses.map((course, i) => (
+      {coursesData.map((course, i) => (
         <motion.div
           key={course.id}
           className="w-full relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"

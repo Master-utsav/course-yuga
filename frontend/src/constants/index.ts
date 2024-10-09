@@ -135,6 +135,22 @@ export const educatorsInfiniteScrollData = [
     },
 ]
 
+export interface CourseProps {
+  id: number;                   // Unique identifier for the course
+  courseName: string;          // Name of the course
+  tutorName: string;           // Name of the tutor
+  description: string;         // Description of the course
+  image: string;               // URL of the course image
+  progress: number;            // Progress percentage of the course
+  rating: number;              // Average rating of the course
+  sellingPrice: number;        // Selling price of the course
+  originalPrice: number;       // Original price of the course
+  currency: string;            // Currency symbol
+  ratingCount: number;         // Number of ratings received
+  createdAt: string;           // Date of course creation in ISO format
+}
+
+
 export const courses = [
   {
     id: 0,
@@ -148,8 +164,8 @@ export const courses = [
     sellingPrice: 49.9,
     originalPrice: 100,
     currency: "$",
-    ratingCount: 2456
-
+    ratingCount: 2456,
+    createdAt: "2022-12-11T15:32:14.974+00:00"
   },
   {
     id: 1,
@@ -163,7 +179,8 @@ export const courses = [
     sellingPrice: 89.9,
     originalPrice: 100,
     currency: "$",
-    ratingCount: 878
+    ratingCount: 878,
+    createdAt: "2023-06-18T10:45:09.123+00:00"
   },
   {
     id: 2,
@@ -177,7 +194,8 @@ export const courses = [
     sellingPrice: 99.9,
     originalPrice: 120,
     currency: "$",
-    ratingCount: 679
+    ratingCount: 679,
+    createdAt: "2023-02-02T08:22:37.456+00:00"
   },
   {
     id: 3,
@@ -191,7 +209,8 @@ export const courses = [
     sellingPrice: 9.9,
     originalPrice: 120,
     currency: "$",
-    ratingCount: 1289
+    ratingCount: 1289,
+    createdAt: "2022-11-28T14:18:50.987+00:00"
   },
   {
     id: 4,
@@ -205,7 +224,8 @@ export const courses = [
     sellingPrice: 29.9,
     originalPrice: 120,
     currency: "$",
-    ratingCount: 1564
+    ratingCount: 1564,
+    createdAt: "2023-08-14T11:30:42.654+00:00"
   },
   {
     id: 5,
@@ -219,7 +239,8 @@ export const courses = [
     sellingPrice: 59.9,
     originalPrice: 100,
     currency: "$",
-    ratingCount: 567
+    ratingCount: 567,
+    createdAt: "2023-04-25T09:15:28.321+00:00"
   },
   {
     id: 6,
@@ -233,7 +254,8 @@ export const courses = [
     sellingPrice: 79.9,
     originalPrice: 120,
     currency: "$",
-    ratingCount: 432
+    ratingCount: 432,
+    createdAt: "2022-10-17T16:50:12.874+00:00"
   },
   {
     id: 7,
@@ -247,8 +269,9 @@ export const courses = [
     sellingPrice: 19.9,
     originalPrice: 120,
     currency: "$",
-    ratingCount: 598
-  },
+    ratingCount: 598,
+    createdAt: "2023-07-05T13:05:47.145+00:00"
+  }
 ];
 
 

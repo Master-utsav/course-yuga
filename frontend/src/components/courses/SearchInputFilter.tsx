@@ -2,27 +2,34 @@ import React, { useCallback, useState } from "react";
 import { motion } from "framer-motion";
 import { CgSearch } from "react-icons/cg";
 import { debounce } from "@/lib/debounce";
+import { useCourseContext } from "@/context/courseContext";
+import { ErrorToast } from "@/lib/toasts";
 
-interface SearchInputProps {
-  onSearch: (searchValue: string) => void; // Callback to parent
-}
-
-const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
+const SearchInputFilter: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string | null>(null);
-
-  const toggleSearchBar = () => {
-    setIsOpen(!isOpen);
-  };
+  const {coursesData , setCoursesData} = useCourseContext();  
+  
+  async function fetchCoursesData (searchTerm: string) {
+    try {
+      const updatedCourseData = coursesData.filter((course) =>
+        course.courseName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setCoursesData(updatedCourseData);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      ErrorToast(error.response?.data?.message);
+    }
+  }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedFilter = useCallback(
     debounce((searchTerm: string) => {
       if (searchTerm) {
-        onSearch(searchTerm); // Send search value back to parent
+        fetchCoursesData(searchTerm); 
       }
     }, 500),
-    [onSearch] // Add onSearch to dependencies to avoid unnecessary re-creations
+    [] 
   );
 
   const handleSearchBar = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +41,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
   return (
     <div className="flex items-center justify-center gap-4 relative">
       <button
-        onClick={toggleSearchBar}
+        onClick={() => setIsOpen(!isOpen)}
         className="flex items-center justify-center absolute right-0 w-12 h-12 rounded-full bg-transparent focus:outline-none"
       >
         <CgSearch className="text-3xl dark:text-violet-200 text-violet-900 animate-pulse" />
@@ -61,4 +68,4 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch }) => {
   );
 };
 
-export default SearchInput;
+export default SearchInputFilter;
