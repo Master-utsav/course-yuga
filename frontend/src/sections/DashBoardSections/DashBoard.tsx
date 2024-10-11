@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 const DashBoard = () => {
   console.log("DashBoard rendered");
   const { userData } = useAuthContext();
-  
+
   return (
     <PageTransitionSwipeAnimation>
       <motion.div
@@ -43,7 +43,8 @@ const DashBoard = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.2, delay: 0.5, ease: "easeIn" }}
             className="px-2 underline decoration-purple-500"
-          >{"  "}
+          >
+            {"  "}
             <StaggeredBlurTextEffect
               text={userData.firstName}
               className="font-libre text-5xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
@@ -58,18 +59,17 @@ const DashBoard = () => {
           className="text-base text-gray-700 dark:text-gray-400 font-libre w-3/4 overflow-y-hidden font-extralight"
         >
           <i>
-            We're excited to have you here. You’ve made great progress so far,
-            and your journey continues with the courses you’ve enrolled in. Keep
-            up the fantastic work as you explore and master new skills in your
-            current courses. Let's dive into learning and achieve your goals!
+            {`We're excited to have you here. You’ve made great progress so far, and
+        your journey continues with the courses you’ve enrolled in. Keep up the
+        fantastic work as you explore and master new skills in your current
+        courses. Let's dive into learning and achieve your goals!`}
           </i>
         </motion.p>
-  
-        <UserCourseCard courses={courses}/>
+
+        <UserCourseCard courses={courses} />
       </motion.div>
     </PageTransitionSwipeAnimation>
   );
 };
 
 export default DashBoard;
-

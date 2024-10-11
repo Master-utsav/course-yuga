@@ -5,7 +5,7 @@ import React from 'react'
 
 const OrderFilter: React.FC = () => {  
   const selectOrder = ["Latest", "A to Z", "Z to A", "Oldest"];
-  const {coursesData , setCoursesData} = useCourseContext();
+  const {coursesData , setupdatedCourseData } = useCourseContext();
 
   async function handleOrderChange (e:string) {
 
@@ -27,7 +27,7 @@ const OrderFilter: React.FC = () => {
             sortedCourses.sort((a, b) => b.courseName.localeCompare(a.courseName));
             break;
         }
-        setCoursesData(sortedCourses);
+        setupdatedCourseData(sortedCourses);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
           ErrorToast(error.response?.data?.message);

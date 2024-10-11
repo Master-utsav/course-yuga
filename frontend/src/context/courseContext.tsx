@@ -5,7 +5,8 @@ import { CourseProps, courses } from "@/constants";
 interface CourseContextType {
   coursesData: CourseProps[];
   setCoursesData: React.Dispatch<React.SetStateAction<CourseProps[]>>;
-  
+  updatedCourseData: CourseProps[];
+  setupdatedCourseData: React.Dispatch<React.SetStateAction<CourseProps[]>>;
 }
 
 export const CourseContext = createContext<CourseContextType | undefined>(undefined);
@@ -21,11 +22,14 @@ export const useCourseContext = () => {
 
 export const CourseContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [coursesData, setCoursesData] = useState<CourseProps[]>(courses);
+  const [updatedCourseData , setupdatedCourseData] = useState<CourseProps[]>(courses);
  return (
     <CourseContext.Provider
       value={{
         coursesData,
-        setCoursesData
+        setCoursesData,
+        updatedCourseData , 
+        setupdatedCourseData
       }}
     >
       {children}

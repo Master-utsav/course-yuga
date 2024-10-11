@@ -38,7 +38,7 @@ const DobAndRoleForm: React.FC<DobAndRoleFormProps> = ({ theme }) => {
 
   const onSubmit = async(data: DobAndRoleFormData) => {
     const userDob = convertDateFormat(data.dob);
-    const role:string = data.role === "0" ?  "STUDENT" : "TEACHER"
+    const role:string = data.role === "0" ?  "STUDENT" : "ADMIN"
     const jwt = getVerifiedToken();
 
     try {
@@ -107,7 +107,7 @@ const DobAndRoleForm: React.FC<DobAndRoleFormProps> = ({ theme }) => {
           }
           {...register("role")} 
         >
-          {["Student", "Teacher"].map((role, index) => (
+          {["Student", "Admin"].map((role, index) => (
             <SelectItem key={index} value={role} className="w-full">
               {role}
             </SelectItem>

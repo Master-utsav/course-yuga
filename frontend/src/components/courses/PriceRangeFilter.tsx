@@ -6,17 +6,17 @@ import { useCourseContext } from "@/context/courseContext";
 
 const PriceRangeFilter = () => {
   const [value, setValue] = useState<number | number[]>([10, 300]);
-  const { coursesData, setCoursesData } = useCourseContext();
+  const { coursesData, setupdatedCourseData } = useCourseContext();
   async function fetchCourseData (price: [number, number]) {
     try {
       const updatedCourseData = coursesData.filter(
         (course) =>
           course.sellingPrice >= price[0] && course.sellingPrice <= price[1]
       );
-      setCoursesData(updatedCourseData);
+      setupdatedCourseData(updatedCourseData);
       //Todo: fetch the data as params of price range params => minPrice , maxPrice
       //? response set to courses of courseContext
-      console.log(price);
+    
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       ErrorToast(error.response?.data?.message);
@@ -28,7 +28,7 @@ const PriceRangeFilter = () => {
     debounce((price: [number, number]) => {
       fetchCourseData(price);
     }, 500),
-    []
+    [coursesData]
   );
  
   const handleChange = (newValue: number | number[]) => {

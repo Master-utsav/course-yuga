@@ -1,4 +1,5 @@
 import { UserDataProps } from "@/context/authContext";
+import AddIcon from "@/Icons/AddIcon";
 import BookmarkIcon2 from "@/Icons/BookmarkIcon2";
 import DashboardIcon from "@/Icons/DashboardIcon";
 import ExamTestIcon from "@/Icons/ExamTestIcon";
@@ -36,7 +37,7 @@ export const NavItemsArray = [
     {
         id: 5,
         name: "Contact-us",
-        href: "/Contact"
+        href: "/contact"
     },
 ]
 
@@ -368,6 +369,21 @@ export const DashBoardNavItems: DashboardNavItemProps[] = [
         link: "/help",
     },
   ]
+
+  export const DashBoardNavItems3 : DashboardNavItemProps[] = [
+    {   
+      theme: "dark",
+      Icon: AddIcon,  
+      title: "Add Courses",
+      link: "/user/add-courses",
+  },
+    {   
+      theme: "dark",
+      Icon: AddIcon,  
+      title: "Add Tests",
+      link: "/user/add-tests",
+  },
+]
 
   export const defaultUserData: UserDataProps = {
     firstName: "Unknown",

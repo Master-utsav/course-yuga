@@ -1,0 +1,92 @@
+.glitchContainer {
+    position: relative;
+    display: inline-block;
+    font-size: 0/2rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .glitchText {
+    position: relative;
+    color: white;
+    text-shadow: 1px 1px 0 red, -1px -1px 0 blue;
+    animation: glitch 1s infinite;
+    // white-space: nowrap; // Ensures the text doesn't break into multiple lines
+  }
+  
+  .glitchText::before,
+  .glitchText::after {
+    content: attr(data-text); // Duplicate the text for glitch effect
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+    clip: rect(0, 900px, 0, 0); // Start with clipping the text
+  }
+  
+  .glitchText::before {
+    left: 2px;
+    text-shadow: -2px 0 red;
+    animation: glitch-anim 2.5s infinite linear alternate-reverse;
+  }
+  
+  .glitchText::after {
+    left: -2px;
+    text-shadow: -2px 0 blue;
+    animation: glitch-anim2 2.5s infinite linear alternate-reverse;
+  }
+  
+  @keyframes glitch-anim {
+    0% {
+      clip: rect(20px, 9999px, 64px, 0);
+      transform: skew(0.5deg);
+    }
+    5% {
+      clip: rect(45px, 9999px, 10px, 0);
+      transform: skew(0.5deg);
+    }
+    10% {
+      clip: rect(15px, 9999px, 60px, 0);
+      transform: skew(0.5deg);
+    }
+    15% {
+      clip: rect(25px, 9999px, 20px, 0);
+      transform: skew(0.5deg);
+    }
+    20% {
+      clip: rect(10px, 9999px, 40px, 0);
+      transform: skew(0.5deg);
+    }
+    100% {
+      clip: rect(20px, 9999px, 10px, 0);
+      transform: skew(0.5deg);
+    }
+  }
+  
+  @keyframes glitch-anim2 {
+    0% {
+      clip: rect(0px, 9999px, 90px, 0);
+      transform: skew(-0.5deg);
+    }
+    5% {
+      clip: rect(50px, 9999px, 60px, 0);
+      transform: skew(-0.5deg);
+    }
+    10% {
+      clip: rect(40px, 9999px, 30px, 0);
+      transform: skew(-0.5deg);
+    }
+    15% {
+      clip: rect(15px, 9999px, 40px, 0);
+      transform: skew(-0.5deg);
+    }
+    20% {
+      clip: rect(30px, 9999px, 60px, 0);
+      transform: skew(-0.5deg);
+    }
+    100% {
+      clip: rect(0px, 9999px, 40px, 0);
+      transform: skew(-0.5deg);
+    }
+  }
+  

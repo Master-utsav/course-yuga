@@ -27,13 +27,12 @@ const cardVariants = {
   }),
 };
 
-
 const CourseCard: React.FC = () => {
   const [checkedItems, setCheckedItems] = React.useState<{
     [key: number]: boolean;
   }>({});
   
-  const {coursesData} = useCourseContext();
+  const {updatedCourseData} = useCourseContext();
   const handleCheckboxChange = (courseId: number) => {
     setCheckedItems((prev) => ({
       ...prev,
@@ -47,7 +46,7 @@ const CourseCard: React.FC = () => {
       initial="hidden"
       animate="visible"
     >
-      {coursesData.map((course, i) => (
+      {updatedCourseData.map((course, i) => (
         <motion.div
           key={course.id}
           className="w-full relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"

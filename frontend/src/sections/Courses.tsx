@@ -3,6 +3,7 @@ import React from "react";
 import CoursesNavbar from "@/components/courses/CoursesNav";
 import Seperator from "@/components/Seperator";
 import { CourseContextProvider } from "@/context/courseContext";
+import VideoCard from "@/components/courses/VideoCard";
 
 const Courses: React.FC = () => {
   return (
@@ -11,7 +12,10 @@ const Courses: React.FC = () => {
         <CoursesNavbar />
         <Seperator text="COURSES" />
         <CourseCard />
+        <VideoCard />
+        
       </section>
+     
     </CourseContextProvider>
   );
 };

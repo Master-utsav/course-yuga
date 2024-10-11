@@ -10,8 +10,12 @@ import Settings from "@/sections/DashBoardSections/Settings";
 import History from "@/sections/DashBoardSections/History";
 import DashBoard from "@/sections/DashBoardSections/DashBoard";
 import { AnimatePresence } from "framer-motion";
+import { useAuthContext } from "@/context/authContext";
+import AddCourses from "./AddCourses";
+import AddTests from "./AddTests";
 
 const DashboardRoutes: React.FC = () => {
+  const {userData} = useAuthContext();
   return (
     <AnimatePresence mode="wait">
       <Routes>
@@ -24,6 +28,12 @@ const DashboardRoutes: React.FC = () => {
         <Route path="/history" element={<History />} />
         <Route path="/refresh" element={<RefreshPage />} />
         <Route path="/setting" element={<Settings />} />
+        {userData.role === "ADMIN" && 
+        <>
+         <Route path="/add-courses" element={<AddCourses />} />
+         <Route path="/add-tests" element={<AddTests />} />
+        </>
+        }
       </Routes>
     </AnimatePresence>
   );

@@ -4,22 +4,21 @@ import { Select, SelectItem } from "@nextui-org/react";
 import React from "react";
 
 const EducatorFilter: React.FC = () => {
-  const { coursesData, setCoursesData } = useCourseContext();
-  const courseDataList = [...coursesData];
+  const { coursesData, setupdatedCourseData } = useCourseContext();
+
   const uniqueEducators = [
     "All",
-    ...new Set(courseDataList.map((course) => course.tutorName)),
+    ...new Set(coursesData.map((course) => course.tutorName)),
   ];
   async function handleEducatorChange (educator: string) {
-    console.log(educator);
-    // setFilter((prevFilter) => ({ ...prevFilter, educator }));
-    const educatorValue = uniqueEducators[parseFloat(educator)];
-    console.log(educatorValue);
+    
+    const educatorValue = uniqueEducators[parseFloat(educator)].toString();
+  
     try {
         const updatedCourseData = coursesData.filter(
-          (course) => course.tutorName === educator
+          (course) => course.tutorName === educatorValue
         );
-        setCoursesData(updatedCourseData);
+        setupdatedCourseData(updatedCourseData);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       ErrorToast(error.response?.data?.message);
