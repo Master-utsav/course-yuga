@@ -7,6 +7,8 @@ import { CourseData, courses } from "@/constants";
 import rehypeSanitize from "rehype-sanitize";
 import DisplayCourseCardIntoPage from "./DisplayCourseCardIntoPage";
 import EditPersonalCourseForm from "./EditPersonalCourseForm";
+import EditYoutubeCourseForm from "./EditYoutubeCourseForm";
+import EditRedirectingCourseForm from "./EditRedirectingCourseForm";
 
 const CourseIntroPage: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
@@ -82,6 +84,8 @@ const CourseIntroPage: React.FC = () => {
           </p>
         {/* edit the fileds component */}   
         <EditPersonalCourseForm course={courseData} onEditCourse={handleEditCourse} setCourseCardImagePreview={handlePreviewCardImage} />
+        <EditYoutubeCourseForm course={courseData} onEditCourse={handleEditCourse} setCourseCardImagePreview={handlePreviewCardImage} />
+        <EditRedirectingCourseForm course={{ ...courseData, redirectLink: courseData.redirectLink || '' }} onEditCourse={handleEditCourse} setCourseCardImagePreview={handlePreviewCardImage} />
         {/* Markdown Editor */}
         {markdown && (
           <div className="w-full text-black dark:text-white mt-6 bg-transparent ">
@@ -112,6 +116,7 @@ const CourseIntroPage: React.FC = () => {
 
       {/* Right Section: Course Card */}
       <DisplayCourseCardIntoPage  courseData={courseData} previewImage={preview} />
+
     </div>
   );
 };

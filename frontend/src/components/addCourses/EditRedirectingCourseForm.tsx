@@ -13,7 +13,7 @@ import {
 import { motion } from "framer-motion";
 
 // Zod Schema (same as your original one)
-const PersonalCourseFormSchema = z
+const EditRedirectingCourseFormSchema = z
   .object({
     courseName: z.string().min(3, "Course name must be at least 3 characters"),
     tutorName: z.string().min(2, "Tutor name must be at least 2 characters"),
@@ -27,6 +27,7 @@ const PersonalCourseFormSchema = z
       z.string().url().refine((url) => url !== "", { message: "Please enter a valid URL." }),
       z.instanceof(File),
     ]),
+    redirectLink: z.string().url("Please enter a valid URL."),
   })
   .refine(
     (data) =>
@@ -37,8 +38,7 @@ const PersonalCourseFormSchema = z
       path: ["thumbnail"],
     }
   );
-
-export type PersonalCourseFormData = z.infer<typeof PersonalCourseFormSchema>;
+type EditRedirectingCourseFormData = z.infer<typeof EditRedirectingCourseFormSchema>;
 
 const currencies = [
   { code: "$", name: "Dollar" },
@@ -51,13 +51,13 @@ const currencies = [
   { code: "₣", name: "Franc" },
 ];
 
-interface EditPersonalCourseFormProps {
-  course: PersonalCourseFormData; // The initial course data to edit
-  onEditCourse: (updatedCourse: PersonalCourseFormData) => void; // Callback to pass updated data to parent
+interface EditRedirectingCourseFormProps {
+  course: EditRedirectingCourseFormData; // The initial course data to edit
+  onEditCourse: (updatedCourse: EditRedirectingCourseFormData) => void; // Callback to pass updated data to parent
   setCourseCardImagePreview: (url: string) => void;
 }
 
-const EditPersonalCourseForm: React.FC<EditPersonalCourseFormProps> = ({
+const EditRedirectingCourseForm: React.FC<EditRedirectingCourseFormProps> = ({
   course,
   onEditCourse,
   setCourseCardImagePreview
@@ -68,15 +68,15 @@ const EditPersonalCourseForm: React.FC<EditPersonalCourseFormProps> = ({
     setValue,
     getValues,
     formState: { errors, isSubmitting },
-  } = useForm<PersonalCourseFormData>({
-    resolver: zodResolver(PersonalCourseFormSchema),
+  } = useForm<EditRedirectingCourseFormData>({
+    resolver: zodResolver(EditRedirectingCourseFormSchema),
     defaultValues: course,
   });
 
   const [preview, setPreview] = useState<string>(course.thumbnail as string);
   const [isFileUpload, setIsFileUpload] = useState(typeof course.thumbnail === "object");
 
-  const onSubmit: SubmitHandler<PersonalCourseFormData> = async (data) => {
+  const onSubmit: SubmitHandler<EditRedirectingCourseFormData> = async (data) => {
     onEditCourse(data);
     setCourseCardImagePreview(preview);
   };
@@ -110,7 +110,7 @@ const EditPersonalCourseForm: React.FC<EditPersonalCourseFormProps> = ({
       transition={{ duration: 0.3 }}
     >
       <h2 className="text-4xl font-ubuntu font-semibold text-center mb-5 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-        Edit Personal Course
+        Edit Redirect Course
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -176,6 +176,39 @@ const EditPersonalCourseForm: React.FC<EditPersonalCourseFormProps> = ({
           )}
         </div>
       </div>
+     
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="w-full flex flex-col justify-start items-end">
+          <Input
+            {...register("sellingPrice", { valueAsNumber: true })}
+            label="Selling Price"
+            variant="underlined"
+            type="number"
+            placeholder="Enter selling price"
+            className={`text-base rounded-lg dark:text-white text-black font-ubuntu font-medium`}
+          />
+          {errors.sellingPrice && (
+            <p className="text-red-500 text-sm">
+              {errors.sellingPrice.message}
+            </p>
+          )}
+        </div>
+        <div className="w-full flex flex-col justify-start items-end">
+          <Input
+            {...register("originalPrice", { valueAsNumber: true })}
+            label="Original Price"
+            variant="underlined"
+            type="number"
+            placeholder="Enter original price"
+            className={`text-base rounded-lg dark:text-white text-black font-ubuntu font-medium`}
+          />
+          {errors.originalPrice && (
+            <p className="text-red-500 text-sm">
+              {errors.originalPrice.message}
+            </p>
+          )}
+        </div>
+      </div>
       <div className="w-full relative grid sm:grid-cols-2 grid-cols-1 gap-5 items-start justify-between">
         <div className=" flex flex-col justify-start items-end mb-4">
           <Select
@@ -197,17 +230,23 @@ const EditPersonalCourseForm: React.FC<EditPersonalCourseFormProps> = ({
             <p className="text-red-500 text-sm">{errors.currency.message}</p>
           )}
         </div>
-        <div className="flex flex-col gap-1">
+
+        <div className=" flex flex-col justify-start items-end mb-4">
           <Input
-            label="Category"
+            {...register("redirectLink")}
+            label="Redirecting Link"
             variant="underlined"
-            type="text"
-            readOnly
-            placeholder="Personal"
+            placeholder="Enter redirecting link"
             className={`text-base rounded-lg dark:text-white text-black font-ubuntu font-medium`}
           />
+          {errors.redirectLink && (
+            <p className="text-red-500 text-sm">
+              {errors.redirectLink.message}
+            </p>
+          )}
         </div>
       </div>
+      
 
       <div className="w-full relative grid sm:grid-cols-2 grid-cols-1 gap-5 items-start justify-between">
         <div className="mb-4 w-full ">
@@ -269,4 +308,4 @@ const EditPersonalCourseForm: React.FC<EditPersonalCourseFormProps> = ({
   );
 };
 
-export default EditPersonalCourseForm;
+export default EditRedirectingCourseForm;

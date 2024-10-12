@@ -7,8 +7,6 @@ import {
   Input,
   Textarea,
   Image,
-  Select,
-  SelectItem,
 } from "@nextui-org/react";
 import { motion } from "framer-motion";
 
@@ -20,9 +18,6 @@ const PersonalCourseFormSchema = z
     description: z
       .string()
       .min(10, "Description must be at least 10 characters"),
-    sellingPrice: z.number().positive("Selling price must be a positive number"),
-    originalPrice: z.number().positive("Original price must be a positive number").min(1 , "original price min should be 1"),
-    currency: z.string(),
     thumbnail: z.union([
       z.string().url().refine((url) => url !== "", { message: "Please enter a valid URL." }),
       z.instanceof(File),
@@ -40,24 +35,13 @@ const PersonalCourseFormSchema = z
 
 export type PersonalCourseFormData = z.infer<typeof PersonalCourseFormSchema>;
 
-const currencies = [
-  { code: "$", name: "Dollar" },
-  { code: "€", name: "Euro" },
-  { code: "£", name: "Pound" },
-  { code: "₹", name: "Rupee" },
-  { code: "¥", name: "Yen" },
-  { code: "₩", name: "Won" },
-  { code: "₴", name: "Hryvnia" },
-  { code: "₣", name: "Franc" },
-];
-
-interface EditPersonalCourseFormProps {
+interface EditYoutubeCourseFormProps {
   course: PersonalCourseFormData; // The initial course data to edit
   onEditCourse: (updatedCourse: PersonalCourseFormData) => void; // Callback to pass updated data to parent
   setCourseCardImagePreview: (url: string) => void;
 }
 
-const EditPersonalCourseForm: React.FC<EditPersonalCourseFormProps> = ({
+const EditYoutubeCourseForm: React.FC<EditYoutubeCourseFormProps> = ({
   course,
   onEditCourse,
   setCourseCardImagePreview
@@ -66,7 +50,6 @@ const EditPersonalCourseForm: React.FC<EditPersonalCourseFormProps> = ({
     register,
     handleSubmit,
     setValue,
-    getValues,
     formState: { errors, isSubmitting },
   } = useForm<PersonalCourseFormData>({
     resolver: zodResolver(PersonalCourseFormSchema),
@@ -110,7 +93,7 @@ const EditPersonalCourseForm: React.FC<EditPersonalCourseFormProps> = ({
       transition={{ duration: 0.3 }}
     >
       <h2 className="text-4xl font-ubuntu font-semibold text-center mb-5 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-        Edit Personal Course
+        Edit Youtube Course
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -144,70 +127,6 @@ const EditPersonalCourseForm: React.FC<EditPersonalCourseFormProps> = ({
       />
       {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
 
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="w-full flex flex-col justify-start items-end">
-          <Input
-            {...register("sellingPrice", { valueAsNumber: true })}
-            label="Selling Price"
-            variant="underlined"
-            type="number"
-            placeholder="Enter selling price"
-            className={`text-base rounded-lg dark:text-white text-black font-ubuntu font-medium`}
-          />
-          {errors.sellingPrice && (
-            <p className="text-red-500 text-sm">
-              {errors.sellingPrice.message}
-            </p>
-          )}
-        </div>
-        <div className="w-full flex flex-col justify-start items-end">
-          <Input
-            {...register("originalPrice", { valueAsNumber: true })}
-            label="Original Price"
-            variant="underlined"
-            type="number"
-            placeholder="Enter original price"
-            className={`text-base rounded-lg dark:text-white text-black font-ubuntu font-medium`}
-          />
-          {errors.originalPrice && (
-            <p className="text-red-500 text-sm">
-              {errors.originalPrice.message}
-            </p>
-          )}
-        </div>
-      </div>
-      <div className="w-full relative grid sm:grid-cols-2 grid-cols-1 gap-5 items-start justify-between">
-        <div className=" flex flex-col justify-start items-end mb-4">
-          <Select
-            {...register("currency")}
-            label="Currency"
-            variant="underlined"
-            value={getValues().currency}
-            onChange={(event) => setValue("currency", event.target.value as "$" | "€" | "£" | "₹" | "¥" | "₩" | "₴" | "₣")}
-            className={`text-base rounded-lg dark:text-white text-black font-ubuntu font-medium`}
-          >
-            {currencies.map((currency) => (
-              <SelectItem key={currency.code} value={currency.code}>
-                {`${currency.name} (${currency.code})`} 
-              </SelectItem>
-            ))}
-          </Select>
-
-          {errors.currency && (
-            <p className="text-red-500 text-sm">{errors.currency.message}</p>
-          )}
-        </div>
-        <div className="flex flex-col gap-1">
-          <Input
-            label="Category"
-            variant="underlined"
-            type="text"
-            readOnly
-            placeholder="Personal"
-            className={`text-base rounded-lg dark:text-white text-black font-ubuntu font-medium`}
-          />
-        </div>
-      </div>
 
       <div className="w-full relative grid sm:grid-cols-2 grid-cols-1 gap-5 items-start justify-between">
         <div className="mb-4 w-full ">
@@ -269,4 +188,4 @@ const EditPersonalCourseForm: React.FC<EditPersonalCourseFormProps> = ({
   );
 };
 
-export default EditPersonalCourseForm;
+export default EditYoutubeCourseForm;

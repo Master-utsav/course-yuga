@@ -165,6 +165,7 @@ export interface CourseData {
   description: string;
   thumbnail: string;
   markdownContent?: string;
+  redirectLink?: string;
 }
 
 
@@ -184,6 +185,7 @@ export const courses = [
     ratingCount: 2456,
     createdAt: "2022-12-11T15:32:14.974+00:00",
     markdownContent : "",
+    redirectLink: "https://masterutsav.in"
   },
   {
     id: 1,
@@ -200,6 +202,8 @@ export const courses = [
     ratingCount: 878,
     createdAt: "2023-06-18T10:45:09.123+00:00",
     markdownContent : "",
+    redirectLink: "https://masterutsav.in"
+
   },
   {
     id: 2,
@@ -216,6 +220,8 @@ export const courses = [
     ratingCount: 679,
     createdAt: "2023-02-02T08:22:37.456+00:00",
     markdownContent : "",
+    redirectLink: "https://masterutsav.in"
+
   },
   {
     id: 3,
@@ -232,6 +238,8 @@ export const courses = [
     ratingCount: 1289,
     createdAt: "2022-11-28T14:18:50.987+00:00",
     markdownContent : "",
+    redirectLink: "https://masterutsav.in"
+
   },
   {
     id: 4,
@@ -248,6 +256,8 @@ export const courses = [
     ratingCount: 1564,
     createdAt: "2023-08-14T11:30:42.654+00:00",
     markdownContent : "",
+    redirectLink: "https://masterutsav.in"
+
   },
   {
     id: 5,
@@ -264,6 +274,8 @@ export const courses = [
     ratingCount: 567,
     createdAt: "2023-04-25T09:15:28.321+00:00",
     markdownContent : "",
+    redirectLink: "https://masterutsav.in"
+
   },
   {
     id: 6,
@@ -280,6 +292,8 @@ export const courses = [
     ratingCount: 432,
     createdAt: "2022-10-17T16:50:12.874+00:00",
     markdownContent : "",
+    redirectLink: "https://masterutsav.in"
+
   },
   {
     id: 7,
@@ -296,6 +310,8 @@ export const courses = [
     ratingCount: 598,
     createdAt: "2023-07-05T13:05:47.145+00:00",
     markdownContent : "",
+    redirectLink: "https://masterutsav.in"
+
   }
 ];
 
