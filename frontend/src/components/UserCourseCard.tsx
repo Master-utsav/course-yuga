@@ -23,7 +23,7 @@ interface CoursesInterface{
     id: number;
     courseName: string;
     tutorName: string;
-    image: string;
+    thumbnail: string;
     progress: number;
     description: string;
   }[]
@@ -46,7 +46,7 @@ const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
           <div className="w-full relative bg-transparent">
             <Image
               isBlurred
-              src={course.image}
+              src={course.thumbnail}
               alt="NextUI Album Cover"
               className="z-0 object-cover aspect-video"
             />

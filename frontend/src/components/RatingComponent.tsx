@@ -11,15 +11,13 @@ const RatingComponent: React.FC<RatingProps> = ({ rating, customColor = 'gold' }
 
   return (
     <div className="rating flex">
-      {stars.map((star) => {
+      {stars.map((star, i) => {
         if (star <= rating) {
-          return <RiStarFill  style={{color : customColor}} />;
-        } 
-        else if (star - 0.5 <= rating) {
-          return <RiStarHalfLine style={{color : customColor}} />;
-        } 
-        else {
-          return <RiStarLine style={{color : customColor}} />;
+          return <RiStarFill key={i} style={{ color: customColor }} />;
+        } else if (star - 0.5 <= rating) {
+          return <RiStarHalfLine key={i} style={{ color: customColor }} />;
+        } else {
+          return <RiStarLine key={i} style={{ color: customColor }} />;
         }
       })}
     </div>

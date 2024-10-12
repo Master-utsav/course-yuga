@@ -84,7 +84,7 @@ export default {
   		}
   	}
   },
-    plugins: [require("tailwindcss-animate")],
+    plugins: [require("tailwindcss-animate") , require('@tailwindcss/typography')],
 	plugins: [nextui()]
     // plugins: [require("@tailwindcss/forms")],
 }

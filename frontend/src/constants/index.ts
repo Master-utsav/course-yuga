@@ -54,21 +54,21 @@ export const usersTooltip = [
         id: 1,
         userProfileLink: "https://masterutsav.in",
         userName: "Utsav Jaiswal",
-        image: "https://avatars.githubusercontent.com/u/133480549?v=4",
+        thumbnail: "https://avatars.githubusercontent.com/u/133480549?v=4",
         courseName: "Cohort 3.0",
     },
     {
         id: 2,
         userProfileLink: "https://masterutsav.in",
         userName: "Abhishek Arya",
-        image: "https://i.pinimg.com/736x/87/3a/c6/873ac673ebd640c26dbfe65d13f5c625.jpg",
+        thumbnail: "https://i.pinimg.com/736x/87/3a/c6/873ac673ebd640c26dbfe65d13f5c625.jpg",
         courseName: "Love Babbar",
     },
     {
         id: 3,
         userProfileLink: "https://masterutsav.in",
         userName: "Jatin Kushwah",
-        image: "images/jatin.jpg",
+        thumbnail: "thumbnails/jatin.jpg",
         courseName: "Apna College DSA",
     },
   
@@ -77,61 +77,61 @@ export const educatorsInfiniteScrollData = [
     {
         id: 1,
         educatorName: "Harkirat Singh",
-        imageUrl: "https://appxcontent.kaxa.in/paid_course3/2024-07-07-0.07833836520330406.png",
+        thumbnailUrl: "https://appxcontent.kaxa.in/paid_course3/2024-07-07-0.07833836520330406.png",
         courseName: "Cohort 3.0",
     },
     {
         id: 2,
         educatorName: "Love Babbar",
-        imageUrl: "https://s3-ap-northeast-1.amazonaws.com/teamblindstatics/link/2/bad3237833b617f4da3b2799bb008077_1632020209322_res.jpeg",
+        thumbnailUrl: "https://s3-ap-northeast-1.amazonaws.com/teamblindstatics/link/2/bad3237833b617f4da3b2799bb008077_1632020209322_res.jpeg",
         courseName: "Supreme 2.0",
     },
     {
         id: 3,
         educatorName: "Apna College",
-        imageUrl: "https://www.mypunepulse.com/wp-content/uploads/2024/08/WhatsApp-Image-2024-08-27-at-2.11.07-PM-768x512.jpeg",
+        thumbnailUrl: "https://www.mypunepulse.com/wp-content/uploads/2024/08/WhatsApp-Thumbnail-2024-08-27-at-2.11.07-PM-768x512.jpeg",
         courseName: "Alpha 3.0",
     },
     {
         id: 4,
         educatorName: "Hitesh Chaudary",
-        imageUrl: "https://cdn.prod.website-files.com/61a0a26a75358d70b0bf68f9/634fcf3453b051f981d67f82_person-image.jpeg",
+        thumbnailUrl: "https://cdn.prod.website-files.com/61a0a26a75358d70b0bf68f9/634fcf3453b051f981d67f82_person-thumbnail.jpeg",
         courseName: "JavaScript",
     },
     {
         id: 5,
         educatorName: "Adrian Hajdin",
-        imageUrl: "https://avatars.githubusercontent.com/u/24898559?v=4",
+        thumbnailUrl: "https://avatars.githubusercontent.com/u/24898559?v=4",
         courseName: "JS Mastery",
     },
     {
         id: 6,
         educatorName: "Harkirat Singh",
-        imageUrl: "https://appxcontent.kaxa.in/paid_course3/2024-07-07-0.07833836520330406.png",
+        thumbnailUrl: "https://appxcontent.kaxa.in/paid_course3/2024-07-07-0.07833836520330406.png",
         courseName: "Cohort 3.0",
     },
     {
         id: 7,
         educatorName: "Love Babbar",
-        imageUrl: "https://s3-ap-northeast-1.amazonaws.com/teamblindstatics/link/2/bad3237833b617f4da3b2799bb008077_1632020209322_res.jpeg",
+        thumbnailUrl: "https://s3-ap-northeast-1.amazonaws.com/teamblindstatics/link/2/bad3237833b617f4da3b2799bb008077_1632020209322_res.jpeg",
         courseName: "Supreme 2.0",
     },
     {
         id: 8,
         educatorName: "Apna College",
-        imageUrl: "https://www.mypunepulse.com/wp-content/uploads/2024/08/WhatsApp-Image-2024-08-27-at-2.11.07-PM-768x512.jpeg",
+        thumbnailUrl: "https://www.mypunepulse.com/wp-content/uploads/2024/08/WhatsApp-Thumbnail-2024-08-27-at-2.11.07-PM-768x512.jpeg",
         courseName: "Alpha 3.0",
     },
     {
         id: 9,
         educatorName: "Hitesh Chaudary",
-        imageUrl: "https://cdn.prod.website-files.com/61a0a26a75358d70b0bf68f9/634fcf3453b051f981d67f82_person-image.jpeg",
+        thumbnailUrl: "https://cdn.prod.website-files.com/61a0a26a75358d70b0bf68f9/634fcf3453b051f981d67f82_person-thumbnail.jpeg",
         courseName: "JavaScript",
     },
     {
         id: 10,
         educatorName: "Adrian Hajdin",
-        imageUrl: "https://avatars.githubusercontent.com/u/24898559?v=4",
+        thumbnailUrl: "https://avatars.githubusercontent.com/u/24898559?v=4",
         courseName: "JS Mastery",
     },
 ]
@@ -141,7 +141,7 @@ export interface CourseProps {
   courseName: string;          // Name of the course
   tutorName: string;           // Name of the tutor
   description: string;         // Description of the course
-  image: string;               // URL of the course image
+  thumbnail: string;               // URL of the course thumbnail
   progress: number;            // Progress percentage of the course
   rating: number;              // Average rating of the course
   sellingPrice: number;        // Selling price of the course
@@ -152,6 +152,22 @@ export interface CourseProps {
 }
 
 
+export interface CourseData {
+  courseName: string;
+  tutorName: string;
+  id: number;
+  sellingPrice: number;
+  originalPrice: number;
+  currency: string;
+  rating: number;
+  ratingCount: number;
+  createdAt: string;
+  description: string;
+  thumbnail: string;
+  markdownContent?: string;
+}
+
+
 export const courses = [
   {
     id: 0,
@@ -159,14 +175,15 @@ export const courses = [
     tutorName: "Harkirat Singh",
     description:
       "Master the MERN stack (MongoDB, Express, React, Node) to build full-stack web applications from scratch. Learn how to integrate frontend and backend with modern web technologies.",
-    image: "https://appxcontent.kaxa.in/paid_course3/2024-07-09-0.40079486154772104.png",
+    thumbnail: "https://appxcontent.kaxa.in/paid_course3/2024-07-09-0.40079486154772104.png",
     progress: 23,
     rating: 4.5,
     sellingPrice: 49.9,
     originalPrice: 100,
     currency: "$",
     ratingCount: 2456,
-    createdAt: "2022-12-11T15:32:14.974+00:00"
+    createdAt: "2022-12-11T15:32:14.974+00:00",
+    markdownContent : "",
   },
   {
     id: 1,
@@ -174,14 +191,15 @@ export const courses = [
     tutorName: "Harkirat Singh",
     description:
       "Dive into the world of decentralized applications and blockchain with Web3 development. Learn smart contracts, decentralized finance (DeFi), and how to create DApps on Ethereum.",
-    image: "https://appxcontent.kaxa.in/paid_course3/2024-07-07-0.8201249093606604.png",
+    thumbnail: "https://appxcontent.kaxa.in/paid_course3/2024-07-07-0.8201249093606604.png",
     progress: 47,
     rating: 4.0,
     sellingPrice: 89.9,
     originalPrice: 100,
     currency: "$",
     ratingCount: 878,
-    createdAt: "2023-06-18T10:45:09.123+00:00"
+    createdAt: "2023-06-18T10:45:09.123+00:00",
+    markdownContent : "",
   },
   {
     id: 2,
@@ -189,14 +207,15 @@ export const courses = [
     tutorName: "Harkirat Singh",
     description:
       "Explore Rust, a modern systems programming language that focuses on speed, memory safety, and parallelism. This course teaches you how to write efficient, concurrent, and safe code using Rust.",
-    image: "https://img.youtube.com/vi/qP7LzZqGh30/maxresdefault.jpg",
+    thumbnail: "https://img.youtube.com/vi/qP7LzZqGh30/maxresdefault.jpg",
     progress: 86,
     rating: 5.0,
     sellingPrice: 99.9,
     originalPrice: 120,
     currency: "$",
     ratingCount: 679,
-    createdAt: "2023-02-02T08:22:37.456+00:00"
+    createdAt: "2023-02-02T08:22:37.456+00:00",
+    markdownContent : "",
   },
   {
     id: 3,
@@ -204,14 +223,15 @@ export const courses = [
     tutorName: "Love Babbar",
     description:
       "Learn Data Structures and Algorithms in C++ with one of the most comprehensive and popular courses. This course is designed to help you master key topics for technical interviews.",
-    image: "https://img.youtube.com/vi/9kQ1JUDleWg/maxresdefault.jpg",
+    thumbnail: "https://img.youtube.com/vi/9kQ1JUDleWg/maxresdefault.jpg",
     progress: 71,
     rating: 4.5,
     sellingPrice: 9.9,
     originalPrice: 120,
     currency: "$",
     ratingCount: 1289,
-    createdAt: "2022-11-28T14:18:50.987+00:00"
+    createdAt: "2022-11-28T14:18:50.987+00:00",
+    markdownContent : "",
   },
   {
     id: 4,
@@ -219,14 +239,15 @@ export const courses = [
     tutorName: "Code with Harry",
     description:
       "Master the MERN stack (MongoDB, Express, React, Node) to build full-stack web applications from scratch. Learn how to integrate frontend and backend with modern web technologies.",
-    image: "https://img.youtube.com/vi/tVzUXW6siu0/maxresdefault.jpg",
+    thumbnail: "https://img.youtube.com/vi/tVzUXW6siu0/maxresdefault.jpg",
     progress: 12,
     rating: 4.0,
     sellingPrice: 29.9,
     originalPrice: 120,
     currency: "$",
     ratingCount: 1564,
-    createdAt: "2023-08-14T11:30:42.654+00:00"
+    createdAt: "2023-08-14T11:30:42.654+00:00",
+    markdownContent : "",
   },
   {
     id: 5,
@@ -234,14 +255,15 @@ export const courses = [
     tutorName: "Code with Harry",
     description:
       "Learn Python programming from scratch and dive deep into Machine Learning concepts. This course covers Python fundamentals and advanced ML algorithms, preparing you for real-world applications.",
-    image: "https://img.youtube.com/vi/7wnove7K-ZQ/maxresdefault.jpg",
+    thumbnail: "https://img.youtube.com/vi/7wnove7K-ZQ/maxresdefault.jpg",
     progress: 36,
     rating: 4.5,
     sellingPrice: 59.9,
     originalPrice: 100,
     currency: "$",
     ratingCount: 567,
-    createdAt: "2023-04-25T09:15:28.321+00:00"
+    createdAt: "2023-04-25T09:15:28.321+00:00",
+    markdownContent : "",
   },
   {
     id: 6,
@@ -249,14 +271,15 @@ export const courses = [
     tutorName: "Hitesh Chaudary",
     description:
       "Master Next.js, the React framework for production. Learn how to build server-side rendered web applications, improve performance with static generation, and create modern web apps effortlessly.",
-    image: "https://img.youtube.com/vi/zLJoVRleOuc/maxresdefault.jpg",
+    thumbnail: "https://img.youtube.com/vi/zLJoVRleOuc/maxresdefault.jpg",
     progress: 65,
     rating: 5.0,
     sellingPrice: 79.9,
     originalPrice: 120,
     currency: "$",
     ratingCount: 432,
-    createdAt: "2022-10-17T16:50:12.874+00:00"
+    createdAt: "2022-10-17T16:50:12.874+00:00",
+    markdownContent : "",
   },
   {
     id: 7,
@@ -264,14 +287,15 @@ export const courses = [
     tutorName: "Shardha Khapra",
     description:
       "This YouTube course focuses on Data Structures and Algorithms (DSA) in C++. Learn core concepts like arrays, stacks, queues, linked lists, and algorithms to ace coding interviews.",
-    image: "https://img.youtube.com/vi/1yrh60og6qc/maxresdefault.jpg",
+    thumbnail: "https://img.youtube.com/vi/1yrh60og6qc/maxresdefault.jpg",
     progress: 78,
     rating: 3.5,
     sellingPrice: 19.9,
     originalPrice: 120,
     currency: "$",
     ratingCount: 598,
-    createdAt: "2023-07-05T13:05:47.145+00:00"
+    createdAt: "2023-07-05T13:05:47.145+00:00",
+    markdownContent : "",
   }
 ];
 
@@ -282,7 +306,7 @@ export interface LoginUserDataProps{
         firstName: string;
         lastName: string;
         emailVerificationStatus: boolean;
-        profileImageUrl: string;
+        profileThumbnailUrl: string;
 }
 
 interface DashBoardIconProps {

@@ -11,6 +11,7 @@
     src: url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
     font-display: swap;
 }
+
 @font-face {
     font-family: 'Ubuntu';
     src: url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
@@ -31,7 +32,8 @@
     body {
         @apply bg-background text-foreground;
     }
-  :root {
+
+    :root {
         --background: 0 0% 100%;
         --foreground: 0 0% 3.9%;
         --card: 0 0% 100%;
@@ -58,7 +60,8 @@
         --chart-5: 27 87% 67%;
         --radius: 0.5rem;
     }
-  .dark {
+
+    .dark {
         --background: 0 0% 3.9%;
         --foreground: 0 0% 98%;
         --card: 0 0% 3.9%;
@@ -101,34 +104,35 @@
 
     .nav-li {
         @apply font-noto-sans text-base relative overflow-hidden max-sm:py-3 max-sm:rounded-xl max-sm:w-full max-sm:px-1;
-        min-width: 110px; /* Set a minimum width to avoid resizing */
+        min-width: 110px;
+        /* Set a minimum width to avoid resizing */
         min-height: 26px;
         text-align: center;
     }
-      
-      .nav-li::before {
+
+    .nav-li::before {
         content: "";
         @apply absolute bottom-0 left-0 h-[2px] w-0 bg-blue-750 dark:bg-white transition-all ease-in-out duration-200;
-      }
-      
-      .nav-li:hover::before {
-        @apply w-full;
-      }
-      
-      .dashboard_li_item::before {
-        content: "";
-        @apply absolute bottom-0 left-0 h-[2px] w-0 bg-blue-750 dark:bg-white transition-all ease-in-out duration-200 ;
-      }
+    }
 
-      .dashboard_li_item:hover::before {
+    .nav-li:hover::before {
+        @apply w-full;
+    }
+
+    .dashboard_li_item::before {
+        content: "";
+        @apply absolute bottom-0 left-0 h-[2px] w-0 bg-blue-750 dark:bg-white transition-all ease-in-out duration-200;
+    }
+
+    .dashboard_li_item:hover::before {
         filter: blur(1px);
-        @apply w-full px-2 ;
-      }
-      
-      
-      .will-change-blur {
+        @apply w-full px-2;
+    }
+
+
+    .will-change-blur {
         will-change: backdrop-filter;
-      }
+    }
 
     .mask {
         @apply absolute bg-white;
@@ -255,13 +259,22 @@
         @apply w-12 h-12 rounded-full flex justify-center items-center bg-black-300 border border-black-200;
     }
 
-    .scrollbar-none{
+    .scrollbar-none {
         -ms-overflow-style: none;
         scrollbar-width: none;
-        
+
     }
 
-    .scrollbar-thin{
+    .hide-scrollbar {
+        @apply overflow-auto; /* To enable scrolling */
+        &::-webkit-scrollbar {
+          display: none; /* Hide scrollbar in WebKit browsers */
+        }
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* Internet Explorer and Edge */
+      }
+
+    .scrollbar-thin {
         -ms-overflow-style: none;
         scrollbar-width: thin;
     }
@@ -282,6 +295,49 @@
             rgba(255, 255, 255, 0.000025) 50%,
             rgba(255, 255, 255, 0.025) 100%);
 }
+
+/* src/styles/markdownStyles.css */
+
+/* General styles for lists */
+.prose ul,
+.prose ol {
+    list-style-position: inside; /* Make list markers inside */
+    margin-left: 0; /* Remove default left margin */
+    padding-left: 0; /* Remove default padding */
+}
+
+/* Styles for unordered lists */
+.prose ul > li {
+    margin-left: 1.5rem; /* Add margin for unordered list items */
+}
+
+.prose ul > li::marker {
+    content: "• "; /* Use bullet character for markers */
+    color: inherit; /* Inherit color for bullet markers */
+}
+
+/* Styles for ordered lists */
+.prose ol {
+    padding-left: 1.5rem; /* Ensure there's padding for ordered lists */
+}
+
+.prose ol > li {
+    counter-increment: list-item; /* Increment counter for list items */
+}
+
+.prose ol > li::marker {
+    content: counter(list-item) ". "; 
+    color: inherit; 
+}
+
+.prose-invert ul > li::marker,
+.prose-invert ol > li::marker {
+    color: inherit;
+}
+
+
+
+
 
 @keyframes wave-animation {
     0% {

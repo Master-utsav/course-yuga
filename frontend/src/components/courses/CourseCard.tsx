@@ -56,7 +56,7 @@ const CourseCard: React.FC = () => {
           <div className="relative w-full">
             <Image
               isBlurred
-              src={course.image}
+              src={course.thumbnail}
               alt="course-img"
               className="z-0 object-cover aspect-video rounded-tr-[6rem] p-2"
             />
@@ -115,7 +115,7 @@ const CourseCard: React.FC = () => {
                 color="success"
                 className="font-libre text-sm"
               >
-              {((course.originalPrice - course.sellingPrice) / course.originalPrice * 100).toFixed(2)}{"% "}<span className="font-ubuntu">Off</span>
+              {course.originalPrice === course.sellingPrice ? 100 : ((course.originalPrice - course.sellingPrice) / course.originalPrice * 100).toFixed(2)}{"% "}<span className="font-ubuntu">Off</span>
 
               </Chip>
             </div>
