@@ -190,37 +190,39 @@ const CourseIntroPage: React.FC = () => {
 
           {/* Markdown Editor */}
           <div className="bg-transparent mt-6 w-full ">
-            {/* Selectable buttons for switching editors */}
-            <div className="flex space-x-4 mb-4">
+          <div className="flex space-x-4 mb-4">
               <div
                 onClick={() => setActiveEditor("markdown")}
-                className={`flex-1 cursor-pointer p-4 rounded-lg transition-all duration-300 ease-in-out ${
+                className={`flex-1 cursor-pointer p-4 rounded-lg transition-all duration-300 ease-in-out space-y-1 ${
                   activeEditor === "markdown"
                     ? "bg-blue-500 text-white shadow-md"
                     : "bg-gray-300 dark:bg-gray-700 dark:text-white"
                 }`}
               >
                 <h3 className="font-ubuntu text-xl font-semibold">Markdown Editor</h3>
-                <i className="font-libre text-base text-gray-600 dark:text-gray-100">
-                  Write using Markdown syntax
-                </i>
+                <p className="font-ubuntu text-base text-gray-600 dark:text-gray-100">
+                  Write using Markdown syntax. Perfect for formatting text with headers, lists, links, and images easily. 
+                  <br /> 
+                  <i className="font-libre">*Ideal for documentation, notes, and quick text editing!*</i>
+                </p>
               </div>
               <div
                 onClick={() => setActiveEditor("quill")}
-                className={`flex-1 cursor-pointer p-4 rounded-lg transition-all duration-300 ease-in-out ${
+                className={`flex-1 cursor-pointer p-4 rounded-lg transition-all duration-300 ease-in-out space-y-1 ${
                   activeEditor === "quill"
                     ? "bg-blue-500 text-white shadow-md"
                     : "bg-gray-300 dark:bg-gray-700 dark:text-white"
                 }`}
               >
                 <h3 className="font-ubuntu text-xl font-semibold">Quill Editor</h3>
-                <i className="font-libre text-base text-gray-600 dark:text-gray-100">
-                  Rich text editor with various formatting options
-                </i>
+                <p className="font-ubuntu text-base text-gray-600 dark:text-gray-100">
+                  Rich text editor with various formatting options. Easily create styled content with bold, italics, lists, and more. 
+                  <br /> 
+                  <i className="font-libre">*Great for blogs, articles, and any content requiring complex formatting!*</i>
+                </p>
               </div>
             </div>
 
-            {/* Render the active editor based on state */}
             {activeEditor === "markdown" ? (
               <MDEditor
                 value={markdown}
