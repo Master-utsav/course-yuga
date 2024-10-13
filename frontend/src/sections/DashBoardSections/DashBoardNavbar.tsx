@@ -30,7 +30,7 @@ const DashBoardNavbar: React.FC = () => {
     >
       <div
         className={`flex flex-col h-full space-y-4 ${
-          isSideBarOpen ? "py-2 px-5 justify-between" : "py-4 justify-start items-center"
+          isSideBarOpen ? "py-2 px-5 justify-between" : "py-4 justify-between items-center"
         }`}
       >
         {/* Header Section */}

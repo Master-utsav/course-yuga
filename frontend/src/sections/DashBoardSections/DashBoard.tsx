@@ -18,7 +18,7 @@ const DashBoard = () => {
         }}
         transition={{ duration: 0.3 }}
       >
-        <div className="font-ubuntu bg-clip-text flex text-5xl overflow-hidden text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+        <div className="font-ubuntu flex text-5xl overflow-hidden bg-clip-text  text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
           {"Welcome! ".split("").map((char, i) => (
             <motion.p
               initial={{ fontWeight: "100", opacity: 0, x: 0 }}

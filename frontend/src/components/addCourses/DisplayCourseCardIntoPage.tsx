@@ -3,10 +3,10 @@ import RatingComponent from '../RatingComponent'
 import { Chip , Image , Button} from '@nextui-org/react'
 import FavoriteIcon from '@/Icons/FavoriteIcon'
 import PercentageOffIcon from '@/Icons/PercentageOffIcon'
-import { CourseData } from '@/constants'
+import { ICourseData } from '@/constants'
 
 interface DisplayCourseCardIntoPageProps{
-    courseData : CourseData
+    courseData : ICourseData
     previewImage : string
 }
 const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({courseData , previewImage}) => {

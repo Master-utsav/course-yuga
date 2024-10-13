@@ -6,6 +6,11 @@ import { Button, Input, Textarea, Image } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import AddIcon from "@/Icons/AddIcon";
 import { useTheme } from "@/context/ThemeProvider";
+import { COURSE_API } from "@/lib/env";
+import { getVerifiedToken } from "@/lib/cookieService";
+import axios from "axios";
+import { ErrorToast, SuccessToast } from "@/lib/toasts";
+import { useNavigate } from "react-router-dom";
 
 // Zod Schema for form validation
 const youtubeCourseSchema = z
@@ -51,7 +56,8 @@ const YoutubeCourseForm: React.FC = () => {
 
   const [preview, setPreview] = useState<string | null>(null);
   const [isFileUpload, setIsFileUpload] = useState(true);
-  const {theme} = useTheme();
+  const { theme } = useTheme();
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<YoutubeCourseFormData> = async (data) => {
     const formData = new FormData();
@@ -66,15 +72,35 @@ const YoutubeCourseForm: React.FC = () => {
       const blob = new Blob([data.thumbnail], { type: data.thumbnail.type });
       formData.append("youtubeCourseImage", blob, data.thumbnail.name);
       console.log("Uploaded Blob:", blob);
-    }else{
-        formData.append("youtubeCourseImage", data.thumbnail);
+    } else {
+      formData.append("youtubeCourseImage", data.thumbnail);
     }
 
-    console.log("Form Data:", formData);
-    for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
+    const jwt = getVerifiedToken();
+    try {
+      const response = await axios.post(
+        `${COURSE_API}/add-course/youtube`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response && response.data && response.data.success) {
+        SuccessToast(response.data.message);
+        const params = response.data.courseId;
+        navigate(`/course-intro-page?courseId=${params}`);
+
+      } else {
+        ErrorToast(response.data.message);
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      ErrorToast(error.response?.data?.message || "Something went wrong");
     }
-    alert("Course submitted successfully!");
   };
 
   const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -239,7 +265,12 @@ const YoutubeCourseForm: React.FC = () => {
               : "bg-gradient-to-r from-blue-600 to-indigo-800 hover:from-indigo-600 hover:to-purple-600 text-white"
           }`}
           isLoading={isSubmitting}
-          startContent={<AddIcon fillColor={theme === "dark" ? "white" : "black"} size={32}/>}
+          startContent={
+            <AddIcon
+              fillColor={theme === "dark" ? "white" : "black"}
+              size={32}
+            />
+          }
         >
           {isSubmitting ? "Submitting..." : "Upload Course"}
         </Button>

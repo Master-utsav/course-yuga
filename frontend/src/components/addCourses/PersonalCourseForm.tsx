@@ -88,9 +88,9 @@ const PersonalCourseForm: React.FC = () => {
 
     if (data.thumbnail instanceof File) {
       const blob = new Blob([data.thumbnail], { type: data.thumbnail.type });
-      formData.append("PersonalCourseImage", blob, data.thumbnail.name);
+      formData.append("personalCourseImage", blob, data.thumbnail.name);
     }else{
-      formData.append("PersonalCourseImage", data.thumbnail);
+      formData.append("personalCourseImage", data.thumbnail);
     }
     
     console.log("Form Data:", formData);

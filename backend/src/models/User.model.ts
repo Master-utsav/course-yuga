@@ -1,4 +1,4 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
 export interface IUser extends Document {
   firstName: string;
@@ -27,6 +27,7 @@ export interface IUser extends Document {
     number: string; 
   };
   phoneNumberVerificationStatus?: boolean;
+  uploadedCourses?: Types.ObjectId[];
 
 }
 
@@ -57,6 +58,7 @@ const userSchema = new mongoose.Schema<IUser>({
     city : {type: String },
     state : {type: String }
   },
+  uploadedCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
 }, 
 { 
   timestamps: true 

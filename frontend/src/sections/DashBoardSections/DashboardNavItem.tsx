@@ -49,15 +49,15 @@ const DashboardNavItem: React.FC<DashboardNavItemProps> = ({
           classNames={{
             base: [
               // arrow color
-              "before:bg-neutral-400 dark:before:bg-white",
+              "before:bg-gradient-to-r before:from-indigo-500 before:via-purple-500 before:to-pink-500",
             ],
             content: [
-              "py-2 px-4 shadow-xl",
-              "text-black bg-gradient-to-br from-white to-neutral-400 font-ubuntu font-medium",
+              "py-2 px-4 shadow-xl ",
+              "text-purple-700 bg-gradient-to-br from-white to-neutral-400 font-ubuntu font-medium ",
             ],
           }}
         >
-          <span className="group-hover:scale-110 transition-all ease-in-out duration-300 cursor-pointer justi">
+          <span className="group-hover:scale-110 transition-all ease-in-out duration-300 cursor-pointer ">
             {theme === "dark" ? (
               <Icon fillColor="white" size={24} />
             ) : (

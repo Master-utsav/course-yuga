@@ -23,6 +23,7 @@ export interface UserDataProps {
   userDob: string;
   role: string;
   avatarFallbackText: string;
+  id: string;
 }
 
 interface AuthContextType {

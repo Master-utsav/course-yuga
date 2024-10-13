@@ -167,7 +167,60 @@ export interface CourseData {
   markdownContent?: string;
   redirectLink?: string;
 }
+export interface ICourseData {
+  courseName: string;
+  tutorName: string;
+  courseType: string;
+  id: string;
+  sellingPrice: number;
+  originalPrice: number;
+  currency: string;
+  rating: number;
+  ratingCount: number;
+  createdAt: string;
+  description: string;
+  thumbnail: string;
+  markdownContent?: string;
+  redirectLink?: string;
+  uploadedBy: string
+}
 
+export interface IUpdateCourse {
+  courseName: string;
+  tutorName: string;
+  courseType: string;
+  id: string;
+  sellingPrice?: number;
+  originalPrice?: number;
+  currency?: string;
+  rating?: number;
+  ratingCount?: number;
+  createdAt?: string;
+  description: string;
+  thumbnail: string | File;
+  markdownContent?: string;
+  redirectLink?: string;
+  uploadedBy?: string
+}
+
+
+export const courseDataTemplate: ICourseData = {
+  courseName: "Your course name",
+  tutorName: "Tutor's full name",
+  id: "Unique course ID (e.g., 'course_001')",
+  sellingPrice: 49.99, // Selling price of the course
+  originalPrice: 99.99, // Original price before discount
+  currency: "$",
+  courseType: "YOUTUBE",
+  rating: 4.5, // Course rating out of 5
+  ratingCount: 200, // Number of users who rated the course
+  createdAt: "Creation date in ISO format (e.g., '2024-10-13T10:00:00Z')",
+  description: "Brief description of the course content",
+  thumbnail: "https://imgs.search.brave.com/hLpf3iUlstMIDEPkDOjsBcCD1ySs6ym5y7QOvda0R8E/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG5p/Lmljb25zY291dC5j/b20vaWxsdXN0cmF0/aW9uL3ByZW1pdW0v/dGh1bWIvZnVsbC1z/dGFjay1qYXZhc2Ny/aXB0LWRldmVsb3Bl/ci1pbGx1c3RyYXRp/b24tZG93bmxvYWQt/aW4tc3ZnLXBuZy1n/aWYtZmlsZS1mb3Jt/YXRzLS1qYXZhLXdl/Yi1kZXZlbG9wbWVu/dC1wYWNrLWRlc2ln/bi1pbGx1c3RyYXRp/b25zLTM3NTcyNTQu/cG5nP2Y9d2VicA",
+  markdownContent: "Optional markdown content for detailed course info",
+  redirectLink: "Optional link to an external course page",
+  uploadedBy: "User ID of the person who uploaded the course"
+};
 
 export const courses = [
   {
@@ -443,6 +496,7 @@ export const DashBoardNavItems: DashboardNavItemProps[] = [
     bio: "",
     role: "STUDENT",
     avatarFallbackText: "U" + "K", 
+    id: "",
   };
 
   export const countryName: string[] = [

@@ -18,6 +18,7 @@ export async function handleGetUserDataFunction(
       userName: user.userName,
       firstName: user.firstName,
       lastName: user.lastName,
+      id: user._id,
       email: user.email,
       emailVerificationStatus: user.emailVerificationStatus,
       profileImageUrl: user.profileImageUrl,

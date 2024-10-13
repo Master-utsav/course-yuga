@@ -1,4 +1,3 @@
-import CourseIntroPage from '@/components/addCourses/CourseIntroPage'
 import Header from '@/components/addCourses/Header'
 import PersonalCourseForm from '@/components/addCourses/PersonalCourseForm'
 import RedirectCourseForm from '@/components/addCourses/RedirectCourseForm'
@@ -28,7 +27,6 @@ const AddCourses = () => {
     {selectedCategory === "YouTube Course" && <YoutubeCourseForm />}
     {selectedCategory === "Redirecting Course" && <RedirectCourseForm />}
     {selectedCategory === "Personal Course" && <PersonalCourseForm />}
-    <CourseIntroPage />
     
     </motion.div>
   )

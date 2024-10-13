@@ -16,6 +16,7 @@ import EditProfile from "@/sections/editProfile/EditProfile";
 import DashBoardNavbar from "@/sections/DashBoardSections/DashBoardNavbar";
 import Courses from "./sections/Courses";
 import { DashboardContextProvider } from "./context/dashboardContext";
+import CourseIntroPage from "./components/addCourses/CourseIntroPage";
 
 function App() {
   const location = useLocation();
@@ -99,6 +100,25 @@ function App() {
                 </>
               }
             />
+            <Route
+              path="/course-intro-page"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <CourseIntroPage />
+                </>
+              }
+            />
+            <Route
+              path="/courses"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <Courses />
+                </>
+              }
+            />
+
             {/* All dashboard routes */}
             <Route
               path="/user/*"
@@ -158,6 +178,15 @@ function App() {
                 <>
                   <Navbar isUserLoggedIn={isLoggedIn} />
                   <Courses />
+                </>
+              }
+            />
+            <Route
+              path="/course-intro-page"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <CourseIntroPage />
                 </>
               }
             />

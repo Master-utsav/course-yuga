@@ -1,20 +1,30 @@
 import { AuthenticatedRequest } from "../../middleware/auth.middleware";
 import {Response} from "express"
-import { cloudinaryUploadFile } from "../../utils/cloudinary.config";
+
 import User from "../../models/User.model";
 import fs from "fs";
+import { cloudinaryDeleteUserImage, cloudinaryUploadUserImageFiles } from "../../utils/cloudinary.config";
 
 export async function handleUpdateUserImageFunction(req : AuthenticatedRequest, res: Response) {
     try {
       const userId = req.userId;
-  
+      
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found." });
+      }
+
       if (!req.file) {
         return res.status(400).json({ message: "No image file uploaded." });
       }
-  
+      
+      if(user.profileImageUrl){
+        await cloudinaryDeleteUserImage(user.profileImageUrl);
+      }
+      
       const localFilePath = req.file.path;
   
-      const uploadResult = await cloudinaryUploadFile(localFilePath);
+      const uploadResult = await cloudinaryUploadUserImageFiles(localFilePath);
       
       if (!uploadResult) {
         return res.status(500).json({ message: "Failed to upload image to Cloudinary." });

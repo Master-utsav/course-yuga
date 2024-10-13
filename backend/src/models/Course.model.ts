@@ -1,25 +1,93 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Schema, Types, Document, model } from "mongoose";
 
-export interface ICourse extends Document {
-    slug: string;
-    courseName: string;
-    courseOwner: mongoose.Types.ObjectId;
-    price: string;
-    dummyPrice: string;
-    description: string;
-    imageUrl: string;
+export enum CourseType {
+  PERSONAL = "PERSONAL",
+  REDIRECT = "REDIRECT",
+  YOUTUBE = "YOUTUBE",
 }
 
-const courseSchema = new mongoose.Schema({
-    slug: { type: String, required: true, unique: true },
-    courseName: { type: String, required: true },
-    courseOwner: { type: mongoose.Types.ObjectId, ref: 'User', required: true },  
-    price: { type: String, required: true },
-    dummyPrice: { type: String, required: false },
-    description: { type: String, required: true },
-    imageUrl: { type: String, required: true },
-}, { timestamps: true });
+export interface IRating {
+  by: Types.ObjectId;
+  rate: number;
+}
 
-const Course = mongoose.models.Course || mongoose.model<ICourse>("Course", courseSchema);
+export interface ICourse extends Document {
+  courseName: string;
+  tutorName: string;
+  courseType: CourseType;
+  description: string;
+  currency: string;
+  sellingPrice: number;
+  originalPrice: number;
+  thumbnail: string;
+  isVerified: boolean;
+  uploadedBy: Types.ObjectId;
+  ratings?: IRating[];
+  ratingCount?: number;
+  rating?: number;
+  likedBy?: Types.ObjectId[];
+  likedCount?: number;
+  markdownContent?: string;
+  redirectLink?: string;
+  enrolledBy?: Types.ObjectId[];
+  enrolledCount?: number;
+}
 
-export default Course;
+const ratingSchema = new Schema<IRating>(
+  {
+    by: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    rate: { type: Number, required: true, min: 0, max: 5 },
+  },
+  { _id: false }
+);
+
+const courseSchema = new Schema<ICourse>(
+  {
+    courseName: { type: String, required: true, trim: true },
+    tutorName: { type: String, required: true, trim: true },
+    courseType: {
+      type: String,
+      enum: Object.values(CourseType),
+      required: true,
+    },
+    description: { type: String, required: true, trim: true },
+    currency: { type: String, required: true, trim: true },
+    sellingPrice: { type: Number, required: true, min: 0 },
+    originalPrice: { type: Number, required: true, min: 0 },
+    thumbnail: { type: String, required: true },
+    isVerified: { type: Boolean, default: false },
+    ratings: [ratingSchema],
+    uploadedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    likedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    markdownContent: { type: String },
+    redirectLink: { type: String, trim: true },
+    enrolledBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+    timestamps: true,
+  }
+);
+
+courseSchema.virtual("ratingCount").get(function (this: ICourse) {
+  return this.ratings?.length ?? 0;
+});
+
+courseSchema.virtual("rating").get(function (this: ICourse) {
+  if (!this.ratings || this.ratings.length === 0) return 0;
+  const total = this.ratings.reduce((sum, rating) => sum + rating.rate, 0);
+  return Number((total / this.ratings.length).toFixed(2));
+});
+
+courseSchema.virtual("likedCount").get(function (this: ICourse) {
+  return this.likedBy?.length ?? 0;
+});
+
+courseSchema.virtual("enrolledCount").get(function (this: ICourse) {
+  return this.enrolledBy?.length ?? 0;
+});
+
+const CourseModel = mongoose.models.Course || model<ICourse>("Course", courseSchema);
+
+export default CourseModel;

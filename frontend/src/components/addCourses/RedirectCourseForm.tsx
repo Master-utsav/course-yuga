@@ -90,9 +90,9 @@ const RedirectCourseForm: React.FC = () => {
 
     if (data.thumbnail instanceof File) {
       const blob = new Blob([data.thumbnail], { type: data.thumbnail.type });
-      formData.append("RedirectCourseImage", blob, data.thumbnail.name);
+      formData.append("redirectCourseImage", blob, data.thumbnail.name);
     }else{
-      formData.append("RedirectCourseImage", data.thumbnail);
+      formData.append("redirectCourseImage", data.thumbnail);
     }
     
     console.log("Form Data:", formData);

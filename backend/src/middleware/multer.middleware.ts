@@ -4,7 +4,7 @@ import path from "path"; // Import path module
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     // Use path.join to construct the absolute path
-    cb(null, path.join(__dirname, '../../public/userImages'));
+    cb(null, path.join(__dirname, '../../public/images'));
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now();
