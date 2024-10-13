@@ -1,10 +1,8 @@
-import PageTransitionSwipeAnimation from '@/Effects/PageTransitionSwipeAnimation';
 import { motion } from 'framer-motion';
 
 const Subscription = () => {
     console.log('subscrip rendered');
   return (
-    <PageTransitionSwipeAnimation>
       <motion.div
         className="dark:bg-white/5 bg-black/5 rounded-lg p-6 shadow-2xl dark:shadow-sm dark:shadow-white border-2 dark:border-white border-black"
         variants={{
@@ -16,7 +14,6 @@ const Subscription = () => {
       >
         this is the users Subscriptions page
       </motion.div>
-    </PageTransitionSwipeAnimation>
   )
 }
 

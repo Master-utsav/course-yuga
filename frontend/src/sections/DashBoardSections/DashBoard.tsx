@@ -1,7 +1,6 @@
 import UserCourseCard from "@/components/UserCourseCard";
 import { courses } from "@/constants";
 import { useAuthContext } from "@/context/authContext";
-import PageTransitionSwipeAnimation from "@/Effects/PageTransitionSwipeAnimation";
 import StaggeredBlurTextEffect from "@/Effects/StaggeredBlurTextEffect";
 import { motion } from "framer-motion";
 
@@ -10,9 +9,8 @@ const DashBoard = () => {
   const { userData } = useAuthContext();
 
   return (
-    <PageTransitionSwipeAnimation>
       <motion.div
-        className="w-full flex flex-col gap-2  rounded-lg p-2 "
+        className="w-full flex flex-col gap-2 rounded-lg p-2 "
         variants={{
           hidden: { opacity: 0.3, scale: 0.8 },
           visible: { opacity: 1, scale: 1 },
@@ -68,7 +66,6 @@ const DashBoard = () => {
 
         <UserCourseCard courses={courses} />
       </motion.div>
-    </PageTransitionSwipeAnimation>
   );
 };
 

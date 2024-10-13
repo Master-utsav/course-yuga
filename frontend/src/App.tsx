@@ -15,6 +15,7 @@ import Help from "@/sections/HelpSection";
 import EditProfile from "@/sections/editProfile/EditProfile";
 import DashBoardNavbar from "@/sections/DashBoardSections/DashBoardNavbar";
 import Courses from "./sections/Courses";
+import { DashboardContextProvider } from "./context/dashboardContext";
 
 function App() {
   const location = useLocation();
@@ -99,12 +100,19 @@ function App() {
               }
             />
             {/* All dashboard routes */}
-            <Route path="/user/*" element={
-              <main className="w-full flex flex-row relative dark:bg-black bg-white overflow-x-hidden">
-                <DashBoardNavbar />
-                <DashboardRoutes />
-              </main>
-              } />
+            <Route
+              path="/user/*"
+              element={
+                <DashboardContextProvider>
+                  <div className="h-screen flex">
+                    <DashBoardNavbar  />
+                    <main className="flex-1 overflow-auto p-4 bg-white dark:bg-gray-900">
+                      <DashboardRoutes />
+                    </main>
+                  </div>
+                </DashboardContextProvider>
+              }
+            />
           </>
         ) : (
           <>

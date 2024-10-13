@@ -10,7 +10,7 @@ import AnimatedTooltip from "./AnimatedTooltip";
 const HeroLeftSection = () => {
   
   return (
-    <section className="w-full mx-auto h-screen flex flex-col justify-center items-start px-5">
+    <section className="w-1/2 mx-auto h-screen flex flex-col justify-center items-start px-5">
       <div className="w-full flex flex-col gap-10 ">
         <div className="w-full flex flex-col gap-2 text-start items-start justify-center">
           <div className="w-full flex flex-col text-start items-start justify-center">
