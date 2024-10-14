@@ -328,11 +328,6 @@
     animation: pulseGlow 2s infinite alternate ease-in-out;
 }
 
-
-  
-  
-
-
 .waving-hand {
     animation-name: wave-animation;
     animation-duration: 2.5s;
