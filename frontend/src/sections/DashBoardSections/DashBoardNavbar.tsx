@@ -44,9 +44,9 @@ const DashBoardNavbar: React.FC = () => {
             className={`animate-pulse flex justify-center items-center ${isSideBarOpen ? "w-[25%]" : "w-full"} `}
           >
             {isSideBarOpen ? 
-              <SidebarCloseIcon fillColor={theme === "dark" ? "white" : "dark"} size={32} />
+              <SidebarCloseIcon fillColor={theme === "dark" ? "white" : "black"} size={32} />
              :
-              <SidebarOpenIcon fillColor={theme === "dark" ? "white" : "dark"} size={32} />
+              <SidebarOpenIcon fillColor={theme === "dark" ? "white" : "black"} size={32} />
             }
           </motion.button>
         </div>

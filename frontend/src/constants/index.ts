@@ -140,6 +140,7 @@ export interface CourseProps {
   id: number;                   // Unique identifier for the course
   courseName: string;          // Name of the course
   tutorName: string;           // Name of the tutor
+  courseType: string;
   description: string;         // Description of the course
   thumbnail: string;               // URL of the course thumbnail
   progress: number;            // Progress percentage of the course
@@ -155,6 +156,7 @@ export interface CourseProps {
 export interface CourseData {
   courseName: string;
   tutorName: string;
+  courseType: string;
   id: number;
   sellingPrice: number;
   originalPrice: number;
@@ -167,29 +169,29 @@ export interface CourseData {
   markdownContent?: string;
   redirectLink?: string;
 }
-export interface ICourseData {
-  courseName: string;
-  tutorName: string;
-  courseType: string;
-  id: string;
-  sellingPrice: number;
-  originalPrice: number;
-  currency: string;
-  rating: number;
-  ratingCount: number;
-  createdAt: string;
-  description: string;
-  thumbnail: string;
-  markdownContent?: string;
-  redirectLink?: string;
-  uploadedBy: string
-}
+// export interface ICourseData {
+//   courseName: string;
+//   tutorName: string;
+//   courseType: string;
+//   id: string;
+//   sellingPrice: number;
+//   originalPrice: number;
+//   currency: string;
+//   rating: number;
+//   ratingCount: number;
+//   createdAt: string;
+//   description: string;
+//   thumbnail: string;
+//   markdownContent?: string;
+//   redirectLink?: string;
+//   uploadedBy: string
+// }
 
 export interface IUpdateCourse {
   courseName: string;
   tutorName: string;
   courseType: string;
-  id: string;
+  courseId: string;
   sellingPrice?: number;
   originalPrice?: number;
   currency?: string;
@@ -202,12 +204,29 @@ export interface IUpdateCourse {
   redirectLink?: string;
   uploadedBy?: string
 }
+export interface ICourseData {
+  courseName: string;
+  tutorName: string;
+  courseType: string;
+  courseId: string;
+  sellingPrice: number;
+  originalPrice: number;
+  currency: string;
+  rating: number;
+  ratingCount: number;
+  createdAt?: string;
+  description: string;
+  thumbnail: string;
+  markdownContent?: string;
+  redirectLink?: string;
+  uploadedBy?: string
+}
 
 
 export const courseDataTemplate: ICourseData = {
   courseName: "Your course name",
   tutorName: "Tutor's full name",
-  id: "Unique course ID (e.g., 'course_001')",
+  courseId: "Unique course ID (e.g., 'course_001')",
   sellingPrice: 49.99, // Selling price of the course
   originalPrice: 99.99, // Original price before discount
   currency: "$",
@@ -219,7 +238,7 @@ export const courseDataTemplate: ICourseData = {
   thumbnail: "https://imgs.search.brave.com/hLpf3iUlstMIDEPkDOjsBcCD1ySs6ym5y7QOvda0R8E/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG5p/Lmljb25zY291dC5j/b20vaWxsdXN0cmF0/aW9uL3ByZW1pdW0v/dGh1bWIvZnVsbC1z/dGFjay1qYXZhc2Ny/aXB0LWRldmVsb3Bl/ci1pbGx1c3RyYXRp/b24tZG93bmxvYWQt/aW4tc3ZnLXBuZy1n/aWYtZmlsZS1mb3Jt/YXRzLS1qYXZhLXdl/Yi1kZXZlbG9wbWVu/dC1wYWNrLWRlc2ln/bi1pbGx1c3RyYXRp/b25zLTM3NTcyNTQu/cG5nP2Y9d2VicA",
   markdownContent: "Optional markdown content for detailed course info",
   redirectLink: "Optional link to an external course page",
-  uploadedBy: "User ID of the person who uploaded the course"
+  uploadedBy: "User ID of the person who uploaded the course",
 };
 
 export const courses = [

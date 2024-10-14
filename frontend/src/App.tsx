@@ -17,6 +17,7 @@ import DashBoardNavbar from "@/sections/DashBoardSections/DashBoardNavbar";
 import Courses from "./sections/Courses";
 import { DashboardContextProvider } from "./context/dashboardContext";
 import CourseIntroPage from "./components/addCourses/CourseIntroPage";
+import "./index.css"
 
 function App() {
   const location = useLocation();
@@ -38,7 +39,7 @@ function App() {
   }, [isLoggedIn, location, navigate]);
 
   return (
-    <main className="max-w-full mx-auto relative dark:bg-black bg-white ">
+    <main className="max-w-full mx-auto relative dark:bg-black bg-white scrollbar-custom ">
       <Routes location={location} key={location.pathname}>
         {isLoggedIn ? (
           <>

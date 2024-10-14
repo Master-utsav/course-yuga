@@ -5,6 +5,9 @@ import React from "react";
 import RatingComponent from "../RatingComponent";
 import PercentageOffIcon from "@/Icons/PercentageOffIcon";
 import { useCourseContext } from "@/context/courseContext";
+import { Link } from "react-router-dom";
+import YoutubeIcon from "@/Icons/YoutubeIcon";
+import RedirectLinkIcon from "@/Icons/RedirectLinkIcon";
 
 const cardVariants = {
   hidden: (i: number) => ({
@@ -29,11 +32,11 @@ const cardVariants = {
 
 const CourseCard: React.FC = () => {
   const [checkedItems, setCheckedItems] = React.useState<{
-    [key: number]: boolean;
+    [key: string]: boolean;
   }>({});
   
-  const {updatedCourseData} = useCourseContext();
-  const handleCheckboxChange = (courseId: number) => {
+  const {coursesData} = useCourseContext();
+  const handleCheckboxChange = (courseId: string) => {
     setCheckedItems((prev) => ({
       ...prev,
       [courseId]: !prev[courseId], // Toggle the checked state for the clicked card
@@ -46,9 +49,9 @@ const CourseCard: React.FC = () => {
       initial="hidden"
       animate="visible"
     >
-      {updatedCourseData.map((course, i) => (
+      {coursesData && coursesData.map((course, i) => (
         <motion.div
-          key={course.id}
+          key={course.courseId}
           className="w-full relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
           custom={i}
           variants={cardVariants}
@@ -61,32 +64,38 @@ const CourseCard: React.FC = () => {
               className="z-0 object-cover aspect-video rounded-tr-[6rem] p-2"
             />
             <div className="absolute right-2 bottom-[-1rem] dark:bg-gray-600/50 backdrop-blur-lg bg-white/50 p-2 rounded-xl rounded-br-[2rem] rounded-bl-[2rem] shadow-[rgba(100,_100,_111,_0.2)_0px_0px_15px_0px] text-xl font-libre font-semibold flex gap-1">
-              <span className="text-xl font-libre font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+            {course.sellingPrice === 0 ? 
+            <span className="text-xl px-1 font-ubuntu bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-teal-400 to-blue-500">FREE</span>:
+              <>
+                <span className="text-xl font-libre font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
                 {course.currency}
-              </span>
-              <span className="dark:text-violet-100  text-gray-950">
-                {course.sellingPrice}
-              </span>
+                </span>
+                <span className="dark:text-violet-100  text-gray-950">
+                  {course.sellingPrice}
+                </span>
+              </>
+             }
+              
             </div>
           </div>
           <label
-            htmlFor={`favourite-${course.id}`}
+            htmlFor={`favourite-${course.courseId}`}
             className="absolute cursor-pointer top-2 right-2"
           >
             <input
               type="checkbox"
-              name={`favourite-${course.id}`}
-              id={`favourite-${course.id}`}
+              name={`favourite-${course.courseId}`}
+              id={`favourite-${course.courseId}`}
               className="absolute inset-0 hidden"
-              onChange={() => handleCheckboxChange(course.id)}
-              checked={checkedItems[course.id] || false} // Maintain checked state
+              onChange={() => handleCheckboxChange(course.courseId)}
+              checked={checkedItems[course.courseId] || false} // Maintain checked state
             />
             <FavoriteIcon
-              fillColor={checkedItems[course.id] ? "rgb(239 68 68)" : "none"}
+              fillColor={checkedItems[course.courseId] ? "rgb(239 68 68)" : "none"}
             />
           </label>
 
-          <div className="p-3 space-y-2">
+          <div className="p-3 space-y-2 flex flex-col justify-between">
             <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
               {course.courseName}
             </h2>
@@ -100,7 +109,7 @@ const CourseCard: React.FC = () => {
             </i>
             <div className="flex justify-between items-center">
               <div className="flex justify-start items-center gap-2">
-                <RatingComponent rating={course.rating} />
+                <RatingComponent rating={course.rating ?? 0} />
                 <span className="font-bold text-base bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
                   {`( `}
                   <i className="dark:text-white font-libre text-sm text-center font-medium text-black">
@@ -115,14 +124,18 @@ const CourseCard: React.FC = () => {
                 color="success"
                 className="font-libre text-sm"
               >
-              {course.originalPrice === course.sellingPrice ? 100 : ((course.originalPrice - course.sellingPrice) / course.originalPrice * 100).toFixed(2)}{"% "}<span className="font-ubuntu">Off</span>
-
+              {course.originalPrice === course.sellingPrice ? 100 : ((course.originalPrice  - course.sellingPrice ) / course.originalPrice * 100).toFixed(2)}{"% "}<span className="font-ubuntu">Off</span>
               </Chip>
             </div>
 
-            <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
-              Enroll Now
-            </Button>
+            <Link to={`/course-intro-page?courseId=${course.courseId}`} className="w-full">
+              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600 mt-2">
+                   {
+                    course.courseType === "YOUTUBE" ? <YoutubeIcon fillColor="white" size={32}/> : course.courseType === "REDIRECT" ? <RedirectLinkIcon fillColor="white" /> : ""
+                   }{" "}
+                   Enroll Now
+              </Button>
+            </Link>
           </div>
         </motion.div>
       ))}

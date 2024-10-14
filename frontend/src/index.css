@@ -262,7 +262,6 @@
     .scrollbar-none {
         -ms-overflow-style: none;
         scrollbar-width: none;
-
     }
 
     .hide-scrollbar {
@@ -274,11 +273,65 @@
         -ms-overflow-style: none; /* Internet Explorer and Edge */
       }
 
-    .scrollbar-thin {
-        -ms-overflow-style: none;
-        scrollbar-width: thin;
+}
+
+.scrollbar-custom {
+    height: 100vh; /* Full screen height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Webkit-based browsers (Chrome, Safari, etc.) */
+.scrollbar-custom::-webkit-scrollbar {
+    width: 7px; /* Wider scrollbar for tube light look */
+    height: 100%; /* Full height of the container */
+}
+
+/* Track (background) */
+.scrollbar-custom::-webkit-scrollbar-track {
+    background: linear-gradient(to right, #68d391ad, #38b2a6ad, #4299E1ad); /* Original track gradient */
+    border-radius: 10px;
+}
+
+/* Thumb (scroll handle) */
+.scrollbar-custom::-webkit-scrollbar-thumb {
+    width: 5px; /* Narrow for tubular feel */
+    background: linear-gradient(90deg, #8b5cf6, #a78bfa, #9f7aea); /* Subtle purple-blue gradient */
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle border */
+    filter: blur(2px); /* Light blur for a soft, glowing feel */
+    transition: box-shadow 0.5s ease, width 0.5s ease, background 0.5s ease; /* Smooth transition */
+
+    /* Subtle initial light emission */
+    box-shadow: 0 0 8px 4px #8b5cf6, 0 0 15px 6px #a78bfa, 0 0 30px 12px #9f7aea;
+}
+
+/* Hover: Intensified glow and slightly wider */
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    width: 7px; /* Slightly wider on hover */
+    background: linear-gradient(90deg, #d8b4fe, #a78bfa, #c084fc); /* Brighter gradient */
+    box-shadow: 0 0 15px 8px #d8b4fe, 0 0 30px 15px #a78bfa, 0 0 50px 25px #9f7aea;
+    filter: blur(1.5px); /* Reduced blur for clarity */
+}
+
+/* Optional: Smooth pulsating animation for natural glow */
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow: 0 0 8px 4px #8b5cf6, 0 0 15px 6px #a78bfa, 0 0 30px 12px #9f7aea;
+    }
+    50% {
+        box-shadow: 0 0 12px 6px #d8b4fe, 0 0 20px 10px #a78bfa, 0 0 40px 20px #9f7aea;
     }
 }
+
+/* Apply the pulse animation for a natural look */
+.scrollbar-custom::-webkit-scrollbar-thumb {
+    animation: pulseGlow 2s infinite alternate ease-in-out;
+}
+
+
+  
+  
+
 
 .waving-hand {
     animation-name: wave-animation;

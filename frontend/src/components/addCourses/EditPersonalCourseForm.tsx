@@ -19,7 +19,7 @@ const PersonalCourseFormSchema = z
     tutorName: z.string().min(2, "Tutor name must be at least 2 characters"),
     description: z
       .string()
-      .min(10, "Description must be at least 10 characters"),
+      .min(150, "Description must be at least 150 characters"),
     sellingPrice: z.number().positive("Selling price must be a positive number"),
     originalPrice: z.number().positive("Original price must be a positive number").min(1 , "original price min should be 1"),
     currency: z.string(),

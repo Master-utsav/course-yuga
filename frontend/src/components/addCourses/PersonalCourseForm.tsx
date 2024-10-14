@@ -13,6 +13,12 @@ import {
 import { motion } from "framer-motion";
 import AddIcon from "@/Icons/AddIcon";
 import { useTheme } from "@/context/ThemeProvider";
+import { getVerifiedToken } from "@/lib/cookieService";
+import { COURSE_API } from "@/lib/env";
+import { SuccessToast, ErrorToast } from "@/lib/toasts";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 // Zod Schema for form validation
 const PersonalCourseFormSchema = z
@@ -21,7 +27,7 @@ const PersonalCourseFormSchema = z
     tutorName: z.string().min(2, "Tutor name must be at least 2 characters"),
     description: z
       .string()
-      .min(10, "Description must be at least 10 characters"),
+      .min(150, "Description must be at least 150 characters"),
     sellingPrice: z
       .number()
       .positive("Selling price must be a positive number"),
@@ -76,6 +82,7 @@ const PersonalCourseForm: React.FC = () => {
   const [preview, setPreview] = useState<string | null>(null);
   const [isFileUpload, setIsFileUpload] = useState(true);
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<PersonalCourseFormData> = async (data) => {
     const formData = new FormData();
@@ -93,12 +100,31 @@ const PersonalCourseForm: React.FC = () => {
       formData.append("personalCourseImage", data.thumbnail);
     }
     
-    console.log("Form Data:", formData);
-    for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-    }
+    const jwt = getVerifiedToken();
+    try {
+      const response = await axios.post(
+        `${COURSE_API}/add-course/personal`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-    alert("Course submitted successfully!");
+      if (response && response.data && response.data.success) {
+        SuccessToast(response.data.message);
+        const params = response.data.courseId;
+        navigate(`/course-intro-page?courseId=${params}`);
+
+      } else {
+        ErrorToast(response.data.message);
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      ErrorToast(error.response?.data?.message || "Something went wrong");
+    }
   };
 
   const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {

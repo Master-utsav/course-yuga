@@ -19,7 +19,7 @@ const youtubeCourseSchema = z
     tutorName: z.string().min(2, "Tutor name must be at least 2 characters"),
     description: z
       .string()
-      .min(10, "Description must be at least 10 characters"),
+      .min(150, "Description must be at least 150 characters"),
     thumbnail: z
       .union([
         z

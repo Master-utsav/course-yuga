@@ -28,6 +28,7 @@ export interface IUser extends Document {
   };
   phoneNumberVerificationStatus?: boolean;
   uploadedCourses?: Types.ObjectId[];
+  enrolledIn?: Types.ObjectId[];
 
 }
 
@@ -59,6 +60,7 @@ const userSchema = new mongoose.Schema<IUser>({
     state : {type: String }
   },
   uploadedCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
+  enrolledIn: [{ type: Schema.Types.ObjectId, ref: "Course" }],
 }, 
 { 
   timestamps: true 

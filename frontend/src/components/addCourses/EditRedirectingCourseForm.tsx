@@ -19,7 +19,7 @@ const EditRedirectingCourseFormSchema = z
     tutorName: z.string().min(2, "Tutor name must be at least 2 characters"),
     description: z
       .string()
-      .min(10, "Description must be at least 10 characters"),
+      .min(150, "Description must be at least 150 characters"),
     sellingPrice: z.number().positive("Selling price must be a positive number"),
     originalPrice: z.number().positive("Original price must be a positive number").min(1 , "original price min should be 1"),
     currency: z.string(),
@@ -176,39 +176,7 @@ const EditRedirectingCourseForm: React.FC<EditRedirectingCourseFormProps> = ({
           )}
         </div>
       </div>
-     
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div className="w-full flex flex-col justify-start items-end">
-          <Input
-            {...register("sellingPrice", { valueAsNumber: true })}
-            label="Selling Price"
-            variant="underlined"
-            type="number"
-            placeholder="Enter selling price"
-            className={`text-base rounded-lg dark:text-white text-black font-ubuntu font-medium`}
-          />
-          {errors.sellingPrice && (
-            <p className="text-red-500 text-sm">
-              {errors.sellingPrice.message}
-            </p>
-          )}
-        </div>
-        <div className="w-full flex flex-col justify-start items-end">
-          <Input
-            {...register("originalPrice", { valueAsNumber: true })}
-            label="Original Price"
-            variant="underlined"
-            type="number"
-            placeholder="Enter original price"
-            className={`text-base rounded-lg dark:text-white text-black font-ubuntu font-medium`}
-          />
-          {errors.originalPrice && (
-            <p className="text-red-500 text-sm">
-              {errors.originalPrice.message}
-            </p>
-          )}
-        </div>
-      </div>
+      
       <div className="w-full relative grid sm:grid-cols-2 grid-cols-1 gap-5 items-start justify-between">
         <div className=" flex flex-col justify-start items-end mb-4">
           <Select

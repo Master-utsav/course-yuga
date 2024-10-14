@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -13,8 +14,7 @@ import { COURSE_API } from "@/lib/env";
 import { ErrorToast, SuccessToast } from "@/lib/toasts";
 import { useAuthContext } from "@/context/authContext";
 import { getVerifiedToken } from "@/lib/cookieService";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Import Quill styles
+
 
 const CourseIntroPage: React.FC = () => {
   const location = useLocation();
@@ -33,7 +33,6 @@ const CourseIntroPage: React.FC = () => {
       const response = await axios.post(`${COURSE_API}/get-course`, {
         courseId,
       });
-      console.log("Fetched course data:", response.data);
 
       if (!response.data.success) {
         ErrorToast(response.data.message);
@@ -43,7 +42,6 @@ const CourseIntroPage: React.FC = () => {
       setMarkdown(fetchedCourseData.markdownContent || "");
       setPreview(fetchedCourseData.thumbnail);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       ErrorToast(error.response?.data?.message || "Something went wrong");
     }
@@ -74,18 +72,35 @@ const CourseIntroPage: React.FC = () => {
       formData.append("tutorName", updatedCourse.tutorName);
       formData.append("description", updatedCourse.description);
       formData.append("markdownContent", markdown);
+      formData.append("redirectLink" , updatedCourse.redirectLink?? "");
+      formData.append("sellingPrice" , updatedCourse.sellingPrice?.toString() ?? "0");
+      formData.append("originalPrice" , updatedCourse.originalPrice?.toString() ?? "1");
+      formData.append("currency" , updatedCourse.currency?.toString() ?? "$");
+
 
       if (updatedCourse.thumbnail instanceof File) {
         const blob = new Blob([updatedCourse.thumbnail], {
           type: updatedCourse.thumbnail.type,
         });
-        formData.append(
-          "youtubeCourseImage",
-          blob,
-          updatedCourse.thumbnail.name
-        );
+        if(type === "youtube"){
+          formData.append("youtubeCourseImage", blob, updatedCourse.thumbnail.name);
+        }
+        else if(type === "personal"){
+          formData.append("personalCourseImage", blob, updatedCourse.thumbnail.name);
+        }
+        else{
+          formData.append("redirectCourseImage", blob, updatedCourse.thumbnail.name);
+        }
       } else {
-        formData.append("youtubeCourseImage", updatedCourse.thumbnail);
+        if(type === "youtube"){
+          formData.append("youtubeCourseImage", updatedCourse.thumbnail);
+        }
+        else if(type === "personal"){
+          formData.append("personalCourseImage", updatedCourse.thumbnail);
+        }
+        else{
+          formData.append("redirectCourseImage", updatedCourse.thumbnail);
+        }
       }
 
       console.log(formData);
@@ -108,13 +123,12 @@ const CourseIntroPage: React.FC = () => {
       setCourseData(updatedCourse as ICourseData);
       fetchCourseData();
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       ErrorToast(error.response?.data?.message || "Something went wrong");
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
   const handleEditCourse = (updatedCourse: any) => {
     console.log("Updated Course:", updatedCourse);
     setCourseData((c) => ({
@@ -127,11 +141,11 @@ const CourseIntroPage: React.FC = () => {
     setPreview(preview);
   };
 
-  if (!courseData) return <p>Loading course data...</p>; // Handle loading state
-
+  if (!courseData) return <p>Loading course data...</p>; 
+  
   return (
-    <div className="flex flex-col w-full mx-auto pt-40  px-20 min-h-screen bg-gray-100 dark:bg-gray-900   overflow-auto hide-scrollbar">
-      <div className="flex w-full mx-auto   overflow-auto hide-scrollbar">
+    <div className="flex flex-col w-full mx-auto pt-32  px-20 min-h-screen bg-gray-100 dark:bg-gray-900   overflow-auto hide-scrollbar">
+      <div className="flex w-full mx-auto  overflow-auto hide-scrollbar">
         {/* Left Section: Editable Content */}
         <div className="flex-1 p-8 space-y-2 overflow-auto font-ubuntu">
           <h1 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
@@ -153,6 +167,7 @@ const CourseIntroPage: React.FC = () => {
               />
             </div>
           )}
+          
         </div>
 
         {/* Right Section: Course Card */}
@@ -234,49 +249,11 @@ const CourseIntroPage: React.FC = () => {
                 onChange={(value) => setMarkdown(value || "")}
               />
             ) : (
-              <ReactQuill
-                value={markdown}
-                onChange={(value) => setMarkdown(value || "")}
-                modules={{
-                  toolbar: {
-                    container: [
-                      [{ font: [] }, { size: [] }],
-                      [{ header: [1, 2, 3, false] }],
-                      [{ color: [] }, { background: [] }],
-                      ["bold", "italic", "underline", "strike"],
-                      [{ list: "ordered" }, { list: "bullet" }],
-                      [{ indent: "-1" }, { indent: "+1" }],
-                      [{ align: [] }],
-                      ["link", "image", "blockquote"],
-                      ["clean"],
-                    ],
-                  },
-                }}
-                formats={[
-                  "font",
-                  "size",
-                  "header",
-                  "bold",
-                  "italic",
-                  "underline",
-                  "strike",
-                  "list",
-                  "bullet",
-                  "indent",
-                  "align",
-                  "color",
-                  "background",
-                  "link",
-                  "image",
-                  "blockquote",
-                ]}
-                className="bg-transparent text-black dark:text-white my-12"
-                style={{
-                  height: "500px",
-                  fontFamily:
-                    "'Ubuntu', 'Noto Sans', 'Libre Baskerville', sans-serif",
-                }}
-              />
+              <div className="w-full border-[1px] border-slate-800 dark:border-white-500 rounded-xl min-h-40 justify-center items-center flex ">
+                <h1 className="text-xl font-ubuntu">
+                  Quill is under maintainance
+                </h1>
+              </div>
             )}
           </div>
           <Button
