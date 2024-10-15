@@ -11,6 +11,7 @@ import { handleResendVerficationOTPFunction, handleEmailVerificationOTP } from "
 import { handleGetUserDataFunction } from "../controllers/user/userGetData.controllers";
 import { handleUpdateUserImageFunction } from "../controllers/user/userProfileUpdate.controllers";
 import { handleResetPasswordFunction, handleResetPasswordVerificationOTP } from "../controllers/user/userResetPassword.controllers";
+import { handleUserBookmarksfunction } from "../controllers/user/userCourseHandlers.controllers";
 
 const userRoute = express.Router();
 
@@ -43,5 +44,9 @@ userRoute.post("/update-user-image", authenticateToken , upload.single("image"),
 // User Update and Deletion Routes
 userRoute.put("/update-user", authenticateToken, handleUpdateUserFunction);
 userRoute.post("/delete-account", authenticateToken, handleDeleteAccountFunction);
+
+//User added bookmarks to the course
+userRoute.post("/user-bookmarks" , authenticateToken , handleUserBookmarksfunction);
+
 
 export default userRoute;

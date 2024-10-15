@@ -49,6 +49,46 @@ export async function cloudinaryUploadCourseImageFiles(localFilePath: string) {
   }
 }
 
+export async function cloudinaryUploadVideoImageFiles(localFilePath: string) {
+  if (!localFilePath) {
+    return null;
+  } else {
+    try {
+      const response = await cloudinary.uploader.upload(localFilePath, {
+        resource_type: "auto",
+        folder: "videoImages",
+      });
+
+      return {
+        url: response.secure_url,
+        public_id: response.public_id,
+      };
+    } catch (error) {
+      return null;
+    }
+  }
+}
+
+export async function cloudinaryUploadVideoFiles(localFilePath: string) {
+  if (!localFilePath) {
+    return null;
+  } else {
+    try {
+      const response = await cloudinary.uploader.upload(localFilePath, {
+        resource_type: "auto",
+        folder: "VideoFiles",
+      });
+
+      return {
+        url: response.secure_url,
+        public_id: response.public_id,
+      };
+    } catch (error) {
+      return null;
+    }
+  }
+}
+
 export async function cloudinaryDeleteUserImage(ImageUrl: string) {
   if (!ImageUrl) {
     return null;
@@ -89,6 +129,50 @@ export async function cloudinaryDeleteCourseImage(ImageUrl: string) {
     return result;
   } catch (error) {
     console.error("Error deleting course image:", error);
+    return null;
+  }
+}
+
+export async function cloudinaryDeleteVideoImage(ImageUrl: string) {
+  if (!ImageUrl) {
+    return null;
+  }
+
+  const publicId = `videoImages/${extractPublicIdFromUrl(ImageUrl)}`;
+
+  if (!publicId) {
+    return null;
+  }
+
+  try {
+    const result = await cloudinary.uploader.destroy(publicId, {
+      resource_type: "image",
+    });
+    return result;
+  } catch (error) {
+    console.error("Error deleting course image:", error);
+    return null;
+  }
+}
+
+export async function cloudinaryDeleteVideoFile(VideoUrl: string) {
+  if (!VideoUrl) {
+    return null;
+  }
+
+  const publicId = `VideoFiles/${extractPublicIdFromUrl(VideoUrl)}`;
+
+  if (!publicId) {
+    return null;
+  }
+
+  try {
+    const result = await cloudinary.uploader.destroy(publicId, {
+      resource_type: "video",
+    });
+    return result;
+  } catch (error) {
+    console.error("Error deleting course video:", error);
     return null;
   }
 }
