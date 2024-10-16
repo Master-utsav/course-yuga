@@ -38,10 +38,11 @@ const DashboardNavItem: React.FC<DashboardNavItemProps> = ({
         ${isSideBarOpen ? "justify-start" : "justify-center"} 
         space-x-3 py-2 dashboard_li_item`}
     >
-      <Link
+    <Link
         to={link}
         className="flex items-center space-x-2 relative overflow-hidden w-full"
-      >
+        >
+        {!isSideBarOpen &&   
         <Tooltip 
           showArrow
           placement="right"
@@ -57,6 +58,17 @@ const DashboardNavItem: React.FC<DashboardNavItemProps> = ({
             ],
           }}
         >
+          <span className="group-hover:scale-110 transition-all ease-in-out duration-300 cursor-pointer px-4">
+            {theme === "dark" ? (
+              <Icon fillColor="white" size={24} />
+            ) : (
+              <Icon fillColor="black" size={24} />
+            )}
+          </span>
+         </Tooltip>
+}
+        {isSideBarOpen ? (
+          <>
           <span className="group-hover:scale-110 transition-all ease-in-out duration-300 cursor-pointer ">
             {theme === "dark" ? (
               <Icon fillColor="white" size={24} />
@@ -64,9 +76,6 @@ const DashboardNavItem: React.FC<DashboardNavItemProps> = ({
               <Icon fillColor="black" size={24} />
             )}
           </span>
-        </Tooltip>
-
-        {isSideBarOpen ? (
           <span
             className="text-base font-medium font-ubuntu text-center 
               dark:text-white text-black group-hover:text-black/80 
@@ -74,6 +83,7 @@ const DashboardNavItem: React.FC<DashboardNavItemProps> = ({
           >
             {title}
           </span>
+          </>
         ) : (
           <></>
         )}

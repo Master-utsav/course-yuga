@@ -205,6 +205,7 @@ export interface IUpdateCourse {
   uploadedBy?: string
 }
 export interface ICourseData {
+  _id?: string;
   courseName: string;
   tutorName: string;
   courseType: string;
@@ -488,6 +489,12 @@ export const DashBoardNavItems: DashboardNavItemProps[] = [
       Icon: AddIcon,  
       title: "Add Courses",
       link: "/user/add-courses",
+  },
+    {   
+      theme: "dark",
+      Icon: AddIcon,  
+      title: "Add Videos",
+      link: "/user/add-videos",
   },
     {   
       theme: "dark",

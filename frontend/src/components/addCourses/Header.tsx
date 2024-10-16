@@ -5,7 +5,7 @@ import AddIcon from "@/Icons/AddIcon";
 import BulbIcon from "@/Icons/BulbIcon";
 import AfternoonSunIcon from "@/Icons/AfternoonSunIcon";
 import MorningEveningSunIcon from "@/Icons/MorningEveningSunIcon";
-import { Button } from "@nextui-org/react";
+import { Accordion, AccordionItem, Button } from "@nextui-org/react";
 import { useTheme } from "@/context/ThemeProvider";
 import NightMoonIcon from "@/Icons/NightMoonIcon";
 
@@ -82,18 +82,23 @@ const Header: React.FC<HeaderProps> = ({ onCategory }) => {
       <motion.div
         className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-5 shadow-inner"
         variants={containerVariants}
-      >
-        <div className="flex items-start gap-3 font-ubuntu">
-          <BulbIcon fillColor="rgb(234 179 8)" size={32} />
-          <p className="text-gray-700 dark:text-gray-300">
-            If you want to create a <b>Personal Course</b>, you need to select a
-            category and pay a nominal fee for uploading. <br />
-            If you're creating a <b>YouTube Course</b>, it will be free of cost.{" "}
-            <br />
-            If you want to build a <b>Redirecting Course Template</b> that links
-            to your course site, you can choose that too.
-          </p>
-        </div>
+      >  
+      <Accordion defaultExpandedKeys={["2"]}>
+        <AccordionItem key="1" aria-label="Accordion 1" subtitle="Please read before uploading" title="Course Fee Or is it Free?">
+          <div className="flex items-start gap-3 font-ubuntu">
+            <BulbIcon fillColor="rgb(234 179 8)" size={32} />
+            <p className="text-gray-700 dark:text-gray-300">
+              If you want to create a <b>Personal Course</b>, you need to select a
+              category and pay a nominal fee for uploading. <br />
+              If you're creating a <b>YouTube Course</b>, it will be free of cost.{" "}
+              <br />
+              If you want to build a <b>Redirecting Course Template</b> that links
+              to your course site, you can choose that too.
+            </p>
+          </div>
+        </AccordionItem>
+      </Accordion>
+        
       </motion.div>
 
       {/* Category Selection Buttons */}

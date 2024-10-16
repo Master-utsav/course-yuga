@@ -1,4 +1,4 @@
-import { AuthenticatedRequest } from "../../middleware/auth.middleware";
+import { AuthenticatedAdminRequest, AuthenticatedRequest } from "../../middleware/auth.middleware";
 import { Request, Response } from "express";
 import CourseModel, { ICourse } from "../../models/Course.model";
 
@@ -26,7 +26,6 @@ export async function handleFetchCourseByIdFunction(req: Request, res: Response)
 
 
 export async function handleFetchAllCoursesFunction(req: Request, res: Response) {
-
 
   try {
     const courses: ICourse[] = await CourseModel.find().select(
@@ -58,3 +57,27 @@ export async function handleFetchAllCoursesFunction(req: Request, res: Response)
   }
   
 }
+
+export async function handlegetCoursesByUserIdFunction (req: AuthenticatedAdminRequest, res: Response) {
+  const userId = req.userId;
+
+  if (!userId) {
+    return res.status(400).json({ success: false, message: "User ID is required" });
+  }
+
+  try {
+    const courses = await CourseModel.find({ uploadedBy: userId });
+
+    if (courses.length === 0) {
+      return res.status(404).json({ success: false, message: "No courses found" });
+    }
+
+    return res.status(200).json({ success: true, data: courses });
+
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+

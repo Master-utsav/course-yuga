@@ -127,7 +127,7 @@ function App() {
                 <DashboardContextProvider>
                   <div className="h-screen flex">
                     <DashBoardNavbar  />
-                    <main className="flex-1 overflow-auto p-4 bg-white dark:bg-gray-900">
+                    <main className="flex-1 overflow-auto p-4 bg-white dark:bg-gray-900 scrollbar-custom">
                       <DashboardRoutes />
                     </main>
                   </div>
