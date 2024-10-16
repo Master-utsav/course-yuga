@@ -2,8 +2,11 @@ import Header from '@/components/addCourses/Header'
 import PersonalCourseForm from '@/components/addCourses/PersonalCourseForm'
 import RedirectCourseForm from '@/components/addCourses/RedirectCourseForm'
 import YoutubeCourseForm from '@/components/addCourses/YoutubeCourseForm'
+import UserCourses from '@/components/addVideos/UserCourses'
 import { motion } from 'framer-motion'
 import React from 'react'
+import { VideoContextProvider } from '@/context/videoContext'
+
 
 const AddCourses = () => {
 
@@ -13,6 +16,7 @@ const AddCourses = () => {
     setSelectedCategory(category)
   }
   return (
+    <VideoContextProvider>
     <motion.div
       className="w-full bg-white dark:bg-gray-800 min-h-screen"
       variants={{
@@ -23,12 +27,12 @@ const AddCourses = () => {
       transition={{ duration: 0.3 }}
     >
     <Header onCategory={handleSelectedCategory}/>
-    
     {selectedCategory === "YouTube Course" && <YoutubeCourseForm />}
     {selectedCategory === "Redirecting Course" && <RedirectCourseForm />}
     {selectedCategory === "Personal Course" && <PersonalCourseForm />}
-    
+    <UserCourses/>
     </motion.div>
+    </VideoContextProvider>
   )
 }
 

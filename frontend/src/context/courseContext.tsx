@@ -6,10 +6,10 @@ import { COURSE_API } from "@/lib/env";
 import { ErrorToast } from "@/lib/toasts";
 
 interface CourseContextType {
-  coursesData: ICourseData[] | undefined;
-  setCoursesData: React.Dispatch<React.SetStateAction<ICourseData[] | undefined>>;
-  updatedCourseData: ICourseData[] | undefined;
-  setupdatedCourseData: React.Dispatch<React.SetStateAction<ICourseData[] | undefined>>;
+  coursesData: ICourseData[];
+  setCoursesData: React.Dispatch<React.SetStateAction<ICourseData[]>>;
+  updatedCourseData: ICourseData[];
+  setupdatedCourseData: React.Dispatch<React.SetStateAction<ICourseData[]>>;
 }
 
 export const CourseContext = createContext<CourseContextType | undefined>(undefined);
@@ -23,11 +23,9 @@ export const useCourseContext = () => {
   return context;
 };
 
-
-
 export const CourseContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [coursesData, setCoursesData] = useState<ICourseData[]>();
-  const [updatedCourseData , setupdatedCourseData] = useState<ICourseData[]>();
+  const [coursesData, setCoursesData] = useState<ICourseData[]>([]);
+  const [updatedCourseData , setupdatedCourseData] = useState<ICourseData[]>([]);
 
   const fetchCourseData = React.useCallback(async() =>{
     try {

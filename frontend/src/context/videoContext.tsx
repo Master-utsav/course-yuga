@@ -45,6 +45,10 @@ export const VideoContextProvider: React.FC<{ children: ReactNode }> = ({ childr
               if(data){
                 const personalAndYoutubeCoursesData = data.filter((c:ICourseData) => c.courseType !== "REDIRECT");
                 setUserUploadedCourse(personalAndYoutubeCoursesData);
+                console.log(personalAndYoutubeCoursesData.length)
+                if(personalAndYoutubeCoursesData.length === 0){
+                  setIsAlertActive(true);
+                }
                 setRefresh(false);
               }
             }

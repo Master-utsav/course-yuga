@@ -1,3 +1,4 @@
+import { ICourseData } from "@/constants";
 import { useCourseContext } from "@/context/courseContext";
 import { ErrorToast } from "@/lib/toasts";
 import { Select, SelectItem } from "@nextui-org/react";
@@ -8,14 +9,14 @@ const EducatorFilter: React.FC = () => {
 
   const uniqueEducators = [
     "All",
-    ...new Set(coursesData.map((course) => course.tutorName)),
+    ...new Set(coursesData?.map((course) => course.tutorName)),
   ];
   async function handleEducatorChange (educator: string) {
     
     const educatorValue = uniqueEducators[parseFloat(educator)].toString();
   
     try {
-        const updatedCourseData = coursesData.filter(
+        const updatedCourseData: ICourseData[] = coursesData?.filter(
           (course) => course.tutorName === educatorValue
         );
         setupdatedCourseData(updatedCourseData);

@@ -1,8 +1,6 @@
-import UserCourses from '@/components/addVideos/UserCourses'
-import VideoHeader from '@/components/addVideos/VideoHeader'
+import ManageVideos from '@/components/addVideos/ManageVideos'
 import { VideoContextProvider } from '@/context/videoContext'
 import { motion } from 'framer-motion'
-import React from 'react'
 
 const AddVideos = () => {
 
@@ -17,8 +15,7 @@ const AddVideos = () => {
         }}
         transition={{ duration: 0.3 }}
         >
-        <VideoHeader/>
-        <UserCourses/>
+        <ManageVideos/>
         </motion.div>
     </VideoContextProvider>
   )

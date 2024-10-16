@@ -10,13 +10,13 @@ const {userUploadedCourse} = useVideoContext();
   return (
          userUploadedCourse.map((courseData , i) => {
             return (
-                <>
+                <div className="w-full" key={i}>
                 <Seperator text={courseData.courseName}/>
                 <VideoCourseCard
                     key={i}
                     courseData={courseData}
                 />
-                </>
+                </div>
             );
          })
   );

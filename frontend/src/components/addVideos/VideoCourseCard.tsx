@@ -99,7 +99,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({courseData}) => {
           </div>
         </div>
         <div className='flex flex-col space-y-4 text-base font-medium font-ubuntu justify-end  w-1/4 items-center'>
-            <Link to={`/user/manage-videos?courseId=${courseData._id}&name=${courseData.courseName}`} className="w-full">
+            <Link to={`/user/add-videos?courseId=${courseData._id}&name=${courseData.courseName}`} className="w-full">
                 <Button
                 className="
                     w-full py-3 font-ubuntu text-base font-medium 

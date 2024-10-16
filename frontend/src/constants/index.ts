@@ -136,56 +136,6 @@ export const educatorsInfiniteScrollData = [
     },
 ]
 
-export interface CourseProps {
-  id: number;                   // Unique identifier for the course
-  courseName: string;          // Name of the course
-  tutorName: string;           // Name of the tutor
-  courseType: string;
-  description: string;         // Description of the course
-  thumbnail: string;               // URL of the course thumbnail
-  progress: number;            // Progress percentage of the course
-  rating: number;              // Average rating of the course
-  sellingPrice: number;        // Selling price of the course
-  originalPrice: number;       // Original price of the course
-  currency: string;            // Currency symbol
-  ratingCount: number;         // Number of ratings received
-  createdAt: string;           // Date of course creation in ISO format
-}
-
-
-export interface CourseData {
-  courseName: string;
-  tutorName: string;
-  courseType: string;
-  id: number;
-  sellingPrice: number;
-  originalPrice: number;
-  currency: string;
-  rating: number;
-  ratingCount: number;
-  createdAt: string;
-  description: string;
-  thumbnail: string;
-  markdownContent?: string;
-  redirectLink?: string;
-}
-// export interface ICourseData {
-//   courseName: string;
-//   tutorName: string;
-//   courseType: string;
-//   id: string;
-//   sellingPrice: number;
-//   originalPrice: number;
-//   currency: string;
-//   rating: number;
-//   ratingCount: number;
-//   createdAt: string;
-//   description: string;
-//   thumbnail: string;
-//   markdownContent?: string;
-//   redirectLink?: string;
-//   uploadedBy: string
-// }
 
 export interface IUpdateCourse {
   courseName: string;
@@ -215,7 +165,7 @@ export interface ICourseData {
   currency: string;
   rating: number;
   ratingCount: number;
-  createdAt?: string;
+  createdAt: string;
   description: string;
   thumbnail: string;
   markdownContent?: string;
@@ -387,6 +337,25 @@ export const courses = [
 
   }
 ];
+
+export interface IVideoData{
+  _id: string;
+  videoName: string;
+  tutorName: string;
+  videoType: "PERSONAL" | "YOUTUBE";
+  courseId: string
+  uploadedBy: string;
+  thumbnail: string;
+  videoUrl: string;
+  description?: string;
+  watchedBy?: string[]; 
+  watchCount?: number; 
+  videoTimeStamps?: {
+    time: number; 
+    text: string; 
+  }[]; 
+  isVerified: boolean;
+}
 
 
 export interface LoginUserDataProps{

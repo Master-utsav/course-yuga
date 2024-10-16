@@ -31,6 +31,7 @@ export interface ICourse extends Document {
   redirectLink?: string;
   enrolledBy?: Types.ObjectId[];
   enrolledCount?: number;
+  videos?: Types.ObjectId[];
 }
 
 const ratingSchema = new Schema<IRating>(
@@ -62,6 +63,7 @@ const courseSchema = new Schema<ICourse>(
     markdownContent: { type: String },
     redirectLink: { type: String, trim: true },
     enrolledBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
   },
   {
     toJSON: { virtuals: true },

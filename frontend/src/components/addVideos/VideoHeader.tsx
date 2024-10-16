@@ -2,20 +2,39 @@ import React from "react";
 import { motion } from "framer-motion";
 import { useAuthContext } from "@/context/authContext";
 import BulbIcon from "@/Icons/BulbIcon";
-import { Accordion, AccordionItem } from "@nextui-org/react";
-
+import { Accordion, AccordionItem, Button } from "@nextui-org/react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Link } from "react-router-dom";
 import { useVideoContext } from "@/context/videoContext";
+import AddIcon from "@/Icons/AddIcon";
+import { useTheme } from "@/context/ThemeProvider";
 
-const VideoHeader: React.FC = () => {
+const containerVariants = {
+  hidden: { opacity: 1, x: -1500, filter: "blur(50px)" },
+  visible: { opacity: 1, x: 0, filter: "blur(0px)" },
+};
+
+interface VideoHeaderProps {
+  onCategory: (category: string) => void;
+  courseId: string | null;
+  courseName: string | null;
+}
+
+const VideoHeader: React.FC<VideoHeaderProps> = ({onCategory , courseId , courseName}) => {
   const { userData } = useAuthContext();
   const {isAlertActive} = useVideoContext();
   
-  const containerVariants = {
-    hidden: { opacity: 1, x: -1500, filter: "blur(50px)" },
-    visible: { opacity: 1, x: 0, filter: "blur(0px)" },
-  };
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
+    const {theme} = useTheme();
+   
+    function handleCategoryClick() {
+        if (selectedCategory !== null) {
+          onCategory(selectedCategory);
+          setSelectedCategory(null);
+        } else {
+          setSelectedCategory(null);
+        }
+    }
 
   return (
     <motion.section
@@ -43,6 +62,18 @@ const VideoHeader: React.FC = () => {
             {userData.firstName}!
           </i>
         </h1>
+        <h1 className="text-3xl font-semibold font-libre bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
+          <span className="text-3xl font-medium font-ubuntu">
+            You are managing
+          </span>
+          ,{" "}
+          <Link to={`/course-intro-page?courseId=${courseId}`} className="font-ubuntu underline decoration-purple-500">
+            {courseName}!
+          </Link>
+        </h1>
+      </motion.div>
+      <motion.div className="flex items-center gap-3 mb-5 px-2">
+        
       </motion.div>
 
       <motion.div
@@ -67,8 +98,37 @@ const VideoHeader: React.FC = () => {
         </div>
         </AccordionItem>
       </Accordion>
-        
       </motion.div>
+
+      <div className="flex flex-col md:flex-row gap-4 mb-5">
+        {["Personal Video", "YouTube Video"].map(
+          (category) => (
+            <Button
+              key={category}
+              className={`w-full p-6 text-base rounded-lg dark:text-white text-black font-ubuntu font-medium border-[1px] transition-colors ${
+                selectedCategory === category
+                  ? "dark:bg-indigo-800 bg-indigo-100 dark:border-indigo-400 border-indigo-500"
+                  : "bg-black/10 dark:bg-black/30 hover:bg-gray-200 dark:hover:bg-gray-700"
+              }`}
+              onClick={() => setSelectedCategory(category)}
+            >
+              {category}
+            </Button>
+          )
+        )}
+        <Button
+          className={`w-full p-6 rounded-lg font-medium flex items-center justify-center gap-2 transition-colors ${
+            selectedCategory
+              ? "bg-gradient-to-r from-blue-600 to-indigo-800 hover:from-indigo-600 hover:to-purple-600 text-white"
+              : "bg-gray-300 dark:bg-gray-600 text-gray-400 cursor-not-allowed"
+          }`}
+          disabled={!selectedCategory}
+          onClick={handleCategoryClick}
+        >
+          <AddIcon fillColor={theme === "dark" ? "white" : "black"} />
+          Create Course
+        </Button>
+      </div>
 
       {isAlertActive && (
             <div className="flex flex-col justify-center items-center gap-4 p-6 bg-yellow-100 border border-yellow-300 rounded-md shadow-md">
@@ -90,6 +150,7 @@ const VideoHeader: React.FC = () => {
                 </div>
             </div>
          )}
+
     </motion.section>
   );
 };
