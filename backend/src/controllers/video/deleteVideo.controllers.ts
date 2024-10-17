@@ -2,6 +2,7 @@ import { Response } from "express";
 import { AuthenticatedAdminRequest } from "../../middleware/auth.middleware";
 import VideoModel from "../../models/Video.model";
 import CourseModel from "../../models/Course.model";
+import mongoose  from "mongoose";
 
 export async function handleDeleteVideoFunction(req: AuthenticatedAdminRequest, res: Response) {
     const userId = req.userId;
@@ -27,9 +28,12 @@ export async function handleDeleteVideoFunction(req: AuthenticatedAdminRequest, 
         if (!course) {
             return res.status(404).json({ success: false, message: "Course not found" });
         }
-
-        const updatedUploadedVideos = course.videos.filter((id: string) => id.toString() !== videoId);
-        course.videos = updatedUploadedVideos;
+        
+        const videoObjectId = new mongoose.Types.ObjectId(videoId);
+      
+        course.videos = course.videos.filter(
+            (id: any) => !id.equals(videoObjectId)
+        );
 
         await course.save();
 

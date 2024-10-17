@@ -28,7 +28,11 @@ export async function handleGetUserDataFunction(
       bio: user.bio,
       userDob: user.userDob,
       address: user.address,
-    };
+      enrolledIn: user.enrolledIn,
+      bookmarks: user.bookmarks,
+      markAsDoneVideos : user.markAsDoneVideos
+      
+  };
     return res.status(200).json({ success: true, data });
   } catch (error) {
     console.log(error);

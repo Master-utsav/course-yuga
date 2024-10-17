@@ -4,7 +4,7 @@ import { handleAddNewPersonalCourseFunction, handleAddNewRedirectCourseFunction,
 import { upload } from "../middleware/multer.middleware";
 import { handleFetchAllCoursesFunction, handleFetchCourseByIdFunction, handlegetCoursesByUserIdFunction } from "../controllers/course/getCourses.controllers";
 import { handleUpdatePersonalCourseFunction, handleUpdateRedirectCourseFunction, handleUpdateYoutubeCourseFunction } from "../controllers/course/updateCourse.controllers";
-import { handleUserEnrolledCourseFunction } from "../controllers/course/enrolledCourses.controllers";
+import { handleGetAllCoursesEnrolledByUser, handleUserEnrolledCourseFunction } from "../controllers/course/enrolledCourses.controllers";
 import { handleDeleteCourseFunction } from "../controllers/course/deleteCourse.controllers";
 
 const courseRoute = express.Router();
@@ -16,6 +16,8 @@ courseRoute.post("/get-course" , handleFetchCourseByIdFunction);
 courseRoute.get("/get-all-courses" , handleFetchAllCoursesFunction);
 courseRoute.get("/get-admin-courses" , authenticateAdminToken ,  handlegetCoursesByUserIdFunction);
 
+courseRoute.get("/get-user-enrolled-courses" , authenticateToken ,  handleGetAllCoursesEnrolledByUser);
+
 courseRoute.post("/enroll-in-course" , authenticateToken , handleUserEnrolledCourseFunction);
 
 courseRoute.post("/add-course/youtube" , authenticateAdminToken , upload.single("youtubeCourseImage"),   handleAddNewYoutubeCourseFunction);
@@ -26,6 +28,6 @@ courseRoute.put("/update-course/youtube" , authenticateAdminToken , upload.singl
 courseRoute.put("/update-course/personal" , authenticateAdminToken , upload.single("personalCourseImage"),   handleUpdatePersonalCourseFunction);
 courseRoute.put("/update-course/redirect" , authenticateAdminToken , upload.single("redirectCourseImage"),   handleUpdateRedirectCourseFunction);
 
-courseRoute.delete("/delete-course" , authenticateAdminToken, handleDeleteCourseFunction);
+courseRoute.post("/delete-course" , authenticateAdminToken, handleDeleteCourseFunction);
 
 export default courseRoute;

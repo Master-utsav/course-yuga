@@ -173,6 +173,26 @@ export interface ICourseData {
   uploadedBy?: string
 }
 
+export interface IUserCourseData {
+  _id?: string;
+  courseName: string;
+  tutorName: string;
+  courseType: string;
+  courseId: string;
+  sellingPrice: number;
+  originalPrice: number;
+  currency: string;
+  rating: number;
+  ratingCount: number;
+  createdAt: string;
+  description: string;
+  thumbnail: string;
+  markdownContent?: string;
+  redirectLink?: string;
+  uploadedBy?: string;
+  progress?: number;
+}
+
 
 export const courseDataTemplate: ICourseData = {
   courseName: "Your course name",

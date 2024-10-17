@@ -18,7 +18,7 @@ const AddCourses = () => {
   return (
     <VideoContextProvider>
     <motion.div
-      className="w-full bg-white dark:bg-gray-800 min-h-screen"
+      className="w-full bg-white dark:bg-gray-800 min-h-screen relative"
       variants={{
         hidden: { opacity: 0.3, scale: 0.8 },
         visible: { opacity: 1, scale: 1 },

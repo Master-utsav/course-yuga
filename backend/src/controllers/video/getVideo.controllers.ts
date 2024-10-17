@@ -4,6 +4,7 @@ import VideoModel from "../../models/Video.model";
 export async function handleGetAllVideosOfCourse(req: Request , res : Response){
 
     const {courseId} = req.query;
+    
     if(!courseId){
         return res.status(400).json({success : false , message: "Course ID is required"});
     }

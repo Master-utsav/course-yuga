@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
-import CircularProgressBar from "./CircularProgressBar";
-import { Button , Image} from "@nextui-org/react"; // Assuming you're using NextUI's Button component
-import { IUserCourseData } from "@/constants";
+import { Button , Image} from "@nextui-org/react"; 
+import { IVideoData } from "@/constants";
 import { Link } from "react-router-dom";
 import BookmarkIcon2 from "@/Icons/BookmarkIcon2";
 import { useTheme } from "@/context/ThemeProvider";
@@ -13,7 +12,6 @@ import React from "react";
 import { useAuthContext } from "@/context/authContext";
 import { getUserData } from "@/lib/authService";
 import { debounce } from "@/lib/debounce";
-// import { courses } from "@/constants";
 
 const cardVariants = {
   hidden: (i : number) => ({ opacity: 1, scale: 1, x: i * -420 , filter: "blur(8px)", zIndex: i * -1}),
@@ -30,19 +28,19 @@ const cardVariants = {
   }),
 };
 
-interface CoursesInterface{
-  courses: IUserCourseData[] | [];
+interface VideoInterface{
+    videos: IVideoData[] | [];
 }
 
-const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
+const UserVideoCard: React.FC<VideoInterface> = ({ videos }) => {
   const {theme} = useTheme();
   const {userData , setUserData} = useAuthContext();
 
-  const debouncedHandleBookmark = debounce(async(courseId : string) =>{
+  const debouncedHandleBookmark = debounce(async(videoId : string) =>{
     const jwt = getVerifiedToken();
-    if(!courseId) return;
+    if(!videoId) return;
     try {
-      const response = await axios.post(`${USER_API}/user-course-bookmarks` , {courseId} , {
+      const response = await axios.post(`${USER_API}/user-video-bookmarks` , {videoId} , {
         headers: {
           Authorization : `Bearer ${jwt}`,
           "Content-Type" : "application/json"
@@ -65,19 +63,20 @@ const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
     }
   } , 500)
 
-  const handleBookmarkClick = (courseId: string | undefined) => {
-    if (!courseId) return;
-    debouncedHandleBookmark(courseId);
+  const handleBookmarkClick = (videoId: string | undefined) => {
+    if (!videoId) return;
+    debouncedHandleBookmark(videoId);
   };
+
   return (
     <motion.div
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 py-5 "
       initial="hidden"
       animate="visible"
     >
-      {courses.map((course, i) => (
+      {videos.map((video, i) => (
         <motion.div
-          key={course._id}
+          key={i}
           className="w-full space-y-2 relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
           custom={i}
           variants={cardVariants}
@@ -85,36 +84,33 @@ const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
           <div className="w-full relative bg-transparent">
             <Image
               isBlurred
-              src={course.thumbnail}
+              src={video.thumbnail}
               alt="NextUI Album Cover"
               className="z-0 object-cover aspect-video"
             />
-            <div className="absolute bottom-1 right-1">
-              <CircularProgressBar progress={course.progress?? 0} />
-            </div>
           </div>
 
           <div className="p-3 space-y-1">
             <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-              {course.courseName}
+              {video.videoName}
             </h2>
 
             <h4 className="text-base text-gray-600 dark:text-white font-ubuntu">
-              {course.tutorName}
+              {video.tutorName}
             </h4>
 
             <i className="text-gray-600 dark:text-gray-400 text-sm font-extralight font-libre line-clamp-3 mb-3">
-              {course.description}
+              {video.description}
             </i>
           </div>
-            <Link to={`/user/view-course?courseId=${course._id}`}>
+            <Link to={`/user/video-player?videoId=${video._id}`}>
               <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
-                View Course
+                Watch Now
               </Button>
             </Link>
-            <Button className="w-full font-medium text-lg font-ubuntu bg-white-600 hover:bg-white-800 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900" onClick={() => handleBookmarkClick(course._id)}>
-              {course && course._id ? 
-              userData.bookmarks?.course.includes(course._id) ? 
+            <Button className="w-full font-medium text-lg font-ubuntu bg-white-600 hover:bg-white-800 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900" onClick={() => handleBookmarkClick(video._id)}>
+              {video && video._id ? 
+              userData.bookmarks?.video.includes(video._id) ? 
               (<>
                <BookmarkIcon2 fillColor={theme === "dark" ? "white" : "black"} size={24}/> 
                <span>Bookmarked</span>
@@ -135,4 +131,4 @@ const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
   );
 };
 
-export default UserCourseCard;
+export default UserVideoCard;

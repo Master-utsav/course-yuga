@@ -42,14 +42,23 @@ export const VideoContextProvider: React.FC<{ children: ReactNode }> = ({ childr
             })
             if(response && response.data && response.data.success){
               const data = response.data.data
+              // if(data){
+              //   const personalAndYoutubeCoursesData = data.filter((c:ICourseData) => c.courseType !== "REDIRECT");
+              //   setUserUploadedCourse(personalAndYoutubeCoursesData);
+              //   console.log(personalAndYoutubeCoursesData.length)
+              //   if(personalAndYoutubeCoursesData.length === 0){
+              //     setIsAlertActive(true);
+              //   }
+              //   setRefresh(false);
+              // }
               if(data){
-                const personalAndYoutubeCoursesData = data.filter((c:ICourseData) => c.courseType !== "REDIRECT");
-                setUserUploadedCourse(personalAndYoutubeCoursesData);
-                console.log(personalAndYoutubeCoursesData.length)
-                if(personalAndYoutubeCoursesData.length === 0){
+                setUserUploadedCourse(data);
+                if(data.length === 0){
                   setIsAlertActive(true);
                 }
-                setRefresh(false);
+                else{
+                  setIsAlertActive(false);
+                }
               }
             }
             else{

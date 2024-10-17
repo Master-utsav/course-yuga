@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useAuthContext } from "@/context/authContext";
-
 import DashBoard from "@/sections/DashBoardSections/DashBoard";
 import Bookmarks from "@/sections/DashBoardSections/Bookmarks";
 import Courses from "@/sections/DashBoardSections/Courses";
@@ -12,18 +11,18 @@ import TodoList from "@/sections/DashBoardSections/TodoList";
 import RefreshPage from "@/sections/DashBoardSections/RefreshPage";
 import Settings from "@/sections/DashBoardSections/Settings";
 import History from "@/sections/DashBoardSections/History";
-import AddCourses from "./AddCourses";
-import AddTests from "./AddTests";
+import AddCourses from "@/sections/DashBoardSections/AddCourses";
+import AddTests from "@/sections/DashBoardSections/AddTests";
 import PageTransitionSwipeAnimation from "@/Effects/PageTransitionSwipeAnimation";
-import AddVideos from "./AddVideos";
-import ManageVideos from "@/components/addVideos/ManageVideos";
+import AddVideos from "@/sections/DashBoardSections/AddVideos";
+import ViewCourse from "@/sections/DashBoardSections/ViewCourse";
 
 const DashboardRoutes: React.FC = () => {
   const { userData } = useAuthContext();
   const location = useLocation(); // Required to track page changes
 
   return (
-    <AnimatePresence mode="wait" >
+    <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         {/* Public Routes */}
         <Route
@@ -98,45 +97,47 @@ const DashboardRoutes: React.FC = () => {
             </PageTransitionSwipeAnimation>
           }
         />
+        <Route
+          path="/view-course"
+          element={
+            <PageTransitionSwipeAnimation>
+              <ViewCourse />
+            </PageTransitionSwipeAnimation>
+          }
+        />
+      </Routes>
 
         {/* Admin-only Routes */}
         {userData.role === "ADMIN" && (
-          <>
-            <Route
-              path="/add-courses"
-              element={
-                <PageTransitionSwipeAnimation>
+          // <main className="w-full min-h-screen dark:bg-gray-800 overflow-x-hidden bg-white-600 relative hide-scrollbar scrollbar-custom">
+            <Routes location={location} key={`ADMIN/${location.pathname}`}>
+              <Route
+                path="/add-courses"
+                element={
+                  // <PageTransitionSwipeAnimation>
                   <AddCourses />
-                </PageTransitionSwipeAnimation>
-              }
-            />
-            <Route
-              path="/add-tests"
-              element={
-                <PageTransitionSwipeAnimation>
-                  <AddTests />
-                </PageTransitionSwipeAnimation>
-              }
-            />
-            <Route
-              path="/add-videos"
-              element={
-                <PageTransitionSwipeAnimation>
-                  <AddVideos />
-                </PageTransitionSwipeAnimation>
-              }
-            />
-            <Route
-              path="/manage-videos"
-              element={
-                <PageTransitionSwipeAnimation>
-                  <ManageVideos />
-                </PageTransitionSwipeAnimation>
-              }
-            />
-          </>
+                  // </PageTransitionSwipeAnimation>
+                }
+              />
+              <Route
+                path="/add-tests"
+                element={
+                  <PageTransitionSwipeAnimation>
+                    <AddTests />
+                  </PageTransitionSwipeAnimation>
+                }
+              />
+              <Route
+                path="/add-videos"
+                element={
+                  <PageTransitionSwipeAnimation>
+                    <AddVideos />
+                  </PageTransitionSwipeAnimation>
+                }
+              />
+            </Routes>
+          // </main>
         )}
-      </Routes>
     </AnimatePresence>
   );
 };

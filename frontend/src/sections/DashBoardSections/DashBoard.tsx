@@ -1,18 +1,22 @@
 import React from "react"
 import UserCourseCard from "@/components/UserCourseCard";
-import { courses } from "@/constants";
+import { IUserCourseData } from "@/constants";
 import { useAuthContext } from "@/context/authContext";
-// import StaggeredBlurTextEffect from "@/Effects/StaggeredBlurTextEffect";
 import { motion } from "framer-motion";
 import { useTheme } from "@/context/ThemeProvider";
 import AfternoonSunIcon from "@/Icons/AfternoonSunIcon";
 import MorningEveningSunIcon from "@/Icons/MorningEveningSunIcon";
 import NightMoonIcon from "@/Icons/NightMoonIcon";
+import { getVerifiedToken } from "@/lib/cookieService";
+import axios from "axios";
+import { COURSE_API } from "@/lib/env";
+import { ErrorToast } from "@/lib/toasts";
 
 const DashBoard = () => {
   console.log("DashBoard rendered");
   const { userData } = useAuthContext();
   const [timeGreeting, setTimeGreeting] = React.useState("Hello");
+  const [userCourses , setUserCourses] = React.useState<IUserCourseData[] | []>([])
   const { theme } = useTheme();
 
   // Determine greeting based on the current time
@@ -29,6 +33,37 @@ const DashBoard = () => {
       setTimeGreeting("Night Owl");
     }
   }, []);
+
+  const fetchUserEnrolledCourses = React.useCallback(async() => {
+    const jwt = getVerifiedToken();
+
+    try {
+      const response = await axios.get(`${COURSE_API}/get-user-enrolled-courses`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        }
+      })
+
+      if(response && response.data && response.data.success){
+        setUserCourses(response.data.data)
+      }
+      else{
+        ErrorToast(response.data.message);
+        setUserCourses([]);
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error : any) {
+      ErrorToast(error?.response.data.message || "Something went wrong")
+      setUserCourses([]);
+    }
+
+  }, [])
+
+  React.useEffect(() => {
+    fetchUserEnrolledCourses();
+  } , [fetchUserEnrolledCourses])
+
+
 
   return (
       <motion.div
@@ -105,7 +140,7 @@ const DashBoard = () => {
           </i>
         </motion.p>
 
-        <UserCourseCard courses={courses} />
+        <UserCourseCard courses={userCourses} />
       </motion.div>
   );
 };

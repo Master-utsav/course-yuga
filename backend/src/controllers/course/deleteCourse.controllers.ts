@@ -3,6 +3,8 @@ import { AuthenticatedAdminRequest } from "../../middleware/auth.middleware";
 import CourseModel from "../../models/Course.model";
 import bcrypt from "bcryptjs"
 import User from "../../models/User.model";
+import mongoose from "mongoose";
+
 export async function handleDeleteCourseFunction (req: AuthenticatedAdminRequest , res: Response){
     const userId = req.userId;
     const { password , courseId} = req.body;
@@ -30,10 +32,13 @@ export async function handleDeleteCourseFunction (req: AuthenticatedAdminRequest
           .status(400)
           .json({ success: false, message: "Invalid password" });
       }
+      const courseObjectId = new mongoose.Types.ObjectId(courseId);
+      user.uploadedCourses = user.uploadedCourses.filter(
+        (id: any) => !id.equals(courseObjectId)
+      );
   
       const deletedCourse = await CourseModel.deleteOne({ _id : courseId });
-    
-      const updatedUploadedCourses = user.uploadedCourses.filter((id: any) => id !== courseId)
+
 
       if (!deletedCourse) {
         return res
@@ -41,7 +46,6 @@ export async function handleDeleteCourseFunction (req: AuthenticatedAdminRequest
           .json({ success: false, message: "Course not found" });
       }
     
-      user.uploadCourses = updatedUploadedCourses;
 
       await user.save();
 

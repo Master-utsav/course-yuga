@@ -24,6 +24,13 @@ export interface UserDataProps {
   role: string;
   avatarFallbackText: string;
   id: string;
+  enrolledIn?: string[];
+  bookmarks?: {
+    course : string[];
+    video : string[];
+    test: string[];
+  };
+  markAsDoneVideos?: string[];
 }
 
 interface AuthContextType {

@@ -13,6 +13,7 @@ import axios from 'axios'
 import { COURSE_API } from '@/lib/env'
 import { ErrorToast, SuccessToast } from '@/lib/toasts'
 import { useVideoContext } from '@/context/videoContext'
+import Seperator from '../Seperator'
 
 interface VideoCourseCardProps{
     courseData : ICourseData
@@ -69,8 +70,10 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({courseData}) => {
     }
     
   return (
-    <div className='w-full h-auto flex gap-2 justify-start items-center relative px-5'>
-        <div className='w-1/4 '>
+    <div className='w-full relative flex flex-col py-1'>
+    <Seperator text={courseData.courseName}/>
+    <div className='w-full h-auto flex gap-2 justify-start items-center relative '>
+        <div className='w-1/4'>
         <Image
                 isBlurred
                 src={courseData.thumbnail}
@@ -78,7 +81,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({courseData}) => {
                 className="z-0 object-cover p-2 aspect-video"
             />
         </div>
-        <div className='flex flex-col justify-between items-start space-y-4 w-1/2'>
+        <div className='flex flex-col justify-between items-start space-y-4 w-1/2 relative'>
           <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
             {courseData.courseName}
           </h2>
@@ -87,7 +90,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({courseData}) => {
             {courseData.tutorName}
           </h4>
 
-          <i className="text-gray-600 dark:text-gray-400 text-sm font-extralight font-libre line-clamp-3">
+          <i className="w-full text-gray-600 dark:text-gray-400 text-sm font-extralight font-libre line-clamp-3s break-words">
             {courseData.description}
           </i>
 
@@ -201,6 +204,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({courseData}) => {
                 </DialogContent>
             </Dialog>
         </div>
+    </div>
     </div>
   )
 }

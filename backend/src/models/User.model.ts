@@ -29,8 +29,11 @@ export interface IUser extends Document {
   phoneNumberVerificationStatus?: boolean;
   uploadedCourses?: Types.ObjectId[];
   enrolledIn?: Types.ObjectId[];
-  bookmarks?: Types.ObjectId[];
-  courseProgress?: Types.ObjectId[];
+  bookmarks?: {
+    course?: Types.ObjectId[];
+    video?: Types.ObjectId[];
+    test?: Types.ObjectId[];
+  }
   markAsDoneVideos? : Types.ObjectId[];
   progress: {
     courseId: Types.ObjectId;
@@ -67,7 +70,11 @@ const userSchema = new mongoose.Schema<IUser>({
   },
   uploadedCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
   enrolledIn: [{ type: Schema.Types.ObjectId, ref: "Course" }],
-  bookmarks: [{ type: Schema.Types.ObjectId, ref: "Course" }],
+  bookmarks: {
+    course: [{type: Schema.Types.ObjectId, ref: "Course"}],
+    video: [{type: Schema.Types.ObjectId, ref: "Video"}],
+    test: [{type: Schema.Types.ObjectId, ref: "Test"}],
+  },
   markAsDoneVideos: [{type : Schema.Types.ObjectId, ref : "Video"}],
   progress: [
     {

@@ -145,9 +145,9 @@ const CourseIntroPage: React.FC = () => {
   
   return (
     <div className="flex flex-col w-full mx-auto pt-32  px-20 min-h-screen bg-gray-100 dark:bg-gray-900   overflow-auto hide-scrollbar">
-      <div className="flex w-full mx-auto  overflow-auto hide-scrollbar">
+      <div className="flex w-full mx-auto  overflow-auto hide-scrollbar  relative overflow-x-hidden break-words">
         {/* Left Section: Editable Content */}
-        <div className="flex-1 p-8 space-y-2 overflow-auto font-ubuntu">
+        <div className="flex-1 p-8 space-y-2 overflow-auto font-ubuntu w-full relative">
           <h1 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
             {courseData.courseName || "Course Name"}
           </h1>
@@ -155,7 +155,7 @@ const CourseIntroPage: React.FC = () => {
           <h2 className="text-2xl text-gray-600 dark:text-white font-medium">
             {courseData.tutorName || "Tutor Name"}
           </h2>
-          <p className="text-lg text-gray-800 dark:text-gray-300">
+          <p className="text-lg text-gray-800 dark:text-gray-300 w-full">
             {courseData.description || "Description"}
           </p>
 

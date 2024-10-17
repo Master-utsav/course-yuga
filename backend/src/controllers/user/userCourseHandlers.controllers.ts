@@ -1,11 +1,10 @@
 import { Response } from "express";
 import { AuthenticatedRequest } from "../../middleware/auth.middleware";
 import User from "../../models/User.model";
-import { Schema, Types } from "mongoose";
-import { ICourse } from "../../models/Course.model";
+import mongoose from "mongoose";
 import VideoModel from "../../models/Video.model";
 
-export async function handleUserBookmarksfunction(req: AuthenticatedRequest , res: Response){
+export async function handleUserCourseBookmarkfunction(req: AuthenticatedRequest , res: Response){
     const userId = req.userId
 
     if(!userId){
@@ -23,22 +22,84 @@ export async function handleUserBookmarksfunction(req: AuthenticatedRequest , re
         if(!user){
             return res.status(404).json({success: false , message: 'user not found'})
         }
-
-        if(user.bookmarks.includes(courseId)){
-            user.bookmarks = user.bookmarks.filter((id: Types.ObjectId) => id !== courseId)
-            await user.save();
-            return res.status(200).json({success: true , message: 'removed from bookmarks'})
-        }else{
-            user.bookmarks.push(courseId)
-            await user.save();
-            return res.status(200).json({success: true , message: 'added to bookmarks'})
+        
+        const courseIndex = user.bookmarks.course.findIndex((id : mongoose.Types.ObjectId) =>
+          id.equals(courseId)
+        );
+    
+        if (courseIndex !== -1) {
+          user.bookmarks.course.splice(courseIndex, 1);
+          await user.save();
+    
+          const courseBookmarks = user.bookmarks.course; 
+          return res.status(200).json({
+            success: true,
+            message: 'Removed from bookmarks',
+            courseBookmarks,
+          });
+        } else {
+          user.bookmarks.course.push(courseId);
+          await user.save();
+    
+          const courseBookmarks = user.bookmarks.course;
+          return res.status(200).json({
+            success: true,
+            message: 'Added to bookmarks',
+            courseBookmarks,
+          });
         }
 
-        
-        
     } catch (error) {
         return res.status(500).json({success: false , message: "Internal server error"})
+    }
+}
+export async function handleUserVideoBookmarkfunction(req: AuthenticatedRequest , res: Response){
+    const userId = req.userId
+
+    if(!userId){
+        return res.status(401).json({success: false , message: 'userId not found'})
+    }
+
+    const {videoId} = req.body;
+
+    if(!videoId){
+        return res.status(400).json({success: false , message: 'videoId not found'})
+    }
+    
+    try {
+        const user = await User.findById(userId);
+        if(!user){
+            return res.status(404).json({success: false , message: 'user not found'})
+        }
         
+        const videoIndex = user.bookmarks.video.findIndex((id : mongoose.Types.ObjectId) =>
+          id.equals(videoId)
+        );
+    
+        if (videoIndex !== -1) {
+          user.bookmarks.video.splice(videoIndex, 1);
+          await user.save();
+    
+          const videoBookmarks = user.bookmarks.video; 
+          return res.status(200).json({
+            success: true,
+            message: 'Removed from bookmarks',
+            videoBookmarks,
+          });
+        } else {
+          user.bookmarks.video.push(videoId);
+          await user.save();
+    
+          const videoBookmarks = user.bookmarks.video;
+          return res.status(200).json({
+            success: true,
+            message: 'Added to bookmarks',
+            videoBookmarks,
+          });
+        }
+
+    } catch (error) {
+        return res.status(500).json({success: false , message: "Internal server error"})
     }
 }
 
@@ -61,8 +122,8 @@ export async function handleUserCourseProgress(req: AuthenticatedRequest, res: R
       return res.status(404).json({ success: false, message: 'User not found' });
     }
 
-    const courseObjectId = new Schema.Types.ObjectId(courseId);
-    const videoObjectId = new Schema.Types.ObjectId(videoId);
+    const courseObjectId = new mongoose.Types.ObjectId(courseId);
+    const videoObjectId = new mongoose.Types.ObjectId(videoId);
 
     // Find the course progress entry
     let courseProgress = user.progress.find((p: any) => p.courseId.equals(courseObjectId));
@@ -109,7 +170,7 @@ export async function handleUserCourseProgress(req: AuthenticatedRequest, res: R
   }
 }
 
-async function calculateProgress(courseId: Schema.Types.ObjectId, userId: string) {
+export async function calculateProgress(courseId: mongoose.Types.ObjectId, userId: string) {
   try {
    
     const totalVideos = await VideoModel.find({ courseId }).countDocuments();

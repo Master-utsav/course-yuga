@@ -2,6 +2,7 @@ import { Response } from "express";
 import { AuthenticatedRequest } from "../../middleware/auth.middleware";
 import CourseModel from "../../models/Course.model";
 import User from "../../models/User.model";
+import { calculateProgress } from "../user/userCourseHandlers.controllers";
 
 export async function handleUserEnrolledCourseFunction(req: AuthenticatedRequest, res: Response) {
     const userId = req.userId;
@@ -50,5 +51,34 @@ export async function handleUserEnrolledCourseFunction(req: AuthenticatedRequest
     } catch (error) {
         console.error('Error enrolling user in course:', error);
         return res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+}
+
+export async function handleGetAllCoursesEnrolledByUser(req : AuthenticatedRequest , res: Response) {
+    const userId = req.userId;
+
+    if(!userId){
+        return res.status(401).json({ success: false, message: 'Unauthoorized'});
+    }
+    
+    try {
+        const courses = await CourseModel.find({$or: [{enrolledBy : userId} , {uploadedBy: userId}]});
+        if(!courses){
+            return res.status(400).json({success: false , message: "No course Found"})
+        }
+
+        const courseData = await Promise.all(
+            courses.map(async (course) => {
+                const progress = await calculateProgress(course._id, userId);
+                return {
+                  ...course.toObject(), 
+                  progress,
+                };
+            })
+        )
+        return res.status(200).json({success: true , messsage : "course courses were fetched" , data: courseData});
+
+    } catch (error) {
+        return res.status(500).json({success: false , message: "Internal server error"});  
     }
 }

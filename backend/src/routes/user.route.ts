@@ -11,7 +11,7 @@ import { handleResendVerficationOTPFunction, handleEmailVerificationOTP } from "
 import { handleGetUserDataFunction } from "../controllers/user/userGetData.controllers";
 import { handleUpdateUserImageFunction } from "../controllers/user/userProfileUpdate.controllers";
 import { handleResetPasswordFunction, handleResetPasswordVerificationOTP } from "../controllers/user/userResetPassword.controllers";
-import { handleUserBookmarksfunction } from "../controllers/user/userCourseHandlers.controllers";
+import { handleUserCourseBookmarkfunction , handleUserVideoBookmarkfunction} from "../controllers/user/userCourseHandlers.controllers";
 
 const userRoute = express.Router();
 
@@ -46,7 +46,8 @@ userRoute.put("/update-user", authenticateToken, handleUpdateUserFunction);
 userRoute.post("/delete-account", authenticateToken, handleDeleteAccountFunction);
 
 //User added bookmarks to the course
-userRoute.post("/user-bookmarks" , authenticateToken , handleUserBookmarksfunction);
+userRoute.post("/user-course-bookmarks" , authenticateToken , handleUserCourseBookmarkfunction);
+userRoute.post("/user-video-bookmarks" , authenticateToken , handleUserVideoBookmarkfunction);
 
 
 export default userRoute;

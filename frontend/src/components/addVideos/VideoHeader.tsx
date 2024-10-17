@@ -72,9 +72,7 @@ const VideoHeader: React.FC<VideoHeaderProps> = ({onCategory , courseId , course
           </Link>
         </h1>
       </motion.div>
-      <motion.div className="flex items-center gap-3 mb-5 px-2">
-        
-      </motion.div>
+     
 
       <motion.div
         className="bg-gray-100 dark:bg-gray-700 px-4 py-1 rounded-lg mb-5 shadow-inner"
