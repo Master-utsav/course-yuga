@@ -13,6 +13,8 @@ import React from "react";
 import { useAuthContext } from "@/context/authContext";
 import { getUserData } from "@/lib/authService";
 import { debounce } from "@/lib/debounce";
+import RedirectLinkIcon from "@/Icons/RedirectLinkIcon";
+import YoutubeIcon from "@/Icons/YoutubeIcon";
 // import { courses } from "@/constants";
 
 const cardVariants = {
@@ -77,12 +79,13 @@ const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
     >
       {courses.map((course, i) => (
         <motion.div
-          key={course._id}
-          className="w-full space-y-2 relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
+        key={course._id}
+        className="w-full space-y-2 relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
           custom={i}
           variants={cardVariants}
         >
           <div className="w-full relative bg-transparent">
+            
             <Image
               isBlurred
               src={course.thumbnail}
@@ -90,15 +93,15 @@ const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
               className="z-0 object-cover aspect-video"
             />
             <div className="absolute bottom-1 right-1">
-              <CircularProgressBar progress={course.progress?? 0} />
+              <CircularProgressBar progress={(userData.progress?.find((p) => p.courseId === course._id)?.count) || 0} />
             </div>
           </div>
 
           <div className="p-3 space-y-1">
-            <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+            <h2 className="text-xl line-clamp-1 font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
               {course.courseName}
             </h2>
-
+            
             <h4 className="text-base text-gray-600 dark:text-white font-ubuntu">
               {course.tutorName}
             </h4>
@@ -107,11 +110,19 @@ const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
               {course.description}
             </i>
           </div>
-            <Link to={`/user/view-course?courseId=${course._id}`}>
+          {course && course.courseType === "REDIRECT" ? 
+            <Link to={`/course-intro-page?courseId=${course._id}`}>
               <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
-                View Course
+                <RedirectLinkIcon fillColor="white" size={24}/> View Course
               </Button>
             </Link>
+          : 
+            <Link to={`/user/view-course?courseId=${course._id}`}>
+              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
+               <YoutubeIcon fillColor="white" size={24} /> View Course
+              </Button>
+            </Link>
+          }
             <Button className="w-full font-medium text-lg font-ubuntu bg-white-600 hover:bg-white-800 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900" onClick={() => handleBookmarkClick(course._id)}>
               {course && course._id ? 
               userData.bookmarks?.course.includes(course._id) ? 

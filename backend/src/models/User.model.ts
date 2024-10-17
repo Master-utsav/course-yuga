@@ -1,3 +1,4 @@
+import { count } from "console";
 import mongoose, { Document, Schema, Types } from "mongoose";
 
 export interface IUser extends Document {
@@ -34,10 +35,10 @@ export interface IUser extends Document {
     video?: Types.ObjectId[];
     test?: Types.ObjectId[];
   }
-  markAsDoneVideos? : Types.ObjectId[];
   progress: {
     courseId: Types.ObjectId;
-    completedVideos: Types.ObjectId[];
+    completedVideos?: Types.ObjectId[];
+    count?: number;
   }[];
 }
 
@@ -75,11 +76,11 @@ const userSchema = new mongoose.Schema<IUser>({
     video: [{type: Schema.Types.ObjectId, ref: "Video"}],
     test: [{type: Schema.Types.ObjectId, ref: "Test"}],
   },
-  markAsDoneVideos: [{type : Schema.Types.ObjectId, ref : "Video"}],
   progress: [
     {
       courseId: { type: Schema.Types.ObjectId, ref: 'Course' },
       completedVideos: [{ type: Schema.Types.ObjectId, ref: 'Video' }],
+      count:  { type: Number }
     },
   ],
 }, 

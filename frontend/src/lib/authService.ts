@@ -42,7 +42,8 @@ export const getUserData = async (): Promise<UserDataProps | null> => {
         avatarFallbackText: `${responseData.firstName?.[0]?.toUpperCase() || "U"}${responseData.lastName?.[0]?.toUpperCase() || "G"}`,
         id: responseData.id,
         enrolledIn: responseData.enrolledIn,
-        bookmarks : responseData.bookmarks
+        bookmarks : responseData.bookmarks,
+        progress : responseData.progress
       };
 
       return userData;

@@ -30,9 +30,9 @@ export async function handleGetUserDataFunction(
       address: user.address,
       enrolledIn: user.enrolledIn,
       bookmarks: user.bookmarks,
-      markAsDoneVideos : user.markAsDoneVideos
-      
+      progress : user.progress,   
   };
+
     return res.status(200).json({ success: true, data });
   } catch (error) {
     console.log(error);

@@ -75,38 +75,6 @@ const DashBoard = () => {
         }}
         transition={{ duration: 0.3 }}
       >
-        {/* <div className="font-ubuntu flex text-5xl overflow-hidden bg-clip-text  text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-          {"Welcome! ".split("").map((char, i) => (
-            <motion.p
-              initial={{ fontWeight: "100", opacity: 0, x: 0 }}
-              animate={{ fontWeight: "500", opacity: 1, x: 0 }}
-              transition={{
-                duration: 0.9,
-                delay: 0.1 * i,
-                type: "spring",
-                damping: 8,
-                stiffness: 200,
-              }}
-              key={i}
-              className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-            >
-              {char}
-            </motion.p>
-          ))}
-          <motion.i
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.2, delay: 0.5, ease: "easeIn" }}
-            className="px-2 underline decoration-purple-500"
-          >
-            {"  "}
-            <StaggeredBlurTextEffect
-              text={userData.firstName}
-              className="font-libre text-5xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-              delayNumber={0.3}
-            />
-          </motion.i>
-        </div> */}
         <motion.div className="flex items-center gap-3 mb-5 px-2">
         {timeGreeting === "Good Afternoon" ? (
           <AfternoonSunIcon fillColor="rgb(253 224 71)" />

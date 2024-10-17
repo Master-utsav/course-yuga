@@ -1,15 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface TextSmoothVerticalBounceEnterEffectProps {
   text: string;
+  className?: string;
 }
 
-const TextSmoothVerticalBounceEnterEffect: React.FC<TextSmoothVerticalBounceEnterEffectProps> = ({ text }) => {
+const TextSmoothVerticalBounceEnterEffect: React.FC<TextSmoothVerticalBounceEnterEffectProps> = ({ text , className}) => {
   const displayText = text.split(''); 
 
   return (
-    <span style={{ display: 'inline-block' }}>
+    <span style={{ display: 'inline-block' }} >
       {displayText.map((char, index) => (
         <motion.span
           key={index}
@@ -23,6 +25,7 @@ const TextSmoothVerticalBounceEnterEffect: React.FC<TextSmoothVerticalBounceEnte
             display: 'inline-block',
             whiteSpace: char === ' ' ? 'pre' : 'normal', 
           }}
+          className={cn("" , className)}
         >
           {char === ' ' ? '\u00A0' : char} 
         </motion.span>

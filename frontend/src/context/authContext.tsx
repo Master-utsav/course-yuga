@@ -30,7 +30,11 @@ export interface UserDataProps {
     video : string[];
     test: string[];
   };
-  markAsDoneVideos?: string[];
+  progress?: {
+    courseId: string;
+    completedVideos: string[];
+    count: number;
+  }[];
 }
 
 interface AuthContextType {
@@ -56,17 +60,17 @@ export const useAuthContext = () => {
 export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<UserDataProps>(defaultUserData);
-  // const [localStorageUserData, setLocalStorageUserData] = useState<UserDataProps>(defaultUserData);
 
   const loadUserData = useCallback(async () => {
     const userData = await fetchUserData(); 
-    console.log("auth context useCallback calls")
     if (userData) {
       setUserData(userData);
-      // setLocalStorageUserData(userData);
-      // localStorage.setItem("userData", JSON.stringify(userData));
     }
   }, []);
+
+  useEffect(() => {
+    loadUserData();
+  }, [loadUserData , isLoggedIn])
 
 
   useEffect(() => {

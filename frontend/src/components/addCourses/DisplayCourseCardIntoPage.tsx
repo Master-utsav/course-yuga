@@ -6,12 +6,12 @@ import PercentageOffIcon from "@/Icons/PercentageOffIcon";
 import { ICourseData } from "@/constants";
 import { useAuthContext } from "@/context/authContext";
 import YoutubeIcon from "@/Icons/YoutubeIcon";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import RedirectLinkIcon from "@/Icons/RedirectLinkIcon";
 import { getVerifiedToken } from "@/lib/cookieService";
 import axios from "axios";
 import { COURSE_API } from "@/lib/env";
-import { ErrorToast, SuccessToast } from "@/lib/toasts";
+import { ErrorToast, SuccessToast, WarningToast } from "@/lib/toasts";
 
 interface DisplayCourseCardIntoPageProps {
   courseData: ICourseData;
@@ -26,9 +26,14 @@ const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const courseId = queryParams.get("courseId");
-  
+  const navigate = useNavigate();
   async function handleEnrolledRequest() {
     const jwt = getVerifiedToken();
+    if(!jwt){
+      navigate("/login");
+      WarningToast("Login Required")
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -44,14 +49,19 @@ const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({
 
       if (response && response.data && response.data.success) {
         SuccessToast(response.data.message);
+        WarningToast("View you Dashboard");
       } else {
+        console.log("this hits")
         ErrorToast(response.data.message);
+        WarningToast("Go to your Dashboard");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       ErrorToast(error.response?.data?.message || "Something went wrong");
+      WarningToast("Go to your Dashboard");
     }
   }
+  
   return (
     <div className="w-1/3 p-6 border-l">
       <div className="w-full relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl">
@@ -124,9 +134,11 @@ const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({
 
           {courseData.uploadedBy === userData.id ? (
             courseData.courseType === "YOUTUBE" ? (
-              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
-                <YoutubeIcon fillColor="white" size={30} /> Manage Playlist
-              </Button>
+              <Link to={`/user/add-videos?courseId=${courseId}&name=${courseData.courseName}`}>
+                <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
+                  <YoutubeIcon fillColor="white" size={30} /> Manage Uploads
+                </Button>
+              </Link>
             ) : courseData.courseType === "REDIRECT" &&
               courseData.redirectLink ? (
               <Link
@@ -139,16 +151,18 @@ const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({
                 </Button>
               </Link>
             ) : (
-              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
-                Manage Content
-              </Button>
+              <Link to={`/user/add-videos?courseId=${courseData._id}&courseName=${courseData.courseName}`}>
+                <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
+                  <YoutubeIcon fillColor="white" size={30} /> Manage Uploads
+                </Button>
+              </Link>
             )
           ) : courseData.courseType === "YOUTUBE" ? (
             <Button
               className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600"
               onClick={handleEnrolledRequest}
             >
-              <YoutubeIcon fillColor="white" size={30} /> Enrolled Now
+              <YoutubeIcon fillColor="white" size={30} /> Enroll Now
             </Button>
           ) : courseData.courseType === "REDIRECT" &&
             courseData.redirectLink ? (

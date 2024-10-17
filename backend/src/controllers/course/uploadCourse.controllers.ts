@@ -54,7 +54,7 @@ export async function handleAddNewYoutubeCourseFunction(req: AuthenticatedAdminR
           // Optionally update the user who uploaded the course
           const updatedUser = await UserModel.findByIdAndUpdate(
             userId,
-            { $push: { uploadedCourses: newCourse._id } },
+            { $push: { uploadedCourses: newCourse._id , enrolledIn: newCourse._id} },
             { new: true }
           );
       
@@ -120,7 +120,7 @@ export async function handleAddNewPersonalCourseFunction(req: AuthenticatedAdmin
     // Optionally update the user who uploaded the course
     const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
-      { $push: { uploadedCourses: newCourse._id } },
+      { $push: { uploadedCourses: newCourse._id , enrolledIn: newCourse._id} },
       { new: true }
     );
 
@@ -185,7 +185,7 @@ export async function handleAddNewRedirectCourseFunction(req: AuthenticatedAdmin
     // Optionally update the user who uploaded the course
     const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
-      { $push: { uploadedCourses: newCourse._id } },
+      { $push: { uploadedCourses: newCourse._id  , enrolledIn: newCourse._id} },
       { new: true }
     );
 

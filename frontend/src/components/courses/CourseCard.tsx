@@ -96,7 +96,7 @@ const CourseCard: React.FC = () => {
           </label>
 
           <div className="p-3 space-y-2 flex flex-col justify-between">
-            <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+            <h2 className="text-2xl line-clamp-1 font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
               {course.courseName}
             </h2>
 

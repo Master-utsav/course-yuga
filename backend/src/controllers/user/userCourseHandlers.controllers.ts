@@ -53,6 +53,7 @@ export async function handleUserCourseBookmarkfunction(req: AuthenticatedRequest
         return res.status(500).json({success: false , message: "Internal server error"})
     }
 }
+
 export async function handleUserVideoBookmarkfunction(req: AuthenticatedRequest , res: Response){
     const userId = req.userId
 
@@ -133,35 +134,46 @@ export async function handleUserCourseProgress(req: AuthenticatedRequest, res: R
       const videoIndex = courseProgress.completedVideos.findIndex((id: any) => id.equals(videoObjectId));
 
       if (videoIndex > -1) {
-       
         courseProgress.completedVideos.splice(videoIndex, 1);
         await user.save();
-        return res.status(200).json({
-          success: true,
-          message: 'Marked as incomplete',
-          progress: await calculateProgress(courseObjectId, userId),
-        });
-      } else {
-      
-        courseProgress.completedVideos.push(videoObjectId);
+
+        const count = await calculateProgress(courseObjectId, userId);
+        courseProgress.count = count;
         await user.save();
         return res.status(200).json({
           success: true,
-          message: 'Marked as complete',
-          progress: await calculateProgress(courseObjectId, userId),
+          message: 'Marked as incomplete'
+        });
+      } 
+      else {
+        courseProgress.completedVideos.push(videoObjectId);
+        await user.save();
+
+        const count = await calculateProgress(courseObjectId, userId);
+        courseProgress.count = count;
+        await user.save();
+        return res.status(200).json({
+          success: true,
+          message: 'Marked as complete'
         });
       }
-    } else {
-     
+    } 
+    else {
       user.progress.push({
         courseId: courseObjectId,
         completedVideos: [videoObjectId],
       });
       await user.save();
+      
+      const count = await calculateProgress(courseObjectId, userId);
+      user.progress.push({
+        count,
+      });
+      await user.save();
+      
       return res.status(200).json({
         success: true,
         message: 'Marked as complete',
-        progress: await calculateProgress(courseObjectId, userId),
       });
     }
   } catch (error) {
@@ -174,6 +186,7 @@ export async function calculateProgress(courseId: mongoose.Types.ObjectId, userI
   try {
    
     const totalVideos = await VideoModel.find({ courseId }).countDocuments();
+  
     if (totalVideos === 0) return 0; 
 
     const user = await User.findById(userId);

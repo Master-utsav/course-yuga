@@ -66,17 +66,8 @@ export async function handleGetAllCoursesEnrolledByUser(req : AuthenticatedReque
         if(!courses){
             return res.status(400).json({success: false , message: "No course Found"})
         }
-
-        const courseData = await Promise.all(
-            courses.map(async (course) => {
-                const progress = await calculateProgress(course._id, userId);
-                return {
-                  ...course.toObject(), 
-                  progress,
-                };
-            })
-        )
-        return res.status(200).json({success: true , messsage : "course courses were fetched" , data: courseData});
+        
+        return res.status(200).json({success: true , messsage : "course courses were fetched" , data: courses});
 
     } catch (error) {
         return res.status(500).json({success: false , message: "Internal server error"});  

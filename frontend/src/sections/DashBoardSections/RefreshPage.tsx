@@ -18,14 +18,15 @@ const RefreshPage = () => {
 
   return (
       <motion.div
-        className="dark:bg-white/5 bg-black/5 rounded-lg p-6 shadow-2xl dark:shadow-sm dark:shadow-white border-2 dark:border-white border-black"
+        className="dark:bg-white/5 bg-black/5 rounded-lg flex justify-center items-center"
         variants={{
           hidden: { opacity: 0.3, scale: 0.8 },
           visible: { opacity: 1, scale: 1 },
           exit: { opacity: 0, scale: 0.8 }
         }}
         transition={{ duration: 0.3 }}
-      >
+      >  
+        <div className='p-6 rounded-xl bg-transparent shadow-2xl dark:shadow-sm dark:shadow-white border-2 dark:border-white border-black'>
         <div className="flex items-center mb-4">
           <RefreshIcon fillColor="rgb(0 158 11)" />
           <h2 className="text-lg font-bold">Refresh</h2>
@@ -46,6 +47,7 @@ const RefreshPage = () => {
           >
             Refresh
           </button>
+        </div>
         </div>
       </motion.div>
   );

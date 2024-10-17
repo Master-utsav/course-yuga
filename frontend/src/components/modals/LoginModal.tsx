@@ -17,12 +17,13 @@ import EyeCloseIcon from "@/Icons/EyeCloseIcon";
 import { useTheme } from "@/context/ThemeProvider";
 import { ErrorToast, SuccessToast } from "@/lib/toasts";
 import { USER_API } from "@/lib/env";
+import { useAuthContext } from "@/context/authContext";
 
 type loginSchemaData = z.infer<typeof loginSchema>;
 
 const LoginModal: React.FC = () => {
   const navigate = useNavigate();
-  // const {setUserData} = useAuthContext();
+  const {setIsLoggedIn} = useAuthContext();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const {theme} = useTheme();
   const closeLogin = () => {
@@ -46,6 +47,8 @@ const LoginModal: React.FC = () => {
       if (responseData.success) {
         setTokenCookie(responseData.token);
         SuccessToast(responseData.message )
+        setIsLoggedIn(true);
+        navigate("/")
         closeLogin();
       } else {
         throw new Error(responseData.message);
