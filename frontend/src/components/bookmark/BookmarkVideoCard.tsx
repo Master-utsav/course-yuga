@@ -42,7 +42,6 @@ const BookmarkVideoCard: React.FC<VideoInterface> = ({ videoIds }) => {
   const { theme } = useTheme();
   const { userData, setUserData } = useAuthContext();
   const [bookmarkVideos , setBookmarkVideos] = React.useState<IVideoData[] | []>([])
-  const [alert , setAlert] = React.useState<boolean>(false);
 
   const fetchUserBookmarkVideos = React.useCallback(async() =>{
     const jwt = getVerifiedToken();
@@ -59,22 +58,18 @@ const BookmarkVideoCard: React.FC<VideoInterface> = ({ videoIds }) => {
         if(response && response.data && response.data.success){
             if(response.data.videos){
                 setBookmarkVideos(response.data.videos)
-                setAlert((prev) => !prev);
             } 
             else{
                 setBookmarkVideos([]);
-                setAlert((prev) => !prev);
             }
         }
         else{
             setBookmarkVideos([]);
-            setAlert((prev) => !prev);
         }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         ErrorToast(error?.response.data.message || "Something went wrong")
-        setBookmarkVideos([]);
-        setAlert((prev) => !prev);
+        setBookmarkVideos([])
     }
 
   }, [videoIds])
@@ -124,64 +119,68 @@ const BookmarkVideoCard: React.FC<VideoInterface> = ({ videoIds }) => {
       initial="hidden"
       animate="visible"
     >
-      {alert && 
-      <div className="w-[90%] mx-auto flex flex-col justify-center items-center gap-4 p-6 bg-yellow-100 border border-yellow-300 rounded-md shadow-md">
+      {bookmarkVideos.length === 0 ?
+      <div className="w-full flex flex-col justify-center items-center gap-4 p-6 bg-yellow-100 border border-yellow-300 rounded-md shadow-md">
             <p className="text-lg font-ubuntu text-center text-yellow-800">
             Oops! It seems like you haven't Bookmarked any video yet.
+            <br/>
+            Or wait we are fetching Data
             </p>
         </div>
+        :
+        bookmarkVideos.map((video, i) => (
+            video && video._id && userData.bookmarks?.video.includes(video._id) && 
+            <motion.div
+               key={i}
+               className="w-full space-y-2 relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
+               custom={i}
+               variants={cardVariants}
+             >
+               <div className="w-full relative bg-transparent">
+                 <Image
+                   isBlurred
+                   src={video.thumbnail}
+                   alt="NextUI Album Cover"
+                   className="z-0 object-cover aspect-video"
+                 />
+               </div>
+     
+               <div className="p-3 space-y-1 overflow-hidden">
+                 <h2 className="text-xl font-bold line-clamp-2 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+                   {video.videoName}
+                 </h2>
+     
+                 <h4 className="text-base text-gray-600 dark:text-white font-ubuntu">
+                   {video.tutorName}
+                 </h4>
+     
+                 <i className="text-gray-600 dark:text-gray-400 text-sm font-extralight font-libre line-clamp-3 mb-3">
+                   {video.description}
+                 </i>
+               </div>
+               <Link to={`/user/video-player?videoId=${video._id}`}>
+                 <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
+                   Watch Now
+                 </Button>
+               </Link>
+               <div className="flex w-full sm:flex-row flex-col gap-2">
+                 <Button
+                   className="w-full font-medium text-base font-ubuntu bg-white-700 hover:bg-white-800 text-black  dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900"
+                   onClick={() => handleBookmarkClick(video._id)}
+                 >
+                     <BookmarkIcon2
+                         fillColor={
+                         theme === "dark" ? "rgb(192 132 252)" : "rgb(88 28 135)"
+                         }
+                         size={24}
+                     />
+                     <span className="">Remove from Bookmark</span>
+                   </Button>
+               </div>
+             </motion.div>
+           ))
       }
-      {bookmarkVideos.map((video, i) => (
-       video && video._id && userData.bookmarks?.video.includes(video._id) && 
-       <motion.div
-          key={i}
-          className="w-full space-y-2 relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
-          custom={i}
-          variants={cardVariants}
-        >
-          <div className="w-full relative bg-transparent">
-            <Image
-              isBlurred
-              src={video.thumbnail}
-              alt="NextUI Album Cover"
-              className="z-0 object-cover aspect-video"
-            />
-          </div>
-
-          <div className="p-3 space-y-1 overflow-hidden">
-            <h2 className="text-xl font-bold line-clamp-2 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-              {video.videoName}
-            </h2>
-
-            <h4 className="text-base text-gray-600 dark:text-white font-ubuntu">
-              {video.tutorName}
-            </h4>
-
-            <i className="text-gray-600 dark:text-gray-400 text-sm font-extralight font-libre line-clamp-3 mb-3">
-              {video.description}
-            </i>
-          </div>
-          <Link to={`/user/video-player?videoId=${video._id}`}>
-            <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
-              Watch Now
-            </Button>
-          </Link>
-          <div className="flex w-full sm:flex-row flex-col gap-2">
-            <Button
-              className="w-full font-medium text-base font-ubuntu bg-white-700 hover:bg-white-800 text-black  dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900"
-              onClick={() => handleBookmarkClick(video._id)}
-            >
-                <BookmarkIcon2
-                    fillColor={
-                    theme === "dark" ? "rgb(192 132 252)" : "rgb(88 28 135)"
-                    }
-                    size={24}
-                />
-                <span className="">Remove from Bookmark</span>
-              </Button>
-          </div>
-        </motion.div>
-      ))}
+      
     </motion.div>
   );
 };

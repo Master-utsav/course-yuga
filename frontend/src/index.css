@@ -383,7 +383,43 @@
     color: inherit;
 }
 
+/* Ensure video container and player are responsive */
+.video-container {
+    position: relative;
+    width: 100%;
+    max-width: 1280px; /* Optional: Set a max width */
+    margin: 0 auto;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    border-radius: 12px; /* Smooth edges */
+    background-color: black; /* Prevent white bars in Chrome */
+  }
+  
+  .video-js {
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover; /* Ensures video scales properly */
+    padding: 0;
+  }
+  
+   .vjs-control-bar {
+    height: fit-content;
+    font-size: 8px; /* Adjust control bar font size */
+    background-color: rgba(0, 0, 0, 0.9); /* Consistent dark background */
+    }
+  
+   .vjs-big-play-button {
+    background-color: transparent !important; 
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
 
+  .vjs-theme-forest:hover .vjs-control-bar{
+    background-color: rgba(0, 0, 0, 0.9); /* Consistent dark background */
+   }
+  
+  
+  
 
 
 
