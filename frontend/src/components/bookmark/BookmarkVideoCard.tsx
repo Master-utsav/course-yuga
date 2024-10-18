@@ -146,7 +146,7 @@ const BookmarkVideoCard: React.FC<VideoInterface> = ({ videoIds }) => {
                </div>
      
                <div className="p-3 space-y-1 overflow-hidden">
-                 <h2 className="text-xl font-bold line-clamp-2 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+                 <h2 className="text-xl font-bold  bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 line-clamp-2">
                    {video.videoName}
                  </h2>
      

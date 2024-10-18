@@ -77,10 +77,10 @@ const VideoPlaySection: React.FC = () => {
           <div className="col-span-3 w-full relative">
             {/* Video Display */}
             <div className="mb-4">
-              {videoData?.videoType !== "YOUTUBE" ? (
+              {videoData?.videoType === "YOUTUBE" ? (
                 <div className="w-full aspect-video rounded-xl dark:bg-gray-700 bg-white-600">
                   {isPlayerReady && videoData?.videoUrl ? (
-                    <VideoPlayer videoUrl={videoData.videoUrl || "/videos/sample.mp4"} />
+                    <VideoPlayer videoUrl={"/videos/sample.mp4"} />
                   ) : (
                     <div className="flex justify-center items-center">
                       <h1 className="text-2xl dark:text-white text-center w-full mx-auto text-black">
@@ -129,7 +129,7 @@ const VideoPlaySection: React.FC = () => {
 
               {/* Video Description Accordion */}
               <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-5 shadow-inner">
-                <Accordion defaultExpandedKeys={["1"]}>
+                <Accordion defaultExpandedKeys={["2"]}>
                   <AccordionItem
                     key="1"
                     aria-label="Accordion 1"

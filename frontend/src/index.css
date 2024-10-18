@@ -417,12 +417,8 @@
   .vjs-theme-forest:hover .vjs-control-bar{
     background-color: rgba(0, 0, 0, 0.9); /* Consistent dark background */
    }
-  
-  
-  
 
-
-
+  
 @keyframes wave-animation {
     0% {
         transform: rotate(0deg);

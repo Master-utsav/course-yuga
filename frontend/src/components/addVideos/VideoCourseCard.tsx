@@ -69,6 +69,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({courseData}) => {
         }
     }
     
+  const nameParams = courseData.courseName.includes("&") ? courseData.courseName.replace("&" , "and") : courseData.courseName
   return (
     <div className='w-full relative flex flex-col py-1'>
     <Seperator text={courseData.courseName}/>
@@ -102,7 +103,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({courseData}) => {
           </div>
         </div>
         <div className='flex flex-col space-y-4 text-base font-medium font-ubuntu justify-end  w-1/4 items-center'>
-            <Link to={`/user/add-videos?courseId=${courseData._id}&name=${courseData.courseName}`} className="w-full">
+            <Link to={`/user/add-videos?courseId=${courseData._id}&name=${nameParams}`} className="w-full">
                 <Button
                 className="
                     w-full py-3 font-ubuntu text-base font-medium 
