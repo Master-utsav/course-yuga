@@ -80,7 +80,7 @@ const VideoPlaySection: React.FC = () => {
               {videoData?.videoType !== "YOUTUBE" ? (
                 <div className="w-full aspect-video rounded-xl dark:bg-gray-700 bg-white-600">
                   {isPlayerReady && videoData?.videoUrl ? (
-                    <VideoPlayer videoUrl={"/videos/sample.mp4"} />
+                    <VideoPlayer videoUrl={videoData.videoUrl || "/videos/sample.mp4"} />
                   ) : (
                     <div className="flex justify-center items-center">
                       <h1 className="text-2xl dark:text-white text-center w-full mx-auto text-black">
@@ -90,10 +90,10 @@ const VideoPlaySection: React.FC = () => {
                   )}
                 </div>
               ) : (
-                <div className="w-full aspect-video rounded-xl dark:bg-gray-700 bg-white-600">
+                <div className="w-full aspect-video rounded-2xl dark:bg-gray-700 bg-white-600 object-cover overflow-hidden">
                   {videoData?.videoUrl ? (
                     <iframe
-                      className="w-full aspect-video rounded-xl"
+                      className="w-full aspect-video "
                       src={`https://www.youtube.com/embed/${extractYouTubeVideoId(
                         videoData.videoUrl
                       )}`}

@@ -12,6 +12,36 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
   const playerRef = useRef<any>(null); // Avoid video.js types
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null); // Store video element in state
 
+  useEffect(() => {
+    const disableActions = (e: Event) => {
+      e.preventDefault(); // Prevent default behavior
+      e.stopPropagation(); // Stop event propagation
+    };
+
+    const disableShortcuts = (e: KeyboardEvent) => {
+      // Block specific keys like F12, Ctrl+Shift+I, and others
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C', 'K', 'U'].includes(e.key)) ||
+        e.key === 'ContextMenu'
+      ) {
+        disableActions(e);
+      }
+    };
+
+    // Add event listeners to the window
+    window.addEventListener('contextmenu', disableActions); // Disable right-click
+    window.addEventListener('keydown', disableShortcuts); // Disable specific shortcuts
+    window.addEventListener('mousedown', disableActions); // Disable middle mouse button
+
+    return () => {
+      // Cleanup on component unmount
+      window.removeEventListener('contextmenu', disableActions);
+      window.removeEventListener('keydown', disableShortcuts);
+      window.removeEventListener('mousedown', disableActions);
+    };
+  }, []);
+
   // Initialize the Video.js player when the video element is set
   useEffect(() => {
     if (videoElement && !playerRef.current) {
