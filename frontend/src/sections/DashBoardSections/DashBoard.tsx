@@ -11,6 +11,7 @@ import { getVerifiedToken } from "@/lib/cookieService";
 import axios from "axios";
 import { COURSE_API } from "@/lib/env";
 import { ErrorToast } from "@/lib/toasts";
+import TextFlipSmoothRevealEffect from "@/Effects/TextFlipSmoothRevealEffect";
 
 const DashBoard = () => {
   console.log("DashBoard rendered");
@@ -88,9 +89,7 @@ const DashBoard = () => {
             {timeGreeting}
           </span>
           ,{" "}
-          <i className="font-libre underline decoration-purple-500">
-            {userData.fullName}!
-          </i>
+          <TextFlipSmoothRevealEffect text={`${userData.fullName}!`} className="text-3xl font-libre underline" />
         </h1>
       </motion.div>
 

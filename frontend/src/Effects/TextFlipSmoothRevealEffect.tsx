@@ -5,6 +5,8 @@ import { cn } from '@/lib/utils';
 interface TextFlipSmoothRevealEffectProps{
     text: string;
     className?: string;
+    endsWith? : React.ReactNode;
+    starstWith? : React.ReactNode;
 }
 const characterVariants = {
     initial: { scaleX: -1, opacity: 0 },
@@ -18,9 +20,11 @@ const characterVariants = {
       },
     }),
   };
-const TextFlipSmoothRevealEffect: React.FC<TextFlipSmoothRevealEffectProps> = ({text , className}) => {
+const TextFlipSmoothRevealEffect: React.FC<TextFlipSmoothRevealEffectProps> = ({text , className , endsWith , starstWith}) => {
   return (
-    <div className="flex">
+    <div className="flex gap-1 justify-start items-center">
+          {starstWith}
+          <div className='flex'>
           {text.split("").map((char, i) => (
             <motion.span
               key={i}
@@ -29,11 +33,14 @@ const TextFlipSmoothRevealEffect: React.FC<TextFlipSmoothRevealEffectProps> = ({
               initial="initial"
               animate="animate"
               className={cn("text-5xl bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" , className)}
+              style={{whiteSpace: char === ' ' ? 'pre' : 'normal'}}
             >
               {char}
             </motion.span>
           ))}
-        </div>
+          </div>
+          {endsWith}
+    </div>
   )
 }
 

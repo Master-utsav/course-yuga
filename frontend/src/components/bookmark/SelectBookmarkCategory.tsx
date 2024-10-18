@@ -25,6 +25,7 @@ const SelectBookmarkCategory: React.FC<SelectBookmarkCategoryProps> = ({onCatego
             >
              {category === "Bookmarked Courses" ? <BookIcon fillColor='white' /> : category === "Bookmarked Videos"  ? <VideoIcon fillColor='white'/> : <ExamTestIcon fillColor='white'/>} {category}
             </Button>
+       
           )
         )}
     </div>

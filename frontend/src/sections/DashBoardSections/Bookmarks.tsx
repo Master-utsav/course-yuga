@@ -1,4 +1,7 @@
+import BookmarkCourseCard from "@/components/bookmark/BookmarkCourseCard";
+import BookmarkVideoCard from "@/components/bookmark/BookmarkVideoCard";
 import SelectBookmarkCategory from "@/components/bookmark/SelectBookmarkCategory";
+import { useAuthContext } from "@/context/authContext";
 import TextFlipSmoothRevealEffect from "@/Effects/TextFlipSmoothRevealEffect";
 import { motion } from "framer-motion";
 import React from "react";
@@ -8,12 +11,14 @@ import React from "react";
 const Bookmarks = () => {
   
   const [category , setCategory] = React.useState("Bookmarked Videos");
-
+  const {userData} = useAuthContext();
   function handleCategoryChange(category : string){
     setCategory(category);
   }
 
+
   return (
+    
       <motion.div
         className="w-full relative dark:bg-white/5 bg-black/5 rounded-lg p-6 space-y-6"
         variants={{
@@ -27,7 +32,8 @@ const Bookmarks = () => {
         <TextFlipSmoothRevealEffect text="BOOKMARKS" />
       </div>
       <SelectBookmarkCategory onCategory={handleCategoryChange}  currentCategory={category}/>
-
+      {category==="Bookmarked Videos" && <BookmarkVideoCard  videoIds={userData.bookmarks?.video}/>}
+      {category==="Bookmarked Courses" && <BookmarkCourseCard  courseIds={userData.bookmarks?.course}/>}
       </motion.div>
   );
 };

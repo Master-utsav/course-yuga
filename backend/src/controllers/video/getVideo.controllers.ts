@@ -21,3 +21,25 @@ export async function handleGetAllVideosOfCourse(req: Request , res : Response){
     }
 
 }
+
+export async function handleGetVideoDataById(req: Request , res : Response){
+
+    const {videoId} = req.query;
+    
+    if(!videoId){
+        return res.status(400).json({success : false , message: "Video ID is required"});
+    }
+
+    try {
+        const video = await VideoModel.findById(videoId);
+        if(!video){
+            return res.status(404).json({success : false , message: "No videos found for given course"});
+        }
+    
+        return res.status(200).json({success: true , message: "All videos of the given course" , video});
+    } catch (error) {
+        return res.status(500).json({success: false , message: "Internal server error"});   
+    }
+
+}
+

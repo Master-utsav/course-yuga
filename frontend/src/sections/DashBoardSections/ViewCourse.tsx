@@ -10,11 +10,16 @@ import axios from 'axios';
 import { VIDEO_API } from '@/lib/env';
 import { ErrorToast } from '@/lib/toasts';
 import { Button } from '@nextui-org/react';
+import TextFlipSmoothRevealEffect from '@/Effects/TextFlipSmoothRevealEffect';
+import SmileIcon from '@/Icons/SmileIcon';
+import { useTheme } from '@/context/ThemeProvider';
+
 
 const ViewCourse: React.FC = () => {
   const {userData} = useAuthContext();
   const [videos , setVideos] = React.useState<IVideoData[] | []>([]);
   const location = useLocation();
+  const {theme} = useTheme();
 
   const fetchVideos = React.useCallback(async(courseId : string) => {
     if(!courseId) return;
@@ -62,9 +67,7 @@ const ViewCourse: React.FC = () => {
             Good to see you
           </span>
           ,{" "}
-          <i className="font-libre underline decoration-purple-500">
-            {userData.firstName}!
-          </i>
+          <TextFlipSmoothRevealEffect text={`${userData.firstName}`} endsWith={<SmileIcon fillColor={theme === "dark" ? 'white' : "black"}/>} className="text-3xl font-libre underline" />
         </h1>
       </motion.div>
       <motion.div className="flex items-center gap-3 mb-5 px-2">
