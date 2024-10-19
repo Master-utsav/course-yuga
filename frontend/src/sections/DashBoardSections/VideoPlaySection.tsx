@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import VideoPlayer from "@/components/VideoPlayer";
+import MDEditor from "@uiw/react-md-editor";
+import Seperator from "@/components/Seperator";
 
 const extractYouTubeVideoId = (url: string) => {
   const regExp = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\?v=))([^&?/\s]+)/;
@@ -20,7 +22,7 @@ const VideoPlaySection: React.FC = () => {
   const [isPlayerReady, setIsPlayerReady] = useState(false); // Track if player can mount
   const location = useLocation();
   const navigate = useNavigate();
-
+  
   const fetchVideoById = useCallback(async () => {
     if (!videoId) return;
 
@@ -77,7 +79,7 @@ const VideoPlaySection: React.FC = () => {
           <div className="col-span-3 w-full relative">
             {/* Video Display */}
             <div className="mb-4">
-              {videoData?.videoType === "YOUTUBE" ? (
+              {videoData?.videoType !== "YOUTUBE" ? (
                 <div className="w-full aspect-video rounded-xl dark:bg-gray-700 bg-white-600">
                   {isPlayerReady && videoData?.videoUrl ? (
                     <VideoPlayer videoUrl={"/videos/sample.mp4"} />
@@ -128,16 +130,25 @@ const VideoPlaySection: React.FC = () => {
               </div>
 
               {/* Video Description Accordion */}
-              <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-5 shadow-inner">
-                <Accordion defaultExpandedKeys={["2"]}>
+              <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg mb-5 shadow-inner">
+                <Accordion>
                   <AccordionItem
                     key="1"
                     aria-label="Accordion 1"
                     subtitle="Video Description"
                     title="Read more about the Video"
                   >
-                    <div className="flex items-start gap-3 font-ubuntu">
+                    <div className="flex flex-col items-start gap-3 font-ubuntu">
                       {videoData?.description}
+                      {videoData.markdownContent && (
+                        <div className="w-full text-black dark:text-white mt-6 bg-transparent">
+                          <Seperator text={"more about content"} />
+                          <MDEditor.Markdown
+                            source={videoData.markdownContent}
+                            className="prose dark:prose-invert bg-transparent font-ubuntu text-black dark:text-white"
+                          />
+                        </div>
+                      )}
                     </div>
                   </AccordionItem>
                 </Accordion>
@@ -146,18 +157,30 @@ const VideoPlaySection: React.FC = () => {
           </div>
 
           {/* Timestamps */}
-          <aside className="col-span-1 w-full border dark:border-white-500 border-black-600 rounded-lg">
+          <aside className="col-span-1 w-full border dark:border-white-500 border-black-600 rounded-lg h-fit">
             <h3 className="text-2xl px-1 font-ubuntu bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-teal-400 to-blue-500 font-semibold mb-3 text-center p-1 underline decoration-cyan-300">
               Timestamps
             </h3>
-            <ul className="space-y-2 px-4">
+            <ul className="px-4 bg-transparent divide-y divide-gray-300 dark:divide-gray-700">
               {videoData?.videoTimeStamps?.map((timestamp, index) => (
-                <li key={index} className="flex justify-between items-center">
-                  <span className="font-medium">{timestamp.time}</span>
-                  <span className="text-gray-500">{timestamp.text}</span>
+                <li key={index} className="flex items-center justify-between py-2">
+                  {/* Timestamp Button */}
+                  <Button
+                    variant="ghost"
+                    className="text-blue-400 p-0 w-28 hover:bg-white dark:hover:bg-gray-800 transition-colors duration-300"
+                  >
+                    {timestamp.time}
+                  </Button>
+
+                  {/* Text aligned to the end */}
+                  <span className="w-[80%] text-end flex-grow text-gray-600 dark:text-gray-300 font-medium">
+                    {timestamp.text}
+                  </span>
                 </li>
               ))}
             </ul>
+
+
           </aside>
         </div>
       )}

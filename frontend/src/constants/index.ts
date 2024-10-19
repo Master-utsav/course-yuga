@@ -375,7 +375,60 @@ export interface IVideoData{
     text: string; 
   }[]; 
   isVerified: boolean;
+  markdownContent?: string;
 }
+
+export interface IUpdateVideoData{
+  _id: string;
+  videoName: string;
+  tutorName: string;
+  videoType: "PERSONAL" | "YOUTUBE";
+  courseId: string
+  uploadedBy: string;
+  thumbnail: File | string;
+  videoUrl: File | string;
+  description?: string;
+  watchedBy?: string[]; 
+  watchCount?: number; 
+  videoTimeStamps?: {
+    time: number; 
+    text: string; 
+  }[]; 
+  isVerified: boolean;
+  markdownContent?: string;
+}
+
+
+export const videoDataTemplate: IVideoData = {
+  _id: "12345",
+  videoName: "Learn TypeScript Basics",
+  tutorName: "John Doe",
+  videoType: "YOUTUBE",
+  courseId: "course_001",
+  uploadedBy: "admin",
+  thumbnail: "https://via.placeholder.com/300x200.png?text=TypeScript+Course",
+  videoUrl: "https://www.youtube.com/embed/dummy-video",
+  description: "A beginner-friendly tutorial to get started with TypeScript.",
+  watchedBy: ["user1", "user2", "user3"],
+  watchCount: 45,
+  videoTimeStamps: [
+    { time: 10, text: "Introduction" },
+    { time: 60, text: "Setting up the environment" },
+    { time: 120, text: "Basic Types" },
+    { time: 300, text: "Interfaces & Classes" },
+    { time: 480, text: "Conclusion" }
+  ],
+  isVerified: true,
+  markdownContent: `
+  ## TypeScript Basics
+  - **Introduction:** Learn what TypeScript is and why it's used.
+  - **Setup:** Install and configure the environment.
+  - **Core Concepts:** Explore types, interfaces, and classes.
+  
+  [Click here to explore more](https://www.typescriptlang.org)
+  `,
+};
+
 
 
 export interface LoginUserDataProps{

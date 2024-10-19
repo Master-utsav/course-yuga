@@ -17,6 +17,7 @@ import PageTransitionSwipeAnimation from "@/Effects/PageTransitionSwipeAnimation
 import AddVideos from "@/sections/DashBoardSections/AddVideos";
 import ViewCourse from "@/sections/DashBoardSections/ViewCourse";
 import VideoPlaySection from "./VideoPlaySection";
+import VideoEditPage from "@/components/addVideos/VideoEditPage";
 
 const DashboardRoutes: React.FC = () => {
   const { userData } = useAuthContext();
@@ -141,6 +142,14 @@ const DashboardRoutes: React.FC = () => {
                 element={
                   <PageTransitionSwipeAnimation>
                     <AddVideos />
+                  </PageTransitionSwipeAnimation>
+                }
+              />
+              <Route
+                path="/edit-video"
+                element={
+                  <PageTransitionSwipeAnimation>
+                    <VideoEditPage />
                   </PageTransitionSwipeAnimation>
                 }
               />

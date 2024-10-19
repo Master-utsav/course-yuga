@@ -73,7 +73,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({courseData}) => {
   return (
     <div className='w-full relative flex flex-col py-1'>
     <Seperator text={courseData.courseName}/>
-    <div className='w-full h-auto flex gap-2 justify-start items-center relative '>
+    <div className='w-full h-auto flex gap-2 justify-start items-center relative px-2'>
         <div className='w-1/4'>
         <Image
                 isBlurred
@@ -103,6 +103,16 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({courseData}) => {
           </div>
         </div>
         <div className='flex flex-col space-y-4 text-base font-medium font-ubuntu justify-end  w-1/4 items-center'>
+            {courseData.courseType === "REDIRECT" ? 
+            <Button isDisabled
+            className="
+                    w-full py-3 font-ubuntu text-base font-medium 
+                    bg-blue-500/50 text-white hover:bg-blue-600/50 dark:bg-blue-400/50 dark:hover:bg-blue-500/50 
+                    shadow-md hover:shadow-lg transition-all duration-300"
+            >
+             <WarningIcon fillColor='yellow'/> Can't manage the videos
+            </Button>
+            :
             <Link to={`/user/add-videos?courseId=${courseData._id}&name=${nameParams}`} className="w-full">
                 <Button
                 className="
@@ -114,6 +124,8 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({courseData}) => {
                 Manage Videos
                 </Button>
             </Link>
+            }
+            
 
             <Link to={`/course-intro-page?courseId=${courseData._id}`} className="w-full">
                 <Button
@@ -143,7 +155,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({courseData}) => {
                     </DialogTitle>
                     <DialogDescription className="text-gray-600 dark:text-gray-300 text-base mt-2">
                         Are you sure? You really want to{" "}
-                        <span className="font-bold">delete</span> your account
+                        <span className="font-bold">delete</span> this video
                         permanently.
                     </DialogDescription>
                     </DialogHeader>

@@ -6,7 +6,7 @@ export enum VideoType {
 }
 
 export interface IVideoTimeStamps {
-  time: number; 
+  time: string; 
   text: string; 
 }
 
@@ -23,6 +23,7 @@ export interface IVideo extends Document {
   watchCount?: number; 
   videoTimeStamps?: IVideoTimeStamps[]; 
   isVerified: boolean;
+  markdownContent? : string;
 }
 
 // Define the Video schema
@@ -43,11 +44,12 @@ const videoSchema = new Schema<IVideo>(
     watchedBy: [{ type: Schema.Types.ObjectId, ref: "User" }], 
     videoTimeStamps: [
       {
-        time: { type: Number, required: true }, 
+        time: { type: String, required: true }, 
         text: { type: String, required: true, trim: true }, 
       },
     ],
     isVerified: { type: Boolean, default: false },
+    markdownContent: {type: String}
   },
   {
     toJSON: { virtuals: true },
