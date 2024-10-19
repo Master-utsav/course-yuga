@@ -10,17 +10,25 @@ const extractYouTubeVideoId = (url: string) => {
 };
 
 interface VideoPreviewCardProps{
-    isPlayerReady: boolean;
     videoData: IVideoData;
 }
 
-const VideoPreviewCard: React.FC<VideoPreviewCardProps> = ({isPlayerReady , videoData}) => {
+
+const VideoPreviewCard: React.FC<VideoPreviewCardProps> = ({videoData}) => {
+    const [isPlayerReady, setIsPlayerReady] = React.useState(false);
+    
+    React.useEffect(() => {
+        if(videoData){
+            setIsPlayerReady(true);
+        }
+    }, [videoData])
+
   return (
     <div className="mb-4">
         {videoData?.videoType !== "YOUTUBE" ? (
         <div className="w-full aspect-video rounded-xl dark:bg-gray-700 bg-white-600">
             {isPlayerReady && videoData?.videoUrl ? (
-            <VideoPlayer videoUrl={"/videos/sample.mp4"} />
+            <VideoPlayer videoUrl={videoData?.videoUrl} />
             ) : (
             <div className="flex justify-center items-center">
                 <h1 className="text-2xl dark:text-white text-center w-full mx-auto text-black">
@@ -31,12 +39,10 @@ const VideoPreviewCard: React.FC<VideoPreviewCardProps> = ({isPlayerReady , vide
         </div>
         ) : (
         <div className="w-full aspect-video rounded-2xl dark:bg-gray-700 bg-white-600 object-cover overflow-hidden">
-            {videoData?.videoUrl ? (
+            {videoData.videoUrl ? (
             <iframe
                 className="w-full aspect-video "
-                src={`https://www.youtube.com/embed/${extractYouTubeVideoId(
-                videoData.videoUrl
-                )}`}
+                src={`https://www.youtube.com/embed/${extractYouTubeVideoId(videoData.videoUrl)}`}
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

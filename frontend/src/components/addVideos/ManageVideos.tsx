@@ -73,7 +73,7 @@ const ManageVideos = () => {
         >
        <VideoHeader onCategory={handleOnCategory} courseId={courseId} courseName={courseName}/>
 
-      {category === "Personal Video" && <PersonalVideoForm />}
+      {category === "Personal Video" && <PersonalVideoForm courseId={courseId} onRefresh={handleRefresh} courseName={courseName}/>}
       {category === "YouTube Video" && <YoutubeVideoForm  courseId={courseId} onRefresh={handleRefresh} courseName={courseName}/>}
       {videosData.length === 0 && (
             <div className="w-full flex flex-col justify-center items-center gap-4 p-6 bg-yellow-100 border border-yellow-300 rounded-md shadow-md">

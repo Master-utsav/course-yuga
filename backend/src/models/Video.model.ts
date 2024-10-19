@@ -24,6 +24,7 @@ export interface IVideo extends Document {
   videoTimeStamps?: IVideoTimeStamps[]; 
   isVerified: boolean;
   markdownContent? : string;
+  pub_id? : string;
 }
 
 // Define the Video schema
@@ -49,7 +50,8 @@ const videoSchema = new Schema<IVideo>(
       },
     ],
     isVerified: { type: Boolean, default: false },
-    markdownContent: {type: String}
+    markdownContent: {type: String},
+    pub_id: {type: String}
   },
   {
     toJSON: { virtuals: true },

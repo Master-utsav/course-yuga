@@ -82,7 +82,7 @@ const VideoPlaySection: React.FC = () => {
               {videoData?.videoType !== "YOUTUBE" ? (
                 <div className="w-full aspect-video rounded-xl dark:bg-gray-700 bg-white-600">
                   {isPlayerReady && videoData?.videoUrl ? (
-                    <VideoPlayer videoUrl={"/videos/sample.mp4"} />
+                    <VideoPlayer videoUrl={videoData?.videoUrl} />
                   ) : (
                     <div className="flex justify-center items-center">
                       <h1 className="text-2xl dark:text-white text-center w-full mx-auto text-black">

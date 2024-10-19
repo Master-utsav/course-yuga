@@ -4,16 +4,16 @@ import { IVideoData } from "@/constants";
 import { useNavigate } from "react-router-dom";
 import PlayWatchIcon from "@/Icons/PlayWatchIcon";
 import EyeOpenIcon from "@/Icons/EyeOpenIcon";
-// import { TimeStamp } from "./AddTimeStamps";
+import { TimeStamp } from "./AddTimeStamps";
 
 interface DisplayVideoCardIntoPageProps {
   videoData: IVideoData;
   previewImage: string;
-//   timeStamps: TimeStamp[];
+  timeStamps: TimeStamp[];
 }
 const DisplayVideoCardIntoPage: React.FC<DisplayVideoCardIntoPageProps> = ({
   videoData,
-//   timeStamps,
+  timeStamps,
   previewImage,
 }) => {
   
@@ -68,7 +68,7 @@ const DisplayVideoCardIntoPage: React.FC<DisplayVideoCardIntoPageProps> = ({
               Timestamps
             </h3>
             <ul className="px-4 bg-transparent divide-y divide-gray-300 dark:divide-gray-700">
-              {videoData.videoTimeStamps?.map((timestamp, index) => (
+              {timeStamps.map((timestamp, index) => (
                 <li key={index} className="flex items-center justify-between py-2">
                   {/* Timestamp Button */}
                   <Button

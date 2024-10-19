@@ -9,6 +9,20 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET!,
 });
 
+export function getPublicIdFromPath(cloudinaryPath: string): string {
+  const parts = cloudinaryPath.split('/');
+  return parts[parts.length - 1]; // Returns the last part as public ID
+}
+
+export const getSignedVideoUrl = (publicId: string): string => {
+  return cloudinary.url(publicId, {
+    resource_type: "video",
+    type: "upload",
+    sign_url: true,
+    expires_at: Math.floor(Date.now() / 1000) + 60 * 15, // 15 mins expiry
+  });
+};
+
 export async function cloudinaryUploadUserImageFiles(localFilePath: string) {
   if (!localFilePath) {
     return null;

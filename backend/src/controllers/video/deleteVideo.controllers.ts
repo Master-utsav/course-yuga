@@ -3,6 +3,7 @@ import { AuthenticatedAdminRequest } from "../../middleware/auth.middleware";
 import VideoModel from "../../models/Video.model";
 import CourseModel from "../../models/Course.model";
 import mongoose  from "mongoose";
+import { cloudinaryDeleteVideoFile, cloudinaryDeleteVideoImage } from "../../utils/cloudinary.config";
 
 export async function handleDeleteVideoFunction(req: AuthenticatedAdminRequest, res: Response) {
     const userId = req.userId;
@@ -18,6 +19,14 @@ export async function handleDeleteVideoFunction(req: AuthenticatedAdminRequest, 
     }
 
     try {
+        
+        const videoById = await VideoModel.findById(videoId);
+        if (videoById.thumbnail) {
+            await cloudinaryDeleteVideoImage(videoById.thumbnail);
+        }
+        if (videoById.videoUrl) {
+            await cloudinaryDeleteVideoFile(videoById.videoUrl);
+        }
 
         const video = await VideoModel.findByIdAndDelete(videoId);
         if (!video) {

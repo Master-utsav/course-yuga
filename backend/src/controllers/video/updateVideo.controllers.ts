@@ -96,8 +96,8 @@ export async function handleUpdatePersonalVideoFunction(req: AuthenticatedAdminR
 
             updateData.thumbnail = uploadResult.url;
         } 
-        else if (req.body.youtubeVideoImage) {
-            updateData.thumbnail = req.body.youtubeVideoImage;
+        else if (req.body.personalVideoImage) {
+            updateData.thumbnail = req.body.personalVideoImage;
         }
 
         const updatedVideo = await VideoModel.findByIdAndUpdate(videoId, updateData, { new: true });

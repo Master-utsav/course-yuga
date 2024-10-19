@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css'; // Default Video.js styling
 import '@videojs/themes/dist/forest/index.css'; // Optional Forest theme
+import { VIDEO_API } from '@/lib/env';
 
 interface VideoPlayerProps {
   videoUrl: string;
@@ -36,6 +37,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
         },
       });
       playerRef.current = player;
+
+      console.log("Playing video from URL:", videoUrl);
     }
 
     // Cleanup on unmount to avoid re-initialization issues
@@ -98,7 +101,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
         className="video-js vjs-theme-forest vjs-big-play-button vjs-control-bar "
         controls
       >
-        <source src={videoUrl} type="video/mp4" />
+        <source src={`${VIDEO_API}/stream-video/${videoUrl}`} type="video/mp4" />
         <p className="vjs-no-js">
           To view this video, please enable JavaScript or use a supported browser.
         </p>
@@ -106,7 +109,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
     </div>
   );
 };
-
 
 
 export default VideoPlayer;

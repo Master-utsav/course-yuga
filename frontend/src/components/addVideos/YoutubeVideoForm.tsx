@@ -22,7 +22,7 @@ const youtubeVideoRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu
 
 const youtubeVideoSchema = z
   .object({
-    videoName: z.string().min(3, "Course name must be at least 3 characters"),
+    videoName: z.string().min(3, "Video name must be at least 3 characters"),
     tutorName: z.string().min(2, "Tutor name must be at least 2 characters"),
     description: z
       .string()

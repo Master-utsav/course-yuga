@@ -176,6 +176,14 @@ const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({
               </Button>
             </Link>
           ) : (
+            courseData.sellingPrice === 0 ? (
+              <Button
+              className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600"
+              onClick={handleEnrolledRequest}
+            >
+              <YoutubeIcon fillColor="white" size={30} /> Enroll Now
+            </Button>
+            ):
             <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
               Buy Now
             </Button>

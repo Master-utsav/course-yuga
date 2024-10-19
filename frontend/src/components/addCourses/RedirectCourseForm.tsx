@@ -29,7 +29,7 @@ const redirectCourseSchema = z
       .min(150, "Description must be at least 150 characters"),
     sellingPrice: z
       .number()
-      .positive("Selling price must be a positive number"),
+      .nonnegative("Selling price must be a positive number"),
     originalPrice: z
       .number()
       .positive("Original price must be a positive number").min(1 , "original price min should be 1"),

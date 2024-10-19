@@ -13,7 +13,7 @@ const personalVideoSchema = z
     description: z
       .string()
       .optional(),
-    videoUrl: z.string(),
+    videoUrl: z.string().optional(),
     thumbnail: z
       .union([
         z
@@ -46,7 +46,6 @@ interface EditPersonalVideoFormProps {
   onEditTimeStamps: (timestamps : TimeStamp[] | []) => void;
   timestamp: TimeStamp[];
 }
-
 
 const EditPersonalVideoForm: React.FC<EditPersonalVideoFormProps> = ({video, onEditVideo, setVideoCardImagePreview , onEditTimeStamps , timestamp}) => {
     const {
@@ -127,14 +126,7 @@ const EditPersonalVideoForm: React.FC<EditPersonalVideoFormProps> = ({video, onE
           {errors.tutorName && <p className="text-red-500 text-sm">{errors.tutorName.message}</p>}
         </div>
     
-        <Input
-        {...register("videoUrl")}
-        label="Change Url"
-        variant="underlined"
-        placeholder="Enter video url"
-        className="text-base rounded-lg dark:text-white text-black font-ubuntu font-medium"
-        />
-        {errors.videoUrl && <p className="text-red-500 text-sm">{errors.videoUrl.message}</p>}
+      
       </div>
 
       <Textarea

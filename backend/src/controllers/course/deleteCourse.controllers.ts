@@ -4,6 +4,7 @@ import CourseModel from "../../models/Course.model";
 import bcrypt from "bcryptjs"
 import User from "../../models/User.model";
 import mongoose from "mongoose";
+import { cloudinaryDeleteCourseImage } from "../../utils/cloudinary.config";
 
 export async function handleDeleteCourseFunction (req: AuthenticatedAdminRequest , res: Response){
     const userId = req.userId;
@@ -23,6 +24,7 @@ export async function handleDeleteCourseFunction (req: AuthenticatedAdminRequest
           .status(404)
           .json({ success: false, message: "course not found" });
       }
+
       
       const user = await User.findById(userId);
       const isMatch = await bcrypt.compare(password, user.password);
@@ -32,11 +34,16 @@ export async function handleDeleteCourseFunction (req: AuthenticatedAdminRequest
           .status(400)
           .json({ success: false, message: "Invalid password" });
       }
+
       const courseObjectId = new mongoose.Types.ObjectId(courseId);
       user.uploadedCourses = user.uploadedCourses.filter(
         (id: any) => !id.equals(courseObjectId)
       );
-  
+      
+      if(course.thumbnail){
+        await cloudinaryDeleteCourseImage(course.thumbnail);
+      }
+      
       const deletedCourse = await CourseModel.deleteOne({ _id : courseId });
 
 

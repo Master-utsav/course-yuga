@@ -24,7 +24,7 @@ const VideoEditPage: React.FC = () => {
   const [finalTimeStampData, setFinalTimeStampData] = useState<TimeStamp[]>([]);
   const [markdown, setMarkdown] = useState<string>("");
   const [preview, setPreview] = useState<string>(videoData?.thumbnail);
-  const [isPlayerReady , setIsPlayerReady] = useState<boolean>(false);
+  // const [isPlayerReady , setIsPlayerReady] = useState<boolean>(false);
   const { userData } = useAuthContext();
 
   const fetchVideoById = useCallback(async () => {
@@ -39,7 +39,7 @@ const VideoEditPage: React.FC = () => {
         setPreview(response.data.video.thumbnail);
         setFinalTimeStampData(response.data.video.videoTimeStamps);
         setMarkdown(response.data.video.markdownContent);
-        setIsPlayerReady(true);
+        // setIsPlayerReady(true);
       } else {
         ErrorToast(response.data.message);
       }
@@ -167,7 +167,7 @@ const VideoEditPage: React.FC = () => {
         {/* Left Section: Editable Content */}
 
         <div className="flex-1 p-8 space-y-2 overflow-auto font-ubuntu w-full relative">
-            <VideoPreviewCard isPlayerReady={isPlayerReady} videoData={videoData}/>
+            <VideoPreviewCard videoData={videoData}/>
           <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
             {videoData.videoName || "Course Name"}
           </h1>
@@ -193,7 +193,7 @@ const VideoEditPage: React.FC = () => {
         {/* Right Section: Course Card */}
         <DisplayVideoCardIntoPage
           videoData={videoData}
-        //   timeStamps={finalTimeStampData}
+          timeStamps={finalTimeStampData}
           previewImage={preview}
         />
       </div>

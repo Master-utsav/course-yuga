@@ -2,6 +2,7 @@ import { AuthenticatedRequest } from "../../middleware/auth.middleware";
 import { Response } from "express";
 import User from "../../models/User.model";
 import bcrypt from "bcryptjs"
+import { cloudinaryDeleteUserImage } from "../../utils/cloudinary.config";
 
 export async function handleDeleteAccountFunction(
     req: AuthenticatedRequest,
@@ -24,7 +25,7 @@ export async function handleDeleteAccountFunction(
           .status(404)
           .json({ success: false, message: "User not found" });
       }
-  
+      
       const isMatch = await bcrypt.compare(password, user.password);
   
       if (!isMatch) {
@@ -32,7 +33,11 @@ export async function handleDeleteAccountFunction(
           .status(400)
           .json({ success: false, message: "Invalid password" });
       }
-  
+      
+      if(user.profileImageUrl){
+        await cloudinaryDeleteUserImage(user.profileImageUrl);
+      }
+      
       const deletedUser = await User.deleteOne({ email: user.email });
   
       if (!deletedUser) {
