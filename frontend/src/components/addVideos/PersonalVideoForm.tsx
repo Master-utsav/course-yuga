@@ -188,7 +188,7 @@ const PersonalVideoForm: React.FC<PersonalVideoFormProps> = ({courseId , courseN
       transition={{ duration: 0.3 }}
     >
       <h2 className="text-4xl font-ubuntu font-semibold text-center mb-5 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-        Upload YouTube Video in course, <span className="underline decoration-purple-500">{courseName}</span> 
+        Upload Personal Video in course, <span className="underline decoration-purple-500">{courseName}</span> 
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -233,7 +233,7 @@ const PersonalVideoForm: React.FC<PersonalVideoFormProps> = ({courseId , courseN
         <Input
             label="Category"
             variant="underlined"
-            placeholder="Youtube"
+            placeholder="Personal"
             className={`text-base rounded-lg dark:text-white text-black font-ubuntu font-medium`}
           />
         <div className="w-full flex flex-col justify-start items-start">

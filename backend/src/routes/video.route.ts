@@ -21,6 +21,6 @@ videoRoute.put("/update-video/personal" , authenticateAdminToken , upload.single
 
 videoRoute.post("/delete-video" , authenticateAdminToken , handleDeleteVideoFunction);
 
-videoRoute.get("/stream-video/:publicId" , authenticateToken , handleVideoStreamingFunction)
+videoRoute.get("/stream-video/:publicId" , handleVideoStreamingFunction)
 
 export default videoRoute;

@@ -1,69 +1,82 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from 'react';
 import videojs from 'video.js';
-import 'video.js/dist/video-js.css'; // Default Video.js styling
-import '@videojs/themes/dist/forest/index.css'; // Optional Forest theme
+import 'video.js/dist/video-js.css'; 
+import '@videojs/themes/dist/forest/index.css'; 
 import { VIDEO_API } from '@/lib/env';
 import { getVerifiedToken } from '@/lib/cookieService';
-import axios from 'axios';
+// import axios from 'axios';
 
 interface VideoPlayerProps {
   videoUrl: string;
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
-  const playerRef = useRef<any>(null); // Avoid video.js types
+  const playerRef = useRef<any>(null);
   const [videoElement, setVideoElement] = useState<HTMLVideoElement | null>(null);
   const jwt = getVerifiedToken();
+  
+  // // Helper to fetch video blob with Range support
+  // const fetchVideoBlob = React.useCallback(
+  //   async (url: string, range: string) => {
+  //     try {
+  //       const response = await axios.get(url, {
+  //         headers: {
+  //           Authorization: `Bearer ${jwt}`,
+  //           Range: range,
+  //         },
+  //         responseType: 'blob',
+  //       });
+  //       return URL.createObjectURL(response.data);
+  //     } catch (error) {
+  //       console.error('Failed to fetch video blob:', error);
+  //       throw error;
+  //     }
+  //   },
+  //   [jwt]
+  // );
 
-  const fetchVideoBlob = React.useCallback(async (url: string) => {
-    const response = await axios.get(url, {
-      headers: { Authorization: `Bearer ${jwt}` , Range: 'bytes=0-'},
-      responseType: 'blob', // Ensure response is a Blob
-    });
-    return URL.createObjectURL(response.data);
-  }, [jwt]);
+  // useEffect(() => {
+  //   const initializeVideo = async () => {
+  //     if (videoElement) {
+  //       try {
+  //         const blobUrl = await fetchVideoBlob(`${VIDEO_API}/stream-video/${videoUrl}`, 'bytes=0-');
+  //         videoElement.src = blobUrl;
+  //       } catch (error) {
+  //         console.error('Failed to load video:', error);
+  //       }
+  //     }
+  //   };
+  //   initializeVideo();
+  // }, [fetchVideoBlob, videoElement, videoUrl]);
 
-  useEffect(() => {
-    const initializeVideo = async () => {
-      if (videoElement) {
-        try {
-          const blobUrl = await fetchVideoBlob(`${VIDEO_API}/stream-video/${videoUrl}`);
-          videoElement.src = blobUrl;
-        } catch (error) {
-          console.error('Failed to load video:', error);
-        }
-      }
-    };
-    initializeVideo();
-  }, [fetchVideoBlob, videoElement, videoUrl]);
+  // useEffect(() => {
+  //   const handleSeek = async () => {
+  //     if (videoElement && playerRef.current) {
+  //       const player = playerRef.current;
+  //       const rangeStart = Math.floor(player.currentTime());
+  //       const rangeHeader = `bytes=${rangeStart}-`;
 
-  useEffect(() => {
-    const disableActions = (e: Event) => {
-      e.preventDefault(); // Prevent default behavior
-      e.stopPropagation(); // Stop event propagation
-    };
+  //       try {
+  //         const blobUrl = await fetchVideoBlob(`${VIDEO_API}/stream-video/${videoUrl}`, rangeHeader);
+  //         videoElement.src = blobUrl;
+  //         videoElement.play();
+  //       } catch (error) {
+  //         console.error('Failed to fetch video for seek:', error);
+  //       }
+  //     }
+  //   };
 
-    const disableShortcuts = (e: KeyboardEvent) => {
-      if (
-        e.key === 'F12' ||
-        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C', 'K', 'U'].includes(e.key)) ||
-        e.key === 'ContextMenu'
-      ) {
-        disableActions(e);
-      }
-    };
+  //   if (videoElement) {
+  //     videoElement.addEventListener('seeking', handleSeek);
+  //   }
 
-    window.addEventListener('contextmenu', disableActions);
-    window.addEventListener('keydown', disableShortcuts);
-    window.addEventListener('mousedown', disableActions);
-
-    return () => {
-      window.removeEventListener('contextmenu', disableActions);
-      window.removeEventListener('keydown', disableShortcuts);
-      window.removeEventListener('mousedown', disableActions);
-    };
-  }, []);
+  //   return () => {
+  //     if (videoElement) {
+  //       videoElement.removeEventListener('seeking', handleSeek);
+  //     }
+  //   };
+  // }, [fetchVideoBlob, videoElement, videoUrl]);
 
   useEffect(() => {
     if (videoElement && !playerRef.current) {
@@ -73,7 +86,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
         autoplay: true,
         fluid: true,
         preload: 'auto',
-        enableSmoothSeeking: true,
         aspectRatio: '16:9',
         playbackRates: [0.5, 1, 1.5, 2],
         disablePictureInPicture: true,
@@ -101,28 +113,18 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
     const player = playerRef.current;
 
     switch (event.key) {
-      case '': // Pause video
-      player.pause();
-      break;
-    case ' ': 
-      event.preventDefault(); // Prevent page from scrolling
-      if (player.paused()) {
-        player.play();
-      } else {
-        player.pause();
-      }
-      break;
-    case 'f': // Fullscreen
-      if (!player.isFullscreen()) {
-        player.requestFullscreen();
-      }
-      break;
-    case 'Escape': // Exit fullscreen
-      if (player.isFullscreen()) {
-        player.exitFullscreen();
-      }
-      break;
-    case 'ArrowRight':
+      case ' ': // Play/Pause
+        event.preventDefault(); // Prevent page scrolling
+        if (player.paused()) player.play();
+        else player.pause();
+        break;
+      case 'f': // Fullscreen
+        if (!player.isFullscreen()) player.requestFullscreen();
+        break;
+      case 'Escape': // Exit fullscreen
+        if (player.isFullscreen()) player.exitFullscreen();
+        break;
+      case 'ArrowRight':
         player.currentTime(player.currentTime() + 10);
         break;
       case 'ArrowLeft':
@@ -138,15 +140,42 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
         break;
     }
   };
+  
+  useEffect(() => {
+    const disableActions = (e: Event) => {
+      e.preventDefault(); // Prevent default behavior
+      e.stopPropagation(); // Stop event propagation
+    };
+
+    const disableShortcuts = (e: KeyboardEvent) => {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && ['I', 'J', 'C', 'K', 'U'].includes(e.key)) ||
+        e.key === 'ContextMenu'
+      ) {
+        disableActions(e);
+      }
+    };
+
+    window.addEventListener('contextmenu', disableActions);
+    window.addEventListener('keydown', disableShortcuts);
+    window.addEventListener('mousedown', disableActions);
+
+    return () => {
+      window.removeEventListener('contextmenu', disableActions);
+      window.removeEventListener('keydown', disableShortcuts);
+      window.removeEventListener('mousedown', disableActions);
+    };
+  }, []);
 
   return (
     <div className="video-container w-full aspect-video flex justify-center items-center">
       <video
         ref={(el) => setVideoElement(el)}
+        src={`${VIDEO_API}/stream-video/${videoUrl}?token=${jwt}`}
         className="video-js vjs-theme-forest vjs-big-play-button vjs-control-bar"
         controls
       >
-        <source src={`${VIDEO_API}/stream-video/${videoUrl}`} type="video/mp4" />
         <p className="vjs-no-js">
           To view this video, please enable JavaScript or use a supported browser.
         </p>
