@@ -1,5 +1,5 @@
 import express from "express";
-import { authenticateAdminToken } from "../middleware/auth.middleware";
+import { authenticateAdminToken, authenticateToken } from "../middleware/auth.middleware";
 import { upload, uploadVideo } from "../middleware/multer.middleware";
 import { handleAddNewPersonalVideoFunction, handleAddNewYoutubeVideoFunction, handleUploadPersonalVideoFunction } from "../controllers/video/uploadVideo.controllers";
 import { handleGetAllVideosOfCourse, handleGetVideoDataById } from "../controllers/video/getVideo.controllers";
@@ -21,6 +21,6 @@ videoRoute.put("/update-video/personal" , authenticateAdminToken , upload.single
 
 videoRoute.post("/delete-video" , authenticateAdminToken , handleDeleteVideoFunction);
 
-videoRoute.get("/stream-video/:publicId" , handleVideoStreamingFunction)
+videoRoute.get("/stream-video/:publicId" , authenticateToken , handleVideoStreamingFunction)
 
 export default videoRoute;

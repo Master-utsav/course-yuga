@@ -1,11 +1,16 @@
 import { Request, Response } from "express";
 import { getSignedVideoUrl } from "../../utils/cloudinary.config";
 import axios from "axios";
+import { AuthenticatedRequest } from "../../middleware/auth.middleware";
 
-export async function handleVideoStreamingFunction(req: Request, res: Response) {
+export async function handleVideoStreamingFunction(req: AuthenticatedRequest, res: Response) {
+  const userId = req.userId;
+  if(!userId){
+    return res.status(400).send("userId not found")
+  }
   const { publicId } = req.params;
   const range = req.headers.range;
-
+  
   if (!range) {
     return res.status(400).send("Requires Range header");
   }
@@ -13,9 +18,6 @@ export async function handleVideoStreamingFunction(req: Request, res: Response) 
   try {
     // Generate a signed URL for the Cloudinary video
     const signedUrl = getSignedVideoUrl(`VideoFiles/${publicId}`);
-     
-    console.log("Signed URL:", signedUrl);
-    console.log("Range header:", range);
 
     // Fetch the video using Axios with the Range header
     const response = await axios.get(signedUrl, {

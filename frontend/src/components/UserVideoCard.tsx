@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button, Image } from "@nextui-org/react";
 import { IVideoData } from "@/constants";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BookmarkIcon2 from "@/Icons/BookmarkIcon2";
 import { useTheme } from "@/context/ThemeProvider";
 import { getVerifiedToken } from "@/lib/cookieService";
@@ -42,7 +42,7 @@ interface VideoInterface {
 const UserVideoCard: React.FC<VideoInterface> = ({ videos }) => {
   const { theme } = useTheme();
   const { userData, setUserData } = useAuthContext();
-
+  const navigate = useNavigate();
   const debouncedHandleBookmark = debounce(async (videoId: string) => {
     const jwt = getVerifiedToken();
     if (!videoId) return;
@@ -156,11 +156,11 @@ const UserVideoCard: React.FC<VideoInterface> = ({ videos }) => {
               {video.description}
             </i>
           </div>
-          <Link to={`/user/video-player?videoId=${video._id}`}>
-            <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
+         
+            <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/video-player?videoId=${video._id}`)}>
               Watch Now
             </Button>
-          </Link>
+         
           <div className="flex w-full sm:flex-row flex-col gap-2">
             <Button
               className="w-full font-medium text-base font-ubuntu bg-white-700 hover:bg-white-800 text-black  dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900"

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import CircularProgressBar from "./CircularProgressBar";
 import { Button , Image} from "@nextui-org/react"; // Assuming you're using NextUI's Button component
 import { IUserCourseData } from "@/constants";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BookmarkIcon2 from "@/Icons/BookmarkIcon2";
 import { useTheme } from "@/context/ThemeProvider";
 import { getVerifiedToken } from "@/lib/cookieService";
@@ -39,6 +39,7 @@ interface CoursesInterface{
 const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
   const {theme} = useTheme();
   const {userData , setUserData} = useAuthContext();
+  const navigate = useNavigate();
 
   const debouncedHandleBookmark = debounce(async(courseId : string) =>{
     const jwt = getVerifiedToken();
@@ -111,17 +112,15 @@ const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
             </i>
           </div>
           {course && course.courseType === "REDIRECT" ? 
-            <Link to={`/course-intro-page?courseId=${course._id}`}>
-              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
+
+              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/course-intro-page?courseId=${course._id}`)}>
                 <RedirectLinkIcon fillColor="white" size={24}/> View Course
               </Button>
-            </Link>
+
           : 
-            <Link to={`/user/view-course?courseId=${course._id}`}>
-              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
+              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/view-course?courseId=${course._id}`)}>
                <YoutubeIcon fillColor="white" size={24} /> View Course
               </Button>
-            </Link>
           }
             <Button className="w-full font-medium text-lg font-ubuntu bg-white-600 hover:bg-white-800 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900" onClick={() => handleBookmarkClick(course._id)}>
               {course && course._id ? 

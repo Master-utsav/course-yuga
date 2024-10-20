@@ -63,9 +63,13 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
 
   const loadUserData = useCallback(async () => {
     const userData = await fetchUserData(); 
-    if (userData) {
+    const verifiedToken = getVerifiedToken();
+
+    if (verifiedToken && userData) {
+      setIsLoggedIn(!!verifiedToken); 
       setUserData(userData);
     }
+
   }, []);
 
   useEffect(() => {
@@ -81,14 +85,15 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
       setTokenCookie(tokenFromUrl); 
       SuccessToast("Login Successfully");
       WarningToast("Update your profile");
+      
+      const verifiedToken = getVerifiedToken();
+      if (verifiedToken) {
+        loadUserData();
+      }
+  
+      setIsLoggedIn(!!verifiedToken); 
     }
 
-    const verifiedToken = getVerifiedToken();
-    if (verifiedToken) {
-      loadUserData();
-    }
-
-    setIsLoggedIn(!!verifiedToken); 
   }, [loadUserData]);
 
   return (
@@ -98,8 +103,6 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
         setUserData,
         isLoggedIn,
         setIsLoggedIn,
-        // localStorageUserData,
-        // setLocalStorageUserData,
       }}
     >
       {children}
