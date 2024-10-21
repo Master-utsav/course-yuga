@@ -167,6 +167,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
       window.removeEventListener('mousedown', disableActions);
     };
   }, []);
+  
 
   return (
     <div className="video-container w-full aspect-video flex justify-center items-center">
