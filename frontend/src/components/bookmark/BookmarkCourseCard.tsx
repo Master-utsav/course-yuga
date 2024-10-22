@@ -12,6 +12,7 @@ import React from "react";
 import { useAuthContext } from "@/context/authContext";
 import { getUserData } from "@/lib/authService";
 import { debounce } from "@/lib/debounce";
+import CircularProgressBar from "../CircularProgressBar";
 
 const cardVariants = {
   hidden: (i: number) => ({
@@ -147,6 +148,9 @@ const BookmarkCourseCard: React.FC<CourseInterface> = ({ courseIds }) => {
                    alt="NextUI Album Cover"
                    className="z-0 object-cover aspect-video"
                  />
+                 <div className="absolute bottom-1 right-1">
+                    <CircularProgressBar progress={(userData.progress?.find((p) => p.courseId === course.courseId)?.count) || 0} />
+                  </div>
                </div>
      
                <div className="p-3 space-y-1 overflow-hidden">
@@ -164,7 +168,7 @@ const BookmarkCourseCard: React.FC<CourseInterface> = ({ courseIds }) => {
                </div>
               
                  <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/view-course?c=${course.courseId}`)}>
-                   Watch Now
+                   View Course
                  </Button>
               
                <div className="flex w-full sm:flex-row flex-col gap-2">

@@ -72,9 +72,9 @@ const DeleteAccountAndChangePassword = () => {
   };
 
   return (
-    <div className="w-full flex sm:flex-row justify-between items-start px-2 py-4 gap-3">
+    <div className="w-full flex flex-col justify-between items-start px-2 py-4 gap-3">
         <Button
-          className=" dark:bg-amber-700/50 bg-amber-300 hover:bg-amber-600 font-semibold font-ubuntu text-black dark:text-white/80"
+          className="w-full dark:bg-amber-700/50 bg-amber-300 hover:bg-amber-600 font-semibold font-ubuntu text-black dark:text-white/80"
           onClick={() => navigate("/reset-password")}
           >
           Change Password
@@ -83,7 +83,7 @@ const DeleteAccountAndChangePassword = () => {
         {/* Delete Account Button */}
         <Dialog>
           <DialogTrigger asChild>
-            <Button className="dark:bg-red-600/50 bg-red-300 hover:bg-red-600 dark:hover:bg-red-500 transition-colors duration-200 font-semibold font-ubuntu text-black dark:text-white/80 ">
+            <Button className="w-full dark:bg-red-600/50 bg-red-300 hover:bg-red-600 dark:hover:bg-red-500 transition-colors duration-200 font-semibold font-ubuntu text-black dark:text-white/80 ">
               Delete Account
             </Button>
           </DialogTrigger>

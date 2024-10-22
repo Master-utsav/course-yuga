@@ -139,7 +139,7 @@ const UserVideoCard: React.FC<VideoInterface> = ({ videos }) => {
               isBlurred
               src={video.thumbnail}
               alt="NextUI Album Cover"
-              className="z-0 object-cover aspect-video"
+              className="z-0 object-cover aspect-video w-full"
             />
           </div>
 

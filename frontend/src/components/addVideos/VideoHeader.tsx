@@ -35,6 +35,8 @@ const VideoHeader: React.FC<VideoHeaderProps> = ({onCategory , courseId , course
           setSelectedCategory(null);
         }
     }
+    
+   const courseNameUpdated = courseName?.replace(/&/g , "and")
 
   return (
     <motion.section
@@ -62,13 +64,16 @@ const VideoHeader: React.FC<VideoHeaderProps> = ({onCategory , courseId , course
             {userData.firstName}!
           </i>
         </h1>
-        <h1 className="text-3xl font-semibold font-libre bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
+        <h1 className="text-3xl flex font-semibold font-libre bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
           <span className="text-3xl font-medium font-ubuntu">
             You are managing
           </span>
-          ,{" "}
-          <div className="font-ubuntu underline decoration-purple-500" onClick={() => navigate(`/course-intro-page?c=${courseId}`)}>
-            {courseName}!
+          , {" "}
+          <div 
+            className="font-ubuntu underline decoration-purple-500" 
+            onClick={() => navigate(`/course-intro-page?c=${courseId}`)}
+          >
+            {courseNameUpdated}!
           </div>
         </h1>
       </motion.div>

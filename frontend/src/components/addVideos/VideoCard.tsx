@@ -47,7 +47,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onRefresh }) => {
 
   async function confirmDelete() {
     const jwt = getVerifiedToken();
-    const videoId = video._id;
+    const videoId = video.videoId;
     try {
       const response = await axios.post(
         `${VIDEO_API}/delete-video`,
@@ -102,7 +102,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onRefresh }) => {
                 bg-blue-700 text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 
                 shadow-md hover:shadow-lg transition-all duration-300
             "
-            onClick={() => navigate(`/user/edit-video?videoId=${video._id}`)}
+            onClick={() => navigate(`/user/edit-video?v=${video.videoId}`)}
         >
           Edit Video
         </Button>

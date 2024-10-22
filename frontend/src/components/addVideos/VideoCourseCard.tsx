@@ -139,12 +139,11 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({ courseData }) => {
                     bg-green-500 text-white hover:bg-green-600 dark:bg-green-400 dark:hover:bg-green-500 
                     shadow-md hover:shadow-lg transition-all duration-300
                 "
-                onClick={() => navigate(`/course-intro-page?courseId=${courseData.courseId}`)}
+                onClick={() => navigate(`/course-intro-page?c=${courseData.courseId}`)}
             >
               Update Course
             </Button>
        
-
           <>
             <Button
               className="dark:bg-red-600/50 bg-red-300 hover:bg-red-600 dark:hover:bg-red-500 transition-colors duration-200 font-semibold font-ubuntu text-black dark:text-white/80 w-full"

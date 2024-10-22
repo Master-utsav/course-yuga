@@ -128,7 +128,7 @@ const CourseCard: React.FC = () => {
               </Chip>
             </div>
 
-            <Link to={`/course-intro-page?courseId=${course.courseId}`} className="w-full">
+            <Link to={`/course-intro-page?c=${course.courseId}`} className="w-full">
               <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600 mt-2">
                    {
                     course.courseType === "YOUTUBE" ? <YoutubeIcon fillColor="white" size={32}/> : course.courseType === "REDIRECT" ? <RedirectLinkIcon fillColor="white" /> : ""

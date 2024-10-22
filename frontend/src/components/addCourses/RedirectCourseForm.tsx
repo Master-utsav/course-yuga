@@ -117,7 +117,7 @@ const RedirectCourseForm: React.FC = () => {
       if (response && response.data && response.data.success) {
         SuccessToast(response.data.message);
         const params = response.data.courseId;
-        navigate(`/course-intro-page?courseId=${params}`);
+        navigate(`/course-intro-page?c=${params}`);
 
       } else {
         ErrorToast(response.data.message);

@@ -18,7 +18,7 @@ import { getVerifiedToken } from "@/lib/cookieService";
 const CourseIntroPage: React.FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const courseId = queryParams.get("courseId");
+  const courseId = queryParams.get("c");
   const [courseData, setCourseData] = useState<ICourseData>(courseDataTemplate);
   const [activeEditor, setActiveEditor] = useState("markdown");
   const [markdown, setMarkdown] = useState<string>("");

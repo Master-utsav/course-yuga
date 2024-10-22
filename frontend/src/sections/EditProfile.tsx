@@ -12,6 +12,7 @@ import FirstAndLastNameForm from "@/components/editProfile/FirstAndLastNameForm"
 import DobForm from "@/components/editProfile/DobForm";
 import MobileNumberForm from "@/components/editProfile/MobileNumberForm";
 import SelectAddressForm from "@/components/editProfile/SelectAddressForm";
+import ChangeRoleField from "@/components/editProfile/ChangeRoleField";
 
 const modalVariants = {
   hidden: { opacity: 0.3, scale: 0.8 },
@@ -23,7 +24,6 @@ const EditProfile = () => {
   const { theme } = useTheme();
   const {userData} = useAuthContext();
 
-  
   return (
     <section className="w-full flex items-center justify-center bg-white dark:bg-black  backdrop-blur-lg transition-opacity duration-300 relative py-28 z-20">
 
@@ -110,6 +110,7 @@ const EditProfile = () => {
         </Button>
         </div> */}
         <Seperator text={"Critical Section"} />
+        {userData.role === "STUDENT" && <ChangeRoleField />}
         <DeleteAccountAndChangePassword />
       </motion.div>
     </section>
