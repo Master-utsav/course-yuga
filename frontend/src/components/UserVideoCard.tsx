@@ -157,17 +157,17 @@ const UserVideoCard: React.FC<VideoInterface> = ({ videos }) => {
             </i>
           </div>
          
-            <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/video-player?videoId=${video._id}`)}>
+            <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/video-player?v=${video.videoId}`)}>
               Watch Now
             </Button>
          
           <div className="flex w-full sm:flex-row flex-col gap-2">
             <Button
               className="w-full font-medium text-base font-ubuntu bg-white-700 hover:bg-white-800 text-black  dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900"
-              onClick={() => handleBookmarkClick(video._id)}
+              onClick={() => handleBookmarkClick(video.videoId)}
             >
-              {video && video._id ? (
-                userData.bookmarks?.video.includes(video._id) ? (
+              {video && video.videoId ? (
+                userData.bookmarks?.video.includes(video.videoId) ? (
                   <>
                     <BookmarkIcon2
                       fillColor={
@@ -196,12 +196,12 @@ const UserVideoCard: React.FC<VideoInterface> = ({ videos }) => {
 
             <Button
               className="w-full font-medium text-base font-ubuntu bg-white-700 hover:bg-white-800 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900"
-              onClick={() => handleMarkDoneClick(video._id, video.courseId)}
+              onClick={() => handleMarkDoneClick(video.videoId, video.courseId)}
             >
-              {video && video._id ? (
+              {video && video.videoId ? (
                 userData.progress
                   ?.find((p) => p.courseId === video.courseId)
-                  ?.completedVideos.includes(video._id) ? (
+                  ?.completedVideos.includes(video.videoId) ? (
                   <>
                     <span>Marked as</span>
                     <DoneIcon

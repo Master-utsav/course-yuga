@@ -14,12 +14,13 @@ export interface IVideo extends Document {
   videoName: string;
   tutorName: string;
   videoType: VideoType;
-  courseId: Types.ObjectId;
-  uploadedBy: Types.ObjectId;
+  courseId: string;
+  videoId: string;
+  uploadedBy: string;
   thumbnail: string;
   videoUrl: string;
   description?: string;
-  watchedBy?: Types.ObjectId[]; 
+  watchedBy?: string[]; 
   watchCount?: number; 
   videoTimeStamps?: IVideoTimeStamps[]; 
   isVerified: boolean;
@@ -30,6 +31,7 @@ export interface IVideo extends Document {
 // Define the Video schema
 const videoSchema = new Schema<IVideo>(
   {
+    videoId: {type: String , required: true, unique: true },
     videoName: { type: String, required: true, trim: true },
     tutorName: { type: String, required: true, trim: true },
     videoType: {
@@ -37,12 +39,12 @@ const videoSchema = new Schema<IVideo>(
       enum: Object.values(VideoType),
       required: true,
     },
-    courseId: { type: Schema.Types.ObjectId, ref: "Course", required: true },
-    uploadedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    courseId: { type: String, ref: "Course", required: true },
+    uploadedBy: { type: String, ref: "User", required: true },
     thumbnail: { type: String, required: true },
     videoUrl: { type: String, required: true },
     description: { type: String, trim: true },
-    watchedBy: [{ type: Schema.Types.ObjectId, ref: "User" }], 
+    watchedBy: [{ type: String, ref: "User" }], 
     videoTimeStamps: [
       {
         time: { type: String, required: true }, 

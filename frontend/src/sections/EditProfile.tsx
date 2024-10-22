@@ -1,17 +1,17 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useTheme } from "@/context/ThemeProvider";
 import { motion } from "framer-motion";
-import { BioForm } from "@/components/editProfile/BioForm";
+import  BioForm  from "@/components/editProfile/BioForm";
 import EditButton from "@/components/editProfile/EditButton";
-import EditProfileSection3 from "./EditProfileSection3";
-import EditProfileSection4 from "./EditProfileSection4";
-import EditProfileSection2 from "./EditProfileSection2";
+import DeleteAccountAndChangePassword from "../components/editProfile/DeleteAccountAndChangePassword";
 import StatusField from "@/components/editProfile/StatusField";
-import { Button } from "@nextui-org/react";
 import { useAuthContext } from "@/context/authContext";
-import { getUserData as fetchUserData} from "@/lib/authService";
-import { useCallback } from "react";
 import Seperator from "@/components/Seperator";
+import { CountryCodeData } from "@/constants";
+import FirstAndLastNameForm from "@/components/editProfile/FirstAndLastNameForm";
+import DobForm from "@/components/editProfile/DobForm";
+import MobileNumberForm from "@/components/editProfile/MobileNumberForm";
+import SelectAddressForm from "@/components/editProfile/SelectAddressForm";
 
 const modalVariants = {
   hidden: { opacity: 0.3, scale: 0.8 },
@@ -21,19 +21,9 @@ const modalVariants = {
 
 const EditProfile = () => {
   const { theme } = useTheme();
-  const {userData , setUserData} = useAuthContext();
+  const {userData} = useAuthContext();
 
-  const loadUserData = useCallback(async () => {
-    const userData = await fetchUserData(); 
-    console.log("edit profile callback calls")
-    if (userData) {
-      setUserData(userData);
-      // setLocalStorageUserData(userData);
-      // localStorage.setItem("userData", JSON.stringify(userData));
-    }
-  }, [setUserData]);
-
-
+  
   return (
     <section className="w-full flex items-center justify-center bg-white dark:bg-black  backdrop-blur-lg transition-opacity duration-300 relative py-28 z-20">
 
@@ -47,7 +37,7 @@ const EditProfile = () => {
       >
         <div className="w-full flex justify-between items-center px-2 py-4">
           <div className="w-full flex gap-4 relative justify-start items-center">
-            <div className="w-[90%] bg-white rounded-2xl dark:bg-black/20 border-[1px] shadow-sm dark:shadow-white-600 border-black/40 dark:border-white/10 flex justify-center items-center flex-col px-4 pb-4 gap-2">
+            <div className="w-full bg-white rounded-2xl dark:bg-black/20 border-[1px] shadow-sm dark:shadow-white-600 border-black/40 dark:border-white/10 flex justify-center items-center flex-col px-4 pb-4 gap-2">
             <div className="w-full flex  items-center justify-between ">
               <div className="w-full flex items-center justify-center space-x-2 pt-2">
                 <Avatar className="border-2 border-blue-500">
@@ -97,20 +87,30 @@ const EditProfile = () => {
             </div>
           </div>
         </div>
-          <BioForm />
         </div>
         <Seperator text={"Personal Information"} />
-        <EditProfileSection2 />
+          <div className="w-full flex flex-col justify-between items-start px-2 py-4 gap-3">
+            <div className="relative w-full flex flex-row items-start justify-between gap-5">
+              <div className="flex flex-col w-full relative gap-2">
+              <FirstAndLastNameForm  firstName={userData.firstName} lastName={userData.lastName} />
+                <MobileNumberForm CountryCodeData={CountryCodeData} theme={theme} code={userData.phoneNumber.code} number={userData.phoneNumber.number} />
+                <DobForm/>
+              </div>
+             <BioForm  />
+            </div>
+          </div>
         <Seperator text={"Update your address"}/>
-        <EditProfileSection3 />
-        <Seperator text={"Apply Changes"} />
+          <div className="w-full flex flex-col justify-between items-start px-2 py-4 gap-3">
+            <SelectAddressForm />
+          </div>
+        {/* <Seperator text={"Apply Changes"} />
         <div className="w-full flex justify-center">
-          <Button className="w-full mx-auto dark:bg-white-600 dark:hover:bg-white-700 transition-colors duration-200 font-semibold font-ubuntu dark:text-black/80 place-items-end" onClick={loadUserData}>
+          <Button className="w-full mx-auto dark:bg-white-600 dark:hover:bg-white-700 transition-colors duration-200 font-semibold font-ubuntu dark:text-black/80 place-items-end" >
           Apply Changes
         </Button>
-        </div>
+        </div> */}
         <Seperator text={"Critical Section"} />
-        <EditProfileSection4 />
+        <DeleteAccountAndChangePassword />
       </motion.div>
     </section>
   );

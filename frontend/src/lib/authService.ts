@@ -11,7 +11,7 @@ export const getUserData = async (): Promise<UserDataProps | null> => {
   }
 
   try {
-    const response = await axios.get(`${USER_API}get-user`, {
+    const response = await axios.get(`${USER_API}/get-user`, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
@@ -40,7 +40,7 @@ export const getUserData = async (): Promise<UserDataProps | null> => {
         role: responseData.role || "STUDENT",
         userDob: responseData.userDob || "",
         avatarFallbackText: `${responseData.firstName?.[0]?.toUpperCase() || "U"}${responseData.lastName?.[0]?.toUpperCase() || "G"}`,
-        id: responseData.id,
+        id: responseData.uniqueId,
         enrolledIn: responseData.enrolledIn,
         bookmarks : responseData.bookmarks,
         progress : responseData.progress

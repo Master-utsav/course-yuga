@@ -39,8 +39,10 @@ passport.use(new GoogleStrategy({
 
     let user = await User.findOne({ email: googleEmail });
     
+    const { nanoid } = await import('nanoid');
     if (!user) {
       user = new User({
+        uniqueId: nanoid(),
         firstName: profile.name?.givenName || 'User',
         lastName: profile.name?.familyName || 'LastName',
         userName: profile.displayName.replace(/ /g, '_'),
@@ -91,6 +93,7 @@ const FRONTEND_SIGNUP_ROUTE = process.env.PUBLIC_FRONTEND_SIGNUP_ROUTE!;
 
     const token = jwt.sign({
       id: user._id,
+      uniqueId: user.uniqueId,
       role: user.role,
     }, process.env.JWT_SECRET!, { expiresIn: '15d' });
 

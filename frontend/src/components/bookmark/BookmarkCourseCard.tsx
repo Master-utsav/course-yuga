@@ -133,7 +133,7 @@ const BookmarkCourseCard: React.FC<CourseInterface> = ({ courseIds }) => {
         </div>
         :
         bookmarkCourses.map((course, i) => (
-            course && course._id && userData.bookmarks?.course.includes(course._id) && 
+            course && course.courseId && userData.bookmarks?.course.includes(course.courseId) && 
             <motion.div
                key={i}
                className="w-full space-y-2 relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
@@ -163,14 +163,14 @@ const BookmarkCourseCard: React.FC<CourseInterface> = ({ courseIds }) => {
                  </i>
                </div>
               
-                 <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/view-course?courseId=${course._id}`)}>
+                 <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/view-course?c=${course.courseId}`)}>
                    Watch Now
                  </Button>
               
                <div className="flex w-full sm:flex-row flex-col gap-2">
                  <Button
                    className="w-full font-medium text-base font-ubuntu bg-white-700 hover:bg-white-800 text-black  dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900"
-                   onClick={() => handleBookmarkClick(course._id)}
+                   onClick={() => handleBookmarkClick(course.courseId)}
                  >
                      <BookmarkIcon2
                          fillColor={

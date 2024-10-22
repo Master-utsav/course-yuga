@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { checkConstraints, checkLoginConstraintsAsEmail, checkLoginConstraintsAsUserName, returnIdentity } from "../../validchecks/checkAuthConstraints";
 import { emailVerificationAlert, sendEmailVerification } from "../../helpers/mailer";
+
 export async function handleSignUpFunction(req: Request, res: Response) {
     try {
       const { userName, firstName, lastName, email, password }: IUser = req.body;
@@ -47,8 +48,10 @@ export async function handleSignUpFunction(req: Request, res: Response) {
           .json({ success: false, message: "User Name already taken" });
       }
       const hashedPassword: string = await bcrypt.hash(password, 10);
-  
+      
+      const { nanoid } = await import('nanoid');
       const newUser = new User({
+        uniqueId: nanoid(),
         userName: userName,
         firstName: firstName,
         lastName: lastName,
@@ -133,7 +136,7 @@ export async function handleSignUpFunction(req: Request, res: Response) {
       }
   
       const token = jwt.sign(
-        { id: user._id, role: user.role },
+        { id: user._id, role: user.role , uniqueId: user.uniqueId},
         process.env.JWT_SECRET!,
         {
           expiresIn: "15d",

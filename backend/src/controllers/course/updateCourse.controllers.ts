@@ -17,7 +17,7 @@ export async function handleUpdateYoutubeCourseFunction(req: AuthenticatedAdminR
         }
 
         const updateData: Partial<ICourse> = {};
-        const courseData = await CourseModel.findById(courseId);
+        const courseData = await CourseModel.findOne({courseId});
 
         if (req.body.courseName) updateData.courseName = req.body.courseName;
         if (req.body.tutorName) updateData.tutorName = req.body.tutorName;
@@ -46,7 +46,7 @@ export async function handleUpdateYoutubeCourseFunction(req: AuthenticatedAdminR
             updateData.thumbnail = req.body.youtubeCourseImage;
         }
 
-        const updatedCourse = await CourseModel.findByIdAndUpdate(courseId, updateData, { new: true });
+        const updatedCourse = await CourseModel.findOneAndUpdate({courseId}, updateData, { new: true , runValidators: true });
         if (!updatedCourse) {
             return res.status(404).json({ success: false, message: "Course not found." });
         }
@@ -71,7 +71,7 @@ export async function handleUpdatePersonalCourseFunction(req: AuthenticatedAdmin
         }
 
         const updateData: Partial<ICourse> = {};
-        const courseData = await CourseModel.findById(courseId);
+        const courseData = await CourseModel.findOne({courseId});
 
         if (req.body.courseName) updateData.courseName = req.body.courseName;
         if (req.body.tutorName) updateData.tutorName = req.body.tutorName;
@@ -101,7 +101,7 @@ export async function handleUpdatePersonalCourseFunction(req: AuthenticatedAdmin
             updateData.thumbnail = req.body.personalCourseImage;
         }
 
-        const updatedCourse = await CourseModel.findByIdAndUpdate(courseId, updateData, { new: true });
+        const updatedCourse = await CourseModel.findOneAndUpdate({courseId}, updateData, { new: true , runValidators: true });
         if (!updatedCourse) {
             return res.status(404).json({ success: false, message: "Course not found." });
         }
@@ -126,7 +126,7 @@ export async function handleUpdateRedirectCourseFunction(req: AuthenticatedAdmin
         }
 
         const updateData: Partial<ICourse> = {};
-        const courseData = await CourseModel.findById(courseId);
+        const courseData = await CourseModel.findOne({courseId});
 
         if (req.body.courseName) updateData.courseName = req.body.courseName;
         if (req.body.tutorName) updateData.tutorName = req.body.tutorName;
@@ -156,8 +156,8 @@ export async function handleUpdateRedirectCourseFunction(req: AuthenticatedAdmin
         } else if (req.body.redirectCourseImage) {
             updateData.thumbnail = req.body.redirectCourseImage;
         }
-
-        const updatedCourse = await CourseModel.findByIdAndUpdate(courseId, updateData, { new: true });
+        
+        const updatedCourse = await CourseModel.findOneAndUpdate({courseId}, updateData, { new: true , runValidators: true });
         if (!updatedCourse) {
             return res.status(404).json({ success: false, message: "Course not found." });
         }

@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types, Document, model } from "mongoose";
+import mongoose, { Schema, Document, model } from "mongoose";
 
 export enum CourseType {
   PERSONAL = "PERSONAL",
@@ -7,12 +7,13 @@ export enum CourseType {
 }
 
 export interface IRating {
-  by: Types.ObjectId;
+  by: string;
   rate: number;
 }
 
 export interface ICourse extends Document {
   courseName: string;
+  courseId: string;
   tutorName: string;
   courseType: CourseType;
   description: string;
@@ -21,22 +22,22 @@ export interface ICourse extends Document {
   originalPrice: number;
   thumbnail: string;
   isVerified: boolean;
-  uploadedBy: Types.ObjectId;
+  uploadedBy: string;
   ratings?: IRating[];
   ratingCount?: number;
   rating?: number;
-  likedBy?: Types.ObjectId[];
+  likedBy?: string[];
   likedCount?: number;
   markdownContent?: string;
   redirectLink?: string;
-  enrolledBy?: Types.ObjectId[];
+  enrolledBy?: string[];
   enrolledCount?: number;
-  videos?: Types.ObjectId[];
+  videos?: string[];
 }
 
 const ratingSchema = new Schema<IRating>(
   {
-    by: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    by: { type: String, ref: "User", required: true },
     rate: { type: Number, required: true, min: 0, max: 5 },
   },
   { _id: false }
@@ -52,18 +53,19 @@ const courseSchema = new Schema<ICourse>(
       required: true,
     },
     description: { type: String, required: true, trim: true },
+    courseId: {type : String , required: true , unique: true},
     currency: { type: String, required: true, trim: true },
     sellingPrice: { type: Number, required: true, min: 0 },
     originalPrice: { type: Number, required: true, min: 0 },
     thumbnail: { type: String, required: true },
     isVerified: { type: Boolean, default: false },
     ratings: [ratingSchema],
-    uploadedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    likedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    uploadedBy: { type: String, ref: "User", required: true },
+    likedBy: [{ type: String, ref: "User" }],
     markdownContent: { type: String },
     redirectLink: { type: String, trim: true },
-    enrolledBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    videos: [{ type: Schema.Types.ObjectId, ref: "Video" }],
+    enrolledBy: [{ type: String, ref: "User" }],
+    videos: [{ type: String, ref: "Video" }],
   },
   {
     toJSON: { virtuals: true },

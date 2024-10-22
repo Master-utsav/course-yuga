@@ -80,7 +80,7 @@ const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
     >
       {courses.map((course, i) => (
         <motion.div
-        key={course._id}
+        key={course.courseId}
         className="w-full space-y-2 relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
           custom={i}
           variants={cardVariants}
@@ -94,7 +94,7 @@ const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
               className="z-0 object-cover aspect-video"
             />
             <div className="absolute bottom-1 right-1">
-              <CircularProgressBar progress={(userData.progress?.find((p) => p.courseId === course._id)?.count) || 0} />
+              <CircularProgressBar progress={(userData.progress?.find((p) => p.courseId === course.courseId)?.count) || 0} />
             </div>
           </div>
 
@@ -113,18 +113,18 @@ const UserCourseCard: React.FC<CoursesInterface> = ({ courses }) => {
           </div>
           {course && course.courseType === "REDIRECT" ? 
 
-              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/course-intro-page?courseId=${course._id}`)}>
+              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/course-intro-page?c=${course.courseId}`)}>
                 <RedirectLinkIcon fillColor="white" size={24}/> View Course
               </Button>
 
           : 
-              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/view-course?courseId=${course._id}`)}>
+              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/view-course?c=${course.courseId}`)}>
                <YoutubeIcon fillColor="white" size={24} /> View Course
               </Button>
           }
-            <Button className="w-full font-medium text-lg font-ubuntu bg-white-600 hover:bg-white-800 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900" onClick={() => handleBookmarkClick(course._id)}>
-              {course && course._id ? 
-              userData.bookmarks?.course.includes(course._id) ? 
+            <Button className="w-full font-medium text-lg font-ubuntu bg-white-600 hover:bg-white-800 text-black dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900" onClick={() => handleBookmarkClick(course.courseId)}>
+              {course && course.courseId ? 
+              userData.bookmarks?.course.includes(course.courseId) ? 
               (<>
                <BookmarkIcon2 fillColor={theme === "dark" ? "white" : "black"} size={24}/> 
                <span>Bookmarked</span>

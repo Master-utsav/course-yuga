@@ -9,6 +9,7 @@ export async function handleAddNewYoutubeCourseFunction(req: AuthenticatedAdminR
         try {
 
           const userId = req.userId;
+          const uniqueId = req.userUniqueId;
 
           const { courseName, tutorName, description, currency, youtubeCourseImage } = req.body;
           let thumbnail = "";
@@ -34,9 +35,11 @@ export async function handleAddNewYoutubeCourseFunction(req: AuthenticatedAdminR
           else {
             return res.status(400).json({success: false, message: "No image file or URL provided." });
           }
-      
+          
+          const { nanoid } = await import('nanoid');
           // Create new course object
           const newCourse = new CourseModel({
+            courseId : nanoid(),
             courseName,
             tutorName,
             courseType: "YOUTUBE",
@@ -46,7 +49,7 @@ export async function handleAddNewYoutubeCourseFunction(req: AuthenticatedAdminR
             originalPrice: 1,
             thumbnail,
             isVerified: false,
-            uploadedBy: userId,
+            uploadedBy: uniqueId,
           });
       
           await newCourse.save();
@@ -54,7 +57,7 @@ export async function handleAddNewYoutubeCourseFunction(req: AuthenticatedAdminR
           // Optionally update the user who uploaded the course
           const updatedUser = await UserModel.findByIdAndUpdate(
             userId,
-            { $push: { uploadedCourses: newCourse._id , enrolledIn: newCourse._id} },
+            { $push: { uploadedCourses: newCourse.courseId  , enrolledIn: newCourse.courseId} },
             { new: true }
           );
       
@@ -62,18 +65,18 @@ export async function handleAddNewYoutubeCourseFunction(req: AuthenticatedAdminR
             return res.status(404).json({success: false, message: "User not found." });
           }
       
-          res.status(201).json({success: true, message: "Course created successfully", courseId: newCourse._id});
+          res.status(201).json({success: true, message: "Course created successfully", courseId: newCourse.courseId});
         } catch (error) {
           console.error("Error adding course:", error);
           res.status(500).json({success: false, message: "An error occurred while adding the course." });
         }
 };
 
-
 export async function handleAddNewPersonalCourseFunction(req: AuthenticatedAdminRequest , res: Response) {
   try {
    
     const userId = req.userId;
+    const uniqueId = req.userUniqueId;
 
     const { courseName, tutorName, description, currency, sellingPrice , originalPrice, personalCourseImage } = req.body;
 
@@ -101,8 +104,10 @@ export async function handleAddNewPersonalCourseFunction(req: AuthenticatedAdmin
       return res.status(400).json({success: false, message: "No image file or URL provided." });
     }
 
+    const { nanoid } = await import('nanoid');
     // Create new course object
     const newCourse = new CourseModel({
+      courseId : nanoid(),
       courseName,
       tutorName,
       courseType: "PERSONAL",
@@ -112,7 +117,7 @@ export async function handleAddNewPersonalCourseFunction(req: AuthenticatedAdmin
       originalPrice,
       thumbnail,
       isVerified: false,
-      uploadedBy: userId,
+      uploadedBy: uniqueId,
     });
 
     await newCourse.save();
@@ -120,7 +125,7 @@ export async function handleAddNewPersonalCourseFunction(req: AuthenticatedAdmin
     // Optionally update the user who uploaded the course
     const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
-      { $push: { uploadedCourses: newCourse._id , enrolledIn: newCourse._id} },
+      { $push: { uploadedCourses: newCourse.courseId  , enrolledIn: newCourse.courseId} },
       { new: true }
     );
 
@@ -128,7 +133,7 @@ export async function handleAddNewPersonalCourseFunction(req: AuthenticatedAdmin
       return res.status(404).json({success: false, message: "User not found." });
     }
 
-    res.status(201).json({success: true, message: "Course created successfully", courseId: newCourse._id});
+    res.status(201).json({success: true, message: "Course created successfully", courseId: newCourse.courseId});
   } catch (error) {
     console.error("Error adding course:", error);
     res.status(500).json({success: false, message: "An error occurred while adding the course." });
@@ -139,6 +144,7 @@ export async function handleAddNewRedirectCourseFunction(req: AuthenticatedAdmin
   try {
 
     const userId = req.userId;
+    const uniqueId = req.userUniqueId;
 
     const { courseName, tutorName, description, currency, sellingPrice , originalPrice, redirectCourseImage , redirectLink } = req.body;
     let thumbnail = "";
@@ -165,8 +171,10 @@ export async function handleAddNewRedirectCourseFunction(req: AuthenticatedAdmin
       return res.status(400).json({success: false, message: "No image file or URL provided." });
     }
 
+    const { nanoid } = await import('nanoid');
     // Create new course object
     const newCourse = new CourseModel({
+      courseId : nanoid(),
       courseName,
       tutorName,
       courseType: "REDIRECT",
@@ -177,7 +185,7 @@ export async function handleAddNewRedirectCourseFunction(req: AuthenticatedAdmin
       thumbnail,
       redirectLink,
       isVerified: false,
-      uploadedBy: userId,
+      uploadedBy: uniqueId,
     });
 
     await newCourse.save();
@@ -185,7 +193,7 @@ export async function handleAddNewRedirectCourseFunction(req: AuthenticatedAdmin
     // Optionally update the user who uploaded the course
     const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
-      { $push: { uploadedCourses: newCourse._id  , enrolledIn: newCourse._id} },
+      { $push: { uploadedCourses: newCourse.courseId  , enrolledIn: newCourse.courseId} },
       { new: true }
     );
 
@@ -193,7 +201,7 @@ export async function handleAddNewRedirectCourseFunction(req: AuthenticatedAdmin
       return res.status(404).json({success: false, message: "User not found." });
     }
 
-    res.status(201).json({success: true, message: "Course created successfully", courseId: newCourse._id});
+    res.status(201).json({success: true, message: "Course created successfully", courseId: newCourse.courseId});
   } catch (error) {
     console.error("Error adding course:", error);
     res.status(500).json({success: false, message: "An error occurred while adding the course." });

@@ -4,7 +4,7 @@ import { useAuthContext } from "@/context/authContext";
 import BulbIcon from "@/Icons/BulbIcon";
 import { Accordion, AccordionItem, Button } from "@nextui-org/react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Link } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import { useVideoContext } from "@/context/videoContext";
 import AddIcon from "@/Icons/AddIcon";
 import { useTheme } from "@/context/ThemeProvider";
@@ -26,7 +26,7 @@ const VideoHeader: React.FC<VideoHeaderProps> = ({onCategory , courseId , course
   
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
     const {theme} = useTheme();
-   
+    const navigate = useNavigate();
     function handleCategoryClick() {
         if (selectedCategory !== null) {
           onCategory(selectedCategory);
@@ -67,9 +67,9 @@ const VideoHeader: React.FC<VideoHeaderProps> = ({onCategory , courseId , course
             You are managing
           </span>
           ,{" "}
-          <Link to={`/course-intro-page?courseId=${courseId}`} className="font-ubuntu underline decoration-purple-500">
+          <div className="font-ubuntu underline decoration-purple-500" onClick={() => navigate(`/course-intro-page?c=${courseId}`)}>
             {courseName}!
-          </Link>
+          </div>
         </h1>
       </motion.div>
      
@@ -137,14 +137,8 @@ const VideoHeader: React.FC<VideoHeaderProps> = ({onCategory , courseId , course
                 </span>
                 </p>
 
-                <div className="w-full flex justify-end items-end mt-4">
-                <Link
-                    to="/user/add-courses"
-                    className="px-4 py-2 bg-yellow-600 text-white font-ubuntu text-sm rounded-md shadow-md 
-                            hover:bg-yellow-500 transition-all duration-300 ease-in-out"
-                >
+                <div className="w-full flex justify-end items-end mt-4 px-4 py-2 bg-yellow-600 text-white font-ubuntu text-sm rounded-md shadow-md hover:bg-yellow-500 transition-all duration-300 ease-in-out" onClick={() => navigate("/user/add-course")}>
                     Add Course
-                </Link>
                 </div>
             </div>
          )}

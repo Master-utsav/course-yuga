@@ -17,7 +17,7 @@ export async function handleUpdateYoutubeVideoFunction(req: AuthenticatedAdminRe
         }
 
         const updateData: Partial<IVideo> = {};
-        const videoData = await VideoModel.findById(videoId);
+        const videoData = await VideoModel.findOne({videoId});
 
         if (req.body.videoName) updateData.videoName = req.body.videoName;
         if (req.body.tutorName) updateData.tutorName = req.body.tutorName;
@@ -46,7 +46,7 @@ export async function handleUpdateYoutubeVideoFunction(req: AuthenticatedAdminRe
             updateData.thumbnail = req.body.youtubeVideoImage;
         }
 
-        const updatedVideo = await VideoModel.findByIdAndUpdate(videoId, updateData, { new: true });
+        const updatedVideo = await VideoModel.findOneAndUpdate({videoId}, updateData, { new: true , runValidators: true});
         if (!updatedVideo) {
             return res.status(404).json({ success: false, message: "Video not found." });
         }
@@ -71,7 +71,7 @@ export async function handleUpdatePersonalVideoFunction(req: AuthenticatedAdminR
         }
 
         const updateData: Partial<IVideo> = {};
-        const videoData = await VideoModel.findById(videoId);
+        const videoData = await VideoModel.findOne({videoId});
 
         if (req.body.videoName) updateData.videoName = req.body.videoName;
         if (req.body.tutorName) updateData.tutorName = req.body.tutorName;
@@ -96,11 +96,12 @@ export async function handleUpdatePersonalVideoFunction(req: AuthenticatedAdminR
 
             updateData.thumbnail = uploadResult.url;
         } 
+        
         else if (req.body.personalVideoImage) {
             updateData.thumbnail = req.body.personalVideoImage;
         }
 
-        const updatedVideo = await VideoModel.findByIdAndUpdate(videoId, updateData, { new: true });
+        const updatedVideo = await VideoModel.findOneAndUpdate({videoId}, updateData, { new: true , runValidators: true});
         if (!updatedVideo) {
             return res.status(404).json({ success: false, message: "Video not found." });
         }

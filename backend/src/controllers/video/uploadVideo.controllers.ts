@@ -4,14 +4,16 @@ import { cloudinaryUploadVideoFiles, cloudinaryUploadVideoImageFiles, getPublicI
 import CourseModel from "../../models/Course.model";
 import VideoModel from "../../models/Video.model";
 import fs from "fs"
-import path from "path";
-
 
 export async function handleAddNewYoutubeVideoFunction(req: AuthenticatedAdminRequest, res: Response) {
     try {
         const userId = req.userId;
+        const uniqueId = req.userUniqueId;
 
         if (!userId) {
+            return res.status(400).json({ success: false, message: "User not authorized" });
+        }
+        if(!uniqueId){
             return res.status(400).json({ success: false, message: "User not authorized" });
         }
 
@@ -46,13 +48,15 @@ export async function handleAddNewYoutubeVideoFunction(req: AuthenticatedAdminRe
 
         const description = req.body.description || '';
         const videoTimeStamps = req.body.videoTimeStamps || [];
-
+        
+        const { nanoid } = await import('nanoid');
         const newVideo = new VideoModel({
+            videoId: nanoid(),
             videoName,
             tutorName,
             videoType: "YOUTUBE",
             thumbnail,
-            uploadedBy: userId,
+            uploadedBy: uniqueId,
             courseId,
             videoUrl,
             description,
@@ -63,9 +67,9 @@ export async function handleAddNewYoutubeVideoFunction(req: AuthenticatedAdminRe
         await newVideo.save();
 
         // Optionally update the user who uploaded the course
-        const updatedCourse = await CourseModel.findByIdAndUpdate(
-            courseId,
-            { $push: { videos: newVideo._id } },
+        const updatedCourse = await CourseModel.findOneAndUpdate(
+            {courseId},
+            { $push: { videos: newVideo.videoId } },
             { new: true }
         );
 
@@ -73,7 +77,7 @@ export async function handleAddNewYoutubeVideoFunction(req: AuthenticatedAdminRe
             return res.status(404).json({ success: false, message: "Course not found." });
         }
 
-        res.status(201).json({ success: true, message: "Video uploaded successfully", videoId: newVideo._id });
+        res.status(201).json({ success: true, message: "Video uploaded successfully", videoId: newVideo.videoId });
 
     } catch (error) {
         console.error("Error adding course:", error);
@@ -85,8 +89,12 @@ export async function handleAddNewYoutubeVideoFunction(req: AuthenticatedAdminRe
 export async function handleAddNewPersonalVideoFunction(req: AuthenticatedAdminRequest, res: Response) {
     try {
         const userId = req.userId;
+        const uniqueId = req.userUniqueId;
 
         if (!userId) {
+            return res.status(400).json({ success: false, message: "User not authorized" });
+        }
+        if(!uniqueId){
             return res.status(400).json({ success: false, message: "User not authorized" });
         }
 
@@ -121,13 +129,15 @@ export async function handleAddNewPersonalVideoFunction(req: AuthenticatedAdminR
 
         const description = req.body.description || '';
         const videoTimeStamps = req.body.videoTimeStamps || [];
-
+        
+        const { nanoid } = await import('nanoid');
         const newVideo = new VideoModel({
+            videoId: nanoid(),
             videoName,
             tutorName,
             videoType: "PERSONAL",
             thumbnail,
-            uploadedBy: userId,
+            uploadedBy: uniqueId,
             courseId,  
             videoUrl: "dummy_url_beacause_video_upload_failed",         
             description,
@@ -138,9 +148,9 @@ export async function handleAddNewPersonalVideoFunction(req: AuthenticatedAdminR
         await newVideo.save();
 
         // Optionally update the user who uploaded the course
-        const updatedCourse = await CourseModel.findByIdAndUpdate(
-            courseId,
-            { $push: { videos: newVideo._id } },
+        const updatedCourse = await CourseModel.findOneAndUpdate(
+            {courseId},
+            { $push: { videos: newVideo.videoId } },
             { new: true }
         );
 
@@ -148,7 +158,7 @@ export async function handleAddNewPersonalVideoFunction(req: AuthenticatedAdminR
             return res.status(404).json({ success: false, message: "Course not found." });
         }
 
-        res.status(201).json({ success: true, message: "Video uploading please wait...", videoId: newVideo._id });
+        res.status(201).json({ success: true, message: "Video uploading please wait...", videoId: newVideo.videoId });
 
     } catch (error) {
         console.error("Error adding course:", error);
@@ -174,7 +184,7 @@ export async function handleUploadPersonalVideoFunction(req: AuthenticatedAdminR
             return res.status(400).json({ success: false, message: 'No video file uploaded.' });
         }
 
-        const video = await VideoModel.findById(videoId);
+        const video = await VideoModel.findOne({videoId});
      
         if (req.file) {
             const localFilePath = req.file.path;
@@ -198,7 +208,7 @@ export async function handleUploadPersonalVideoFunction(req: AuthenticatedAdminR
         await video.save();
 
         // Optionally update the user who uploaded the course
-        res.status(201).json({ success: true, message: "Video uploaded successfully", videoId: video._id });
+        res.status(201).json({ success: true, message: "Video uploaded successfully", videoId: video.videoId });
 
     } catch (error) {
         console.error("Error adding course:", error);

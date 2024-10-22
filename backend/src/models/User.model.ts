@@ -1,14 +1,14 @@
-import { count } from "console";
-import mongoose, { Document, Schema, Types } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 export interface IUser extends Document {
+  uniqueId: string;
   firstName: string;
   lastName: string;
   userName: string;
   password: string;
   email: string;
   profileImageUrl: string | undefined;
-  role: "ADMIN" | "STUDENT";
+  role: "ADMIN" | "STUDENT" | "MASTER";
   userDob?: string;
   bio?: string;
   address?: {
@@ -28,21 +28,22 @@ export interface IUser extends Document {
     number: string; 
   };
   phoneNumberVerificationStatus?: boolean;
-  uploadedCourses?: Types.ObjectId[];
-  enrolledIn?: Types.ObjectId[];
+  uploadedCourses?: string[];
+  enrolledIn?: string[];
   bookmarks?: {
-    course?: Types.ObjectId[];
-    video?: Types.ObjectId[];
-    test?: Types.ObjectId[];
+    course?: string[];
+    video?: string[];
+    test?: string[];
   }
   progress: {
-    courseId: Types.ObjectId;
-    completedVideos?: Types.ObjectId[];
+    courseId: string;
+    completedVideos?: string[];
     count?: number;
   }[];
 }
 
 const userSchema = new mongoose.Schema<IUser>({
+  uniqueId : { type: String, required: true, unique: true },
   firstName : { type: String, required: [true, "Firstname is required"] },
   lastName: { type: String, required: [true, "LastName is required"] },
   userName: { type: String, required: [true, "Username is required"] },
@@ -69,17 +70,17 @@ const userSchema = new mongoose.Schema<IUser>({
     city : {type: String },
     state : {type: String }
   },
-  uploadedCourses: [{ type: Schema.Types.ObjectId, ref: "Course" }],
-  enrolledIn: [{ type: Schema.Types.ObjectId, ref: "Course" }],
+  uploadedCourses: [{ type: String, ref: "Course" }],
+  enrolledIn: [{ type: String, ref: "Course" }],
   bookmarks: {
-    course: [{type: Schema.Types.ObjectId, ref: "Course"}],
-    video: [{type: Schema.Types.ObjectId, ref: "Video"}],
-    test: [{type: Schema.Types.ObjectId, ref: "Test"}],
+    course: [{type: String, ref: "Course"}],
+    video: [{type: String, ref: "Video"}],
+    test: [{type: String, ref: "Test"}],
   },
   progress: [
     {
-      courseId: { type: Schema.Types.ObjectId, ref: 'Course' },
-      completedVideos: [{ type: Schema.Types.ObjectId, ref: 'Video' }],
+      courseId: { type: String, ref: 'Course' },
+      completedVideos: [{ type: String, ref: 'Video' }],
       count:  { type: Number }
     },
   ],

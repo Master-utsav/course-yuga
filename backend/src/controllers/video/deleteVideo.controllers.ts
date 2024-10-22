@@ -2,7 +2,6 @@ import { Response } from "express";
 import { AuthenticatedAdminRequest } from "../../middleware/auth.middleware";
 import VideoModel from "../../models/Video.model";
 import CourseModel from "../../models/Course.model";
-import mongoose  from "mongoose";
 import { cloudinaryDeleteVideoFile, cloudinaryDeleteVideoImage } from "../../utils/cloudinary.config";
 
 export async function handleDeleteVideoFunction(req: AuthenticatedAdminRequest, res: Response) {
@@ -20,7 +19,7 @@ export async function handleDeleteVideoFunction(req: AuthenticatedAdminRequest, 
 
     try {
         
-        const videoById = await VideoModel.findById(videoId);
+        const videoById = await VideoModel.findOne({videoId});
         if (videoById.thumbnail) {
             await cloudinaryDeleteVideoImage(videoById.thumbnail);
         }
@@ -28,7 +27,7 @@ export async function handleDeleteVideoFunction(req: AuthenticatedAdminRequest, 
             await cloudinaryDeleteVideoFile(videoById.videoUrl);
         }
 
-        const video = await VideoModel.findByIdAndDelete(videoId);
+        const video = await VideoModel.findOneAndDelete({videoId});
         if (!video) {
             return res.status(404).json({ success: false, message: "Video not found" });
         }
@@ -37,13 +36,12 @@ export async function handleDeleteVideoFunction(req: AuthenticatedAdminRequest, 
         if (!course) {
             return res.status(404).json({ success: false, message: "Course not found" });
         }
-        
-        const videoObjectId = new mongoose.Types.ObjectId(videoId);
       
         course.videos = course.videos.filter(
-            (id: any) => !id.equals(videoObjectId)
+            (id: any) => !id.equals(videoId)
         );
-
+        
+        await video.save();
         await course.save();
 
         return res.status(200).json({ success: true, message: "Video deleted successfully" }); 

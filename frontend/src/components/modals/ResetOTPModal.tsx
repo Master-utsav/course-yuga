@@ -74,7 +74,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
 
     const { password } = data;
     try {
-      const response = await axios.post(`${USER_API}reset-password-otp`, {
+      const response = await axios.post(`${USER_API}/reset-password-otp`, {
         email: userEmail,
         otp: otpValue,
         newPassword: password,

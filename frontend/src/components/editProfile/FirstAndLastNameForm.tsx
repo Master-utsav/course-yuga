@@ -4,8 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@nextui-org/react";
 import { USER_API } from "@/lib/env";
 import { getVerifiedToken } from "@/lib/cookieService";
+import { SuccessToast, ErrorToast } from "@/lib/toasts";
 import axios from "axios";
-import { ErrorToast, SuccessToast } from "@/lib/toasts";
+import { getUserData as fetchUserData} from "@/lib/authService";
+import { useAuthContext } from "@/context/authContext";
+import { useCallback } from "react";
 
 const firstNameRegex = /^[a-zA-Z]{2,}$/;
 
@@ -24,26 +27,46 @@ const editProfileLastAndFullNameSchema = z.object({
     }),
 });
 
-type editProfileLastAndFullNameData = z.infer<
+type EditProfileLastAndFullNameData = z.infer<
   typeof editProfileLastAndFullNameSchema
 >;
 
-const FirstAndLastNameForm = () => {
+interface FirstAndLastNameFormProps {
+  firstName: string;
+  lastName: string;
+}
+
+const FirstAndLastNameForm: React.FC<FirstAndLastNameFormProps> = ({
+  firstName,
+  lastName,
+}) => {
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<editProfileLastAndFullNameData>({
+  } = useForm<EditProfileLastAndFullNameData>({
     resolver: zodResolver(editProfileLastAndFullNameSchema),
+    defaultValues: {
+      firstName: firstName,
+      lastName: lastName,
+    },
   });
 
-  const onSubmit = async(data: editProfileLastAndFullNameData) => {
+  const {setUserData} = useAuthContext();
+  const loadUserData = useCallback(async () => {
+    const userData = await fetchUserData(); 
+    if (userData) {
+      setUserData(userData);
+    }
+  }, [setUserData]);
+
+  const onSubmit = async (data: EditProfileLastAndFullNameData) => {
     const firstName = data.firstName;
     const lastName = data.lastName;
     const jwt = getVerifiedToken();
 
     try {
-        const response = await axios.put(`${USER_API}update-user` , {firstName, lastName} , {
+        const response = await axios.put(`${USER_API}/update-user` , {firstName, lastName} , {
             headers: {
                 Authorization: `Bearer ${jwt}`,
                 "Content-Type": "application/json",
@@ -52,6 +75,7 @@ const FirstAndLastNameForm = () => {
 
         if(response && response.data && response.data.success){
             SuccessToast(response.data.message);
+            loadUserData();
         }
         else{
             ErrorToast(response.data.message);
@@ -61,6 +85,7 @@ const FirstAndLastNameForm = () => {
         ErrorToast(error.response?.data?.message);
     }
   };
+
   return (
     <div className="relative w-full flex flex-col sm:flex-row items-start justify-between gap-2 ">
       <div className="w-full flex justify-center flex-col items-end">

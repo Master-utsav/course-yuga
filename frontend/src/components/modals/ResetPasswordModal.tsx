@@ -41,7 +41,7 @@ const ResetPasswordModal: React.FC = () => {
   const formData = getValues();
   const onSubmit = async (data: ResetPasswordSchemaData) => {
     try {
-      const response = await axios.post(`${USER_API}reset-password`, data);
+      const response = await axios.post(`${USER_API}/reset-password`, data);
 
       const responseData: { success: boolean; message: string} = response.data;
       

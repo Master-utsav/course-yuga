@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 8001;
 connectDB();
 
 app.get("/", (req: Request, res: Response) => {
-    res.send("Welcome to Yugpath-Shiksha");
+    res.send("Welcome to Course-Yuga");
 });
 
 app.use("/api/v1/user" , userRoute);

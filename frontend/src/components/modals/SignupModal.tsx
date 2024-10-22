@@ -43,7 +43,7 @@ const SignupModal: React.FC = () => {
 
   const onSubmit = async (data: SignupFormData) => {
     try {
-      const response = await axios.post(`${USER_API}signup`, data);
+      const response = await axios.post(`${USER_API}/signup`, data);
       const responseData: { success: boolean; message: string } = response.data;
     
       if (responseData.success) {
@@ -60,7 +60,7 @@ const SignupModal: React.FC = () => {
   
   const handelGoogleBtn = () => {
     try {
-      window.location.href = `${USER_API}signup-google`
+      window.location.href = `${USER_API}/signup-google`
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       ErrorToast("An error occurred Google OAuth" + error);
@@ -68,7 +68,7 @@ const SignupModal: React.FC = () => {
   }
   const handelGithubBtn = () => {
     try {
-      window.location.href = `${USER_API}signup-github`;
+      window.location.href = `${USER_API}/signup-github`;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }catch (error: any) {
       ErrorToast("An error occurred Github OAuth" + error);

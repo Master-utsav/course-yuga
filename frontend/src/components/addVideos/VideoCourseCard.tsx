@@ -48,7 +48,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({ courseData }) => {
   async function confirmDelete(data: resetPasswordFormData) {
     const jwt = getVerifiedToken();
     const password = data.password;
-    const courseId = courseData._id;
+    const courseId = courseData.courseId;
     try {
       const response = await axios.post(
         `${COURSE_API}/delete-course`,
@@ -127,7 +127,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({ courseData }) => {
                     bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-400 dark:hover:bg-blue-500 
                     shadow-md hover:shadow-lg transition-all duration-300
                 "
-                onClick={() => navigate(`/user/add-videos?courseId=${courseData._id}&name=${nameParams}`)}
+                onClick={() => navigate(`/user/add-videos?c=${courseData.courseId}&name=${nameParams}`)}
               >
                 Manage Videos
               </Button>
@@ -139,7 +139,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({ courseData }) => {
                     bg-green-500 text-white hover:bg-green-600 dark:bg-green-400 dark:hover:bg-green-500 
                     shadow-md hover:shadow-lg transition-all duration-300
                 "
-                onClick={() => navigate(`/course-intro-page?courseId=${courseData._id}`)}
+                onClick={() => navigate(`/course-intro-page?courseId=${courseData.courseId}`)}
             >
               Update Course
             </Button>

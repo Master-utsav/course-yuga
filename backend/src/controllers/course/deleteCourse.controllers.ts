@@ -17,14 +17,13 @@ export async function handleDeleteCourseFunction (req: AuthenticatedAdminRequest
     }
   
     try {
-      const course = await CourseModel.findById(courseId);
+      const course = await CourseModel.findOne({courseId});
   
       if (!course) {
         return res
           .status(404)
           .json({ success: false, message: "course not found" });
       }
-
       
       const user = await User.findById(userId);
       const isMatch = await bcrypt.compare(password, user.password);
@@ -35,16 +34,15 @@ export async function handleDeleteCourseFunction (req: AuthenticatedAdminRequest
           .json({ success: false, message: "Invalid password" });
       }
 
-      const courseObjectId = new mongoose.Types.ObjectId(courseId);
       user.uploadedCourses = user.uploadedCourses.filter(
-        (id: any) => !id.equals(courseObjectId)
+        (id: any) => !id.equals(courseId)
       );
       
       if(course.thumbnail){
         await cloudinaryDeleteCourseImage(course.thumbnail);
       }
       
-      const deletedCourse = await CourseModel.deleteOne({ _id : courseId });
+      const deletedCourse = await CourseModel.deleteOne({ courseId });
 
 
       if (!deletedCourse) {

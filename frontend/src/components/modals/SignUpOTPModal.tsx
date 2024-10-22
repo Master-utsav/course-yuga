@@ -28,7 +28,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
     const otpValue = otp.join("");
     if (isValidOtp(otpValue)) {
       try {
-        const response = await axios.post(`${USER_API}verify-email-otp`, {
+        const response = await axios.post(`${USER_API}/verify-email-otp`, {
           email: userEmail,
           otp: otpValue,
         });

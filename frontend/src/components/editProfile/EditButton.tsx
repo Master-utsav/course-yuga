@@ -4,9 +4,8 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
-  DialogHeader,
   DialogTitle,
+  DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -31,36 +30,8 @@ const EditButton: React.FC<EditButtonProps> = ({
   avatarFallbackText,
   userName,
 }) => {
-  const [updatedUserName, setUpdatedUserName] = React.useState<string>(
-    userName
-  );
+
   const [updatedImageFile, setUpdatedImageFile] = React.useState<File | null>(null);
-
-  const handleEditBtnSubmit = async () => {
-    const jwt = getVerifiedToken();
-    const userName = updatedUserName;
-
-    try {
-      const response = await axios.put(
-        `${USER_API}update-user`,
-        { userName },
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response && response.data && response.data.success) {
-        SuccessToast(response.data.message);
-      } else {
-        ErrorToast(response.data.message);
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      ErrorToast(error.response?.data?.message);
-    }
-  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -77,7 +48,7 @@ const EditButton: React.FC<EditButtonProps> = ({
 
       try {
         const response = await axios.post(
-          `${USER_API}update-user-image`,
+          `${USER_API}/update-user-image`,
           formData,
           {
             headers: {
@@ -173,14 +144,14 @@ const EditButton: React.FC<EditButtonProps> = ({
             </Label>
             <Input
               id="userName"
+              readOnly
               defaultValue={`@${userName}`}
               className="col-span-4"
               type="text"
-              onChange={(e) => setUpdatedUserName(e.target.value)}
             />
           </div>
         </div>
-        <DialogFooter>
+        {/* <DialogFooter>
           <Button
             type="submit"
             onClick={handleEditBtnSubmit}
@@ -188,7 +159,7 @@ const EditButton: React.FC<EditButtonProps> = ({
           >
             Save changes
           </Button>
-        </DialogFooter>
+        </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );

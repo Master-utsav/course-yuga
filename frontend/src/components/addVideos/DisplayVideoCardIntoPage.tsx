@@ -57,7 +57,7 @@ const DisplayVideoCardIntoPage: React.FC<DisplayVideoCardIntoPageProps> = ({
 
           <Button
             className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600"
-            onClick={() => navigate(`/user/video-player?videoId=${videoData._id}`)}
+            onClick={() => navigate(`/user/video-player?v=${videoData.videoId}`)}
            >
             <PlayWatchIcon fillColor="white" size={30} /> Watch Now
            </Button>

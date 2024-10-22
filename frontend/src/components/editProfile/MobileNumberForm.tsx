@@ -1,5 +1,6 @@
-import { Button } from "@nextui-org/react";
-import React, { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Button, Input } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion"; // Import Framer Motion
 import { useForm } from "react-hook-form"; // Import react-hook-form
 import { z } from "zod";
@@ -9,17 +10,21 @@ import { ErrorToast, SuccessToast } from "@/lib/toasts";
 import { USER_API } from "@/lib/env";
 import { getVerifiedToken } from "@/lib/cookieService";
 import axios from "axios";
-// Define a type for country data
+import { getUserData as fetchUserData} from "@/lib/authService";
+import { useAuthContext } from "@/context/authContext";
+import { useCallback } from "react";
+
 interface Country {
   countrycode: string;
   countryname: string;
   flagurl: string;
 }
 
-// Props for the component
 interface CountrySelectProps {
   CountryCodeData: Country[];
   theme: string;
+  code: string;
+  number: string;
 }
 
 // Zod schema for validation
@@ -32,9 +37,9 @@ const mobileSchema = z.object({
     }),
   mobileNumber: z
     .string()
-    .regex(/^\d+$/, "Please enter phone number (0-9 digits*).") 
-    .min(4, "Mobile number must be at least 4 digits.") 
-    .max(17, "Mobile number must be at most 17 digits."), 
+    .regex(/^\d+$/, "Please enter phone number (0-9 digits*).")
+    .min(4, "Mobile number must be at least 4 digits.")
+    .max(17, "Mobile number must be at most 17 digits."),
   otp: z
     .string()
     .regex(/^\d{6}$/, "OTP must be a 6-digit number.")
@@ -47,54 +52,95 @@ type MobileFormValues = z.infer<typeof mobileSchema>;
 const MobileNumberForm: React.FC<CountrySelectProps> = ({
   CountryCodeData,
   theme,
+  code,
+  number,
 }) => {
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [showOtpField, setShowOtpField] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Loading state
 
-  // Using react-hook-form
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm<MobileFormValues>({
-    resolver: zodResolver(mobileSchema),
-  });
-  
-  if (!selectedCountry) {
-    setValue("countryCode", "");
-  }
   const jwt = getVerifiedToken();
 
-  const handleMobileNumberSubmit = async(data: MobileFormValues) => {
-    const to:string = data.countryCode + data.mobileNumber;
-    try {
-      const response = await axios.post(`${USER_API}verify-mobile-number-send-otp` , {to} , {
-        headers: {
-           Authorization: `Bearer ${jwt}`,
-          "Content-Type": "application/json",
-        },
-      })
+  const { register, handleSubmit, setValue, formState: { errors, isValid } } = 
+    useForm<MobileFormValues>({
+      resolver: zodResolver(mobileSchema),
+      mode: "onChange", // Validate in real-time
+    });
 
-      if(response && response.data && response.data.success){
+  useEffect(() => {
+    const country = CountryCodeData.find((c) => c.countrycode === code);
+    if (country) {
+      setSelectedCountry(country);
+      setValue("countryCode", country.countrycode);
+    }
+    setValue("mobileNumber", number);
+  }, [code, number, CountryCodeData, setValue]);
+
+  const handleMobileNumberSubmit = async (data: MobileFormValues) => {
+    setIsSubmitting(true); // Start loading
+    const to = data.countryCode + data.mobileNumber;
+    try {
+      const response = await axios.post(
+        `${USER_API}/verify-mobile-number-send-otp`,
+        { to },
+        { headers: { Authorization: `Bearer ${jwt}`, "Content-Type": "application/json" } }
+      );
+      if (response.data?.success) {
         SuccessToast(response.data.message);
         setShowOtpField(true);
-      }
-      else{
+      } else {
         ErrorToast(response.data.message);
       }
-       
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       ErrorToast(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setIsSubmitting(false); // End loading
     }
   };
-  
+
+  const {setUserData} = useAuthContext();
+  const loadUserData = useCallback(async () => {
+    const userData = await fetchUserData(); 
+    if (userData) {
+      setUserData(userData);
+    }
+  }, [setUserData]);
+
+  const handleOtpSubmit = async (data: MobileFormValues) => {
+    if (!data.otp?.trim()) {
+      ErrorToast("Please Enter the OTP");
+      return;
+    }
+    setIsSubmitting(true); // Start loading
+    const twilioFormatedData = {
+      to: data.countryCode + data.mobileNumber,
+      code: data.otp,
+      countryCode: data.countryCode,
+    };
+    try {
+      const response = await axios.post(
+        `${USER_API}/verify-mobile-number-otp-check`,
+        twilioFormatedData,
+        { headers: { Authorization: `Bearer ${jwt}`, "Content-Type": "application/json" } }
+      );
+      if (response.data?.success) {
+        SuccessToast(response.data.message);
+        setShowOtpField(false);
+        loadUserData();
+        setValue("otp", "");
+      } else {
+        ErrorToast(response.data.message);
+      }
+    } catch (error: any) {
+      ErrorToast(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setIsSubmitting(false); // End loading
+    }
+  };
+
   const handleCountrySelect = (countryCode: string) => {
-    const selected = CountryCodeData.find(
-      (country) => country.countrycode === countryCode
-    );
+    const selected = CountryCodeData.find((country) => country.countrycode === countryCode);
     if (selected) {
       setSelectedCountry(selected);
       setValue("countryCode", selected.countrycode);
@@ -102,183 +148,95 @@ const MobileNumberForm: React.FC<CountrySelectProps> = ({
     setDropdownOpen(false);
   };
 
-  // Handle OTP submission
-  const handleOtpSubmit = async(data: MobileFormValues) => {
-    const twilioFormatedData = {
-      to: data.countryCode + data.mobileNumber,
-      code: data.otp,
-      countryCode : data.countryCode
-    }
-
-    if(data.otp?.trim() === ""){
-      ErrorToast("Please Enter the OTP");
-    }
-    else if(data.otp?.length !== 6){
-      ErrorToast("OTP must be 6 numbers");
-    }
-    else{
-      try {
-        const response = await axios.post(`${USER_API}verify-mobile-number-otp-check` , twilioFormatedData , {
-          headers: {
-             Authorization: `Bearer ${jwt}`,
-            "Content-Type": "application/json",
-          },
-        })
-  
-        if(response && response.data && response.data.success){
-          SuccessToast(response.data.message);
-          setShowOtpField(false);
-          setValue("otp" , "")
-        }
-        else{
-          ErrorToast(response.data.message);
-        }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        ErrorToast(error.response?.data?.message || "Something went wrong");
-      }
-    }
-    
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Escape") setDropdownOpen(false); // Close on Esc
   };
 
-  return (
-    <div className="w-full flex items-center justify-start gap-2 relative">
-      {/* Country and Mobile Number Input */}
-      <div className="w-1/2 flex justify-center flex-row items-start border rounded-md text-black dark:text-white dark:bg-black/10 bg-white-800/10 relative ">
-        <div className="relative w-1/2">
-          {/* Custom dropdown */}
-          <div
-            className="w-full flex flex-row gap-4  border-gray-300 py-3 px-2 cursor-pointer outline-none border-r-[1px] dark:border-r-white/20 border-r-black/40 justify-between"
-            style={{ background: "transparent" }}
-            onClick={() => setDropdownOpen(!dropdownOpen)} // Toggle dropdown on click
-          >
-            {selectedCountry ? (
-              <div className="w-full flex flex-row gap-2 justify-start items-center outline-none border-none">
-                <img
-                  src={selectedCountry.flagurl}
-                  alt={selectedCountry.countryname}
-                  className="size-5"
-                />
-                <span className="font-ubuntu font-semibold">
-                  {selectedCountry.countrycode}
-                </span>
-                <span className="text-start font-ubuntu">
-                  {selectedCountry.countryname}
-                </span>
-              </div>
-            ) : (
-              <span className="font-ubuntu text-gray-500">Select Country</span>
-            )}
+  useEffect(() => {
+    if (showOtpField) {
+      document.querySelector<HTMLInputElement>("input[placeholder='Enter OTP']")?.focus();
+    }
+  }, [showOtpField]);
 
-            {theme === "dark" ? (
-              <SelectorIcon fillColor="gray" />
-            ) : (
-              <SelectorIcon fillColor="black" />
+  return (
+    <div className="w-full flex flex-col items-center justify-start gap-2 relative">
+      {/* <div className="w-full flex relative gap-2"> */}
+        <div
+          className="w-full flex items-start border rounded-md text-black dark:text-white dark:bg-black/10 relative"
+          onKeyDown={handleKeyDown} // Handle Esc key for accessibility
+        >
+          <div className="w-full">
+            <div
+              className="w-full flex gap-4 py-3 px-2 cursor-pointer border-r justify-between"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+            >
+              {selectedCountry ? (
+                <div className="flex gap-2 items-center">
+                  <img src={selectedCountry.flagurl} alt={selectedCountry.countryname} className="size-5" />
+                  <span className="font-ubuntu font-semibold">{selectedCountry.countrycode}</span>
+                  <span className="font-ubuntu">{selectedCountry.countryname}</span>
+                </div>
+              ) : (
+                <span className="font-ubuntu text-gray-500">Select Country</span>
+              )}
+              <SelectorIcon fillColor={theme === "dark" ? "gray" : "black"} />
+            </div>
+
+            {dropdownOpen && (
+              <div className="absolute z-[999] w-full bg-white dark:bg-black shadow-md mt-2 rounded-md max-h-48 overflow-y-auto">
+                {CountryCodeData.map((data, index) => (
+                  <div
+                    key={index}
+                    className="flex gap-2 items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-900 cursor-pointer"
+                    onClick={() => handleCountrySelect(data.countrycode)}
+                  >
+                    <img src={data.flagurl} alt={data.countryname} className="size-5" />
+                    <span className="font-ubuntu font-semibold">{data.countrycode}</span>
+                    <span className="font-ubuntu">{data.countryname}</span>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
 
-          {/* Dropdown menu */}
-          {dropdownOpen && (
-            <div className="z-[999] absolute w-full bg-white dark:bg-black dark:text-white text-black shadow-md mt-2 rounded-md max-h-48 overflow-y-auto scrollbar-none">
-              {CountryCodeData.map((data, index) => (
-                <div
-                  key={index}
-                  className="w-full flex flex-row gap-2 justify-start items-center p-2 hover:bg-gray-100 cursor-pointer dark:hover:bg-gray-900"
-                  onClick={() => handleCountrySelect(data.countrycode)} // Select country and close dropdown
-                >
-                  <div className="w-1/3 flex flex-row gap-2">
-                    <img
-                      src={data.flagurl}
-                      alt={data.countryname}
-                      className="size-5"
-                    />
-                    <span className="font-ubuntu font-semibold">
-                      {data.countrycode}
-                    </span>
-                  </div>
-                  <span className="text-start font-ubuntu">
-                    {data.countryname}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-        <div
-          className="flex justify-center items-center"
-        >
           <input
             type="text"
             readOnly
             placeholder="Code"
-            className={`py-3 text-center border rounded-md text-black w-20 dark:text-white dark:bg-black/10 bg-white-800/10 border-transparent focus:outline-none`}
-            value={selectedCountry?.countrycode || ""} // Directly set the input value to selectedCountry
+            className="py-3 text-center w-20 border-transparent focus:outline-none"
+            value={selectedCountry?.countrycode || ""}
           />
-
           <input
             type="text"
             placeholder="Mobile Number"
             {...register("mobileNumber")}
-            className={`p-3 border rounded-md w-full text-black dark:text-white dark:bg-black/10 bg-white-800/10 border-transparent`}
+            className="p-3 w-full"
           />
         </div>
-      </div>
-      
-      {/* Update button for form submission */}
-      <div className="flex items-center justify-start gap-2">
-        <div className="flex flex-col items-center justify-start gap-2 ">
-          {errors.countryCode && (
-            <p className="text-red-500 text-sm text-end">
-              {errors.countryCode.message}
-            </p>
-          )}
-          {errors.mobileNumber && (
-            <p className="text-red-500 text-sm text-end">
-              {errors.mobileNumber.message}
-            </p>
-          )}
-        </div>
 
-        {!showOtpField && (
-          <Button
-            className="font-ubuntu font-medium"
-            type="button"
-            onClick={handleSubmit(handleMobileNumberSubmit)}
-          >
-            Update
-          </Button>
-        )}
-      </div>
-
-      {/* OTP Section (appears only if mobile number is valid) */}
-      {showOtpField && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{
-            opacity: showOtpField ? 1 : 0,
-            // height: showOtpField ? "auto" : 0,
-          }}
-          transition={{ duration: 0.3 }}
-          className="flex items-center w-1/2"
+        <Button
+          className="w-full font-ubuntu"
+          onClick={handleSubmit(handleMobileNumberSubmit)}
+          disabled={!isValid || isSubmitting} // Disable until valid
         >
-          <input
-            type="text"
-            placeholder="Enter OTP"
-            {...register("otp")}
-            className="p-3 border rounded-md  text-black dark:text-white dark:bg-black/10 bg-white-800/10 outline-none focus:outline-none focus:border-b-[1px] border-transparent focus:border-b-black dark:focus:border-b-white/40"
-            maxLength={6} // Limit input to 6 digits
-          />
+          {isSubmitting ? "Updating..." : "Update"}
+        </Button>
+      {/* </div> */}
 
-          {errors.otp && <p className="text-red-500 text-sm text-end">{errors.otp.message}</p>}
-          {showOtpField && !errors.otp && (
-            <Button
-              className="font-ubuntu font-medium"
-              type="button"
-              onClick={handleSubmit(handleOtpSubmit)}
-            >
-              Submit
-            </Button>
-          )}
+      {errors.mobileNumber && (
+        <span className="text-red-500">{errors.mobileNumber.message}</span>
+      )}
+
+      {showOtpField && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="px gap-3 flex items-center w-full">
+          <Input type="text" placeholder="Enter OTP" {...register("otp")} className=" w-full" maxLength={6} />
+          <Button
+            className="font-ubuntu"
+            onClick={handleSubmit(handleOtpSubmit)}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Submitting..." : "Submit"}
+          </Button>
         </motion.div>
       )}
     </div>
@@ -286,3 +244,4 @@ const MobileNumberForm: React.FC<CountrySelectProps> = ({
 };
 
 export default MobileNumberForm;
+

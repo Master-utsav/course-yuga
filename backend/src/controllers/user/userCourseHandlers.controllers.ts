@@ -23,7 +23,7 @@ export async function handleUserCourseBookmarkfunction(req: AuthenticatedRequest
             return res.status(404).json({success: false , message: 'user not found'})
         }
         
-        const courseIndex = user.bookmarks.course.findIndex((id : mongoose.Types.ObjectId) =>
+        const courseIndex = user.bookmarks.course.findIndex((id :any) =>
           id.equals(courseId)
         );
     
@@ -73,7 +73,7 @@ export async function handleUserVideoBookmarkfunction(req: AuthenticatedRequest 
             return res.status(404).json({success: false , message: 'user not found'})
         }
         
-        const videoIndex = user.bookmarks.video.findIndex((id : mongoose.Types.ObjectId) =>
+        const videoIndex = user.bookmarks.video.findIndex((id : any) =>
           id.equals(videoId)
         );
     

@@ -25,7 +25,7 @@ const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({
   const { userData } = useAuthContext();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const courseId = queryParams.get("courseId");
+  const courseId = queryParams.get("c");
   const navigate = useNavigate();
   async function handleEnrolledRequest() {
     const jwt = getVerifiedToken();
@@ -134,11 +134,9 @@ const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({
 
           {courseData.uploadedBy === userData.id ? (
             courseData.courseType === "YOUTUBE" ? (
-              <Link to={`/user/add-videos?courseId=${courseId}&name=${courseData.courseName}`}>
-                <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
+              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/add-videos?c=${courseData.courseId}&name=${courseData.courseName}`)}>
                   <YoutubeIcon fillColor="white" size={30} /> Manage Uploads
                 </Button>
-              </Link>
             ) : courseData.courseType === "REDIRECT" &&
               courseData.redirectLink ? (
               <Link
@@ -151,11 +149,11 @@ const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({
                 </Button>
               </Link>
             ) : (
-              <Link to={`/user/add-videos?courseId=${courseData._id}&courseName=${courseData.courseName}`}>
-                <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
+           
+                <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/add-videos?c=${courseData.courseId}&name=${courseData.courseName}`)}>
                   <YoutubeIcon fillColor="white" size={30} /> Manage Uploads
                 </Button>
-              </Link>
+              
             )
           ) : courseData.courseType === "YOUTUBE" ? (
             <Button

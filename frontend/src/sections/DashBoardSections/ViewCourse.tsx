@@ -39,7 +39,7 @@ const ViewCourse: React.FC = () => {
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const courseId = queryParams.get("courseId"); 
+    const courseId = queryParams.get("c"); 
     if(courseId){
         fetchVideos(courseId);
     }

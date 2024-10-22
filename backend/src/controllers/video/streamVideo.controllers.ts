@@ -3,7 +3,6 @@ import { getSignedVideoUrl } from "../../utils/cloudinary.config";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import User from "../../models/User.model";
 import VideoModel from "../../models/Video.model";
 dotenv.config();
 

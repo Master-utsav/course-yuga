@@ -15,7 +15,6 @@ import { ErrorToast, SuccessToast } from "@/lib/toasts";
 import { useAuthContext } from "@/context/authContext";
 import { getVerifiedToken } from "@/lib/cookieService";
 
-
 const CourseIntroPage: React.FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -130,7 +129,6 @@ const CourseIntroPage: React.FC = () => {
 
  
   const handleEditCourse = (updatedCourse: any) => {
-    console.log("Updated Course:", updatedCourse);
     setCourseData((c) => ({
       ...c,
       ...updatedCourse,

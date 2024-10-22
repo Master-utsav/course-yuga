@@ -5,6 +5,9 @@ import { ErrorToast, SuccessToast } from "@/lib/toasts";
 import axios from "axios";
 import { getVerifiedToken } from "@/lib/cookieService";
 import { USER_API } from "@/lib/env";
+import { getUserData as fetchUserData} from "@/lib/authService";
+import { useAuthContext } from "@/context/authContext";
+import { useCallback } from "react";
 
 interface FormData {
   country: string;
@@ -23,6 +26,14 @@ const SelectAddressForm: React.FC = () => {
     city: "",
   });
 
+  const {setUserData} = useAuthContext();
+  const loadUserData = useCallback(async () => {
+    const userData = await fetchUserData(); 
+    if (userData) {
+      setUserData(userData);
+    }
+  }, [setUserData]);
+
   const onSubmit = async () => {
     if (
       formData.city === "" ||
@@ -35,7 +46,7 @@ const SelectAddressForm: React.FC = () => {
       const jwt = getVerifiedToken();
       try {
         const response = await axios.put(
-          `${USER_API}update-user`,
+          `${USER_API}/update-user`,
           { address },
           {
             headers: {
@@ -47,6 +58,7 @@ const SelectAddressForm: React.FC = () => {
 
         if (response && response.data && response.data.success) {
           SuccessToast(response.data.message);
+          loadUserData();
         } else {
           ErrorToast(response.data.message);
         }

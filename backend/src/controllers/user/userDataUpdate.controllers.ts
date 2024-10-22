@@ -8,15 +8,7 @@ export async function handleUpdateUserFunction(
   ) {
     try {
       const userId = req.userId;
-      const {
-        firstName,
-        lastName,
-        userDob,
-        role,
-        address,
-        bio,
-        userName,
-      } = req.body;
+      const { firstName, lastName, userDob, address, bio } = req.body;
   
       if (!userId) {
         return res
@@ -30,30 +22,25 @@ export async function handleUpdateUserFunction(
         lastName?: string;
         userDob?: string;
         role?: string;
-        address?: {
-          country: string;
-          city: string;
-          state: string;
-        };
+        address?: { country: string, city: string, state: string };
         bio?: string;
-        userName?: string;
+        // userName?: string;
       } = {};
   
       if (firstName != null) updateData.firstName = firstName;
       if (lastName != null) updateData.lastName = lastName;
       if (userDob != null) updateData.userDob = userDob;
-      if (role != null) updateData.role = role;
       if (address != null) updateData.address = address;
       if (bio != null) updateData.bio = bio;
-      if (userName != null) updateData.userName = userName;
+      // if (userName != null) updateData.userName = userName;
   
-      const isUser = await User.find({userName : userName});
+      // const isUser = await User.find({userName : userName});
       
-      if (isUser.length !== 0) {
-        return res
-          .status(404)
-          .json({ success: false, message: "username already exists" });
-      }
+      // if (isUser.length !== 0) {
+      //   return res
+      //     .status(404)
+      //     .json({ success: false, message: "username already exists" });
+      // }
   
   
       if (Object.keys(updateData).length === 0) {
@@ -67,7 +54,8 @@ export async function handleUpdateUserFunction(
         { $set: updateData },
         { new: true }
       );
-  
+      
+
       if (!user) {
         return res
           .status(404)

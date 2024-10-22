@@ -5,11 +5,13 @@ dotenv.config();
 
 export interface AuthenticatedRequest extends Request {
     userId?: string;
+    userUniqueId?: string;
 }
 
 export interface AuthenticatedAdminRequest extends Request {
   userId?: string;
   userRole?: string;
+  userUniqueId?: string;
 }
 
 export function authenticateToken(req: AuthenticatedRequest, res: Response, next: NextFunction) {
@@ -24,8 +26,9 @@ export function authenticateToken(req: AuthenticatedRequest, res: Response, next
             return res.status(403).json({ message: 'Invalid token' });
         }
 
-        if (decoded && typeof decoded === 'object' && 'id' in decoded) {
+        if (decoded && typeof decoded === 'object' && 'id' in decoded && 'uniqueId' in decoded) {
             req.userId = (decoded as { id: string }).id;
+            req.userUniqueId = (decoded as { uniqueId: string }).uniqueId;
             next();
         } else {
             return res.status(403).json({ message: 'Invalid token' });
@@ -53,9 +56,10 @@ export async function authenticateAdminToken(
       decoded &&
       typeof decoded === "object" &&
       "id" in decoded &&
-      "role" in decoded
+      "role" in decoded &&
+      "uniqueId" in decoded
     ) {
-      const { id, role } = decoded as { id: string; role: string };
+      const { id, role , uniqueId } = decoded as { id: string; role: string , uniqueId: string};
 
       if (role !== "ADMIN") {
         return res.status(403).json({ message: "Unauthorized: Admin access only" });
@@ -63,6 +67,7 @@ export async function authenticateAdminToken(
 
       req.userId = id;
       req.userRole = role;
+      req.userUniqueId = uniqueId;
       next();
     } else {
       return res.status(403).json({ message: "Invalid token" });

@@ -155,7 +155,6 @@ export interface IUpdateCourse {
   uploadedBy?: string
 }
 export interface ICourseData {
-  _id?: string;
   courseName: string;
   tutorName: string;
   courseType: string;
@@ -174,7 +173,6 @@ export interface ICourseData {
 }
 
 export interface IUserCourseData {
-  _id?: string;
   courseName: string;
   tutorName: string;
   courseType: string;
@@ -359,7 +357,7 @@ export const courses = [
 ];
 
 export interface IVideoData{
-  _id: string;
+  videoId: string;
   videoName: string;
   tutorName: string;
   videoType: "PERSONAL" | "YOUTUBE";
@@ -379,7 +377,7 @@ export interface IVideoData{
 }
 
 export interface IUpdateVideoData{
-  _id: string;
+  videoId: string;
   videoName: string;
   tutorName: string;
   videoType: "PERSONAL" | "YOUTUBE";
@@ -400,7 +398,7 @@ export interface IUpdateVideoData{
 
 
 export const videoDataTemplate: IVideoData = {
-  _id: "12345",
+  videoId: "12345",
   videoName: "Learn TypeScript Basics",
   tutorName: "John Doe",
   videoType: "YOUTUBE",

@@ -12,7 +12,7 @@ import React from "react";
 import PageTransitionBoxAnimation from "@/Effects/PageTransitionBoxAnimation";
 import DashboardRoutes from "@/sections/DashBoardSections/DashBoardRoutes";
 import Help from "@/sections/HelpSection";
-import EditProfile from "@/sections/editProfile/EditProfile";
+import EditProfile from "@/sections/EditProfile";
 import DashBoardNavbar from "@/sections/DashBoardSections/DashBoardNavbar";
 import Courses from "./sections/Courses";
 import { DashboardContextProvider } from "./context/dashboardContext";

@@ -46,7 +46,7 @@ const VideoPlaySection: React.FC = () => {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const videoIdFromParams = queryParams.get("videoId");
+    const videoIdFromParams = queryParams.get("v");
     if (videoIdFromParams) setVideoId(videoIdFromParams);
     fetchVideoById();
   }, [fetchVideoById, location.search]);

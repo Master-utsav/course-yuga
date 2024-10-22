@@ -1,9 +1,8 @@
 import { AuthenticatedRequest } from "../../middleware/auth.middleware";
-import {Response} from "express"
-
 import User from "../../models/User.model";
-import fs from "fs";
 import { cloudinaryDeleteUserImage, cloudinaryUploadUserImageFiles } from "../../utils/cloudinary.config";
+import {Response} from "express"
+import fs from "fs";
 
 export async function handleUpdateUserImageFunction(req : AuthenticatedRequest, res: Response) {
     try {
@@ -45,9 +44,10 @@ export async function handleUpdateUserImageFunction(req : AuthenticatedRequest, 
       if (!updatedUser) {
         return res.status(404).json({ message: "User not found." });
       }
-  
+      
       await updatedUser.save();
       
+
       return res.status(200).json({
         success: true,
         message: "Image uploaded successfully.",

@@ -69,7 +69,9 @@ passport.use(
           const firstName = nameParts[0] || "User";
           const lastName = nameParts.slice(1).join(" ") || "User";
 
+          const { nanoid } = await import('nanoid');
           user = new User({
+            uniqueId: nanoid(),
             firstName,
             lastName,
             userName: profile.username.replace(/ /g, "_"),
@@ -126,13 +128,14 @@ export function handleGithubSignUpCallbackFunction(req: Request, res: Response, 
       const token = jwt.sign(
         {
           id: user._id,
+          uniqueId: user.uniqueId,
           role: user.role,
         },
         process.env.JWT_SECRET!,
         { expiresIn: "15d" }
       );
 
-      res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=Login successful&token=${token}`);
+      res.redirect(`${FRONTEND_HOME_ROUTE}?success=true&message=LoginSuccessful&token=${token}`);
     }
   )(req, res, next);
 }

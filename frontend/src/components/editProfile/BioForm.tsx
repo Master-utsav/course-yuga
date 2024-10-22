@@ -12,9 +12,13 @@ import {
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
 import { ErrorToast, SuccessToast } from "@/lib/toasts"
-import axios from "axios"
 import { getVerifiedToken } from "@/lib/cookieService"
 import { USER_API } from "@/lib/env"
+import axios from "axios"
+ import { getUserData as fetchUserData} from "@/lib/authService";
+import { useCallback } from "react";
+import { useAuthContext } from "@/context/authContext"
+
 
 const FormSchema = z.object({
   bio: z
@@ -27,39 +31,46 @@ const FormSchema = z.object({
     }),
 })
 
-export function BioForm() {
+const BioForm: React.FC = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })
-
+ const {setUserData} = useAuthContext();
+const loadUserData = useCallback(async () => {
+  const userData = await fetchUserData(); 
+  if (userData) {
+    setUserData(userData);
+  }
+}, [setUserData]);
  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const bio = data.bio;
-    const jwt = getVerifiedToken();
+  const bio = data.bio
+  const jwt = getVerifiedToken();
     
-    try {
-        const response = await axios.put(`${USER_API}update-user` , {bio} , {
-            headers: {
-                Authorization: `Bearer ${jwt}`,
-                "Content-Type": "application/json",
-            },
-        })
+  try {
+      const response = await axios.put(`${USER_API}/update-user` , {bio} , {
+          headers: {
+              Authorization: `Bearer ${jwt}`,
+              "Content-Type": "application/json",
+          },
+      })
 
-        if(response && response.data && response.data.success){
-            SuccessToast(response.data.message);
-            form.setValue("bio" , "");
-        }
-        else{
-            ErrorToast(response.data.message);
-        }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-        ErrorToast(error.response?.data?.message);
-    }
+      if(response && response.data && response.data.success){
+          SuccessToast(response.data.message);
+          form.setValue("bio" , "");
+          loadUserData();
+      }
+      else{
+          ErrorToast(response.data.message);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (error: any) {
+          ErrorToast(error.response?.data?.message);
+      }
   }
 
   return (
     <Form {...form} >
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6 items-end grid">
+      <div className="w-2/3 space-y-6 items-end grid">
         <FormField
           control={form.control}
           name="bio"
@@ -78,13 +89,16 @@ export function BioForm() {
               </FormControl>
               {/* <FormDescription>
                 You can <span>@mention</span> other users and organizations.
-              </FormDescription> */}
+                </FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
-        />
-        <Button type="submit" className="">Submit</Button>
-      </form>
-    </Form>
+          />
+        <Button type="submit" className="w-full font-ubuntu font-medium" onClick={form.handleSubmit(onSubmit)}>Confirm</Button>
+      </div>
+      </Form>
+
   )
 }
+
+export default BioForm;

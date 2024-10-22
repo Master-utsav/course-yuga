@@ -1,23 +1,20 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, DatePicker, Select, SelectItem } from "@nextui-org/react";
-import SelectorIcon from "@/Icons/SelectorIcon";
+import { Button, DatePicker } from "@nextui-org/react";
 import { ErrorToast, SuccessToast } from "@/lib/toasts";
-import axios from "axios";
-import { USER_API } from "@/lib/env";
 import { getVerifiedToken } from "@/lib/cookieService";
+import { USER_API } from "@/lib/env";
+import axios from "axios";
+import { useAuthContext } from "@/context/authContext";
+import { getUserData as fetchUserData} from "@/lib/authService";
+
 
 // Zod validation schema
 const schema = z.object({
   dob: z.string().min(1, "Date of Birth is required"),
-  role: z.string().min(1, "Please select a role."),
 });
-
-interface DobAndRoleFormProps {
-  theme: string;
-}
 
 function convertDateFormat(dateString: string): string {
   const [year, month, day] = dateString.split("-");
@@ -26,7 +23,7 @@ function convertDateFormat(dateString: string): string {
 
 type DobAndRoleFormData = z.infer<typeof schema>;
 
-const DobAndRoleForm: React.FC<DobAndRoleFormProps> = ({ theme }) => {
+const DobForm: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -35,14 +32,21 @@ const DobAndRoleForm: React.FC<DobAndRoleFormProps> = ({ theme }) => {
   } = useForm<DobAndRoleFormData>({
     resolver: zodResolver(schema),
   });
+  const {setUserData} = useAuthContext();
+  const loadUserData = useCallback(async () => {
+    const userData = await fetchUserData(); 
+    if (userData) {
+      setUserData(userData);
+    }
+  }, [setUserData]);
 
   const onSubmit = async(data: DobAndRoleFormData) => {
     const userDob = convertDateFormat(data.dob);
-    const role:string = data.role === "0" ?  "STUDENT" : "ADMIN"
+
     const jwt = getVerifiedToken();
 
     try {
-        const response = await axios.put(`${USER_API}update-user` , {userDob, role} , {
+        const response = await axios.put(`${USER_API}/update-user` , {userDob} , {
             headers: {
                 Authorization: `Bearer ${jwt}`,
                 "Content-Type": "application/json",
@@ -51,6 +55,7 @@ const DobAndRoleForm: React.FC<DobAndRoleFormProps> = ({ theme }) => {
 
         if(response && response.data && response.data.success){
             SuccessToast(response.data.message);
+            loadUserData();
         }
         else{
             ErrorToast(response.data.message);
@@ -62,13 +67,13 @@ const DobAndRoleForm: React.FC<DobAndRoleFormProps> = ({ theme }) => {
   };
 
   return (
-    <div className="w-full relative justify-start items-start gap-2 flex sm:flex-row flex-col ">
+    <div className="w-full relative justify-end items-start gap-2 flex sm:flex-row flex-col ">
       <div className="w-full flex flex-col relative">
         <DatePicker
           label="Birth Date"
           variant="bordered" 
           showMonthAndYearPickers
-          className="w-full"
+          className=""
           {...register("dob")} // Register DOB field
           onChange={(date) => {
             const selectedDate = new Date(date?.toString() || "");
@@ -89,37 +94,6 @@ const DobAndRoleForm: React.FC<DobAndRoleFormProps> = ({ theme }) => {
         )}
       </div>
 
-      {/* Role Selection Field */}
-      <div className="w-full relative">
-        <Select
-          label=""
-          placeholder="Change your Role"
-          labelPlacement="outside"
-          className="w-full border-2 rounded-md dark:border-white/20 border-black/40 py-1"
-          style={{ background: "transparent" }}
-          disableSelectorIconRotation
-          selectorIcon={
-            theme === "dark" ? (
-              <SelectorIcon fillColor="gray" />
-            ) : (
-              <SelectorIcon fillColor="gray" />
-            )
-          }
-          {...register("role")} 
-        >
-          {["Student", "Admin"].map((role, index) => (
-            <SelectItem key={index} value={role} className="w-full">
-              {role}
-            </SelectItem>
-          ))}
-        </Select>
-        {errors.role && errors.role.message && (
-          <p className="text-red-500 text-sm text-end">
-            {errors.role.message}
-          </p>
-        )}
-      </div>
-
       <Button
         className="font-ubuntu font-medium"
         type="button"
@@ -131,4 +105,4 @@ const DobAndRoleForm: React.FC<DobAndRoleFormProps> = ({ theme }) => {
   );
 };
 
-export default DobAndRoleForm;
+export default DobForm;

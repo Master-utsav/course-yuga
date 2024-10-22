@@ -50,7 +50,7 @@ const ManageVideos = () => {
 
   React.useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const courseId = queryParams.get("courseId");
+    const courseId = queryParams.get("c");
     const courseName = queryParams.get("name");
     setCourseId(courseId);
     setCourseName(courseName);
