@@ -1,11 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface TextSmoothVerticalBounceEnterEffectProps {
   text: string;
+  className? : string
 }
 
-const TextBorderCutEffect: React.FC<TextSmoothVerticalBounceEnterEffectProps> = ({ text }) => {
+const TextBorderCutEffect: React.FC<TextSmoothVerticalBounceEnterEffectProps> = ({ text , className}) => {
   const displayText = text.split('');
 
   return (
@@ -33,6 +35,7 @@ const TextBorderCutEffect: React.FC<TextSmoothVerticalBounceEnterEffectProps> = 
             display: 'inline-block',
             whiteSpace: char === ' ' ? 'pre' : 'normal', // Maintain spacing
           }}
+          className={cn("" , className)}
         >
           {char === ' ' ? '\u00A0' : char}
         </motion.span>

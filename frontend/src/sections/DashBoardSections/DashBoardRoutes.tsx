@@ -5,12 +5,12 @@ import { useAuthContext } from "@/context/authContext";
 import DashBoard from "@/sections/DashBoardSections/DashBoard";
 import Bookmarks from "@/sections/DashBoardSections/Bookmarks";
 import Courses from "@/sections/DashBoardSections/Courses";
-import Subscription from "@/sections/DashBoardSections/Subscription";
-import Watchlist from "@/sections/DashBoardSections/Watchlist";
-import TodoList from "@/sections/DashBoardSections/TodoList";
+// import Subscription from "@/sections/DashBoardSections/Subscription";
+// import Watchlist from "@/sections/DashBoardSections/Watchlist";
+// import TodoList from "@/sections/DashBoardSections/TodoList";
+// import Settings from "@/sections/DashBoardSections/Settings";
+// import History from "@/sections/DashBoardSections/History";
 import RefreshPage from "@/sections/DashBoardSections/RefreshPage";
-import Settings from "@/sections/DashBoardSections/Settings";
-import History from "@/sections/DashBoardSections/History";
 import AddCourses from "@/sections/DashBoardSections/AddCourses";
 import AddTests from "@/sections/DashBoardSections/AddTests";
 import PageTransitionSwipeAnimation from "@/Effects/PageTransitionSwipeAnimation";
@@ -18,6 +18,7 @@ import AddVideos from "@/sections/DashBoardSections/AddVideos";
 import ViewCourse from "@/sections/DashBoardSections/ViewCourse";
 import VideoPlaySection from "./VideoPlaySection";
 import VideoEditPage from "@/components/addVideos/VideoEditPage";
+import UnderMaintenancePage from "@/components/UnderMaintenancePage";
 
 const DashboardRoutes: React.FC = () => {
   const { userData } = useAuthContext();
@@ -51,35 +52,41 @@ const DashboardRoutes: React.FC = () => {
             </PageTransitionSwipeAnimation>
           }
         />
+          {/* // ! subscription page page is UnderMaintenance  */}
         <Route
           path="/subscription"
           element={
             <PageTransitionSwipeAnimation>
-              <Subscription />
+              {/* <Subscription /> */}
+              <UnderMaintenancePage pageName="Subscription page" />
             </PageTransitionSwipeAnimation>
           }
         />
-        <Route
+        {/* <Route
           path="/watchlist"
           element={
             <PageTransitionSwipeAnimation>
               <Watchlist />
             </PageTransitionSwipeAnimation>
           }
-        />
+        /> */}
+        {/* // ! this todo list is UnderMaintenance  */}
         <Route
           path="/todo-list"
           element={
             <PageTransitionSwipeAnimation>
-              <TodoList />
+              {/* <TodoList /> */}
+              <UnderMaintenancePage pageName="Todo List" />
             </PageTransitionSwipeAnimation>
           }
         />
+        {/* // ! history page is UnderMaintenance  */}
         <Route
           path="/history"
           element={
             <PageTransitionSwipeAnimation>
-              <History />
+              {/* <History /> */}
+              <UnderMaintenancePage pageName="History" />
             </PageTransitionSwipeAnimation>
           }
         />
@@ -91,14 +98,14 @@ const DashboardRoutes: React.FC = () => {
             </PageTransitionSwipeAnimation>
           }
         />
-        <Route
+        {/* <Route
           path="/setting"
           element={
             <PageTransitionSwipeAnimation>
               <Settings />
             </PageTransitionSwipeAnimation>
           }
-        />
+        /> */}
         <Route
           path="/view-course"
           element={
@@ -115,8 +122,16 @@ const DashboardRoutes: React.FC = () => {
             </PageTransitionSwipeAnimation>
           }
         />
+        {/* // ! this page is UnderMaintenance  */}
+        <Route
+          path="/test"
+          element={
+            <PageTransitionSwipeAnimation>
+              <UnderMaintenancePage pageName="Test" />
+            </PageTransitionSwipeAnimation>
+          }
+        />
       </Routes>
-
         {/* Admin-only Routes */}
         {userData.role === "ADMIN" && (
           // <main className="w-full min-h-screen dark:bg-gray-800 overflow-x-hidden bg-white-600 relative hide-scrollbar scrollbar-custom">

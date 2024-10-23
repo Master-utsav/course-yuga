@@ -18,6 +18,9 @@ import Courses from "./sections/Courses";
 import { DashboardContextProvider } from "./context/dashboardContext";
 import CourseIntroPage from "./components/addCourses/CourseIntroPage";
 import "./index.css"
+import ContactUs from "./sections/ContactUs";
+import Community from "./sections/Community";
+import AboutPage from "./sections/AboutPage";
 
 function App() {
   const location = useLocation();
@@ -93,15 +96,6 @@ function App() {
               }
             />
             <Route
-              path="/courses"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <Courses />
-                </>
-              }
-            />
-            <Route
               path="/course-intro-page"
               element={
                 <>
@@ -116,6 +110,33 @@ function App() {
                 <>
                   <Navbar isUserLoggedIn={isLoggedIn} />
                   <Courses />
+                </>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <ContactUs />
+                </>
+              }
+            />
+            <Route
+              path="/community"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <Community />
+                </>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <>
+                    <Navbar isUserLoggedIn={isLoggedIn} />
+                    <AboutPage />
                 </>
               }
             />
@@ -188,6 +209,44 @@ function App() {
                 <>
                   <Navbar isUserLoggedIn={isLoggedIn} />
                   <CourseIntroPage />
+                </>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <ContactUs />
+                </>
+              }
+            />
+            <Route
+              path="/community"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <Community />
+                </>
+              }
+            />
+            <Route
+              path="/help"
+              element={
+                <AnimatePresence mode="wait">
+                  <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
+                    <Navbar isUserLoggedIn={isLoggedIn} />
+                    <Help />
+                  </PageTransitionBoxAnimation>
+                </AnimatePresence>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <>
+                    <Navbar isUserLoggedIn={isLoggedIn} />
+                    <AboutPage />
                 </>
               }
             />

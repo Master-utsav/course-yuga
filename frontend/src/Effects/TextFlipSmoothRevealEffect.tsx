@@ -7,6 +7,7 @@ interface TextFlipSmoothRevealEffectProps{
     className?: string;
     endsWith? : React.ReactNode;
     starstWith? : React.ReactNode;
+
 }
 const characterVariants = {
     initial: { scaleX: -1, opacity: 0 },
@@ -20,7 +21,7 @@ const characterVariants = {
       },
     }),
   };
-const TextFlipSmoothRevealEffect: React.FC<TextFlipSmoothRevealEffectProps> = ({text , className , endsWith , starstWith}) => {
+const TextFlipSmoothRevealEffect: React.FC<TextFlipSmoothRevealEffectProps> = ({text , className , endsWith , starstWith }) => {
   return (
     <div className="flex gap-1 justify-start items-center">
           {starstWith}
