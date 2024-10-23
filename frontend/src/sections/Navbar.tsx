@@ -110,4 +110,4 @@ const Navbar: React.FC<NavbarProps> = ({ isUserLoggedIn }) => {
   );
 };
 
-export default Navbar;
+export default React.memo(Navbar);

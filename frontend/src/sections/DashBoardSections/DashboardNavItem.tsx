@@ -92,4 +92,4 @@ const DashboardNavItem: React.FC<DashboardNavItemProps> = ({
   );
 };
 
-export default DashboardNavItem;
+export default React.memo(DashboardNavItem);

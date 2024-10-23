@@ -32,4 +32,4 @@ const HeroSection: React.FC<heroSectionProps> = ({route}) => {
   );
 };
 
-export default HeroSection;
+export default React.memo(HeroSection);

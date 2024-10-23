@@ -13,9 +13,7 @@ const Courses: React.FC = () => {
         <Seperator text="COURSES" />
         <CourseCard />
         {/* <VideoCard /> */}
-        
       </section>
-     
     </CourseContextProvider>
   );
 };

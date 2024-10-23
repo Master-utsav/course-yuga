@@ -16,8 +16,8 @@ import EditProfile from "@/sections/EditProfile";
 import DashBoardNavbar from "@/sections/DashBoardSections/DashBoardNavbar";
 import Courses from "./sections/Courses";
 import { DashboardContextProvider } from "./context/dashboardContext";
-import CourseIntroPage from "./components/addCourses/CourseIntroPage";
-import "./index.css"
+import CourseIntroPage from "./components/addCourses/CourseIntroPage"; // Import restored
+import "./index.css";
 import ContactUs from "./sections/ContactUs";
 import Community from "./sections/Community";
 import AboutPage from "./sections/AboutPage";
@@ -41,9 +41,8 @@ function App() {
     }
   }, [isLoggedIn, location, navigate]);
 
-  return (
-    <main className="max-w-full mx-auto relative dark:bg-black bg-white scrollbar-custom ">
-      <Routes location={location} key={location.pathname}>
+  const memoizedRoutes = React.useMemo(() => (
+    <Routes location={location} key={location.pathname}>
         {isLoggedIn ? (
           <>
             <Route
@@ -59,40 +58,11 @@ function App() {
               path="/logout"
               element={
                 <AnimatePresence mode="wait">
-                  <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
+                  <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm">
                     <Navbar isUserLoggedIn={isLoggedIn} />
                     <LogoutModal />
                   </PageTransitionBoxAnimation>
                 </AnimatePresence>
-              }
-            />
-            <Route
-              path="/help"
-              element={
-                <AnimatePresence mode="wait">
-                  <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <Help />
-                  </PageTransitionBoxAnimation>
-                </AnimatePresence>
-              }
-            />
-            <Route
-              path="/edit-profile"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <EditProfile />
-                </>
-              }
-            />
-            <Route
-              path="/reset-password"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <HeroSection route="reset-password" />
-                </>
               }
             />
             <Route
@@ -110,6 +80,26 @@ function App() {
                 <>
                   <Navbar isUserLoggedIn={isLoggedIn} />
                   <Courses />
+                </>
+              }
+            />
+            <Route
+              path="/help"
+              element={
+                <AnimatePresence mode="wait">
+                  <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm">
+                    <Navbar isUserLoggedIn={isLoggedIn} />
+                    <Help />
+                  </PageTransitionBoxAnimation>
+                </AnimatePresence>
+              }
+            />
+            <Route
+              path="/edit-profile"
+              element={
+                <>
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <EditProfile />
                 </>
               }
             />
@@ -135,19 +125,17 @@ function App() {
               path="/about"
               element={
                 <>
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <AboutPage />
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <AboutPage />
                 </>
               }
             />
-
-            {/* All dashboard routes */}
             <Route
               path="/user/*"
               element={
                 <DashboardContextProvider>
                   <div className="h-screen flex">
-                    <DashBoardNavbar  />
+                    <DashBoardNavbar />
                     <main className="flex-1 overflow-auto p-4 bg-white dark:bg-gray-900 scrollbar-custom">
                       <DashboardRoutes />
                     </main>
@@ -177,20 +165,11 @@ function App() {
               }
             />
             <Route
-              path="/reset-password"
+              path="/course-intro-page"
               element={
                 <>
                   <Navbar isUserLoggedIn={isLoggedIn} />
-                  <HeroSection route="reset-password" />
-                </>
-              }
-            />
-            <Route
-              path="/"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <HeroSection route="homepage" />
+                  <CourseIntroPage />
                 </>
               }
             />
@@ -204,12 +183,14 @@ function App() {
               }
             />
             <Route
-              path="/course-intro-page"
+              path="/help"
               element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <CourseIntroPage />
-                </>
+                <AnimatePresence mode="wait">
+                  <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm">
+                    <Navbar isUserLoggedIn={isLoggedIn} />
+                    <Help />
+                  </PageTransitionBoxAnimation>
+                </AnimatePresence>
               }
             />
             <Route
@@ -231,29 +212,23 @@ function App() {
               }
             />
             <Route
-              path="/help"
-              element={
-                <AnimatePresence mode="wait">
-                  <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm ">
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <Help />
-                  </PageTransitionBoxAnimation>
-                </AnimatePresence>
-              }
-            />
-            <Route
               path="/about"
               element={
                 <>
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <AboutPage />
+                  <Navbar isUserLoggedIn={isLoggedIn} />
+                  <AboutPage />
                 </>
               }
             />
           </>
         )}
       </Routes>
-      {/* </AnimatePresence> */}
+  ), [isLoggedIn, location])
+
+  return (
+    <main className="max-w-full mx-auto relative dark:bg-black bg-white scrollbar-custom">
+      
+      { memoizedRoutes }
       <ToastContainer
         position="bottom-right"
         className={`${styles.toastContainer} ${getToastContainerClass(theme)}`}

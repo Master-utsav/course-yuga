@@ -163,4 +163,4 @@ const DashBoardNavbar: React.FC = () => {
   );
 };
 
-export default DashBoardNavbar;
+export default React.memo(DashBoardNavbar);
