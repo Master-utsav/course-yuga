@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useForm, SubmitHandler } from 'react-hook-form';
