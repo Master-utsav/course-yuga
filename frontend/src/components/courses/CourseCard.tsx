@@ -8,6 +8,7 @@ import { useCourseContext } from "@/context/courseContext";
 import { Link } from "react-router-dom";
 import YoutubeIcon from "@/Icons/YoutubeIcon";
 import RedirectLinkIcon from "@/Icons/RedirectLinkIcon";
+import SkeletonCard from "../SkeletonCard";
 
 const cardVariants = {
   hidden: (i: number) => ({
@@ -48,8 +49,8 @@ const CourseCard: React.FC = () => {
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-5"
       initial="hidden"
       animate="visible"
-    >
-      {coursesData && coursesData.map((course, i) => (
+    > 
+      {coursesData.length !== 0 ? coursesData.map((course, i) => (
         <motion.div
           key={course.courseId}
           className="w-full relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
@@ -138,7 +139,20 @@ const CourseCard: React.FC = () => {
             </Link>
           </div>
         </motion.div>
-      ))}
+      )): (
+         [1 , 2 , 3].map((_, i) =>(
+          <motion.div
+            key={i}
+            className="w-full "
+            custom={i}
+            variants={cardVariants}
+          >
+            <SkeletonCard/>
+          </motion.div>
+
+        )
+      ))
+    }
     </motion.div>
   );
 };

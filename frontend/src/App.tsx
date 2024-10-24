@@ -1,237 +1,88 @@
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
-import Navbar from "./sections/Navbar";
-import HeroSection from "@/sections/HeroSection";
-import { useTheme } from "@/context/ThemeProvider";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useAuthContext } from "@/context/authContext";
-import LogoutModal from "@/components/modals/LogoutModal";
-import styles from "@/sass/Toast.module.scss";
 import React from "react";
-import PageTransitionBoxAnimation from "@/Effects/PageTransitionBoxAnimation";
-import DashboardRoutes from "@/sections/DashBoardSections/DashBoardRoutes";
-import Help from "@/sections/HelpSection";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import { useTheme } from "@/context/ThemeProvider";
+import HeroSection from "@/sections/HeroSection";
+import Courses from "@/sections/Courses";
+import Community from "@/sections/Community";
+import ContactUs from "@/sections/ContactUs";
+import AboutPage from "@/sections/AboutPage";
+import LogoutModal from "@/components/modals/LogoutModal";
 import EditProfile from "@/sections/EditProfile";
-import DashBoardNavbar from "@/sections/DashBoardSections/DashBoardNavbar";
-import Courses from "./sections/Courses";
-import { DashboardContextProvider } from "./context/dashboardContext";
-import CourseIntroPage from "./components/addCourses/CourseIntroPage"; // Import restored
-import "./index.css";
-import ContactUs from "./sections/ContactUs";
-import Community from "./sections/Community";
-import AboutPage from "./sections/AboutPage";
+import styles from "@/sass/Toast.module.scss";
+import { ToastContainer } from "react-toastify";
+import CourseIntroPage from "./components/addCourses/CourseIntroPage";
+import { useAuthContext } from "./context/authContext";
+import DashboardRoutes from "./sections/DashBoardSections/DashBoardRoutes";
+import Navbar from "./sections/Navbar";
+import HelpSection from "./sections/HelpSection";
 
 function App() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const { theme } = useTheme();
   const { isLoggedIn } = useAuthContext();
+  const { theme } = useTheme();
 
-  const getToastContainerClass = (theme: string) => {
-    return theme === "dark" ? styles.dark : styles.light;
-  };
+  // Determine if the current route is within the /user/* routes
+  const isUserRoute = location.pathname.startsWith("/user");
 
-  React.useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const token = params.get("token");
-
-    if (isLoggedIn && token) {
-      navigate("/", { replace: true });
-    }
-  }, [isLoggedIn, location, navigate]);
-
-  const memoizedRoutes = React.useMemo(() => (
-    <Routes location={location} key={location.pathname}>
+  const memoizedRoutes = React.useMemo(
+    () => (
+      <Routes location={location} key={location.pathname}>
         {isLoggedIn ? (
           <>
-            <Route
-              path="/"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <HeroSection route="homepage" />
-                </>
-              }
-            />
-            <Route
-              path="/logout"
-              element={
-                <AnimatePresence mode="wait">
-                  <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm">
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <LogoutModal />
-                  </PageTransitionBoxAnimation>
-                </AnimatePresence>
-              }
-            />
-            <Route
-              path="/course-intro-page"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <CourseIntroPage />
-                </>
-              }
-            />
-            <Route
-              path="/courses"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <Courses />
-                </>
-              }
-            />
-            <Route
-              path="/help"
-              element={
-                <AnimatePresence mode="wait">
-                  <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm">
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <Help />
-                  </PageTransitionBoxAnimation>
-                </AnimatePresence>
-              }
-            />
-            <Route
-              path="/edit-profile"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <EditProfile />
-                </>
-              }
-            />
-            <Route
-              path="/contact"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <ContactUs />
-                </>
-              }
-            />
-            <Route
-              path="/community"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <Community />
-                </>
-              }
-            />
-            <Route
-              path="/about"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <AboutPage />
-                </>
-              }
-            />
-            <Route
-              path="/user/*"
-              element={
-                <DashboardContextProvider>
-                  <div className="h-screen flex">
-                    <DashBoardNavbar />
-                    <main className="flex-1 overflow-auto p-4 bg-white dark:bg-gray-900 scrollbar-custom">
-                      <DashboardRoutes />
-                    </main>
-                  </div>
-                </DashboardContextProvider>
-              }
-            />
+            <Route path="/" element={<HeroSection route="homepage" />} />
+            <Route path="/logout" element={<LogoutModal />} />
+            <Route path="/course-intro-page" element={<CourseIntroPage />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/help" element={<HelpSection />} />
+            <Route path="/edit-profile" element={<EditProfile />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/user/*" element={<DashboardRoutes/>} />
           </>
         ) : (
           <>
-            <Route
-              path="/signup"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <HeroSection route="signup" />
-                </>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <HeroSection route="login" />
-                </>
-              }
-            />
-            <Route
-              path="/course-intro-page"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <CourseIntroPage />
-                </>
-              }
-            />
+            <Route path="/" element={<HeroSection route="homepage" />} />
+            <Route path="/signup" element={<HeroSection route="signup" />} />
+            <Route path="/login" element={<HeroSection route="login" />} />
+            <Route path="/course-intro-page" element={<CourseIntroPage />} />
             <Route
               path="/courses"
               element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
+                <AnimatePresence mode="sync" >
                   <Courses />
-                </>
-              }
-            />
-            <Route
-              path="/help"
-              element={
-                <AnimatePresence mode="wait">
-                  <PageTransitionBoxAnimation className="bg-gray-900/40 backdrop-blur-sm">
-                    <Navbar isUserLoggedIn={isLoggedIn} />
-                    <Help />
-                  </PageTransitionBoxAnimation>
                 </AnimatePresence>
               }
             />
-            <Route
-              path="/contact"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <ContactUs />
-                </>
-              }
-            />
-            <Route
-              path="/community"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <Community />
-                </>
-              }
-            />
-            <Route
-              path="/about"
-              element={
-                <>
-                  <Navbar isUserLoggedIn={isLoggedIn} />
-                  <AboutPage />
-                </>
-              }
-            />
+            <Route path="/help" element={<HelpSection />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </>
         )}
       </Routes>
-  ), [isLoggedIn, location])
+    ),
+    [isLoggedIn, location]
+  );
 
   return (
     <main className="max-w-full mx-auto relative dark:bg-black bg-white scrollbar-custom">
-      
-      { memoizedRoutes }
+      {/* Conditionally render Navbar only on non-user routes */}
+      {!isUserRoute && <Navbar isUserLoggedIn={isLoggedIn} />}
+
+      {/* Render Routes */}
+      {/* <AnimatePresence mode="wait" initial={false}> */}
+      {memoizedRoutes}
+      {/* </AnimatePresence> */}
+
+      {/* Toast Notifications */}
       <ToastContainer
         position="bottom-right"
-        className={`${styles.toastContainer} ${getToastContainerClass(theme)}`}
+        className={`${styles.toastContainer} ${
+          theme === "dark" ? styles.dark : styles.light
+        }`}
         toastClassName={styles.Toastify__toast}
         autoClose={3000}
         hideProgressBar={false}
