@@ -132,7 +132,7 @@ const CourseCard: React.FC = () => {
             <Link to={`/course-intro-page?c=${course.courseId}`} className="w-full">
               <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600 mt-2">
                    {
-                    course.courseType === "YOUTUBE" ? <YoutubeIcon fillColor="white" size={32}/> : course.courseType === "REDIRECT" ? <RedirectLinkIcon fillColor="white" /> : ""
+                    course.courseType === "YOUTUBE" ? <YoutubeIcon fillColor="white" size={32}/> : course.courseType === "REDIRECT" ? <RedirectLinkIcon fillColor="white" /> : <Image src="/logo/logo.png" className="aspect-square size-8"/>
                    }{" "}
                    Enroll Now
               </Button>

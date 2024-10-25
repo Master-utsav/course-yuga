@@ -5,8 +5,11 @@ import { Modal, ModalContent, ModalHeader, ModalBody } from '@nextui-org/react';
 import ProfileIcon from '@/Icons/ProfileIcon';
 import { useNavigate } from 'react-router-dom';
 
-const MakeAdminModal: React.FC = () => {
-  const [isOpen , setIsOpen] = React.useState<boolean>(true);
+interface MakeAdminModalProps{
+    isValidOpen: boolean
+}
+const MakeAdminModal: React.FC<MakeAdminModalProps> = ({isValidOpen}) => {
+  const [isOpen , setIsOpen] = React.useState<boolean>(isValidOpen);
   const navigate = useNavigate();
 
   return (

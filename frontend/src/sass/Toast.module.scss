@@ -1,53 +1,65 @@
-// Toast.module.scss
-
 .toastContainer {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    z-index: 9999;
-    width: fit-content;
-    min-width: 20%;
-  
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  width: fit-content;
+  min-width: 300px; // Ensures better minimum width across devices
+  max-width: 90%; // Responsive on smaller screens
+
+  .Toastify__toast {
+    padding: 16px 24px;
+    border-radius: 10px;
+    backdrop-filter: blur(12px); // Adjusted for smoother blur
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .Toastify__toast--success {
+    background: rgba(72, 187, 120, 0.9); // Slightly more opaque for better readability
+    color: #fff;
+  }
+
+  .Toastify__toast--warning {
+    background: rgba(255, 193, 7, 0.9); 
+    color: #000;
+  }
+
+  .Toastify__toast--error {
+    background: rgba(220, 53, 69, 0.9); 
+    color: #fff;
+  }
+
+  .Toastify__progressbar {
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.5); // Subtle progress bar styling
+    border-radius: 2px;
+  }
+
+  &.dark {
     .Toastify__toast {
-      padding: 16px 24px;
-      border-radius: 10px;
-      backdrop-filter: blur(16px);
-      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease-in-out;
-    }
-  
-    .Toastify__toast--success {
-      background: rgba(72, 187, 120, 0.8); // Greenish background for success
-      color: white;
-    }
-  
-    .Toastify__toast--warning {
-      background: rgba(255, 193, 7, 0.8); // Yellowish background for warning
-      color: black;
-    }
-  
-    .Toastify__toast--error {
-      background: rgba(220, 53, 69, 0.8); // Red background for error
-      color: white;
-    }
-  
-    .Toastify__progressbar {
-      background-color: rgba(255, 255, 255, 0.4); // Glassy progress bar
-    }
-  
-    &.dark {
-      .Toastify__toast {
-        background: rgba(0, 0, 0, 0.09); // Dark glassy background
-        color: white;
-      }
-    }
-  
-    &.light {
-      .Toastify__toast {
-        background: rgba(174, 173, 173, 0.275); // Light glassy background
-        color: black;
-      }
+      background: rgba(25, 25, 25, 0.85); // Darker background for dark mode
+      color: #fff;
     }
   }
-  
+
+  &.light {
+    .Toastify__toast {
+      background: rgba(240, 240, 240, 0.85); // Lighter background for light mode
+      color: #000;
+    }
+  }
+
+  // Media query for responsiveness
+  @media (max-width: 600px) {
+    bottom: 0.5rem;
+    right: 0.5rem;
+    min-width: 90%;
+    
+    .Toastify__toast {
+      border-radius: 8px;
+      padding: 12px 16px;
+    }
+  }
+}

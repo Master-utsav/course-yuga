@@ -10,6 +10,8 @@ import AboutPage from "@/sections/AboutPage";
 import LogoutModal from "@/components/modals/LogoutModal";
 import EditProfile from "@/sections/EditProfile";
 import { ToastContainer } from "react-toastify";
+import styles from "@/sass/Toast.module.scss";
+import "react-toastify/dist/ReactToastify.css"; 
 import CourseIntroPage from "./components/addCourses/CourseIntroPage";
 import { useAuthContext } from "./context/authContext";
 import DashboardRoutes from "./sections/DashBoardSections/DashBoardRoutes";
@@ -111,19 +113,20 @@ function App() {
       {/* </AnimatePresence> */}
 
       {/* Toast Notifications */}
+      <div className="fixed bottom-0 right-0 p-4"> {/* Absolute container */}
       <ToastContainer
         position="bottom-right"
-        // className={`${styles.toastContainer} ${
-        //   theme === "dark" ? styles.dark : styles.light
-        // }`}
-        // toastClassName={styles.Toastify__toast}
+        className={`${styles.toastContainer} ${
+          theme === "dark" ? styles.dark : styles.light
+        }`}
+        toastClassName={styles.Toastify__toast}
         autoClose={3000}
         hideProgressBar={false}
         theme={theme}
         closeOnClick
         pauseOnHover
-        // draggable
       />
+      </div>
     </main>
   );
 }

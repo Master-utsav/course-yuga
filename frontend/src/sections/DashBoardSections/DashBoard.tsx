@@ -15,19 +15,19 @@ import TextFlipSmoothRevealEffect from "@/Effects/TextFlipSmoothRevealEffect";
 import { Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import MakeAdminModal from "@/components/modals/MakeAdminModal";
+import useModalWithLocalStorage from "@/hooks/useModalWithLocalStorage";
 
 const DashBoard = () => {
-  console.log("DashBoard rendered");
   const { userData } = useAuthContext();
   const [timeGreeting, setTimeGreeting] = React.useState("Hello");
   const [userCourses , setUserCourses] = React.useState<IUserCourseData[] | []>([])
   const { theme } = useTheme();
   const navigate = useNavigate();
+  const {isValidOpen} = useModalWithLocalStorage();
 
   // Determine greeting based on the current time
   React.useEffect(() => {
     const hour = new Date().getHours();
-    console.log(hour);
     if (hour < 12 && hour >= 4) {
       setTimeGreeting("Good Morning");
     } else if (hour < 16 && hour >= 12) {
@@ -37,6 +37,7 @@ const DashBoard = () => {
     } else {
       setTimeGreeting("Night Owl");
     }
+    
   }, []);
 
   const fetchUserEnrolledCourses = React.useCallback(async() => {
@@ -110,7 +111,7 @@ const DashBoard = () => {
         courses. Let's dive into learning and achieve your goals!`}
           </i>
         </motion.p>
-        {userData.role === "STUDENT" && <MakeAdminModal/>}
+        {userData.role === "STUDENT" && <MakeAdminModal isValidOpen={isValidOpen}/>}
         {userCourses.length === 0 ? 
         (<div className="w-full flex flex-col justify-center items-center gap-4 p-6 bg-yellow-100 border border-yellow-300 rounded-md shadow-md">
                 <p className="text-lg font-ubuntu text-center text-yellow-800">

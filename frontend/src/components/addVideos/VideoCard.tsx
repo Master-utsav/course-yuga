@@ -82,7 +82,7 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onRefresh }) => {
       />
 
       <div className="flex flex-col justify-between items-start space-y-1">
-        <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+        <h2 className="text-xl line-clamp-2 font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
           {video.videoName}
         </h2>
 

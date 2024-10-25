@@ -179,11 +179,12 @@ const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({
               className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600"
               onClick={handleEnrolledRequest}
             >
-              <YoutubeIcon fillColor="white" size={30} /> Enroll Now
+              {courseData.courseType === "YOUTUBE" ? (<YoutubeIcon fillColor="white" size={30} />) : (<Image src="/logo/logo.png" className="aspect-square size-8"/>)} Enroll Now
             </Button>
             ):
             <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600">
-              Buy Now
+            <Image src="/logo/logo.png" className="aspect-square size-8"/>
+                Buy Now
             </Button>
           )}
         </div>
