@@ -3,21 +3,77 @@ import { useTheme } from "@/context/ThemeProvider";
 import CrossIcon from "@/Icons/CrossIcon";
 import FilterIcon from "@/Icons/FilterIcon";
 import { motion } from "framer-motion";
-// import RatingFilter from "./RatingFilter";
-// import EducatorFilter from "./EducatorFilter";
 import OrderFilter from "./OrderFilter";
-// import PriceRangeFilter from "./PriceRangeFilter";
 import SearchInputFilter from "./SearchInputFilter";
 import SelectCurrency from "./SelectCurrency";
 import CategoryFilter from "./CategoryFilter";
+import { useCourseContext } from "@/context/courseContext";
+import { COURSE_API } from "@/lib/env";
+import { ErrorToast } from "@/lib/toasts";
+import axios from "axios";
 
 const CoursesNavbar: React.FC = () => {
   const { theme } = useTheme();
   const [isFilterOpen, setIsFilterOpen] = React.useState<boolean>(false);
+  const { setCoursesData } = useCourseContext();
+
+  // Updated to handle both order and category in a single function
+  const handleFilterParams = async (order: string, category: string) => {
+    try {
+      const response = await axios.get(`${COURSE_API}/get-course-filter`, {
+        params: {
+          order: order,
+          category: category,
+        },
+      });
+
+      if (response && response.data && response.data.success) {
+        setCoursesData(response.data.data);
+      } else {
+        ErrorToast(response.data.message || "Error fetching filtered courses");
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      ErrorToast(error.response?.data?.message || "Error fetching courses");
+    }
+  };
+
+  // Use states to hold selected filter values
+  const [selectedOrder, setSelectedOrder] = React.useState<string>("");
+  const [selectedCategory, setSelectedCategory] = React.useState<string>("");
+
+  const handleOrderChange = (data: { order: string }) => {
+    const orderValue = data.order;
+    setSelectedOrder(orderValue);
+    handleFilterParams(orderValue, selectedCategory); // Call API when order changes
+  };
+
+  const handleCategoryChange = (data: { categoryValue: string }) => {
+    const categoryValue = data.categoryValue;
+    setSelectedCategory(categoryValue);
+    
+    // Map categories to filter values
+    let category = "";
+    switch (categoryValue) {
+      case "Youtube":
+        category = "YOUTUBE";
+        break;
+      case "Course Yuga":
+        category = "PERSONAL";
+        break;
+      case "Others":
+        category = "REDIRECT";
+        break;
+      default:
+        category = ""; // Handle default case if needed
+    }
+    
+    handleFilterParams(selectedOrder, category); // Call API when category changes
+  };
 
   return (
     <header className="w-full z-10 max-w-7xl pt-6 flex flex-row gap-10 justify-between items-end overflow-y-hidden relative">
-      <SelectCurrency/>
+      <SelectCurrency />
       {isFilterOpen && (
         <motion.div
           initial={{ y: 30, rotate: 0, opacity: 1 }}
@@ -26,16 +82,13 @@ const CoursesNavbar: React.FC = () => {
           transition={{ ease: "easeOut", duration: 0.5 }}
           className="w-full flex flex-row justify-end items-end gap-3 overflow-y-hidden overflow-x-hidden relative text-xl"
         >
-          <OrderFilter/>
-          <CategoryFilter/>
-          {/* <EducatorFilter/>
-          <RatingFilter/>
-          <PriceRangeFilter /> */}
+          <OrderFilter onChangeFilter={handleOrderChange} />
+          <CategoryFilter onChangeFilter={handleCategoryChange} />
         </motion.div>
       )}
 
       <div className="w-fit flex justify-end items-center gap-4 py-2">
-        <SearchInputFilter /> 
+        <SearchInputFilter />
         <motion.button
           className="flex justify-center items-end"
           whileTap={{ scale: 0.9 }}

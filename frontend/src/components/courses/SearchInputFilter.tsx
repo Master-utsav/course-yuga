@@ -4,27 +4,46 @@ import { CgSearch } from "react-icons/cg";
 import { debounce } from "@/lib/debounce";
 import { useCourseContext } from "@/context/courseContext";
 import { ErrorToast } from "@/lib/toasts";
+import { COURSE_API } from "@/lib/env";
+import axios from "axios";
 
 const SearchInputFilter: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState<string | null>(null);
-  const { coursesData, setupdatedCourseData } = useCourseContext();
+  const { coursesData, setCoursesData } = useCourseContext();
   const inputFocus = useRef<HTMLInputElement>(null);
   // Fetch courses based on the search term
   async function fetchCoursesData(searchTerm: string) {
     
     try {
-      const updatedCourseData = coursesData.filter((course) =>
-        course.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.tutorName.toLowerCase().includes(searchTerm.toLowerCase()) 
-      );
-      setupdatedCourseData(updatedCourseData);
+      const response = await axios.get(`${COURSE_API}/get-course-search?searchTerm=${searchTerm}`)
+      if(response && response.data && response.data.success){
+        setCoursesData(response.data.data);
+      }
+      else{
+        ErrorToast(response.data.message)
+      }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       ErrorToast(error.response?.data?.message);
     }
   }
-
+  
+  async function backAllCourses() {
+    try {
+      const response = await axios.get(`${COURSE_API}/get-all-courses`);
+  
+      if(response && response.data && response.data.success){
+        setCoursesData(response.data.data);
+      }
+      else{
+        ErrorToast(response.data.message || "Error in Fetching Courses")
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error:any) {
+      ErrorToast(error?.response.data.message)
+    }
+  }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedFilter = useCallback(
     debounce((searchTerm: string) => {
@@ -38,7 +57,12 @@ const SearchInputFilter: React.FC = () => {
   const handleSearchBar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchValue(value);
-    debouncedFilter(value);
+
+    if (value) {
+      debouncedFilter(value);
+    } else {
+      backAllCourses(); 
+    }
   };
 
   const handleSearchClick = () => {

@@ -1,29 +1,19 @@
-import { ErrorToast } from "@/lib/toasts";
 import { Select, SelectItem } from "@nextui-org/react";
 import React from "react";
 
-const CategoryFilter: React.FC = () => {
+interface CategoryFilterProps{
+  onChangeFilter: (data : {categoryValue:string}) => void
+}
+const CategoryFilter: React.FC<CategoryFilterProps> = ({onChangeFilter}) => {
 
   const categoryFilterValues = [
     "Youtube",
     "Course Yuga",
     "Others"
-
   ];
-  async function handleCategoryChange (category: string) {
-    
+  function handleCategoryChange (category: string) {
     const categoryValue = categoryFilterValues[parseFloat(category)].toString();
-  
-    try {
-        console.log(categoryValue);
-        // const updatedCourseData: ICourseData[] = coursesData?.filter(
-        //   (course) => course.tutorName === categoryValue
-        // );
-        // setupdatedCourseData(updatedCourseData);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      ErrorToast(error.response?.data?.message);
-    }
+    onChangeFilter({categoryValue});
   };
 
   return (

@@ -2,7 +2,7 @@ import express from "express";
 import { authenticateAdminToken, authenticateToken } from "../middleware/auth.middleware";
 import { handleAddNewPersonalCourseFunction, handleAddNewRedirectCourseFunction, handleAddNewYoutubeCourseFunction } from "../controllers/course/uploadCourse.controllers";
 import { upload } from "../middleware/multer.middleware";
-import { handleFetchAllCoursesFunction, handleFetchCourseByIdFunction, handlegetCoursesByUserIdFunction } from "../controllers/course/getCourses.controllers";
+import { handleFetchAllCoursesAsPerParams, handleFetchAllCoursesFunction, handleFetchCourseByIdFunction, handleGetCourseBySearchParams, handleGetCoursesByUserIdFunction } from "../controllers/course/getCourses.controllers";
 import { handleUpdatePersonalCourseFunction, handleUpdateRedirectCourseFunction, handleUpdateYoutubeCourseFunction } from "../controllers/course/updateCourse.controllers";
 import { handleGetAllCoursesEnrolledByUser, handleUserEnrolledCourseFunction } from "../controllers/course/enrolledCourses.controllers";
 import { handleDeleteCourseFunction } from "../controllers/course/deleteCourse.controllers";
@@ -13,8 +13,10 @@ const courseRoute = express.Router();
 // courseRoute.get("/:slug" , handleSelectedCourseFunction);
 
 courseRoute.post("/get-course" , handleFetchCourseByIdFunction);
+courseRoute.get("/get-course-filter" , handleFetchAllCoursesAsPerParams);
+courseRoute.get("/get-course-search" , handleGetCourseBySearchParams);
 courseRoute.get("/get-all-courses" , handleFetchAllCoursesFunction);
-courseRoute.get("/get-admin-courses" , authenticateAdminToken ,  handlegetCoursesByUserIdFunction);
+courseRoute.get("/get-admin-courses" , authenticateAdminToken ,  handleGetCoursesByUserIdFunction);
 
 courseRoute.get("/get-user-enrolled-courses" , authenticateToken ,  handleGetAllCoursesEnrolledByUser);
 

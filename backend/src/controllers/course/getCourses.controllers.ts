@@ -81,7 +81,125 @@ export async function handleFetchAllCoursesFunction(req: Request, res: Response)
   
 }
 
-export async function handlegetCoursesByUserIdFunction (req: AuthenticatedAdminRequest, res: Response) {
+// Helper function to build the sort query
+function buildSortQuery(order?: string): string {
+  switch (order) {
+    case "Latest":
+      return "-createdAt"; // Newest first
+    case "Oldest":
+      return "createdAt"; // Oldest first
+    case "A to Z":
+      return "courseName"; // Alphabetical order (ascending)
+    case "Z to A":
+      return "-courseName"; // Alphabetical order (descending)
+    default:
+      return "-createdAt"; // Default: Newest first
+  }
+}
+
+export async function handleFetchAllCoursesAsPerParams(req: Request, res: Response) {
+  try {
+    const { order, category } = req.query;
+
+    // Build the filter object only if category is provided
+    const filter: Record<string, any> = category
+      ? { courseType: category }
+      : {};
+
+    // Build the sort query
+    const sort = buildSortQuery(order as string);
+
+    // Fetch courses from MongoDB using Mongoose
+    const courses = await CourseModel.find(filter).sort(sort).exec();
+
+    if(!courses){
+      return res.status(400).json({ success: false, message: "No Course found" });
+    }
+
+    const transformedCourses = courses.map(course => ({
+      courseName: course.courseName,
+      courseId: course.courseId,
+      tutorName: course.tutorName,
+      courseType: course.courseType,
+      description: course.description ?? '', 
+      currency: course.currency,
+      sellingPrice: course.sellingPrice,
+      originalPrice: course.originalPrice,
+      thumbnail: course.thumbnail,
+      isVerified: course.isVerified,
+      uploadedBy: course.uploadedBy,
+      ratings: course.ratings ?? [], 
+      ratingCount: course.ratings?.length ?? 0, 
+      likedBy: course.likedBy ?? [], 
+      likedCount: course.likedBy?.length ?? 0,  
+      markdownContent: course.markdownContent ?? '', 
+      redirectLink: course.redirectLink ?? '', 
+      enrolledBy: course.enrolledBy ?? [], 
+      enrolledCount: course.enrolledBy?.length ?? 0,
+      videos: course.videos ?? [] 
+    }));
+
+    return res.status(200).json({ success: true, data: transformedCourses});
+
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+}
+
+export async function handleGetCourseBySearchParams(req: Request, res: Response) {
+  try {
+    const { searchTerm } = req.query; // Get searchTerm from query parameters
+
+    // Ensure searchTerm is defined and is a string
+    if (typeof searchTerm !== 'string') {
+      return res.status(400).json({ success: false, message: "Invalid search term" });
+    }
+
+    // Build a regular expression for case-insensitive search
+    const regex = new RegExp(searchTerm, 'i'); // 'i' for case-insensitive
+
+    // Fetch courses matching the search term in courseName or tutorName
+    const updatedCourseData = await CourseModel.find({
+      $or: [
+        { courseName: { $regex: regex } },
+        { tutorName: { $regex: regex } },
+      ],
+    });
+
+    if(!updatedCourseData){
+      return res.status(400).json({ success: false, message: "No Course found" });
+    }
+    const transformedCourses = updatedCourseData.map(course => ({
+      courseName: course.courseName,
+      courseId: course.courseId,
+      tutorName: course.tutorName,
+      courseType: course.courseType,
+      description: course.description ?? '', 
+      currency: course.currency,
+      sellingPrice: course.sellingPrice,
+      originalPrice: course.originalPrice,
+      thumbnail: course.thumbnail,
+      isVerified: course.isVerified,
+      uploadedBy: course.uploadedBy,
+      ratings: course.ratings ?? [], 
+      ratingCount: course.ratings?.length ?? 0, 
+      likedBy: course.likedBy ?? [], 
+      likedCount: course.likedBy?.length ?? 0,  
+      markdownContent: course.markdownContent ?? '', 
+      redirectLink: course.redirectLink ?? '', 
+      enrolledBy: course.enrolledBy ?? [], 
+      enrolledCount: course.enrolledBy?.length ?? 0,
+      videos: course.videos ?? [] 
+    }));
+
+    return res.status(200).json({ success: true, data: transformedCourses});
+  }
+  catch(error){
+    return res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+}
+
+export async function handleGetCoursesByUserIdFunction (req: AuthenticatedAdminRequest, res: Response) {
   const userId = req.userId;
   const uniqueId = req.userUniqueId;
 
@@ -126,7 +244,6 @@ export async function handlegetCoursesByUserIdFunction (req: AuthenticatedAdminR
     return res.status(200).json({ success: true, data: transformedCourses});
 
   } catch (error) {
-    console.error("Error fetching courses:", error);
     return res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
