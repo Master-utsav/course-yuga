@@ -589,6 +589,30 @@ export const DashBoardNavItems: DashboardNavItemProps[] = [
     "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", 
     "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
   ];
+
+  export const AllCountryCurrency = [
+    'AED د.إ', 'AFN ؋', 'ALL L', 'AMD ֏', 'ANG ƒ', 'AOA Kz', 'ARS $', 'AUD $', 'AWG ƒ', 
+    'AZN ₼', 'BAM KM', 'BBD $', 'BDT ৳', 'BGN Лв', 'BHD .د.ب', 'BIF ₣', 'BMD $', 
+    'BND $', 'BOB Bs.', 'BRL R$', 'BSD $', 'BTN Nu.', 'BWP P', 'BYN Br', 'BZD $', 
+    'CAD $', 'CDF ₣', 'CHF CHF', 'CLP $', 'CNY ¥', 'COP $', 'CRC ₡', 'CUP $', 
+    'CVE $', 'CZK Kč', 'DJF ₣', 'DKK kr', 'DOP RD$', 'DZD دج', 'EGP £', 'ERN Nfk', 
+    'ETB Br', 'EUR €', 'FJD $', 'FKP £', 'FOK kr', 'GBP £', 'GEL ₾', 'GGP £', 
+    'GHS ₵', 'GIP £', 'GMD D', 'GNF ₣', 'GTQ Q', 'GYD $', 'HKD $', 'HNL L', 
+    'HRK kn', 'HTG G', 'HUF Ft', 'IDR Rp', 'ILS ₪', 'IMP £', 'INR ₹', 'IQD ع.د', 
+    'IRR ﷼', 'ISK kr', 'JEP £', 'JMD $', 'JOD د.ا', 'JPY ¥', 'KES KSh', 'KGS с', 
+    'KHR ៛', 'KID $', 'KMF ₣', 'KRW ₩', 'KWD د.ك', 'KYD $', 'KZT ₸', 'LAK ₭', 
+    'LBP ل.ل', 'LKR ₨', 'LRD $', 'LSL L', 'LYD ل.د', 'MAD د.م.', 'MDL L', 'MGA Ar', 
+    'MKD ден', 'MMK K', 'MNT ₮', 'MOP MOP$', 'MRU UM', 'MUR ₨', 'MVR ރ.', 'MWK MK', 
+    'MXN $', 'MYR RM', 'MZN MT', 'NAD $', 'NGN ₦', 'NIO C$', 'NOK kr', 'NPR ₨', 
+    'NZD $', 'OMR ﷼', 'PAB B/.', 'PEN S/', 'PGK K', 'PHP ₱', 'PKR ₨', 'PLN zł', 
+    'PYG ₲', 'QAR ﷼', 'RON lei', 'RSD дин', 'RUB ₽', 'RWF ₣', 'SAR ﷼', 'SBD $', 
+    'SCR ₨', 'SDG ج.س.', 'SEK kr', 'SGD $', 'SHP £', 'SLL Le', 'SOS Sh', 'SRD $', 
+    'SSP £', 'STN Db', 'SYP £', 'SZL L', 'THB ฿', 'TJS ЅМ', 'TMT m', 'TND د.ت', 
+    'TOP T$', 'TRY ₺', 'TTD $', 'TVD $', 'TWD NT$', 'TZS Sh', 'UAH ₴', 'UGX Sh', 
+    'USD $', 'UYU $U', 'UZS сўм', 'VES Bs.', 'VND ₫', 'VUV Vt', 'WST T', 'XAF ₣', 
+    'XCD $', 'XOF ₣', 'XPF ₣', 'YER ﷼', 'ZAR R', 'ZMW ZK', 'ZWL Z$'
+  ];
+  
   
   export const CountryCodeData: {countryname: string , countrycode: string , flagurl: string}[] = [
     {

@@ -3,11 +3,13 @@ import { useTheme } from "@/context/ThemeProvider";
 import CrossIcon from "@/Icons/CrossIcon";
 import FilterIcon from "@/Icons/FilterIcon";
 import { motion } from "framer-motion";
-import RatingFilter from "./RatingFilter";
-import EducatorFilter from "./EducatorFilter";
+// import RatingFilter from "./RatingFilter";
+// import EducatorFilter from "./EducatorFilter";
 import OrderFilter from "./OrderFilter";
-import PriceRangeFilter from "./PriceRangeFilter";
+// import PriceRangeFilter from "./PriceRangeFilter";
 import SearchInputFilter from "./SearchInputFilter";
+import SelectCurrency from "./SelectCurrency";
+import CategoryFilter from "./CategoryFilter";
 
 const CoursesNavbar: React.FC = () => {
   const { theme } = useTheme();
@@ -15,7 +17,7 @@ const CoursesNavbar: React.FC = () => {
 
   return (
     <header className="w-full z-10 max-w-7xl pt-6 flex flex-row gap-10 justify-between items-end overflow-y-hidden relative">
-      <OrderFilter/>
+      <SelectCurrency/>
       {isFilterOpen && (
         <motion.div
           initial={{ y: 30, rotate: 0, opacity: 1 }}
@@ -24,9 +26,11 @@ const CoursesNavbar: React.FC = () => {
           transition={{ ease: "easeOut", duration: 0.5 }}
           className="w-full flex flex-row justify-end items-end gap-3 overflow-y-hidden overflow-x-hidden relative text-xl"
         >
-          <EducatorFilter/>
+          <OrderFilter/>
+          <CategoryFilter/>
+          {/* <EducatorFilter/>
           <RatingFilter/>
-          <PriceRangeFilter />
+          <PriceRangeFilter /> */}
         </motion.div>
       )}
 
