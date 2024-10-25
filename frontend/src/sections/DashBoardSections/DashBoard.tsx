@@ -12,6 +12,9 @@ import axios from "axios";
 import { COURSE_API } from "@/lib/env";
 import { ErrorToast } from "@/lib/toasts";
 import TextFlipSmoothRevealEffect from "@/Effects/TextFlipSmoothRevealEffect";
+import { Button } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
+import MakeAdminModal from "@/components/modals/MakeAdminModal";
 
 const DashBoard = () => {
   console.log("DashBoard rendered");
@@ -19,6 +22,7 @@ const DashBoard = () => {
   const [timeGreeting, setTimeGreeting] = React.useState("Hello");
   const [userCourses , setUserCourses] = React.useState<IUserCourseData[] | []>([])
   const { theme } = useTheme();
+  const navigate = useNavigate();
 
   // Determine greeting based on the current time
   React.useEffect(() => {
@@ -106,8 +110,25 @@ const DashBoard = () => {
         courses. Let's dive into learning and achieve your goals!`}
           </i>
         </motion.p>
+        {userData.role === "STUDENT" && <MakeAdminModal/>}
+        {userCourses.length === 0 ? 
+        (<div className="w-full flex flex-col justify-center items-center gap-4 p-6 bg-yellow-100 border border-yellow-300 rounded-md shadow-md">
+                <p className="text-lg font-ubuntu text-center text-yellow-800">
+                Oops! It seems like you haven't Enroll in any course yet. <br />
+               
+                  <Button variant="bordered" onClick={() => navigate("/courses")} className="w-full flex justify-center items-center mt-4 px-4 py-2 bg-yellow-600 text-white font-ubuntu text-sm rounded-md shadow-md hover:bg-yellow-500 transition-all duration-300 ease-in-out">
+                      Enroll Now
+                  </Button>
 
-        <UserCourseCard courses={userCourses} />
+        
+                <br />
+                
+                </p>
+            </div>) : (
+              <UserCourseCard courses={userCourses} />
+            )}
+
+        
       </motion.div>
   );
 };

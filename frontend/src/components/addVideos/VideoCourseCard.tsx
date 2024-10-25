@@ -1,5 +1,15 @@
 import { ICourseData } from "@/constants";
-import { Button, Image, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  Image,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
+} from "@nextui-org/react";
 import React from "react";
 import RatingComponent from "../RatingComponent";
 import { useNavigate } from "react-router-dom";
@@ -43,7 +53,6 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({ courseData }) => {
   } = useForm<resetPasswordFormData>({
     resolver: zodResolver(resetPasswordSchema),
   });
-
 
   async function confirmDelete(data: resetPasswordFormData) {
     const jwt = getVerifiedToken();
@@ -115,38 +124,54 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({ courseData }) => {
               isDisabled
               className="
                     w-full py-3 font-ubuntu text-base font-medium 
-                    bg-blue-500/50 text-white hover:bg-blue-600/50 dark:bg-blue-400/50 dark:hover:bg-blue-500/50 
-                    shadow-md hover:shadow-lg transition-all duration-300"
+    bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+    shadow-md hover:shadow-lg transition-all duration-300
+    hover:bg-gradient-to-r hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500
+    text-white"
             >
               <WarningIcon fillColor="yellow" /> Can't manage the videos
             </Button>
           ) : (
-              <Button
-                className="
-                    w-full py-3 font-ubuntu text-base font-medium 
-                    bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-400 dark:hover:bg-blue-500 
-                    shadow-md hover:shadow-lg transition-all duration-300
-                "
-                onClick={() => navigate(`/user/add-videos?c=${courseData.courseId}&name=${nameParams}`)}
-              >
-                Manage Videos
-              </Button>
-          )}
-
             <Button
               className="
-                    w-full py-3  font-ubuntu text-base font-medium 
-                    bg-green-500 text-white hover:bg-green-600 dark:bg-green-400 dark:hover:bg-green-500 
-                    shadow-md hover:shadow-lg transition-all duration-300
+                    w-full py-3 font-ubuntu text-base font-medium 
+    bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+    shadow-md hover:shadow-lg transition-all duration-300
+    hover:bg-gradient-to-r hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500
+    text-white
                 "
-                onClick={() => navigate(`/course-intro-page?c=${courseData.courseId}`)}
+              onClick={() =>
+                navigate(
+                  `/user/add-videos?c=${courseData.courseId}&name=${nameParams}`
+                )
+              }
             >
-              Update Course
+              Manage Videos
             </Button>
-       
+          )}
+
+          <Button
+            className="
+                    w-full py-3 font-ubuntu text-base font-medium 
+    bg-green-500 text-white hover:bg-green-600 
+    dark:bg-green-400 dark:hover:bg-green-500 
+    shadow-md hover:shadow-lg transition-all duration-300
+     
+                "
+            onClick={() =>
+              navigate(`/course-intro-page?c=${courseData.courseId}`)
+            }
+          >
+            Update Course
+          </Button>
+
           <>
             <Button
-              className="dark:bg-red-600/50 bg-red-300 hover:bg-red-600 dark:hover:bg-red-500 transition-colors duration-200 font-semibold font-ubuntu text-black dark:text-white/80 w-full"
+              className="w-full py-3 font-ubuntu text-base font-medium 
+    bg-red-300/50 dark:bg-red-500/50 
+    hover:bg-red-400 hover:dark:bg-red-600
+    transition-colors duration-300 shadow-md hover:shadow-lg
+    text-black dark:text-white/80"
               onPress={onOpen}
             >
               Delete Course

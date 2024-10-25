@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, ReactNode, useEffect, useCallback } from "react";
+import { createContext, useState, useContext, ReactNode, useEffect, useCallback, useLayoutEffect } from "react";
 import { getVerifiedToken, setTokenCookie } from "@/lib/cookieService";
 import { SuccessToast, WarningToast } from "@/lib/toasts";
 import { getUserData as fetchUserData } from "@/lib/authService"; // Import the utility function
@@ -72,7 +72,7 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
 
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     loadUserData();
   }, [loadUserData , isLoggedIn])
 

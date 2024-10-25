@@ -36,12 +36,11 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onRefresh }) => {
     setIsInputValid(value === "Confirm Delete");
   };
 
-  async function handleConfirmDelete(){
-    if(inputValue.trim() === `Confirm Delete`){
-        await confirmDelete();
-    }
-    else{
-        ErrorToast("Please enter the correct phrase")
+  async function handleConfirmDelete() {
+    if (inputValue.trim() === `Confirm Delete`) {
+      await confirmDelete();
+    } else {
+      ErrorToast("Please enter the correct phrase");
     }
   }
 
@@ -95,40 +94,48 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onRefresh }) => {
           {video?.description}
         </i>
       </div>
-      
-        <Button
-          className="
-                w-full py-3 font-ubuntu text-base font-medium 
-                bg-blue-700 text-white hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 
-                shadow-md hover:shadow-lg transition-all duration-300
-            "
-            onClick={() => navigate(`/user/edit-video?v=${video.videoId}`)}
-        >
-          Edit Video
-        </Button>
-    
+
+      <Button
+        className="
+    w-full py-3 font-ubuntu text-base font-medium 
+    bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+    shadow-md hover:shadow-lg transition-all duration-300
+    hover:bg-gradient-to-r hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500
+    text-white
+  "
+        onClick={() => navigate(`/user/edit-video?v=${video.videoId}`)}
+      >
+        Edit Video
+      </Button>
       <>
         <Button
-          className="dark:bg-red-600/50 bg-red-300 hover:bg-red-600 dark:hover:bg-red-500 transition-colors duration-200 font-semibold font-ubuntu text-black dark:text-white/80 w-full"
+          className="
+    w-full py-3 font-ubuntu text-base font-medium 
+    bg-red-300/50 dark:bg-red-500/50 
+    hover:bg-red-400 hover:dark:bg-red-600
+    transition-colors duration-300 shadow-md hover:shadow-lg
+    text-black dark:text-white/80
+  "
           onPress={onOpen}
         >
           Delete Video
         </Button>
+
         <Modal backdrop={"opaque"} isOpen={isOpen} onClose={onClose}>
           <ModalContent className="sm:max-w-[480px] p-6 shadow-lg rounded-lg dark:bg-gray-800 bg-white">
-          <ModalHeader className="flex flex-col gap-1">
-                  <div className="w-full space-x-2 flex justify-start items-center">
-                    <WarningIcon fillColor="red" />
-                    <span className="font-ubuntu text-2xl font-bold text-red-700 dark:text-red-400">
-                      Warning
-                    </span>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-300 text-base mt-2">
-                    Are you sure? You really want to{" "}
-                    <span className="font-bold">delete</span> this video
-                    permanently.
-                  </p>
-                </ModalHeader>
+            <ModalHeader className="flex flex-col gap-1">
+              <div className="w-full space-x-2 flex justify-start items-center">
+                <WarningIcon fillColor="red" />
+                <span className="font-ubuntu text-2xl font-bold text-red-700 dark:text-red-400">
+                  Warning
+                </span>
+              </div>
+              <p className="text-gray-600 dark:text-gray-300 text-base mt-2">
+                Are you sure? You really want to{" "}
+                <span className="font-bold">delete</span> this video
+                permanently.
+              </p>
+            </ModalHeader>
             <ModalBody>
               <div className="gap-4 pb-4 flex flex-col justify-start items-center">
                 {/* Warning List */}
@@ -151,13 +158,21 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, onRefresh }) => {
 
                 {/* Confirmation Input Form */}
                 <div className="w-full flex flex-col gap-3 mt-4">
-                <Label>Type <span className="font-ubuntu font-semibold ">Confirm Delete</span> for delete the video</Label>
+                  <Label>
+                    Type{" "}
+                    <span className="font-ubuntu font-semibold ">
+                      Confirm Delete
+                    </span>{" "}
+                    for delete the video
+                  </Label>
                   <Input
                     type="text"
                     value={inputValue}
                     onChange={handleInputChange}
                     className={`p-1 border-[1px] rounded-md w-full text-gray-900 dark:text-white dark:bg-gray-700 bg-gray-100 ${
-                      inputValue !== "Confirm Delete" ? "border-red-300" : "border-green-500"
+                      inputValue !== "Confirm Delete"
+                        ? "border-red-300"
+                        : "border-green-500"
                     }`}
                   />
                 </div>

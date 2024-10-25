@@ -16,6 +16,7 @@ import { useAuthContext } from "./context/authContext";
 import DashboardRoutes from "./sections/DashBoardSections/DashBoardRoutes";
 import Navbar from "./sections/Navbar";
 import HelpSection from "./sections/HelpSection";
+import PageTransitionBoxAnimation from "./Effects/PageTransitionBoxAnimation";
 
 function App() {
   const location = useLocation();
@@ -27,44 +28,60 @@ function App() {
 
   const memoizedRoutes = React.useMemo(
     () => (
+      <AnimatePresence initial={false} mode="wait" >
       <Routes location={location} key={location.pathname}>
         {isLoggedIn ? (
           <>
-            <Route path="/" element={<HeroSection route="homepage" />} />
+            <Route path="/" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><HeroSection route="homepage" /></PageTransitionBoxAnimation>} />
             <Route path="/logout" element={<LogoutModal />} />
-            <Route path="/course-intro-page" element={<CourseIntroPage />} />
-            <Route path="/courses" element={<Courses />} />
+            <Route path="/course-intro-page" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><CourseIntroPage /></PageTransitionBoxAnimation>} />
+            <Route path="/courses" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><Courses /></PageTransitionBoxAnimation>} />
             <Route path="/help" element={<HelpSection />} />
             <Route path="/edit-profile" element={<EditProfile />} />
-            <Route path="/contact" element={<ContactUs />} />
-            <Route path="/community" element={<Community />} />
-            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><ContactUs /></PageTransitionBoxAnimation>} />
+            <Route path="/community" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><Community /></PageTransitionBoxAnimation>} />
+            <Route path="/about" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><AboutPage /></PageTransitionBoxAnimation>} />
             <Route path="/user/*" element={<DashboardRoutes/>} />
           </>
         ) : (
           <>
-            <Route path="/" element={<HeroSection route="homepage" />} />
+            <Route path="/" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><HeroSection route="homepage" /></PageTransitionBoxAnimation>} />
             <Route path="/signup" element={<HeroSection route="signup" />} />
             <Route path="/login" element={<HeroSection route="login" />} />
-            <Route path="/course-intro-page" element={<CourseIntroPage />} />
+            <Route path="/course-intro-page" element={
+              <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
+                <CourseIntroPage />
+              </PageTransitionBoxAnimation>} />
             <Route
               path="/courses"
               element={
-                <AnimatePresence mode="sync" >
+                <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
                   <Courses />
-                </AnimatePresence>
+                </PageTransitionBoxAnimation>
               }
             />
             <Route path="/help" element={<HelpSection />} />
-            <Route path="/contact" element={<ContactUs />} />
-            <Route path="/community" element={<Community />} />
-            <Route path="/about" element={<AboutPage />} />
+            <Route path="/community" element={
+                <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
+                  <Community />
+                </PageTransitionBoxAnimation>
+             } />
+             <Route path="/contact" element={
+              <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
+                <ContactUs />
+              </PageTransitionBoxAnimation>} />
+            <Route path="/about" element={
+                <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
+                  <AboutPage />
+                </PageTransitionBoxAnimation>
+              } />
             <Route path="*" element={<Navigate to="/" />} />
           </>
         )}
       </Routes>
+      </AnimatePresence>
     ),
-    [isLoggedIn, location]
+    [isLoggedIn, location, theme]
   );
 
   return (
