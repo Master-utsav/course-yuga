@@ -16,11 +16,15 @@ import UnderMaintenancePage from "@/components/UnderMaintenancePage";
 import PageTransitionSwipeAnimation from "@/Effects/PageTransitionSwipeAnimation";
 import { DashboardContextProvider } from "@/context/dashboardContext";
 import DashBoardNavbar from "./DashBoardNavbar";
-
+import UnauthorizedPage from "@/components/UnauthorizedPage";
+import PageTransitionBoxAnimation from "@/Effects/PageTransitionBoxAnimation";
+import PageNotFound from "@/components/PageNotFound";
+import { useTheme } from "@/context/ThemeProvider";
 
 const DashboardRoutes: React.FC = () => {
   const { userData } = useAuthContext();
   const location = useLocation();
+  const {theme} = useTheme();
 
   return (
     <DashboardContextProvider>
@@ -32,91 +36,94 @@ const DashboardRoutes: React.FC = () => {
           <AnimatePresence mode="wait" initial={false}>
             <Routes location={location} key={location.pathname}>
               {/* Public Routes */}
-              <Route
-                path="/dashboard"
-                element={
-                  <PageTransitionSwipeAnimation>
-                    <DashBoard />
-                  </PageTransitionSwipeAnimation>
-                }
-              />
-              <Route
-                path="/bookmarks"
-                element={
-                  <PageTransitionSwipeAnimation>
-                    <Bookmarks />
-                  </PageTransitionSwipeAnimation>
-                }
-              />
-              <Route
-                path="/courses"
-                element={
-                  <PageTransitionSwipeAnimation>
-                    <Courses />
-                  </PageTransitionSwipeAnimation>
-                }
-              />
-              <Route
-                path="/subscription"
-                element={
-                  <PageTransitionSwipeAnimation>
-                    <UnderMaintenancePage pageName="Subscription page" />
-                  </PageTransitionSwipeAnimation>
-                }
-              />
-              <Route
-                path="/todo-list"
-                element={
-                  <PageTransitionSwipeAnimation>
-                    <UnderMaintenancePage pageName="Todo List" />
-                  </PageTransitionSwipeAnimation>
-                }
-              />
-              <Route
-                path="/history"
-                element={
-                  <PageTransitionSwipeAnimation>
-                    <UnderMaintenancePage pageName="History" />
-                  </PageTransitionSwipeAnimation>
-                }
-              />
-              <Route
-                path="/refresh"
-                element={
-                  <PageTransitionSwipeAnimation>
-                    <RefreshPage />
-                  </PageTransitionSwipeAnimation>
-                }
-              />
-              <Route
-                path="/view-course"
-                element={
-                  <PageTransitionSwipeAnimation>
-                    <ViewCourse />
-                  </PageTransitionSwipeAnimation>
-                }
-              />
-              <Route
-                path="/video-player"
-                element={
-                  <PageTransitionSwipeAnimation>
-                    <VideoPlaySection />
-                  </PageTransitionSwipeAnimation>
-                }
-              />
-              <Route
-                path="/test"
-                element={
-                  <PageTransitionSwipeAnimation>
-                    <UnderMaintenancePage pageName="Test" />
-                  </PageTransitionSwipeAnimation>
-                }
-              />
-
-              {/* Admin-only Routes */}
-              {userData.role === "ADMIN" && (
+              {userData.role === "ADMIN" ? (
                 <>
-                  <Route path="/add-courses" element={<AddCourses />} />
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <DashBoard />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/bookmarks"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <Bookmarks />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/courses"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <Courses />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/subscription"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <UnderMaintenancePage pageName="Subscription page" />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/todo-list"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <UnderMaintenancePage pageName="Todo List" />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/history"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <UnderMaintenancePage pageName="History" />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/refresh"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <RefreshPage />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/view-course"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <ViewCourse />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/video-player"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <VideoPlaySection />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/test"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <UnderMaintenancePage pageName="Test" />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route path="/add-courses" element={
+                    <PageTransitionSwipeAnimation>
+                      <AddCourses />
+                    </PageTransitionSwipeAnimation>
+                  } 
+                  />
                   <Route
                     path="/add-tests"
                     element={
@@ -142,7 +149,101 @@ const DashboardRoutes: React.FC = () => {
                     }
                   />
                 </>
+              ) : (
+                <>
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <DashBoard />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/bookmarks"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <Bookmarks />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/courses"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <Courses />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/subscription"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <UnderMaintenancePage pageName="Subscription page" />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/todo-list"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <UnderMaintenancePage pageName="Todo List" />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/history"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <UnderMaintenancePage pageName="History" />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/refresh"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <RefreshPage />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/view-course"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <ViewCourse />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/video-player"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <VideoPlaySection />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route
+                    path="/test"
+                    element={
+                      <PageTransitionSwipeAnimation>
+                        <UnderMaintenancePage pageName="Test" />
+                      </PageTransitionSwipeAnimation>
+                    }
+                  />
+                  <Route path="/add-courses" element={<UnauthorizedPage />} />
+                  <Route path="/add-tests" element={<UnauthorizedPage />} />
+                  <Route path="/add-videos" element={<UnauthorizedPage />} />
+                  <Route path="/edit-video" element={<UnauthorizedPage />} />
+                  
+                </>
               )}
+              <Route path="/*" element={
+                <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
+                  <PageNotFound/>
+                </PageTransitionBoxAnimation>
+              }
+              />
             </Routes>
           </AnimatePresence>
         </main>

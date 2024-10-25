@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useTheme } from "@/context/ThemeProvider";
 import HeroSection from "@/sections/HeroSection";
@@ -9,7 +9,6 @@ import ContactUs from "@/sections/ContactUs";
 import AboutPage from "@/sections/AboutPage";
 import LogoutModal from "@/components/modals/LogoutModal";
 import EditProfile from "@/sections/EditProfile";
-import styles from "@/sass/Toast.module.scss";
 import { ToastContainer } from "react-toastify";
 import CourseIntroPage from "./components/addCourses/CourseIntroPage";
 import { useAuthContext } from "./context/authContext";
@@ -17,6 +16,8 @@ import DashboardRoutes from "./sections/DashBoardSections/DashBoardRoutes";
 import Navbar from "./sections/Navbar";
 import HelpSection from "./sections/HelpSection";
 import PageTransitionBoxAnimation from "./Effects/PageTransitionBoxAnimation";
+import UnauthenticatedPage from "./components/UnauthenticatedPage";
+import PageNotFound from "./components/PageNotFound";
 
 function App() {
   const location = useLocation();
@@ -75,9 +76,24 @@ function App() {
                   <AboutPage />
                 </PageTransitionBoxAnimation>
               } />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="/user/*" element={
+              <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
+                <UnauthenticatedPage/>
+              </PageTransitionBoxAnimation>
+            } />
+            <Route path="/edit-profile" element={
+              <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
+                <UnauthenticatedPage />
+              </PageTransitionBoxAnimation>
+              } />
           </>
         )}
+        <Route path="/*" element={
+          <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
+            <PageNotFound/>
+          </PageTransitionBoxAnimation>
+        }
+        />
       </Routes>
       </AnimatePresence>
     ),
@@ -97,16 +113,16 @@ function App() {
       {/* Toast Notifications */}
       <ToastContainer
         position="bottom-right"
-        className={`${styles.toastContainer} ${
-          theme === "dark" ? styles.dark : styles.light
-        }`}
-        toastClassName={styles.Toastify__toast}
+        // className={`${styles.toastContainer} ${
+        //   theme === "dark" ? styles.dark : styles.light
+        // }`}
+        // toastClassName={styles.Toastify__toast}
         autoClose={3000}
         hideProgressBar={false}
         theme={theme}
         closeOnClick
         pauseOnHover
-        draggable
+        // draggable
       />
     </main>
   );
