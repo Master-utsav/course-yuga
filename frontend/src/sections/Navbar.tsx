@@ -34,20 +34,18 @@ const Navbar: React.FC<NavbarProps> = ({ isUserLoggedIn }) => {
     <header className="fixed top-0 left-0 right-0 z-40 backdrop-blur-lg max-w-7xl mx-auto">
       <div className="max-w-full sm:py-2 ">
         <div className="flex xl:flex-row flex-col justify-between xl:pt-4 xl:pb-1 py-4  items-center font-noto-sans xl:gap-20 md:gap-5 gap-3">
-          <div className="flex justify-start py-2 items-center font-noto-sans">
-            <Logo theme={theme} className="w-40" />
-            <button
-              onClick={toggleMenu}
-              className={`${styles["menu-btn"]} sm:hidden flex`}
-              aria-label="Toggle Menu"
-            >
-              <div
-                className={`${styles["menu-btn__burger"]} ${
-                  isOpen ? styles.open : ""
-                }`}
-              ></div>
-            </button>
-          </div>
+        <div className="flex justify-start py-2 items-center font-noto-sans">
+          <Logo theme={theme} className="w-40" />
+          <button
+            onClick={toggleMenu}
+            className={`${styles["menu-btn"]} sm:hidden flex ${theme === 'dark' ? 'dark' : 'light'}`} // Apply theme classes
+            aria-label="Toggle Menu"
+          >
+            <div
+              className={`${styles["menu-btn__burger"]} ${isOpen ? styles.open : ""}`}
+            ></div>
+          </button>
+        </div>
           <nav className={`sm:flex hidden font-bold`}>
             <NavItems />
           </nav>
@@ -102,8 +100,8 @@ const Navbar: React.FC<NavbarProps> = ({ isUserLoggedIn }) => {
 
       {/* Sidebar Menu */}
       <div className={`nav-sidebar   ${isOpen ? "max-h-screen" : "max-h-0"}`}>
-        <nav className="p-5 text-center  backdrop-blur-lg" onClick={toggleMenu}>
-          <NavItems navListBgForSmallScreen="bg-black/5" />
+        <nav className="p-5 text-center" onClick={toggleMenu}>
+          <NavItems navListBgForSmallScreen="dark:bg-white/5 bg-black/5" />
         </nav>
       </div>
     </header>

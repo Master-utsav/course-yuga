@@ -49,6 +49,24 @@ export const heroContent = {
     userCount: "42K +"
 }
 
+export const faqData = [
+  {
+    question: 'How do I reset my password?',
+    answer:
+      'You can reset your password by clicking the "Forgot Password" link on the login page. You will receive an email with instructions to reset your password.',
+  },
+  {
+    question: 'How can I contact customer support?',
+    answer:
+      'You can reach us via the contact form below or email us at support@yourdomain.com. Our team will respond within 24-48 hours.',
+  },
+  {
+    question: 'What payment methods do you accept?',
+    answer:
+      'We accept credit cards, PayPal, and bank transfers. More payment methods are coming soon.',
+  },
+];
+
 export const usersTooltip = [
     {
         id: 1,

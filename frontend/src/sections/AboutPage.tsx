@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const AboutPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300 py-28 ">
+    <div className="min-h-screen h-auto bg-gray-100 dark:bg-gray-900 transition-colors duration-300 lg:py-12 lg:pt-24 relative overflow-x-hidden py-4 pt-40 md:pt-52">
       {/* Background Section */}
       <div className="relative overflow-hidden">
         <motion.div
@@ -19,7 +19,7 @@ const AboutPage: React.FC = () => {
       {/* Page Container */}
       <div className="max-w-6xl mx-auto px-6 space-y-12 relative">
         <motion.h1
-          className="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white text-center"
+          className="text-3xl md:text-6xl font-extrabold text-gray-900 dark:text-white text-center"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.6 }}

@@ -11,7 +11,7 @@ import LogoutModal from "@/components/modals/LogoutModal";
 import EditProfile from "@/sections/EditProfile";
 import { ToastContainer } from "react-toastify";
 import styles from "@/sass/Toast.module.scss";
-import "react-toastify/dist/ReactToastify.css"; 
+import "react-toastify/dist/ReactToastify.css";
 import CourseIntroPage from "./components/addCourses/CourseIntroPage";
 import { useAuthContext } from "./context/authContext";
 import DashboardRoutes from "./sections/DashBoardSections/DashBoardRoutes";
@@ -20,6 +20,7 @@ import HelpSection from "./sections/HelpSection";
 import PageTransitionBoxAnimation from "./Effects/PageTransitionBoxAnimation";
 import UnauthenticatedPage from "./components/UnauthenticatedPage";
 import PageNotFound from "./components/PageNotFound";
+import ResetPasswordModal from "./components/modals/ResetPasswordModal";
 
 function App() {
   const location = useLocation();
@@ -31,72 +32,225 @@ function App() {
 
   const memoizedRoutes = React.useMemo(
     () => (
-      <AnimatePresence initial={false} mode="wait" >
-      <Routes location={location} key={location.pathname}>
-        {isLoggedIn ? (
-          <>
-            <Route path="/" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><HeroSection route="homepage" /></PageTransitionBoxAnimation>} />
-            <Route path="/logout" element={<LogoutModal />} />
-            <Route path="/course-intro-page" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><CourseIntroPage /></PageTransitionBoxAnimation>} />
-            <Route path="/courses" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><Courses /></PageTransitionBoxAnimation>} />
-            <Route path="/help" element={<HelpSection />} />
-            <Route path="/edit-profile" element={<EditProfile />} />
-            <Route path="/contact" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><ContactUs /></PageTransitionBoxAnimation>} />
-            <Route path="/community" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><Community /></PageTransitionBoxAnimation>} />
-            <Route path="/about" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><AboutPage /></PageTransitionBoxAnimation>} />
-            <Route path="/user/*" element={<DashboardRoutes/>} />
-          </>
-        ) : (
-          <>
-            <Route path="/" element={<PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}><HeroSection route="homepage" /></PageTransitionBoxAnimation>} />
-            <Route path="/signup" element={<HeroSection route="signup" />} />
-            <Route path="/login" element={<HeroSection route="login" />} />
-            <Route path="/course-intro-page" element={
-              <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
-                <CourseIntroPage />
-              </PageTransitionBoxAnimation>} />
-            <Route
-              path="/courses"
-              element={
-                <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
-                  <Courses />
-                </PageTransitionBoxAnimation>
-              }
-            />
-            <Route path="/help" element={<HelpSection />} />
-            <Route path="/community" element={
-                <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
-                  <Community />
-                </PageTransitionBoxAnimation>
-             } />
-             <Route path="/contact" element={
-              <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
-                <ContactUs />
-              </PageTransitionBoxAnimation>} />
-            <Route path="/about" element={
-                <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
-                  <AboutPage />
-                </PageTransitionBoxAnimation>
-              } />
-            <Route path="/user/*" element={
-              <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
-                <UnauthenticatedPage/>
+      <AnimatePresence initial={false} mode="wait">
+        <Routes location={location} key={location.pathname}>
+          {isLoggedIn ? (
+            <>
+              <Route
+                path="/"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <HeroSection route="homepage" />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route path="/logout" element={<LogoutModal />} />
+              <Route
+                path="/course-intro-page"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <CourseIntroPage />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route
+                path="/courses"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <Courses />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route path="/help" element={<HelpSection />} />
+              <Route path="/edit-profile" element={<EditProfile />} />
+              <Route
+                path="/contact"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <ContactUs />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route
+                path="/community"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <Community />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route
+                path="/reset-password"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <ResetPasswordModal />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route
+                path="/about"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <AboutPage />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route path="/user/*" element={<DashboardRoutes />} />
+            </>
+          ) : (
+            <>
+              <Route
+                path="/"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <HeroSection route="homepage" />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route path="/signup" element={<HeroSection route="signup" />} />
+              <Route path="/login" element={<HeroSection route="login" />} />
+              <Route
+                path="/course-intro-page"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <CourseIntroPage />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route
+                path="/courses"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <Courses />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route path="/help" element={<HelpSection />} />
+              <Route
+                path="/community"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <Community />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route
+                path="/contact"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <ContactUs />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route
+                path="/about"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <AboutPage />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route
+                path="/reset-password"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <ResetPasswordModal />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route
+                path="/user/*"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <UnauthenticatedPage />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route
+                path="/edit-profile"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <UnauthenticatedPage />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+            </>
+          )}
+          <Route
+            path="/*"
+            element={
+              <PageTransitionBoxAnimation
+                className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}
+              >
+                <PageNotFound />
               </PageTransitionBoxAnimation>
-            } />
-            <Route path="/edit-profile" element={
-              <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
-                <UnauthenticatedPage />
-              </PageTransitionBoxAnimation>
-              } />
-          </>
-        )}
-        <Route path="/*" element={
-          <PageTransitionBoxAnimation className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}>
-            <PageNotFound/>
-          </PageTransitionBoxAnimation>
-        }
-        />
-      </Routes>
+            }
+          />
+        </Routes>
       </AnimatePresence>
     ),
     [isLoggedIn, location, theme]
@@ -113,19 +267,21 @@ function App() {
       {/* </AnimatePresence> */}
 
       {/* Toast Notifications */}
-      <div className="fixed bottom-0 right-0 p-4"> {/* Absolute container */}
-      <ToastContainer
-        position="bottom-right"
-        className={`${styles.toastContainer} ${
-          theme === "dark" ? styles.dark : styles.light
-        }`}
-        toastClassName={styles.Toastify__toast}
-        autoClose={3000}
-        hideProgressBar={false}
-        theme={theme}
-        closeOnClick
-        pauseOnHover
-      />
+      <div className="fixed bottom-0 right-0 p-4">
+        {" "}
+        {/* Absolute container */}
+        <ToastContainer
+          position="bottom-right"
+          className={`${styles.toastContainer} ${
+            theme === "dark" ? styles.dark : styles.light
+          }`}
+          toastClassName={styles.Toastify__toast}
+          autoClose={3000}
+          hideProgressBar={false}
+          theme={theme}
+          closeOnClick
+          pauseOnHover
+        />
       </div>
     </main>
   );

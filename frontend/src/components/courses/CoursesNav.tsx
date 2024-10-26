@@ -63,8 +63,7 @@ const CoursesNavbar: React.FC = () => {
   };
 
   return (
-    <header className="w-full z-10 max-w-7xl pt-6 flex flex-row gap-10 justify-between items-end">
-      <SelectCurrency />
+    <header className="w-full z-10 max-w-7xl pt-6 flex flex-row gap-10 justify-end items-start max-sm:flex-wrap">
 
       {isFilterOpen && (
         <motion.div
@@ -72,14 +71,15 @@ const CoursesNavbar: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 50, opacity: 0 }}
           transition={{ ease: "easeOut", duration: 0.5 }}
-          className="w-full flex flex-row justify-end items-end gap-3 text-xl"
+          className="w-full flex sm:flex-row  flex-col justify-end items-end gap-3 text-xl"
         >
+          <SelectCurrency />
           <OrderFilter onChangeFilter={(data) => handleFilterChange({ order: data.order })} />
           <CategoryFilter onChangeFilter={(data) => handleFilterChange({ categoryValue: data.categoryValue })} />
         </motion.div>
       )}
 
-      <div className="w-fit flex items-center gap-4 py-2">
+      <div className="w-fit flex justify-end items-center gap-4 py-2">
         <SearchInputFilter />
 
         <motion.button
@@ -97,7 +97,7 @@ const CoursesNavbar: React.FC = () => {
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ ease: [0.7, 0, 0.84, 0], duration: 0.8, delay: 0.4 }}
-            className="text-2xl font-libre bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+            className="max-sm:hidden text-2xl font-libre bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
           >
             Filter
           </motion.i>

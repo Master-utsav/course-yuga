@@ -12,7 +12,7 @@ const GetStartedAnimatedBtn: React.FC<GetStartedAnimatedBtnProps> = ({ BtnText }
   return (
     <motion.button
       whileTap={{ scale: 0.8 }}
-      className="w-[40%] py-3 pr-6 bg-black text-white text-xl dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all relative font-ubuntu"
+      className="sm:w-[40%] w-[60%] sm:py-3 sm:pr-6 py-2 bg-black text-white sm:text-xl text-lg dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all relative font-ubuntu"
     >
       <span>{BtnText}</span>
       
@@ -28,7 +28,7 @@ const GetStartedAnimatedBtn: React.FC<GetStartedAnimatedBtnProps> = ({ BtnText }
           stiffness: 200,  // Increased stiffness for a snappier effect
           damping: 8,  // Reduced damping for more bounce
         }}
-        className="rounded-full animate-pulse bg-white dark:bg-black p-3 size-10 absolute right-3 top-[0.40rem] bottom-0 flex items-center justify-center"
+        className="sm:flex hidden rounded-full animate-pulse bg-white dark:bg-black p-3 size-10 absolute right-3 top-[0.40rem] bottom-0 items-center justify-center"
       >
         {theme === 'dark' ? <RightArrowIcon fillColor="white" size={18} /> : <RightArrowIcon fillColor="black" size={18} />}
       </motion.div>

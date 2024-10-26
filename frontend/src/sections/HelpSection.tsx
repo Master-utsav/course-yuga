@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { z, ZodType } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Accordion, AccordionItem } from '@nextui-org/react';
+import {faqData} from "@/constants/index"
 
 interface SupportForm {
   email: string;
@@ -41,27 +42,11 @@ const HelpSection: React.FC = () => {
   
   const displayText = "Help & Support".split('');
 
-  const faqData = [
-    {
-      question: 'How do I reset my password?',
-      answer:
-        'You can reset your password by clicking the "Forgot Password" link on the login page. You will receive an email with instructions to reset your password.',
-    },
-    {
-      question: 'How can I contact customer support?',
-      answer:
-        'You can reach us via the contact form below or email us at support@yourdomain.com. Our team will respond within 24-48 hours.',
-    },
-    {
-      question: 'What payment methods do you accept?',
-      answer:
-        'We accept credit cards, PayPal, and bank transfers. More payment methods are coming soon.',
-    },
-  ];
+  
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-6 pt-32">
-      <div className="max-w-3xl mx-auto space-y-8">
+    <div className="min-h-screen h-auto bg-gray-100 dark:bg-gray-900 transition-colors duration-300 lg:py-12 lg:pt-24 relative overflow-x-hidden px-2 py-4 pt-40 md:pt-56">
+      <div className="max-w-3xl mx-auto sm:space-y-8 space-y-3">
         <div className="max-w-7xl w-full text-center">
         <h1 className="text-center flex justify-center overflow-hidden">
             {displayText.map((char, index) => (
@@ -81,7 +66,7 @@ const HelpSection: React.FC = () => {
                 display: 'inline-block',
                 whiteSpace: char === ' ' ? 'pre' : 'normal', // Maintain spacing
             }}
-            className={"text-6xl text-center font-ubuntu bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-teal-400 to-blue-500 font-semibold mb-6"}
+            className={"sm:text-6xl text-3xl text-center font-ubuntu bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-teal-400 to-blue-500 font-semibold mb-6"}
             >
             {char === ' ' ? '\u00A0' : char}
             </motion.span>
@@ -98,8 +83,8 @@ const HelpSection: React.FC = () => {
       </div>
 
         {/* FAQ Section */}
-        <div className="space-y-2">
-          <h2 className="text-3xl font-semibold dark:text-blue-300 text-blue-700 font-ubuntu">Frequently Asked Questions</h2>
+        <div className="sm:space-y-2 space-y-1">
+          <h2 className="sm:text-3xl text-2xl font-semibold dark:text-blue-300 text-blue-700 font-ubuntu">Frequently Asked Questions</h2>
           {faqData.map((faq, index) => (
              <Accordion isCompact>
              <AccordionItem key={index} aria-label="Accordion 1" title={faq.question} className='text-base font-ubuntu'>
@@ -111,14 +96,14 @@ const HelpSection: React.FC = () => {
 
         {/* Contact Form Section */}
         <div className="mt-12">
-          <h2 className="text-2xl font-semibold text-white">Need Further Assistance?</h2>
+          <h2 className="sm:text-2xl text-xl font-semibold text-white">Need Further Assistance?</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mt-6">
             <label className="block">
               <input
                 type="email"
                 {...register('email')}
                 placeholder="Your email address"
-                className="w-full p-4 rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500 bg-neutral-950 placeholder:text-neutral-700 text-white"
+                className="w-full p-4 rounded-lg border border-neutral-300 dark:border-neutral-700 focus:ring-2 focus:ring-teal-500 bg-neutral-100 dark:bg-neutral-800 placeholder:text-neutral-500 dark:placeholder:text-neutral-400"
               />
               {errors.email && (
                 <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>
@@ -130,7 +115,7 @@ const HelpSection: React.FC = () => {
                 {...register('message')}
                 placeholder="Your message"
                 rows={5}
-                className="w-full p-4 rounded-lg border border-neutral-800 focus:ring-2 focus:ring-teal-500 bg-neutral-950 placeholder:text-neutral-700 text-white"
+                className="w-full p-4 rounded-lg border border-neutral-300 dark:border-neutral-700 focus:ring-2 focus:ring-teal-500 bg-neutral-100 dark:bg-neutral-800 placeholder:text-neutral-500 dark:placeholder:text-neutral-400"
               ></textarea>
               {errors.message && (
                 <p className="text-sm text-red-500 mt-1">{errors.message.message}</p>

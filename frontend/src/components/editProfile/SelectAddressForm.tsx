@@ -99,7 +99,7 @@ const SelectAddressForm: React.FC = () => {
   };
 
   return (
-    <div className="w-full flex flex-row justify-between items-start px-2 py-4 gap-3 relative">
+    <div className="w-full flex sm:flex-row flex-col justify-between items-start px-2 py-4 gap-3 relative">
       {/* Country Selection */}
       <div className="w-full flex flex-col justify-start items-end gap-1">
         <Select
@@ -151,7 +151,7 @@ const SelectAddressForm: React.FC = () => {
       <Button
         type="button"
         onClick={onSubmit}
-        className="font-medium font-ubuntu"
+        className="max-sm:w-full font-medium font-ubuntu"
       >
         Update
       </Button>

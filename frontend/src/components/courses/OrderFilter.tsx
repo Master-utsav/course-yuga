@@ -16,7 +16,7 @@ const OrderFilter: React.FC<OrderFilterProps> = ({onChangeFilter}) => {
         label="Order"
         variant="underlined"
         onChange={(e) => handleOrderChange(e.target.value)}
-        className="max-w-[10rem] focus-visible:border-none focus-visible:outline-none text-xl"
+        className="focus-visible:border-none focus-visible:outline-none text-xl"
       >
         {selectOrder.map((order, index) => (
           <SelectItem key={index} value={order}>

@@ -76,16 +76,16 @@ const SignupModal: React.FC = () => {
   }
   
   return (
-    <section className="w-full mx-auto px-5 flex justify-center items-center">
+    <section className="w-full mx-auto px-5 flex justify-center items-center sm:py-0 py-10">
       {!showOTPComponent ? (
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.5 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="relative w-full mx-auto h-fit py-10 mt-8 max-w-lg p-8 flex flex-col justify-center items-center bg-white dark:bg-gray-800 rounded-3xl shadow-lg z-30"
+          className="relative w-full mx-auto h-fit sm:py-10 mt-8 max-w-lg sm:p-8 p-4 flex flex-col justify-center items-center bg-white dark:bg-gray-800 rounded-3xl shadow-lg z-30"
         >
-          <h2 className="text-4xl font-bold mb-6 text-center">
+          <h2 className="sm:text-4xl text-2xl font-bold mb-6 text-center">
             Sign Up for <span className="text-purple-500">Free</span>
           </h2>
           <form

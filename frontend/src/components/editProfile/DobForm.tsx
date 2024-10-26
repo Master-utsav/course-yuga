@@ -95,7 +95,7 @@ const DobForm: React.FC = () => {
       </div>
 
       <Button
-        className="font-ubuntu font-medium"
+        className="font-ubuntu font-medium max-sm:w-full"
         type="button"
         onClick={handleSubmit(onSubmit)}
       >

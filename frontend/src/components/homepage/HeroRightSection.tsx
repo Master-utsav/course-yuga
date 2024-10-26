@@ -2,26 +2,26 @@ import { motion } from "framer-motion";
 
 const HeroRightSection = () => {
   return (
-    <section className="w-full h-[90vh] flex flex-col justify-center items-center relative px-5">
-      {/* Add some floating elements */}
+    <section className="w-full h-[90vh] flex flex-col justify-center items-center px-5 relative max-lg:hidden">
+      {/* Floating Join Button */}
       <motion.div
         initial={{ scale: 0.95 }}
         animate={{
           scale: 1,
-          y: [0, -10, 0], // Floating effect (up and down)
+          y: [0, -10, 0],
         }}
         transition={{
-          duration: 3, // Time it takes to complete one floating cycle
-          repeat: Infinity, // Infinite loop
-          repeatType: "reverse", // Reverses back to the original position
-          ease: "easeInOut", // Smooth transition
+          duration: 3,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "easeInOut",
         }}
-        className="absolute top-10 right-10 p-5 text-lg rounded-full cursor-pointer bg-purple-500 text-white shadow-lg dark:shadow-white-500/60"
-        >
+        className="absolute top-10 right-10 p-5 text-lg rounded-full bg-purple-500 text-white shadow-lg dark:shadow-white-500/60 cursor-pointer"
+      >
         Join our Learning Platform!
       </motion.div>
 
-      {/* Hero Image with subtle floating animation */}
+      {/* Hero Image */}
       <motion.img
         src="images/hero-section-right-image.png"
         alt="Girl Studying Image"
@@ -33,11 +33,11 @@ const HeroRightSection = () => {
           delay: 0.5,
           ease: "easeInOut",
         }}
-        whileHover={{ scale: 1.05 }} // Zoom effect on hover
-        whileTap={{ scale: 0.95 }} // Slight shrink effect on click
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       />
 
-      {/* Some interesting text that animates in */}
+      {/* Animated Quote */}
       <motion.div
         initial={{ opacity: 0, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
@@ -46,8 +46,7 @@ const HeroRightSection = () => {
           delay: 0.2,
           ease: "easeOut",
         }}
-        whileHover={{ scale: 1.05 }}
-        className="absolute bottom-16 right-10 p-4 bg-white dark:bg-black dark:text-white dark:shadow-white-500/60 text-black/90 rounded-full shadow-lg"
+        className="absolute bottom-16 right-10 p-4 bg-white dark:bg-black text-black/90 dark:text-white rounded-full shadow-lg dark:shadow-white-500/60"
       >
         <p className="font-semibold text-xl">
           "Master new skills and boost your career with us!"

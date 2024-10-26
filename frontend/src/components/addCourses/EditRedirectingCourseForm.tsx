@@ -20,7 +20,7 @@ const EditRedirectingCourseFormSchema = z
     description: z
       .string()
       .min(150, "Description must be at least 150 characters"),
-    sellingPrice: z.number().positive("Selling price must be a positive number"),
+    sellingPrice: z.number().nonnegative("Selling price must be a positive number"),
     originalPrice: z.number().positive("Original price must be a positive number").min(1 , "original price min should be 1"),
     currency: z.string(),
     thumbnail: z.union([

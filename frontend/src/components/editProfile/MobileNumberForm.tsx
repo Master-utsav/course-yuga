@@ -231,7 +231,7 @@ const MobileNumberForm: React.FC<CountrySelectProps> = ({
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="px gap-3 flex items-center w-full">
           <Input type="text" placeholder="Enter OTP" {...register("otp")} className=" w-full" maxLength={6} />
           <Button
-            className="font-ubuntu"
+            className="font-ubuntu max-sm:w-full"
             onClick={handleSubmit(handleOtpSubmit)}
             disabled={isSubmitting}
           >

@@ -90,7 +90,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.5 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      className="bg-purple-700 dark:bg-purple-600 text-white rounded-lg text-center relative w-full mx-auto h-fit py-8  max-w-lg flex flex-col justify-center items-center shadow-xl dark:shadow-md dark:shadow-white-700"
+      className="bg-purple-700 dark:bg-purple-600 text-white rounded-lg text-center relative w-full mx-auto h-fit py-8 max-sm:mt-8 max-w-lg flex flex-col justify-center items-center shadow-xl dark:shadow-md dark:shadow-white-700"
     >
       <h3 className="text-2xl font-semibold mb-4 font-ubuntu">
         Verfiy your Email

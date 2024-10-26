@@ -155,7 +155,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       <h3 className="text-2xl font-semibold mb-4 font-ubuntu">
         Change Your Password
       </h3>
-      <p className="mb-6">
+      <p className="mb-6 sm:px-0 px-2">
         6 Digit OTP sent to <span className="font-bold">{userEmail? userEmail : "your registered email"}</span>
       </p>
 
@@ -191,7 +191,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
         onSubmit={handleSubmit(submitOTP)}
         className="w-full flex flex-col gap-2"
       >
-        <div className="relative w-full flex flex-col sm:flex-row items-start justify-between gap-2 px-4">
+        <div className="relative w-full flex flex-col sm:flex-row items-start justify-between gap-2 sm:px-4 px-2">
           <div className="relative w-full flex justify-end flex-col items-end">
             <div className="relative w-full">
               <input

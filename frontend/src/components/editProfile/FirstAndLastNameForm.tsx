@@ -120,7 +120,7 @@ const FirstAndLastNameForm: React.FC<FirstAndLastNameFormProps> = ({
       </div>
       <Button
         type="button"
-        className="font-medium font-ubuntu"
+        className="font-medium font-ubuntu max-sm:w-full"
         onClick={handleSubmit(onSubmit)}
       >
         Update

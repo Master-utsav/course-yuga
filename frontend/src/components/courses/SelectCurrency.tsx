@@ -31,7 +31,7 @@ const SelectCurrency: React.FC = () => {
       label="Select currency"
       variant="underlined"
       onChange={(e) => handleCurrencyChange(e.target.value)}
-      className="max-w-[10rem] focus-visible:border-none focus-visible:outline-none text-xl"
+      className=" focus-visible:border-none focus-visible:outline-none text-xl"
     >
       {SelectCurrencyValue.map((currency, index) => (
         <SelectItem key={index} value={currency}>

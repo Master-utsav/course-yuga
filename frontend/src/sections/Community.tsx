@@ -10,7 +10,7 @@ const Community: React.FC = () => {
   const {isOpen , onClose, onOpen} = useDisclosure();
   // const displayText = "Welcome to the Course-Yuga Community!".split('');
   return (
-    <div className="min-h-screen pt-32 bg-white dark:bg-black text-neutral-300 flex flex-col items-center px-6 py-12">
+    <div className="min-h-screen   bg-white dark:bg-black text-neutral-300 flex flex-col items-center px-6 py-12 lg:pt-28 relative overflow-x-hidden pt-40 md:pt-56">
       {/* Header Section */}
       <div className="max-w-7xl w-full text-center">
       <motion.h1

@@ -21,7 +21,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({onChangeFilter}) => {
       label="Select category"
       variant="underlined"
       onChange={(e) => handleCategoryChange(e.target.value)}
-      className="max-w-[10rem] focus-visible:border-none focus-visible:outline-none text-xl"
+      className=" focus-visible:border-none focus-visible:outline-none text-xl"
     >
       {categoryFilterValues.map((uniqueCategory, index) => (
         <SelectItem key={index} value={uniqueCategory}>

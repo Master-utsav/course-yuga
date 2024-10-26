@@ -144,7 +144,7 @@
     }
 
     .nav-sidebar {
-        @apply absolute left-0 right-0 bg-white backdrop-blur-sm transition-all duration-300 ease-in-out overflow-hidden z-20 mx-auto sm:hidden block;
+        @apply absolute left-0 right-0 dark:bg-black bg-white backdrop-blur-xl transition-all duration-300 ease-in-out overflow-hidden z-20 mx-auto sm:hidden block;
     }
 
     .text-gray_gradient {

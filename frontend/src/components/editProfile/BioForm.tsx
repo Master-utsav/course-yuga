@@ -70,14 +70,14 @@ const loadUserData = useCallback(async () => {
 
   return (
     <Form {...form} >
-      <div className="w-2/3 space-y-6 items-end grid">
+      <div className="sm:w-2/3 w-full space-y-6 items-end grid">
         <FormField
           control={form.control}
           name="bio"
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           render={({ field }: { field: any }) => (
             <FormItem>
-              <FormLabel className="font-ubuntu font-semibold text-xl">Update your Bio</FormLabel>
+              <FormLabel className="font-ubuntu font-semibold text-xl sm:text-center text-start">Update your Bio</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Update you Bio / tell more about yourself"
@@ -94,7 +94,7 @@ const loadUserData = useCallback(async () => {
             </FormItem>
           )}
           />
-        <Button type="submit" className="w-full font-ubuntu font-medium" onClick={form.handleSubmit(onSubmit)}>Confirm</Button>
+        <Button type="submit" className="w-full font-ubuntu font-medium max-sm:w-full" onClick={form.handleSubmit(onSubmit)}>Confirm</Button>
       </div>
       </Form>
 

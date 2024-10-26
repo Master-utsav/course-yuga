@@ -8,7 +8,7 @@ import { CourseContextProvider } from "@/context/courseContext";
 const Courses: React.FC = () => {
   return (
     <CourseContextProvider>
-      <section className="max-w-7xl mx-auto flex-col flex xl:pt-24 md:pt-56 px-5">
+      <section className="max-w-7xl mx-auto flex-col flex xl:pt-24 md:pt-56 pt-28 px-5">
         <CoursesNavbar />
         <Seperator text="COURSES" />
         <CourseCard />

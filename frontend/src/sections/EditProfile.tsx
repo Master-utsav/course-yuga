@@ -25,10 +25,10 @@ const EditProfile = () => {
   const {userData} = useAuthContext();
 
   return (
-    <section className="w-full flex items-center justify-center bg-white dark:bg-black  backdrop-blur-lg transition-opacity duration-300 relative py-28 z-20">
+    <section className="w-full flex items-center justify-center bg-white dark:bg-black  backdrop-blur-lg transition-opacity duration-300 relative md:py-56 py-28 lg:py-28 z-20">
 
       <motion.div
-        className="w-[80%] mx-auto dark:bg-white/5  bg-white-800/30 rounded-lg p-6 shadow-2xl dark:shadow-sm dark:shadow-white/20 border-2 dark:border-white/20 border-purple-500/20"
+        className="lg:w-[80%] w-full mx-auto dark:bg-white/5  bg-white-800/30 rounded-lg p-6 shadow-2xl dark:shadow-sm dark:shadow-white/20 border-2 dark:border-white/20 border-purple-500/20"
         variants={modalVariants}
         initial="hidden"
         animate="visible"
@@ -90,7 +90,7 @@ const EditProfile = () => {
         </div>
         <Seperator text={"Personal Information"} />
           <div className="w-full flex flex-col justify-between items-start px-2 py-4 gap-3">
-            <div className="relative w-full flex flex-row items-start justify-between gap-5">
+            <div className="relative w-full flex sm:flex-row flex-col items-start justify-between gap-5">
               <div className="flex flex-col w-full relative gap-2">
               <FirstAndLastNameForm  firstName={userData.firstName} lastName={userData.lastName} />
                 <MobileNumberForm CountryCodeData={CountryCodeData} theme={theme} code={userData.phoneNumber.code} number={userData.phoneNumber.number} />

@@ -28,7 +28,7 @@ const InfiniteCourseScroller: React.FC = () => {
       {/* Scrolling container */}
       <motion.div
         className="flex space-x-4 "
-        animate={{ x: ['0%', '-100%'] }} 
+        animate={{ x: ['0%', '-110%'] }} 
         transition={{
           repeat: Infinity,
           repeatType: 'loop',
