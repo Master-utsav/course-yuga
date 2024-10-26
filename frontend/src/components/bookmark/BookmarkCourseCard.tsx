@@ -154,7 +154,7 @@ const BookmarkCourseCard: React.FC<CourseInterface> = ({ courseIds }) => {
                </div>
      
                <div className="p-3 space-y-1 overflow-hidden">
-                 <h2 className="text-xl font-bold line-clamp-2 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+                 <h2 className="text-xl font-bold line-clamp-1 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
                    {course.courseName}
                  </h2>
      

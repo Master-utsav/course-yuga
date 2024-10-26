@@ -7,9 +7,9 @@ interface CategoryFilterProps{
 const CategoryFilter: React.FC<CategoryFilterProps> = ({onChangeFilter}) => {
 
   const categoryFilterValues = [
-    "Youtube",
-    "Course Yuga",
-    "Others"
+    "YOUTUBE",
+    "PERSONAL",
+    "REDIRECT"
   ];
   function handleCategoryChange (category: string) {
     const categoryValue = categoryFilterValues[parseFloat(category)].toString();
@@ -25,7 +25,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({onChangeFilter}) => {
     >
       {categoryFilterValues.map((uniqueCategory, index) => (
         <SelectItem key={index} value={uniqueCategory}>
-          {uniqueCategory}
+          {uniqueCategory === "YOUTUBE" ? "Youtube" : uniqueCategory === "PERSONAL" ? "Course Yuga" : "Others" }
         </SelectItem>
       ))}
     </Select>

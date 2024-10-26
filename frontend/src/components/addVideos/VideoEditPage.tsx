@@ -81,7 +81,7 @@ const VideoEditPage: React.FC = () => {
       
       const formData = new FormData();
       formData.append("videoId", videoId);
-      formData.append("courseName", updatedVideo.videoName);
+      formData.append("videoName", updatedVideo.videoName);
       formData.append("tutorName", updatedVideo.tutorName);
       if(updatedVideo && updatedVideo.description) formData.append("description", updatedVideo.description);
       formData.append("markdownContent", markdown);

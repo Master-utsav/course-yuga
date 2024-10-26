@@ -81,19 +81,18 @@ export async function handleFetchAllCoursesFunction(req: Request, res: Response)
   
 }
 
-// Helper function to build the sort query
-function buildSortQuery(order?: string): string {
+function buildSortQuery(order?: string): Record<string, 1 | -1> {
   switch (order) {
     case "Latest":
-      return "-createdAt"; // Newest first
+      return { createdAt: -1 }; // Newest first
     case "Oldest":
-      return "createdAt"; // Oldest first
+      return { createdAt: 1 }; // Oldest first
     case "A to Z":
-      return "courseName"; // Alphabetical order (ascending)
+      return { courseName: 1 }; // Alphabetical order (ascending)
     case "Z to A":
-      return "-courseName"; // Alphabetical order (descending)
+      return { courseName: -1 }; // Alphabetical order (descending)
     default:
-      return "-createdAt"; // Default: Newest first
+      return { createdAt: -1 }; // Default: Newest first
   }
 }
 
@@ -101,50 +100,47 @@ export async function handleFetchAllCoursesAsPerParams(req: Request, res: Respon
   try {
     const { order, category } = req.query;
 
-    // Build the filter object only if category is provided
     const filter: Record<string, any> = category
-      ? { courseType: category }
-      : {};
-
-    // Build the sort query
+    ? { courseType: { $regex: new RegExp(`^${category}$`, 'i') } }
+    : {};
     const sort = buildSortQuery(order as string);
 
-    // Fetch courses from MongoDB using Mongoose
-    const courses = await CourseModel.find(filter).sort(sort).exec();
+    const courses = await CourseModel.find(filter).sort(sort).lean().exec();
 
-    if(!courses){
+    if (!courses || courses.length === 0) {
       return res.status(400).json({ success: false, message: "No Course found" });
     }
 
-    const transformedCourses = courses.map(course => ({
+    const transformedCourses = courses.map((course) => ({
       courseName: course.courseName,
       courseId: course.courseId,
       tutorName: course.tutorName,
       courseType: course.courseType,
-      description: course.description ?? '', 
+      description: course.description ?? "",
       currency: course.currency,
       sellingPrice: course.sellingPrice,
       originalPrice: course.originalPrice,
       thumbnail: course.thumbnail,
       isVerified: course.isVerified,
       uploadedBy: course.uploadedBy,
-      ratings: course.ratings ?? [], 
-      ratingCount: course.ratings?.length ?? 0, 
-      likedBy: course.likedBy ?? [], 
-      likedCount: course.likedBy?.length ?? 0,  
-      markdownContent: course.markdownContent ?? '', 
-      redirectLink: course.redirectLink ?? '', 
-      enrolledBy: course.enrolledBy ?? [], 
+      ratings: course.ratings ?? [],
+      ratingCount: course.ratings?.length ?? 0,
+      likedBy: course.likedBy ?? [],
+      likedCount: course.likedBy?.length ?? 0,
+      markdownContent: course.markdownContent ?? "",
+      redirectLink: course.redirectLink ?? "",
+      enrolledBy: course.enrolledBy ?? [],
       enrolledCount: course.enrolledBy?.length ?? 0,
-      videos: course.videos ?? [] 
+      videos: course.videos ?? [],
     }));
 
-    return res.status(200).json({ success: true, data: transformedCourses});
-
+    return res.status(200).json({ success: true, data: transformedCourses });
   } catch (error) {
+    console.error("Error fetching courses:", error);
     return res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 }
+
 
 export async function handleGetCourseBySearchParams(req: Request, res: Response) {
   try {

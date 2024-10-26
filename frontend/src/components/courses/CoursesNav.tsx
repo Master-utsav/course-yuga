@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { useTheme } from "@/context/ThemeProvider";
 import CrossIcon from "@/Icons/CrossIcon";
 import FilterIcon from "@/Icons/FilterIcon";
@@ -11,105 +11,93 @@ import { useCourseContext } from "@/context/courseContext";
 import { COURSE_API } from "@/lib/env";
 import { ErrorToast } from "@/lib/toasts";
 import axios from "axios";
+import { throttle } from "@/lib/throttling";  
 
 const CoursesNavbar: React.FC = () => {
   const { theme } = useTheme();
-  const [isFilterOpen, setIsFilterOpen] = React.useState<boolean>(false);
   const { setCoursesData } = useCourseContext();
 
-  // Updated to handle both order and category in a single function
-  const handleFilterParams = async (order: string, category: string) => {
-    try {
-      const response = await axios.get(`${COURSE_API}/get-course-filter`, {
-        params: {
-          order: order,
-          category: category,
-        },
-      });
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [selectedOrder, setSelectedOrder] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
 
-      if (response && response.data && response.data.success) {
-        setCoursesData(response.data.data);
+  // Centralized function to handle course fetching
+  const fetchCourses = async (order = "", category = "") => {
+    try {
+      const endpoint = order || category 
+        ? `${COURSE_API}/get-course-filter` 
+        : `${COURSE_API}/get-all-courses`;
+
+      const { data } = await axios.get(endpoint, { params: { order, category } });
+
+      if (data?.success) {
+        setCoursesData(data.data);
       } else {
-        ErrorToast(response.data.message || "Error fetching filtered courses");
+        ErrorToast(data.message || "Error fetching courses");
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      ErrorToast(error.response?.data?.message || "Error fetching courses");
+      ErrorToast(error?.response?.data?.message || "Error fetching courses");
     }
   };
 
-  // Use states to hold selected filter values
-  const [selectedOrder, setSelectedOrder] = React.useState<string>("");
-  const [selectedCategory, setSelectedCategory] = React.useState<string>("");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const throttledFetchCourses = useCallback(
+    throttle(fetchCourses, 1500), 
+    []
+  );
 
-  const handleOrderChange = (data: { order: string }) => {
-    const orderValue = data.order;
-    setSelectedOrder(orderValue);
-    handleFilterParams(orderValue, selectedCategory); // Call API when order changes
+  // Handle changes in filters (order or category)
+  const handleFilterChange = (filter: { order?: string; categoryValue?: string }) => {
+    const { order, categoryValue } = filter;
+    if (order !== undefined) setSelectedOrder(order);
+    if (categoryValue !== undefined) setSelectedCategory(categoryValue);
+
+    throttledFetchCourses(order ?? selectedOrder, categoryValue ?? selectedCategory);
   };
 
-  const handleCategoryChange = (data: { categoryValue: string }) => {
-    const categoryValue = data.categoryValue;
-    setSelectedCategory(categoryValue);
-    
-    // Map categories to filter values
-    let category = "";
-    switch (categoryValue) {
-      case "Youtube":
-        category = "YOUTUBE";
-        break;
-      case "Course Yuga":
-        category = "PERSONAL";
-        break;
-      case "Others":
-        category = "REDIRECT";
-        break;
-      default:
-        category = ""; // Handle default case if needed
-    }
-    
-    handleFilterParams(selectedOrder, category); // Call API when category changes
+
+  const handleFilterToggle = () => {
+    setIsFilterOpen((prev) => !prev);
+    if (!isFilterOpen) throttledFetchCourses();
   };
 
   return (
-    <header className="w-full z-10 max-w-7xl pt-6 flex flex-row gap-10 justify-between items-end overflow-y-hidden relative">
+    <header className="w-full z-10 max-w-7xl pt-6 flex flex-row gap-10 justify-between items-end">
       <SelectCurrency />
+
       {isFilterOpen && (
         <motion.div
-          initial={{ y: 30, rotate: 0, opacity: 1 }}
-          animate={{ y: 0, rotate: 0, opacity: 1 }}
-          exit={{ y: 50, rotate: 0, opacity: 1 }}
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 50, opacity: 0 }}
           transition={{ ease: "easeOut", duration: 0.5 }}
-          className="w-full flex flex-row justify-end items-end gap-3 overflow-y-hidden overflow-x-hidden relative text-xl"
+          className="w-full flex flex-row justify-end items-end gap-3 text-xl"
         >
-          <OrderFilter onChangeFilter={handleOrderChange} />
-          <CategoryFilter onChangeFilter={handleCategoryChange} />
+          <OrderFilter onChangeFilter={(data) => handleFilterChange({ order: data.order })} />
+          <CategoryFilter onChangeFilter={(data) => handleFilterChange({ categoryValue: data.categoryValue })} />
         </motion.div>
       )}
 
-      <div className="w-fit flex justify-end items-center gap-4 py-2">
+      <div className="w-fit flex items-center gap-4 py-2">
         <SearchInputFilter />
+
         <motion.button
-          className="flex justify-center items-end"
+          className="flex items-center"
           whileTap={{ scale: 0.9 }}
-          onClick={() => setIsFilterOpen(!isFilterOpen)}
+          onClick={handleFilterToggle}
         >
           {isFilterOpen ? (
-            <CrossIcon
-              fillColor={theme === "dark" ? "white" : "black"}
-              size={32}
-            />
+            <CrossIcon fillColor={theme === "dark" ? "white" : "black"} size={32} />
           ) : (
-            <FilterIcon
-              fillColor={theme === "dark" ? "white" : "black"}
-              size={34}
-            />
+            <FilterIcon fillColor={theme === "dark" ? "white" : "black"} size={34} />
           )}
+
           <motion.i
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ ease: [0.7, 0, 0.84, 0], duration: 0.8, delay: 0.4 }}
-            className="text-2xl font-libre font-medium bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+            className="text-2xl font-libre bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
           >
             Filter
           </motion.i>

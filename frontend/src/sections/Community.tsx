@@ -1,9 +1,13 @@
 import React from "react";
-import { Card, Button, Avatar, Input, Textarea, Spacer, Divider } from "@nextui-org/react";
+import { Card, Button, Input, Textarea, Spacer, Divider, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
 import { motion } from "framer-motion";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuthContext } from "@/context/authContext";
+import WarningIcon from "@/Icons/WarningIcon";
 
 const Community: React.FC = () => {
-  
+  const {userData} = useAuthContext();
+  const {isOpen , onClose, onOpen} = useDisclosure();
   // const displayText = "Welcome to the Course-Yuga Community!".split('');
   return (
     <div className="min-h-screen pt-32 bg-white dark:bg-black text-neutral-300 flex flex-col items-center px-6 py-12">
@@ -60,10 +64,12 @@ const Community: React.FC = () => {
         transition={{ duration: 1, ease: [0.7, 0, 0.84, 0] }}
         className="max-w-3xl w-full px-6 py-8 bg-neutral-50 dark:bg-neutral-900 rounded-lg">
         <div className="flex items-center gap-4 mb-4">
-          <Avatar
-            src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-            alt="User Avatar"
-          />
+          <Avatar >
+              <AvatarImage src={userData.profileImageUrl} />
+              <AvatarFallback className="font-bold text-xl dark:text-black dark:bg-white text-white bg-black">
+                {userData.avatarFallbackText}
+              </AvatarFallback>
+            </Avatar>
           <Input
             placeholder="Share your thoughts with the community..."
             fullWidth
@@ -78,9 +84,54 @@ const Community: React.FC = () => {
           className=" text-white placeholder:text-neutral-500 mb-4"
         />
         <div className="flex justify-between">
-          <Button color="primary" variant="solid">
-            Post
-          </Button>
+          
+          <>
+            <Button color="primary" variant="solid" onPress={onOpen}>
+              Post
+            </Button>
+
+            <Modal backdrop={"opaque"} isOpen={isOpen} onClose={onClose}>
+              <ModalContent className="sm:max-w-[480px] p-6 shadow-lg rounded-lg dark:bg-gray-800 bg-white">
+                <ModalHeader className="flex flex-col gap-1">
+                  <div className="w-full space-x-2 flex justify-start items-center">
+                    <WarningIcon fillColor="red" />
+                    <span className="font-ubuntu text-2xl font-bold text-red-700 dark:text-red-400">
+                      Maintenance Alert
+                    </span>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 text-base mt-2">
+                    We're currently performing maintenance on the community page. Please check back later.
+                  </p>
+                </ModalHeader>
+                <ModalBody>
+                  <div className="gap-4 pb-4 flex flex-col justify-start items-center">
+                    {/* Maintenance List */}
+                    <ul className="w-full bg-gray-50 dark:bg-gray-900 text-sm p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                      {[
+                        "This feature is temporarily unavailable.",
+                        "You will not be able to post or interact.",
+                        "Thank you for your patience.",
+                      ].map((message, index) => (
+                        <li key={index} className="flex items-center mb-2">
+                          <span className="text-red-600 dark:text-red-400 font-bold text-lg mr-2">
+                            !
+                          </span>
+                          <span className="text-gray-800 dark:text-gray-300">
+                            {message}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </ModalBody>
+                <ModalFooter className="flex justify-between mt-4">
+                  <Button color="default" onPress={onClose}>
+                    Close
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </>
           <Button color="secondary" variant="flat">
             Cancel
           </Button>
@@ -98,11 +149,12 @@ const Community: React.FC = () => {
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-4">
-                <Avatar
-                  src="https://i.pravatar.cc/150?u=a042581f4e29026307d"
-                  alt="User Avatar"
-                  
-                />
+                <Avatar>
+                  <AvatarImage src={"https://i.pravatar.cc/150?u=a042581f4e29026307d"} />
+                  <AvatarFallback className="font-bold text-xl dark:text-black dark:bg-white text-white bg-black">
+                    {userData.avatarFallbackText}
+                  </AvatarFallback>
+                </Avatar>
                 <div>
                   <p className="font-ubuntu font-semibold text-neutral-800 dark:text-white">
                     Jane Doe
@@ -138,11 +190,12 @@ const Community: React.FC = () => {
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-4">
-                <Avatar
-                  src="https://i.pravatar.cc/150?u=a042581f4e29026609d"
-                  alt="User Avatar"
-                  
-                />
+                <Avatar>
+                  <AvatarImage src={"https://i.pravatar.cc/150?u=a042581f4e29026609d"} />
+                  <AvatarFallback className="font-bold text-xl dark:text-black dark:bg-white text-white bg-black">
+                    {userData.avatarFallbackText}
+                  </AvatarFallback>
+                </Avatar>
                 <div>
                   <p className="font-ubuntu font-semibold text-neutral-800 dark:text-white">
                     John Smith

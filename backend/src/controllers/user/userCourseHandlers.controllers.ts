@@ -23,9 +23,7 @@ export async function handleUserCourseBookmarkfunction(req: AuthenticatedRequest
             return res.status(404).json({success: false , message: 'user not found'})
         }
         
-        const courseIndex = user.bookmarks.course.findIndex((id :any) =>
-          id.equals(courseId)
-        );
+        const courseIndex = user.bookmarks.course.findIndex((id: string) => id === courseId);
     
         if (courseIndex !== -1) {
           user.bookmarks.course.splice(courseIndex, 1);
@@ -73,9 +71,7 @@ export async function handleUserVideoBookmarkfunction(req: AuthenticatedRequest 
             return res.status(404).json({success: false , message: 'user not found'})
         }
         
-        const videoIndex = user.bookmarks.video.findIndex((id : any) =>
-          id.equals(videoId)
-        );
+        const videoIndex = user.bookmarks.video.findIndex((id : string) => id === videoId);
     
         if (videoIndex !== -1) {
           user.bookmarks.video.splice(videoIndex, 1);
