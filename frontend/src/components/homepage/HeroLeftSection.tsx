@@ -14,10 +14,10 @@ const HeroLeftSection = () => {
       <div className="w-full flex flex-col gap-10 ">
         <div className="w-full flex flex-col gap-2 text-start items-start justify-center">
           <div className="w-full flex flex-col text-start items-start justify-center">
-            <h1 className="text-black dark:text-white font-ubuntu font-bold text-3xl md:text-5xl w-fit sm:leading-[3rem] ">
+            <h1 className="text-black dark:text-white font-ubuntu font-bold text-3xl sm:text-4xl md:text-5xl w-fit sm:leading-[3rem] ">
               <TextBorderCutEffect text={heroContent.h1Heading} />
             </h1>
-            <h1 className="text-black dark:text-white font-ubuntu font-bold text-3xl md:text-5xl w-fit sm:leading-[3rem] ">
+            <h1 className="text-black dark:text-white font-ubuntu font-bold text-3xl sm:text-4xl md:text-5xl w-fit sm:leading-[3rem] ">
               <TextBorderCutEffect text={heroContent.h1Heading2} />
             </h1>
           </div>

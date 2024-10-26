@@ -15,6 +15,7 @@ interface DashboardNavItemProps {
   title: string;
   link: string;
   isSideBarOpen: boolean;
+  isActive:boolean;
 }
 
 const DashboardNavItem: React.FC<DashboardNavItemProps> = ({
@@ -23,8 +24,10 @@ const DashboardNavItem: React.FC<DashboardNavItemProps> = ({
   Icon,
   title,
   link,
+  isActive,
   isSideBarOpen,
 }) => {
+  
   return (
     <motion.div
       key={index}
@@ -36,7 +39,7 @@ const DashboardNavItem: React.FC<DashboardNavItemProps> = ({
       }}
       className={`relative overflow-hidden w-full group flex items-center 
         ${isSideBarOpen ? "justify-start" : "justify-center"} 
-        space-x-3 py-2 dashboard_li_item`}
+        space-x-3 py-2 dashboard_li_item `}
     >
     <Link
         to={link}
@@ -58,7 +61,7 @@ const DashboardNavItem: React.FC<DashboardNavItemProps> = ({
             ],
           }}
         >
-          <span className="group-hover:scale-110 transition-all ease-in-out duration-300 cursor-pointer px-4">
+          <span className={`group-hover:scale-110 transition-all ease-in-out duration-300 cursor-pointer px-4 ${isActive ? "dark:bg-black-500 bg-white-700 rounded-xl py-2" : ""}`}>
             {theme === "dark" ? (
               <Icon fillColor="white" size={24} />
             ) : (
@@ -69,7 +72,7 @@ const DashboardNavItem: React.FC<DashboardNavItemProps> = ({
 }
         {isSideBarOpen ? (
           <>
-          <span className="group-hover:scale-110 transition-all ease-in-out duration-300 cursor-pointer ">
+          <span className={`group-hover:scale-110 transition-all ease-in-out duration-300 cursor-pointer ${isActive ? "dark:bg-black-500 bg-white-700 rounded-xl p-2" : ""}`}>
             {theme === "dark" ? (
               <Icon fillColor="white" size={24} />
             ) : (

@@ -63,7 +63,7 @@ const CoursesNavbar: React.FC = () => {
   };
 
   return (
-    <header className="w-full z-10 max-w-7xl pt-6 flex flex-row gap-10 justify-end items-start max-sm:flex-wrap">
+    <header className="w-full z-10 max-w-7xl pt-6 flex flex-row gap-10 justify-end items-start max-md:flex-wrap">
 
       {isFilterOpen && (
         <motion.div
@@ -71,7 +71,7 @@ const CoursesNavbar: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 50, opacity: 0 }}
           transition={{ ease: "easeOut", duration: 0.5 }}
-          className="w-full flex sm:flex-row  flex-col justify-end items-end gap-3 text-xl"
+          className="w-full flex md:flex-row flex-col justify-end items-end gap-3 text-xl  sm:pt-20 md:pt-0"
         >
           <SelectCurrency />
           <OrderFilter onChangeFilter={(data) => handleFilterChange({ order: data.order })} />

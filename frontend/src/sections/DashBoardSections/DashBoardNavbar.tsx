@@ -10,7 +10,7 @@ import {
 import { useAuthContext } from "@/context/authContext";
 import { useTheme } from "@/context/ThemeProvider";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Seperator from "@/components/Seperator";
 import { useDashboardContext } from "@/context/dashboardContext";
 import SidebarOpenIcon from "@/Icons/SidebarOpenIcon";
@@ -21,8 +21,10 @@ import React from "react";
 const DashBoardNavbar: React.FC = () => {
   const { isSideBarOpen, setIsSideBarOpen } = useDashboardContext();
   const [isAccordionOpen , setIsAccordionOpen] = React.useState<boolean>(false)
+  const location = useLocation();
   const { theme } = useTheme();
   const { userData } = useAuthContext();
+  const locName = location.pathname.split('/')[2];
 
   return (
     <aside
@@ -65,6 +67,7 @@ const DashBoardNavbar: React.FC = () => {
                 Icon={item.Icon}
                 title={item.title}
                 link={item.link}
+                isActive={item.link.split("/")[2] === locName}
                 isSideBarOpen={isSideBarOpen}
               />
             ))}
@@ -108,6 +111,7 @@ const DashBoardNavbar: React.FC = () => {
                       Icon={item.Icon}
                       title={item.title}
                       link={item.link}
+                      isActive={item.link.split("/")[2] === locName}
                       isSideBarOpen={isSideBarOpen}
                     />
                   ))}
@@ -128,6 +132,7 @@ const DashBoardNavbar: React.FC = () => {
               Icon={item.Icon}
               title={item.title}
               link={item.link}
+              isActive={item.link.split("/")[2] === locName}
               isSideBarOpen={isSideBarOpen}
             />
           ))}

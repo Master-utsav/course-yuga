@@ -25,7 +25,7 @@ const HeroSection: React.FC<heroSectionProps> = ({route}) => {
   };
 
   return (
-    <section className="max-w-7xl mx-auto flex-row flex lg:pt-24 pt-20 gap-5 relative">
+    <section className="max-w-7xl mx-auto flex-row flex sm:pt-40 pt-28 xl:pt-24 lg:pt-36 gap-5 relative">
       {getModalComponent()}
       <HeroRightSection />
     </section>
