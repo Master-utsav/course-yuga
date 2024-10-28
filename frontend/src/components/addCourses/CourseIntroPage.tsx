@@ -27,7 +27,7 @@ const CourseIntroPage: React.FC = () => {
 
   const fetchCourseData = useCallback(async () => {
     if (!courseId) return;
-
+    
     try {
       const response = await axios.post(`${COURSE_API}/get-course`, {
         courseId,

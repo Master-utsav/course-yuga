@@ -5,7 +5,7 @@ import React from "react";
 import RatingComponent from "../RatingComponent";
 import PercentageOffIcon from "@/Icons/PercentageOffIcon";
 import { useCourseContext } from "@/context/courseContext";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import YoutubeIcon from "@/Icons/YoutubeIcon";
 import RedirectLinkIcon from "@/Icons/RedirectLinkIcon";
 import SkeletonCard from "../SkeletonCard";
@@ -43,7 +43,7 @@ const CourseCard: React.FC = () => {
       [courseId]: !prev[courseId], // Toggle the checked state for the clicked card
     }));
   };
-
+  const navigate = useNavigate();
   return (
     <motion.div
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-5"
@@ -129,14 +129,14 @@ const CourseCard: React.FC = () => {
               </Chip>
             </div>
 
-            <Link to={`/course-intro-page?c=${course.courseId}`} className="w-full">
-              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600 mt-2">
+            
+              <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600 mt-2" onClick={() => navigate(`/course-intro-page?c=${course.courseId}`)}>
                    {
                     course.courseType === "YOUTUBE" ? <YoutubeIcon fillColor="white" size={32}/> : course.courseType === "REDIRECT" ? <RedirectLinkIcon fillColor="white" /> : <Image src="/logo/logo.png" className="aspect-square size-8"/>
                    }{" "}
                    Enroll Now
               </Button>
-            </Link>
+            
           </div>
         </motion.div>
       )): (
