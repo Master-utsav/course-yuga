@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const auth_middleware_1 = require("../middleware/auth.middleware");
+const multer_middleware_1 = require("../middleware/multer.middleware");
+const uploadVideo_controllers_1 = require("../controllers/video/uploadVideo.controllers");
+const getVideo_controllers_1 = require("../controllers/video/getVideo.controllers");
+const deleteVideo_controllers_1 = require("../controllers/video/deleteVideo.controllers");
+const updateVideo_controllers_1 = require("../controllers/video/updateVideo.controllers");
+const streamVideo_controllers_1 = require("../controllers/video/streamVideo.controllers");
+const videoRoute = express_1.default.Router();
+videoRoute.get("/get-videos", getVideo_controllers_1.handleGetAllVideosOfCourse);
+videoRoute.get("/get-video-by-id", getVideo_controllers_1.handleGetVideoDataById);
+videoRoute.post("/add-video/youtube", auth_middleware_1.authenticateAdminToken, multer_middleware_1.upload.single('youtubeVideoImage'), uploadVideo_controllers_1.handleAddNewYoutubeVideoFunction);
+videoRoute.post("/add-video/personal", auth_middleware_1.authenticateAdminToken, multer_middleware_1.upload.single('personalVideoImage'), uploadVideo_controllers_1.handleAddNewPersonalVideoFunction);
+videoRoute.post("/upload-video/personal", auth_middleware_1.authenticateAdminToken, multer_middleware_1.uploadVideo.single('personalVideoFile'), uploadVideo_controllers_1.handleUploadPersonalVideoFunction);
+videoRoute.put("/update-video/youtube", auth_middleware_1.authenticateAdminToken, multer_middleware_1.upload.single('youtubeVideoImage'), updateVideo_controllers_1.handleUpdateYoutubeVideoFunction);
+videoRoute.put("/update-video/personal", auth_middleware_1.authenticateAdminToken, multer_middleware_1.upload.single('personalVideoImage'), updateVideo_controllers_1.handleUpdatePersonalVideoFunction);
+videoRoute.post("/delete-video", auth_middleware_1.authenticateAdminToken, deleteVideo_controllers_1.handleDeleteVideoFunction);
+videoRoute.get("/stream-video/:publicId", streamVideo_controllers_1.handleVideoStreamingFunction);
+exports.default = videoRoute;
