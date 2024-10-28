@@ -3,18 +3,17 @@
   "version": "1.0.0",
   "description": "Backend for Course-Yuga",
   "main": "dist/server.js",
-  
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/server.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/server.ts",
     "vercel-build": "tsc"
   },
-
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@vercel/node": "^3.2.23",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.5.0",
     "cors": "^2.8.5",
