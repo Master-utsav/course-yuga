@@ -17,15 +17,14 @@ import { getVerifiedToken } from "@/lib/cookieService";
 
 const CourseIntroPage: React.FC = () => {
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const courseId = queryParams.get("c");
   const [courseData, setCourseData] = useState<ICourseData>(courseDataTemplate);
+  const [courseId , setCourseId] = useState<string>("")
   const [activeEditor, setActiveEditor] = useState("markdown");
   const [markdown, setMarkdown] = useState<string>("");
   const [preview, setPreview] = useState<string>(courseData?.thumbnail);
   const { userData } = useAuthContext();
 
-  const fetchCourseData = useCallback(async () => {
+  const fetchCourseData = useCallback(async (courseId : string) => {
     if (!courseId) return;
     
     try {
@@ -44,13 +43,19 @@ const CourseIntroPage: React.FC = () => {
     } catch (error: any) {
       ErrorToast(error.response?.data?.message || "Something went wrong");
     }
-  }, [courseId]);
+  }, []);
 
   useEffect(() => {
-    fetchCourseData();
-  }, [fetchCourseData]);
+    const queryParams = new URLSearchParams(location.search);
+     const courseId = queryParams.get("c");
+     if (courseId) {
+      setCourseId(courseId);
+      fetchCourseData(courseId);
+    }
+    
+  }, [fetchCourseData, location.search]);
 
-  const handleSave = async () => {
+  const handleSave = async (courseId: string) => {
     const jwt = getVerifiedToken();
     if (!courseId) return;
     const type = courseData.courseType.toLowerCase();
@@ -120,7 +125,7 @@ const CourseIntroPage: React.FC = () => {
         ErrorToast(response.data.message);
       }
       setCourseData(updatedCourse as ICourseData);
-      fetchCourseData();
+      fetchCourseData(courseId);
 
     } catch (error: any) {
       ErrorToast(error.response?.data?.message || "Something went wrong");
@@ -255,7 +260,7 @@ const CourseIntroPage: React.FC = () => {
             )}
           </div>
           <Button
-            onClick={handleSave}
+            onClick={() => handleSave(courseId)}
             className="my-4 w-full font-medium text-lg bg-blue-500 text-white rounded hover:bg-blue-600"
           >
             Upload Changes
