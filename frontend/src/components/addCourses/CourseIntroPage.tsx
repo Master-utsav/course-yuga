@@ -17,16 +17,17 @@ import { getVerifiedToken } from "@/lib/cookieService";
 
 const CourseIntroPage: React.FC = () => {
   const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const courseId = queryParams.get("c");
   const [courseData, setCourseData] = useState<ICourseData>(courseDataTemplate);
-  const [courseId , setCourseId] = useState<string>("")
   const [activeEditor, setActiveEditor] = useState("markdown");
   const [markdown, setMarkdown] = useState<string>("");
   const [preview, setPreview] = useState<string>(courseData?.thumbnail);
   const { userData } = useAuthContext();
 
-  const fetchCourseData = useCallback(async (courseId : string) => {
+  const fetchCourseData = useCallback(async () => {
     if (!courseId) return;
-    
+
     try {
       const response = await axios.post(`${COURSE_API}/get-course`, {
         courseId,
@@ -43,19 +44,13 @@ const CourseIntroPage: React.FC = () => {
     } catch (error: any) {
       ErrorToast(error.response?.data?.message || "Something went wrong");
     }
-  }, []);
+  }, [courseId]);
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-     const courseId = queryParams.get("c");
-     if (courseId) {
-      setCourseId(courseId);
-      fetchCourseData(courseId);
-    }
-    
-  }, [fetchCourseData, location.search]);
+    fetchCourseData();
+  }, [fetchCourseData]);
 
-  const handleSave = async (courseId: string) => {
+  const handleSave = async () => {
     const jwt = getVerifiedToken();
     if (!courseId) return;
     const type = courseData.courseType.toLowerCase();
@@ -125,7 +120,7 @@ const CourseIntroPage: React.FC = () => {
         ErrorToast(response.data.message);
       }
       setCourseData(updatedCourse as ICourseData);
-      fetchCourseData(courseId);
+      fetchCourseData();
 
     } catch (error: any) {
       ErrorToast(error.response?.data?.message || "Something went wrong");
@@ -260,7 +255,7 @@ const CourseIntroPage: React.FC = () => {
             )}
           </div>
           <Button
-            onClick={() => handleSave(courseId)}
+            onClick={handleSave}
             className="my-4 w-full font-medium text-lg bg-blue-500 text-white rounded hover:bg-blue-600"
           >
             Upload Changes
