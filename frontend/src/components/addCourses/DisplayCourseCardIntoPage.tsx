@@ -63,7 +63,7 @@ const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({
   }
   
   return (
-    <div className="w-1/3 p-6 border-l">
+    <div className="md:w-1/3 sm:w-3/4 w-full p-6 border-l mx-auto">
       <div className="w-full relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl">
         <div className="relative w-full">
           <Image
@@ -93,7 +93,7 @@ const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({
           </label>
         </div>
 
-        <div className="p-3 space-y-2 flex flex-col justify-between">
+        <div className="md:p-3 p-1 space-y-2 flex flex-col justify-between">
           <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
             {courseData.courseName}
           </h2>
@@ -106,7 +106,7 @@ const DisplayCourseCardIntoPage: React.FC<DisplayCourseCardIntoPageProps> = ({
             {courseData.description}
           </i>
 
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center md:flex-row flex-col">
             <div className="flex justify-start items-center gap-2">
               <RatingComponent rating={courseData.rating} />
               <span className="font-bold text-base bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">

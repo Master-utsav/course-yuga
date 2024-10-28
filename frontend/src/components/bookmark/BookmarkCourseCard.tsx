@@ -137,7 +137,7 @@ const BookmarkCourseCard: React.FC<CourseInterface> = ({ courseIds }) => {
             course && course.courseId && userData.bookmarks?.course.includes(course.courseId) && 
             <motion.div
                key={i}
-               className="w-full space-y-2 relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
+               className="w-full sm:space-y-2 space-y-1 relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
                custom={i}
                variants={cardVariants}
              >
@@ -153,7 +153,7 @@ const BookmarkCourseCard: React.FC<CourseInterface> = ({ courseIds }) => {
                   </div>
                </div>
      
-               <div className="p-3 space-y-1 overflow-hidden">
+               <div className="sm:p-3 p-1 space-y-1 overflow-hidden">
                  <h2 className="text-xl font-bold line-clamp-1 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
                    {course.courseName}
                  </h2>
@@ -167,13 +167,13 @@ const BookmarkCourseCard: React.FC<CourseInterface> = ({ courseIds }) => {
                  </i>
                </div>
               
-                 <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/view-course?c=${course.courseId}`)}>
+                 <Button className="w-full font-medium sm:text-lg text-base font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/view-course?c=${course.courseId}`)}>
                    View Course
                  </Button>
               
-               <div className="flex w-full sm:flex-row flex-col gap-2">
+               <div className="flex w-full sm:flex-row flex-col ">
                  <Button
-                   className="w-full font-medium text-base font-ubuntu bg-white-700 hover:bg-white-800 text-black  dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900"
+                   className="w-full font-medium sm:text-base text-sm font-ubuntu bg-white-700 hover:bg-white-800 text-black  dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900"
                    onClick={() => handleBookmarkClick(course.courseId)}
                  >
                      <BookmarkIcon2

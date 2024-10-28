@@ -102,7 +102,7 @@ const DashBoard = () => {
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 1, ease: "easeOut" }}
-          className="text-base text-gray-700 dark:text-gray-400 font-libre w-3/4 overflow-y-hidden font-extralight"
+          className="text-base text-gray-700 dark:text-gray-400 font-libre w-3/4 overflow-y-hidden font-extralight line-clamp-4"
         >
           <i>
             {`We're excited to have you here. You’ve made great progress so far, and

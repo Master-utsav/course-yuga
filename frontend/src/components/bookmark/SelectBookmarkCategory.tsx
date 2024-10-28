@@ -16,7 +16,7 @@ const SelectBookmarkCategory: React.FC<SelectBookmarkCategoryProps> = ({onCatego
           (category) => (
             <Button
               key={category}
-              className={`w-full p-6 text-base rounded-lg dark:text-white text-black font-ubuntu font-medium border-[1px] transition-colors ${
+              className={`w-full sm:p-6 p-3  sm:text-base text-sm rounded-lg dark:text-white text-black font-ubuntu font-medium border-[1px] transition-colors ${
                 currentCategory === category
                   ? "bg-gradient-to-r  from-indigo-600 to-purple-600 hover:from-blue-600 hover:to-indigo-800"
                   : "bg-black/10 dark:bg-black/30 hover:bg-gray-200 dark:hover:bg-gray-700"

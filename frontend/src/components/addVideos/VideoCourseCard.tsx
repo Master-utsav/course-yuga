@@ -89,8 +89,8 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({ courseData }) => {
   return (
     <div className="w-full relative flex flex-col py-1">
       <Seperator text={courseData.courseName} />
-      <div className="w-full h-auto flex gap-2 justify-start items-center relative px-2">
-        <div className="w-1/4">
+      <div className="w-full h-auto flex md:flex-row flex-col gap-2 justify-start items-center relative px-2">
+        <div className="md:w-1/4 w-full">
           <Image
             isBlurred
             src={courseData.thumbnail}
@@ -98,7 +98,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({ courseData }) => {
             className="z-0 object-cover p-2 aspect-video"
           />
         </div>
-        <div className="flex flex-col justify-between items-start space-y-4 w-1/2 relative">
+        <div className="flex flex-col justify-between items-start space-y-4 md:w-1/2 w-full relative">
           <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
             {courseData.courseName}
           </h2>
@@ -118,7 +118,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({ courseData }) => {
             </span>
           </div>
         </div>
-        <div className="flex flex-col space-y-4 text-base font-medium font-ubuntu justify-end  w-1/4 items-center">
+        <div className="flex flex-col space-y-4 text-base font-medium font-ubuntu justify-end  md:w-1/4 w-full max-md:px-2 items-center">
           {courseData.courseType === "REDIRECT" ? (
             <Button
               isDisabled

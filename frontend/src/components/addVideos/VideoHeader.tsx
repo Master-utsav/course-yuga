@@ -48,7 +48,7 @@ const VideoHeader: React.FC<VideoHeaderProps> = ({onCategory , courseId , course
         duration: 0.5,
       }}
     >
-      <motion.div className="flex items-center gap-3 mb-5 px-2">
+      <motion.div className="flex items-center max-sm:justify-center gap-3 mb-5 sm:px-2 flex-wrap">
         <Avatar className="border-2 border-purple-500">
             <AvatarImage src={userData.profileImageUrl} />
             <AvatarFallback className="font-bold text-xl dark:text-black dark:bg-white text-white bg-black">
@@ -56,19 +56,19 @@ const VideoHeader: React.FC<VideoHeaderProps> = ({onCategory , courseId , course
             </AvatarFallback>
         </Avatar>
         <h1 className="text-3xl font-semibold font-libre bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
-          <span className="text-3xl font-medium font-ubuntu">
-            Good to see you
+          <span className="text-3xl font-medium font-ubuntu ">
+            Good to see you,
           </span>
-          ,{" "}
+          {" "}
           <i className="font-libre underline decoration-purple-500">
             {userData.firstName}!
           </i>
         </h1>
-        <h1 className="text-3xl flex font-semibold font-libre bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
+        <h1 className="sm:text-3xl text-2xl flex sm:flex-row flex-col font-semibold font-libre bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
           <span className="text-3xl font-medium font-ubuntu">
-            You are managing
+            You are managing,
           </span>
-          , {" "}
+          {" "}
           <div 
             className="font-ubuntu underline decoration-purple-500" 
             onClick={() => navigate(`/course-intro-page?c=${courseId}`)}

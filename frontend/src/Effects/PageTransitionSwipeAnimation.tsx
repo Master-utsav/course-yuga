@@ -17,9 +17,9 @@ const PageTransitionSwipeAnimation = ({ children }: PageTransitionProps) => {
 
   return (
     <motion.section
-      className={`grid min-h-screen transition-all duration-300 
-        ${isSideBarOpen ? "max-w-[calc(100%-250px)]" : "max-w-[calc(100%-60px)]"}
-        sm:max-w-full bg-white dark:bg-gray-900`}
+      className={`flex-1 transition-all duration-300 
+        ${isSideBarOpen ? "ml-64" : "ml-16"}
+        bg-white dark:bg-gray-900`}
       variants={DashBoardPageVariants}
       initial="hidden"
       animate="visible"

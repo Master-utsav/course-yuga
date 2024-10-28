@@ -123,7 +123,10 @@ function App() {
                   </PageTransitionBoxAnimation>
                 }
               />
-              <Route path="/user/*" element={<DashboardRoutes />} />
+              <Route path="/user/*" 
+              element={
+                    <DashboardRoutes />
+                } />
             </>
           ) : (
             <>

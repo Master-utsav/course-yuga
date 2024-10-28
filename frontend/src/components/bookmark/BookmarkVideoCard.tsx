@@ -133,7 +133,7 @@ const BookmarkVideoCard: React.FC<VideoInterface> = ({ videoIds }) => {
             video && video.videoId && userData.bookmarks?.video.includes(video.videoId) && 
             <motion.div
                key={i}
-               className="w-full space-y-2 relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
+               className="w-full sm:space-y-2 space-y-1 relative bg-white text-start dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
                custom={i}
                variants={cardVariants}
              >
@@ -146,7 +146,7 @@ const BookmarkVideoCard: React.FC<VideoInterface> = ({ videoIds }) => {
                  />
                </div>
      
-               <div className="p-3 space-y-1 overflow-hidden">
+               <div className="sm:p-3 p-1 space-y-1 overflow-hidden">
                  <h2 className="text-xl font-bold  bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 line-clamp-2">
                    {video.videoName}
                  </h2>
@@ -160,13 +160,13 @@ const BookmarkVideoCard: React.FC<VideoInterface> = ({ videoIds }) => {
                  </i>
                </div>
                
-                 <Button className="w-full font-medium text-lg font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/video-player?v=${video.videoId}`)}>
+                 <Button className="w-full font-medium sm:text-lg text-base font-ubuntu bg-blue-500 text-white hover:bg-blue-600" onClick={() => navigate(`/user/video-player?v=${video.videoId}`)}>
                    Watch Now
                  </Button>
              
                <div className="flex w-full sm:flex-row flex-col gap-2">
                  <Button
-                   className="w-full font-medium text-base font-ubuntu bg-white-700 hover:bg-white-800 text-black  dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900"
+                   className="w-full font-medium sm:text-base text-sm font-ubuntu bg-white-700 hover:bg-white-800 text-black  dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900"
                    onClick={() => handleBookmarkClick(video.videoId)}
                  >
                      <BookmarkIcon2

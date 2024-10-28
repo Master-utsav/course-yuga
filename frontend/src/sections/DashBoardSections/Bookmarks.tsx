@@ -20,7 +20,7 @@ const Bookmarks = () => {
   return (
     
       <motion.div
-        className="w-full relative dark:bg-white/5 bg-black/5 rounded-lg p-6 space-y-6"
+        className="w-full relative dark:bg-white/5 bg-black/5 rounded-lg p-4 sm:p-6 space-y-6 "
         variants={{
           hidden: { opacity: 0.3, scale: 0.8 },
           visible: { opacity: 1, scale: 1 },
@@ -28,8 +28,8 @@ const Bookmarks = () => {
         }}
         transition={{ duration: 0.3 }}
       >
-      <div className="flex justify-center items-center text-center gap-2 overflow-hidden">
-        <TextFlipSmoothRevealEffect text="BOOKMARKS" />
+      <div className="  flex justify-center items-center text-center gap-2 overflow-hidden">
+        <TextFlipSmoothRevealEffect text="BOOKMARKS" className="sm:text-5xl text-3xl"/>
       </div>
       <SelectBookmarkCategory onCategory={handleCategoryChange}  currentCategory={category}/>
       {category==="Bookmarked Videos" && <BookmarkVideoCard  videoIds={userData.bookmarks?.video}/>}

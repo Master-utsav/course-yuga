@@ -142,11 +142,11 @@ const CourseIntroPage: React.FC = () => {
   if (!courseData) return <p>Loading course data...</p>; 
   
   return (
-    <div className="flex flex-col w-full mx-auto pt-32  px-20 min-h-screen bg-gray-100 dark:bg-gray-900   overflow-auto hide-scrollbar">
-      <div className="flex w-full mx-auto  overflow-auto hide-scrollbar  relative overflow-x-hidden break-words">
+    <div className="flex flex-col w-full mx-auto pt-40 sm:pt-48 xl:pt-28 lg:px-20 px-4 min-h-screen bg-gray-100 dark:bg-gray-900   overflow-auto hide-scrollbar">
+      <div className="flex w-full mx-auto  overflow-auto hide-scrollbar  relative overflow-x-hidden md:flex-row flex-col">
         {/* Left Section: Editable Content */}
         <div className="flex-1 p-8 space-y-2 overflow-auto font-ubuntu w-full relative">
-          <h1 className="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+          <h1 className="w-full text-4xl font-extrabold  bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
             {courseData.courseName || "Course Name"}
           </h1>
 
