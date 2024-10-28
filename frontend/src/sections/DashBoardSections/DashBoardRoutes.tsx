@@ -21,6 +21,7 @@ import PageNotFound from "@/components/PageNotFound";
 import UnauthorizedPage from "@/components/UnauthorizedPage";
 import DashBoardNavbar from "./DashBoardNavbar";
 import PageTransitionSwipeAnimation from "@/Effects/PageTransitionSwipeAnimation";
+import Subscription from "./Subscription";
 
 const DashboardRoutes: React.FC = () => {
   const { userData } = useAuthContext();
@@ -33,7 +34,7 @@ const DashboardRoutes: React.FC = () => {
       { path: "/dashboard", element: <DashBoard /> },
       { path: "/bookmarks", element: <Bookmarks /> },
       { path: "/courses", element: <Courses /> },
-      { path: "/subscription", element: <UnderMaintenancePage pageName="Subscription page" /> },
+      { path: "/subscription", element: <Subscription/> },
       { path: "/todo-list", element: <UnderMaintenancePage pageName="Todo List" /> },
       { path: "/history", element: <UnderMaintenancePage pageName="History" /> },
       { path: "/refresh", element: <RefreshPage /> },
