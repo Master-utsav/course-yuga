@@ -3,6 +3,7 @@ import { AuthenticatedRequest } from "../../middleware/auth.middleware";
 import User from "../../models/User.model";
 import mongoose from "mongoose";
 import VideoModel from "../../models/Video.model";
+import CourseModel from "../../models/Course.model";
 
 export async function handleUserCourseBookmarkfunction(req: AuthenticatedRequest , res: Response){
     const userId = req.userId
@@ -99,6 +100,52 @@ export async function handleUserVideoBookmarkfunction(req: AuthenticatedRequest 
         return res.status(500).json({success: false , message: "Internal server error"})
     }
 }
+
+export async function handleUserUnenrolledCourseFunction(req: AuthenticatedRequest, res: Response) {
+    const { userId, userUniqueId: uniqueId } = req;
+    const { courseId } = req.body;
+
+    if (!courseId || !userId || !uniqueId) {
+        return res.status(401).json({ success: false, message: 'Unauthorized: Missing required information' });
+    }
+
+    try {
+        // Find the user by userId
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        // Check if the course exists in user's enrolledIn list
+        const userCourseIndex = user.enrolledIn.indexOf(courseId);
+        if (userCourseIndex === -1) {
+            return res.status(400).json({ success: false, message: "Course not found in user's enrolled courses" });
+        }
+
+        // Remove the course from user's enrolledIn list
+        user.enrolledIn.splice(userCourseIndex, 1);
+        await user.save();
+
+        // Find the course and remove the user from the enrolledBy array
+        const course = await CourseModel.findOne({courseId});
+        if (!course) {
+            return res.status(404).json({ success: false, message: "Course not found" });
+        }
+
+        const enrolledByIndex = course.enrolledBy.indexOf(uniqueId);
+        if (enrolledByIndex !== -1) {
+            course.enrolledBy.splice(enrolledByIndex, 1);
+            await course.save();
+        }
+
+        return res.status(200).json({ success: true, message: "User unenrolled from course successfully" });
+
+    } catch (error) {
+        console.error("Error unenrolling user from course:", error);
+        return res.status(500).json({ success: false, message: "Internal server error" });
+    }
+}
+
 
 export async function handleUserCourseProgress(req: AuthenticatedRequest, res: Response) {
   const userId = req.userId;

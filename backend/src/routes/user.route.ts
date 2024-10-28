@@ -11,7 +11,7 @@ import { handleResendVerficationOTPFunction, handleEmailVerificationOTP } from "
 import { handleGetUserDataFunction, handleGetUsersBookmarkedCourses, handleGetUsersBookmarkedVideo } from "../controllers/user/userGetData.controllers";
 import { handleUpdateUserImageFunction } from "../controllers/user/userProfileUpdate.controllers";
 import { handleResetPasswordFunction, handleResetPasswordVerificationOTP } from "../controllers/user/userResetPassword.controllers";
-import { handleUserCourseBookmarkfunction , handleUserCourseProgress, handleUserVideoBookmarkfunction} from "../controllers/user/userCourseHandlers.controllers";
+import { handleUserCourseBookmarkfunction , handleUserCourseProgress, handleUserUnenrolledCourseFunction, handleUserVideoBookmarkfunction} from "../controllers/user/userCourseHandlers.controllers";
 import { handleChangeRoleRequestFunction } from "../controllers/user/userChangeRole.controllers";
 
 const userRoute = express.Router();
@@ -22,7 +22,7 @@ userRoute.get("/get-user", authenticateToken , handleGetUserDataFunction);
 // User Bookmarked Videos
 userRoute.post("/get-bookmarked-videos", authenticateToken , handleGetUsersBookmarkedVideo);
 userRoute.post("/get-bookmarked-courses", authenticateToken , handleGetUsersBookmarkedCourses);
-// userRoute.post("/get-bookmarked-tests", authenticateToken , handleGetUsersBookmarkedTests);
+userRoute.post("/unenrolled-in-course" , authenticateToken , handleUserUnenrolledCourseFunction);
 
 // User Signup/Login Routes
 userRoute.post("/signup", handleSignUpFunction);

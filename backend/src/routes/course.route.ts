@@ -4,7 +4,7 @@ import { handleAddNewPersonalCourseFunction, handleAddNewRedirectCourseFunction,
 import { upload } from "../middleware/multer.middleware";
 import { handleFetchAllCoursesAsPerParams, handleFetchAllCoursesFunction, handleFetchCourseByIdFunction, handleGetCourseBySearchParams, handleGetCoursesByUserIdFunction } from "../controllers/course/getCourses.controllers";
 import { handleUpdatePersonalCourseFunction, handleUpdateRedirectCourseFunction, handleUpdateYoutubeCourseFunction } from "../controllers/course/updateCourse.controllers";
-import { handleGetAllCoursesEnrolledByUser, handleUserEnrolledCourseFunction } from "../controllers/course/enrolledCourses.controllers";
+import { handleGetAllCoursesEnrolledByUser, handleUserEnrolledCourseFunction} from "../controllers/course/enrolledCourses.controllers";
 import { handleDeleteCourseFunction } from "../controllers/course/deleteCourse.controllers";
 
 const courseRoute = express.Router();
@@ -19,7 +19,6 @@ courseRoute.get("/get-all-courses" , handleFetchAllCoursesFunction);
 courseRoute.get("/get-admin-courses" , authenticateAdminToken ,  handleGetCoursesByUserIdFunction);
 
 courseRoute.get("/get-user-enrolled-courses" , authenticateToken ,  handleGetAllCoursesEnrolledByUser);
-
 courseRoute.post("/enroll-in-course" , authenticateToken , handleUserEnrolledCourseFunction);
 
 courseRoute.post("/add-course/youtube" , authenticateAdminToken , upload.single("youtubeCourseImage"),   handleAddNewYoutubeCourseFunction);
