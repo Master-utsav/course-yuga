@@ -43,7 +43,8 @@ export const getUserData = async (): Promise<UserDataProps | null> => {
         id: responseData.uniqueId,
         enrolledIn: responseData.enrolledIn,
         bookmarks : responseData.bookmarks,
-        progress : responseData.progress
+        progress : responseData.progress,
+        history : responseData.history,
       };
 
       return userData;

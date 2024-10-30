@@ -29,7 +29,8 @@ export async function handleGetUserDataFunction( req: AuthenticatedRequest, res:
       address: user.address,
       enrolledIn: user.enrolledIn,
       bookmarks: user.bookmarks,
-      progress : user.progress,   
+      progress : user.progress,  
+      history: user.history, 
   };
 
     return res.status(200).json({ success: true, data });
@@ -140,6 +141,52 @@ export async function handleGetUsersBookmarkedCourses(req: AuthenticatedRequest 
   } catch (error) {
     console.error('Error fetching courses:', error);
     return res.status(500).json({success: false, message: 'An error occurred while fetching courses'});
+  }
+}
+
+export async function handleGetUserHistoryVideos(req: AuthenticatedRequest , res: Response){
+  const userId = req.userId; 
+
+  if(!userId){
+   return res.status(401).json({success: false , message: "Unauthorized"})
+  }
+
+  const {videoIds} = req.body;
+  if (!Array.isArray(videoIds) || videoIds.length === 0) {
+    return res.status(400).json({ success: false, message: 'nothing found in history' });
+  }
+
+  try {
+
+    const videos = await VideoModel.find({ videoId: { $in: videoIds } }).lean().exec();
+
+    if (!videos || videos.length === 0) {
+      return res.status(404).json({success: false, message: 'No videos found for the provided IDs'});
+    }
+
+    const filteredVideos = videos.map((video) => ({
+      videoName: video.videoName,
+      tutorName: video.tutorName,
+      videoType: video.videoType,
+      courseId: video.courseId,
+      videoId: video.videoId,
+      uploadedBy: video.uploadedBy,
+      thumbnail: video.thumbnail,
+      videoUrl: video.videoUrl,
+      description: video.description ?? '', 
+      watchedBy: video.watchedBy ?? [], 
+      watchCount: video.watchedBy.length ?? 0, 
+      videoTimeStamps: video.videoTimeStamps ?? [], 
+      isVerified: video.isVerified,
+      markdownContent: video.markdownContent ?? '', 
+      pub_id: video.pub_id ?? '', 
+    }));
+
+    return res.status(200).json({ success: true, videos : filteredVideos });
+
+  } catch (error) {
+    console.error('Error fetching videos:', error);
+    return res.status(500).json({success: false, message: 'An error occurred while fetching videos'});
   }
 }
 

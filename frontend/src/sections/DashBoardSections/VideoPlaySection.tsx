@@ -1,5 +1,5 @@
 import { IVideoData } from "@/constants";
-import { VIDEO_API } from "@/lib/env";
+import { USER_API, VIDEO_API } from "@/lib/env";
 import { ErrorToast } from "@/lib/toasts";
 import { Accordion, AccordionItem, Button } from "@nextui-org/react";
 import axios from "axios";
@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import VideoPlayer from "@/components/VideoPlayer";
 import MDEditor from "@uiw/react-md-editor";
 import Seperator from "@/components/Seperator";
+import { getVerifiedToken } from "@/lib/cookieService";
 
 const extractYouTubeVideoId = (url: string) => {
   const regExp = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|.+\?v=))([^&?/\s]+)/;
@@ -43,6 +44,32 @@ const VideoPlaySection: React.FC = () => {
       setVideoData(null);
     }
   }, [videoId]);
+
+  async function handleAddToHistory(videoId : string | null){
+    if(!videoId){
+      return;
+    }
+    const jwt = getVerifiedToken();
+    if(!jwt){
+      return;
+    }
+    console.log(videoId);
+    console.log(jwt);
+    try {
+      const response = await axios.post(`${USER_API}/add-video-to-history`, {videoId} , {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+          "Content-Type": "application/json",
+          }
+      });
+      if (response?.data?.success === false){
+        ErrorToast(response.data.message);
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      ErrorToast(error?.response.data.message || "Something went wrong");
+    }
+  }
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -92,7 +119,7 @@ const VideoPlaySection: React.FC = () => {
                   )}
                 </div>
               ) : (
-                <div className="w-full aspect-video rounded-2xl dark:bg-gray-700 bg-white-600 object-cover overflow-hidden">
+                <div className="w-full aspect-video rounded-2xl dark:bg-gray-700 bg-white-600 object-cover overflow-hidden" >
                   {videoData?.videoUrl ? (
                     <iframe
                       className="w-full aspect-video "
@@ -103,7 +130,8 @@ const VideoPlaySection: React.FC = () => {
                       frameBorder="0"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
-                    />
+                      onLoad={() => handleAddToHistory(videoId)}
+                      />
                   ) : (
                     <div className="flex justify-center items-center">
                       <h1 className="text-2xl dark:text-white text-center w-full mx-auto text-black">

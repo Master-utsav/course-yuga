@@ -146,6 +146,105 @@ export async function handleUserUnenrolledCourseFunction(req: AuthenticatedReque
     }
 }
 
+export async function handleRemoveHistoryVideo(req: AuthenticatedRequest , res: Response){
+  const userId = req.userId;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: 'User ID not found' });
+  }
+
+  const { videoId } = req.body;
+
+  if (!videoId) {
+    return res.status(400).json({ success: false, message: 'Video ID or Course ID not found' });
+  }
+  
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    const videoIndex = user.history.findIndex((item : any) => item.video === videoId);
+
+    if (videoIndex !== -1) {
+      
+      user.history.splice(videoIndex, 1);
+      await user.save();
+    
+      return res.status(200).json({
+        success: true,
+        message: 'Removed from history',
+      });
+    }
+
+    return res.status(404).json({
+      success: false,
+      message: 'Video not found in history',
+    });
+
+  } catch (error) {
+    return res.status(500).json({success: false , message: "Internal server error"})
+  }
+
+}
+
+export async function handleRemoveUserEntireHistory(req: AuthenticatedRequest, res: Response){
+  const userId = req.userId;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: 'User ID not found' });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    user.history = [];
+    await user.save();
+
+    return res.status(200).json({ success: true, message: 'Removed history' });
+    
+  } catch (error) {
+    return res.status(500).json({success: false , message: "Internal server error"})
+  }
+}
+
+
+export async function handleUserHistoryVideoOrder(req: AuthenticatedRequest, res: Response) {
+  const userId = req.userId;
+
+  if (!userId) {
+    return res.status(401).json({ success: false, message: 'User ID not found' });
+  }
+
+  const { videoId } = req.body;
+  if (!videoId) {
+    return res.status(400).json({ success: false, message: 'Video ID or Course ID not found' });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    
+    const videoIndex = user.history.findIndex((item: any) => item.video === videoId);
+
+    if (videoIndex !== -1) {
+      // If it exists, update the timestamp
+      user.history[videoIndex].time = new Date();
+    } else {
+      // Add new entry if not found
+      user.history.push({ video: videoId, time: new Date() });
+    }
+    
+    await user.save();
+
+
+  } catch (error) {
+    console.error("Error updating user history:", error);
+  }
+}
 
 export async function handleUserCourseProgress(req: AuthenticatedRequest, res: Response) {
   const userId = req.userId;

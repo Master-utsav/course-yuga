@@ -40,6 +40,10 @@ export interface IUser extends Document {
     completedVideos?: string[];
     count?: number;
   }[];
+  history?:{
+    video: string;
+    time: string;
+  }
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -84,6 +88,12 @@ const userSchema = new mongoose.Schema<IUser>({
       count:  { type: Number }
     },
   ],
+  history: [
+    {
+      video: { type: String, ref: 'Video' },
+      time: { type: String }
+    }
+  ]
 }, 
 { 
   timestamps: true 

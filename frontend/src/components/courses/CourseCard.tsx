@@ -25,7 +25,7 @@ const cardVariants = {
     zIndex: i * 1,
     x: 0,
     transition: {
-      delay: i * 0.3,
+      delay: i * 0.15,
       ease: [0.7, 0, 0.84, 0],
     },
   }),

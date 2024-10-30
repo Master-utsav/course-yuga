@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { Button, Image } from "@nextui-org/react";
-import BookmarkIcon2 from "@/Icons/BookmarkIcon2";
 import { useTheme } from "@/context/ThemeProvider";
 import { getVerifiedToken } from "@/lib/cookieService";
 import axios from "axios";
@@ -29,7 +28,7 @@ const cardVariants = {
     zIndex: i * 1,
     x: 0,
     transition: {
-      delay: i * 0.3,
+      delay: i * 0.1,
       ease: [0.7, 0, 0.84, 0],
     },
   }),
@@ -176,9 +175,9 @@ const UserEnrolledCourses: React.FC = () => {
                     className="w-full font-medium sm:text-base text-sm font-ubuntu bg-white-700 hover:bg-white-800 text-black  dark:bg-gray-700 dark:text-white dark:hover:bg-gray-900"
                     onClick={() => handleUnenrolledClick(course.courseId)}
                 >
-                    <BookmarkIcon2
+                     <AlertIcon
                         fillColor={
-                        theme === "dark" ? "rgb(192 132 252)" : "rgb(88 28 135)"
+                        theme === "dark" ? "rgb(220 38 38)" : "rgb(127 29 29)"
                         }
                         size={24}
                     />

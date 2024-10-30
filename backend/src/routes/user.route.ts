@@ -8,10 +8,10 @@ import { handlePhoneNumberOTPCheckFunction, handlePhoneNumberOTPSendFunction } f
 import { handleDeleteAccountFunction } from "../controllers/user/userDataDelete.controllers";
 import { handleUpdateUserFunction } from "../controllers/user/userDataUpdate.controllers";
 import { handleResendVerficationOTPFunction, handleEmailVerificationOTP } from "../controllers/user/userEmailVerification.controllers";
-import { handleGetUserDataFunction, handleGetUsersBookmarkedCourses, handleGetUsersBookmarkedVideo } from "../controllers/user/userGetData.controllers";
+import { handleGetUserDataFunction, handleGetUserHistoryVideos, handleGetUsersBookmarkedCourses, handleGetUsersBookmarkedVideo } from "../controllers/user/userGetData.controllers";
 import { handleUpdateUserImageFunction } from "../controllers/user/userProfileUpdate.controllers";
 import { handleResetPasswordFunction, handleResetPasswordVerificationOTP } from "../controllers/user/userResetPassword.controllers";
-import { handleUserCourseBookmarkfunction , handleUserCourseProgress, handleUserUnenrolledCourseFunction, handleUserVideoBookmarkfunction} from "../controllers/user/userCourseHandlers.controllers";
+import { handleRemoveHistoryVideo, handleRemoveUserEntireHistory, handleUserCourseBookmarkfunction , handleUserCourseProgress, handleUserHistoryVideoOrder, handleUserUnenrolledCourseFunction, handleUserVideoBookmarkfunction} from "../controllers/user/userCourseHandlers.controllers";
 import { handleChangeRoleRequestFunction } from "../controllers/user/userChangeRole.controllers";
 
 const userRoute = express.Router();
@@ -22,6 +22,10 @@ userRoute.get("/get-user", authenticateToken , handleGetUserDataFunction);
 // User Bookmarked Videos
 userRoute.post("/get-bookmarked-videos", authenticateToken , handleGetUsersBookmarkedVideo);
 userRoute.post("/get-bookmarked-courses", authenticateToken , handleGetUsersBookmarkedCourses);
+userRoute.post("/get-user-history", authenticateToken , handleGetUserHistoryVideos);
+userRoute.post("/add-video-to-history", authenticateToken , handleUserHistoryVideoOrder);
+userRoute.post("/delete-user-history-video", authenticateToken , handleRemoveHistoryVideo);
+userRoute.delete("/delete-user-entire-history", authenticateToken , handleRemoveUserEntireHistory);
 userRoute.post("/unenrolled-in-course" , authenticateToken , handleUserUnenrolledCourseFunction);
 
 // User Signup/Login Routes

@@ -18,7 +18,7 @@ const RefreshPage = () => {
 
   return (
       <motion.div
-        className="dark:bg-white/5 bg-black/5 rounded-lg flex justify-center items-center"
+        className="dark:bg-white/5 bg-black/5 rounded-lg flex justify-center items-center min-h-screen"
         variants={{
           hidden: { opacity: 0.3, scale: 0.8 },
           visible: { opacity: 1, scale: 1 },

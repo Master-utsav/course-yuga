@@ -4,17 +4,18 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import VideoModel from "../../models/Video.model";
+import User from "../../models/User.model";
 dotenv.config();
 
 // Helper function to verify JWT token
-async function checkAuth(token: string): Promise<{ userId: string } | string> {
+async function checkAuth(token: string): Promise<{ userId: string , uniqueId: string} | string> {
   return new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_SECRET!, (err, decoded) => {
       if (err) {
         return resolve("Invalid token");
       }
       if (decoded && typeof decoded === "object" && "id" in decoded) {
-        resolve({ userId: (decoded as { id: string }).id });
+        resolve({ userId: (decoded as { id: string }).id , uniqueId : (decoded as { uniqueId: string }).uniqueId });
       } else {
         resolve("Invalid token");
       }
@@ -37,7 +38,7 @@ export async function handleVideoStreamingFunction(req: Request, res: Response) 
     return res.status(401).send(authData); // "Invalid token"
   }
 
-  const { userId } = authData;
+  const { userId , uniqueId} = authData;
   if (!userId) {
     return res.status(400).send("User ID not found");
   }
@@ -81,11 +82,41 @@ export async function handleVideoStreamingFunction(req: Request, res: Response) 
     // Stream the video data to the frontend
     response.data.pipe(res);
 
-     //watchedBy: [{ type: Schema.Types.ObjectId, ref: "User" }], 
-    video.watchedBy.push(userId);
+    if (!video.watchedBy.includes(uniqueId)) {
+      video.watchedBy.push(uniqueId);
+    }
+    await handleUserHistoryVideoOrder(video.videoId , userId);
+
     await video.save();
   } catch (error) {
     console.error("Error streaming video:", error);
     res.status(500).send("An error occurred while streaming the video.");
+  }
+}
+
+async function handleUserHistoryVideoOrder(videoId: string, userId: string) {
+  try {
+    const user = await User.findById(userId);
+    
+    if (!user) {
+      console.error("User not found");
+      return;
+    }
+
+    // Check if the video is already in history
+    const videoIndex = user.history.findIndex((item: any) => item.video === videoId);
+
+    if (videoIndex !== -1) {
+      // If it exists, update the timestamp
+      user.history[videoIndex].time = new Date();
+    } else {
+      // Add new entry if not found
+      user.history.push({ video: videoId, time: new Date() });
+    }
+    
+    await user.save();
+
+  } catch (error) {
+    console.error("Error updating user history:", error);
   }
 }

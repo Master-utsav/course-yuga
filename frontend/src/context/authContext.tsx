@@ -35,6 +35,10 @@ export interface UserDataProps {
     completedVideos: string[];
     count: number;
   }[];
+  history?: { 
+    video: string;
+    time: string 
+  }[]
 }
 
 interface AuthContextType {
