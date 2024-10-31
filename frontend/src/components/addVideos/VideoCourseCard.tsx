@@ -107,7 +107,7 @@ const VideoCourseCard: React.FC<VideoCourseCardProps> = ({ courseData }) => {
             {courseData.tutorName}
           </h4>
 
-          <i className="w-full text-gray-600 dark:text-gray-400 text-sm font-extralight font-libre line-clamp-3s break-words">
+          <i className="w-full text-gray-600 dark:text-gray-400 text-sm font-extralight font-libre line-clamp-3 break-words">
             {courseData.description}
           </i>
 

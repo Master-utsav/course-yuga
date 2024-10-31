@@ -182,7 +182,7 @@ const EditPersonalVideoForm: React.FC<EditPersonalVideoFormProps> = ({video, onE
             )}
           </div>
         </div>
-        <div className="flex gap-2 flex-col">
+        <div className="flex gap-2 flex-col overflow-hidden w-full relative justify-center items-center">
             <AddTimeStamps timeStamps={timeStamps} onTimeStamps={handleTimeStamps}/>
             <Button
             type="submit"

@@ -162,8 +162,8 @@ const VideoEditPage: React.FC = () => {
   if (!videoData) return <p>Loading course data...</p>; 
   
   return (
-    <div className="flex flex-col w-full mx-auto p-10 min-h-screen bg-gray-100 dark:bg-gray-900   overflow-auto hide-scrollbar">
-      <div className="flex w-full mx-auto  overflow-auto hide-scrollbar  relative overflow-x-hidden break-words">
+    <div className="flex flex-col w-full mx-auto  px-4 p-10 min-h-screen bg-gray-100 dark:bg-gray-900   overflow-auto hide-scrollbar">
+      <div className="flex w-full lg:flex-row flex-col mx-auto  overflow-auto hide-scrollbar  relative overflow-x-hidden break-words">
         {/* Left Section: Editable Content */}
 
         <div className="flex-1 p-8 space-y-2 overflow-auto font-ubuntu w-full relative">
@@ -175,7 +175,7 @@ const VideoEditPage: React.FC = () => {
           <h2 className="text-2xl text-gray-600 dark:text-white font-medium">
             {videoData.tutorName || "Tutor Name"}
           </h2>
-          <p className="text-lg text-gray-800 dark:text-gray-300 w-full">
+          <p className="text-lg text-gray-800 dark:text-gray-300 w-full line-clamp-3">
             {videoData.description || "Description"}
           </p>
 
@@ -220,7 +220,7 @@ const VideoEditPage: React.FC = () => {
 
           {/* Markdown Editor */}
           <div className="bg-transparent mt-6 w-full ">
-          <div className="flex space-x-4 mb-4">
+          <div className="flex md:space-x-4 mb-4 md:flex-row flex-col justify-center items-center gap-1">
               <div
                 onClick={() => setActiveEditor("markdown")}
                 className={`flex-1 cursor-pointer p-4 rounded-lg transition-all duration-300 ease-in-out space-y-1 ${
@@ -230,7 +230,7 @@ const VideoEditPage: React.FC = () => {
                 }`}
               >
                 <h3 className="font-ubuntu text-xl font-semibold">Markdown Editor</h3>
-                <p className="font-ubuntu text-base text-gray-600 dark:text-gray-100">
+                <p className="font-ubuntu md:text-base text-sm text-gray-600 dark:text-gray-100">
                   Write using Markdown syntax. Perfect for formatting text with headers, lists, links, and images easily. 
                   <br /> 
                   <i className="font-libre">*Ideal for documentation, notes, and quick text editing!*</i>
@@ -245,7 +245,7 @@ const VideoEditPage: React.FC = () => {
                 }`}
               >
                 <h3 className="font-ubuntu text-xl font-semibold">Quill Editor</h3>
-                <p className="font-ubuntu text-base text-gray-600 dark:text-gray-100">
+                <p className="font-ubuntu md:text-base text-sm text-gray-600 dark:text-gray-100">
                   Rich text editor with various formatting options. Easily create styled content with bold, italics, lists, and more. 
                   <br /> 
                   <i className="font-libre">*Great for blogs, articles, and any content requiring complex formatting!*</i>

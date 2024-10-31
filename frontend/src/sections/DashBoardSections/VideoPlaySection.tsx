@@ -103,7 +103,7 @@ const VideoPlaySection: React.FC = () => {
       ) : (
         <div className="w-full p-4 grid grid-cols-4 gap-4 relative">
           {/* Main Content */}
-          <div className="col-span-3 w-full relative">
+          <div className="lg:col-span-3 col-span-4 w-full relative">
             {/* Video Display */}
             <div className="mb-4">
               {videoData?.videoType !== "YOUTUBE" ? (
@@ -185,28 +185,32 @@ const VideoPlaySection: React.FC = () => {
           </div>
 
           {/* Timestamps */}
-          <aside className="col-span-1 w-full border dark:border-white-500 border-black-600 rounded-lg h-fit">
-            <h3 className="text-2xl px-1 font-ubuntu bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-teal-400 to-blue-500 font-semibold mb-3 text-center p-1 underline decoration-cyan-300">
-              Timestamps
-            </h3>
-            <ul className="px-4 bg-transparent divide-y divide-gray-300 dark:divide-gray-700">
-              {videoData?.videoTimeStamps?.map((timestamp, index) => (
-                <li key={index} className="flex items-center justify-between py-2">
+          <aside className="lg:col-span-1 col-span-4 w-full border dark:border-white-500 border-black-600 rounded-lg h-fit">
+          <Accordion isCompact>
+            {/* className="text-2xl px-1 font-ubuntu bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-teal-400 to-blue-500 font-semibold mb-3 text-center p-1 underline decoration-cyan-300" */}
+             <AccordionItem key={"1"} aria-label="Accordion 1"
+             className=""
+              title={"Timestamps"}>
+               <ul className="px-4 bg-transparent divide-y divide-gray-300 dark:divide-gray-700">
+              {videoData.videoTimeStamps && videoData.videoTimeStamps.map((timestamp, index) => (
+                <li key={index} className="w-full flex items-center justify-center py-2 flex-wrap">
                   {/* Timestamp Button */}
                   <Button
                     variant="ghost"
-                    className="text-blue-400 p-0 w-28 hover:bg-white dark:hover:bg-gray-800 transition-colors duration-300"
+                    className="w-[20%] text-blue-400 p-0 hover:bg-white dark:hover:bg-gray-800 transition-colors duration-300"
                   >
                     {timestamp.time}
                   </Button>
 
                   {/* Text aligned to the end */}
-                  <span className="w-[80%] text-end flex-grow text-gray-600 dark:text-gray-300 font-medium">
+                  <span className="md:w-[80%] w-full text-center flex-grow text-gray-600 dark:text-gray-300 font-medium">
                     {timestamp.text}
                   </span>
                 </li>
               ))}
             </ul>
+             </AccordionItem>
+           </Accordion>
 
 
           </aside>

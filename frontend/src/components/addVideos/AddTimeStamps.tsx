@@ -66,20 +66,20 @@ const AddTimeStamps: React.FC<AddTimeStampsProps> = ({ timeStamps, onTimeStamps 
   };
 
   return (
-    <div className="w-full relative py-2 gap-1">
+    <div className="w-fit overflow-hidden  py-2 gap-1">
       <h1 className="text-center font-bold underline decoration-purple-500 text-lg bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
         Add your Video TimeStamps
       </h1>
-      <Table >
+      <Table className="w-fit">
         <TableHeader>
-          <TableRow className="hover:bg-transparent flex py-2">
-            <TableHead className="text-start flex justify-between items-center w-full border-r-[1px] dark:border-white border-black">
+          <TableRow className="hover:bg-transparent justify-center items-center flex flex-col md:flex-row py-2">
+            <TableHead className="text-start flex justify-between items-center w-fit md:border-r-[1px] dark:border-white border-black max-md:gap-4">
               Time of that stamp
               <Button isDisabled variant="ghost" className="text-blue-400 p-0">
                 00:00
               </Button>
             </TableHead>
-            <TableHead className="text-start flex justify-between items-center w-full ">
+            <TableHead className="text-start flex justify-between items-center w-fit max-md:gap-4">
               Title of that stamp
               <Button isDisabled variant="ghost" className="text-blue-400 p-0">
                 Intro
@@ -87,16 +87,16 @@ const AddTimeStamps: React.FC<AddTimeStampsProps> = ({ timeStamps, onTimeStamps 
             </TableHead>
           </TableRow>
         </TableHeader>
-        <div className="w-full relative flex flex-col">
+        <div className="w-full flex flex-col gap-2">
           {stamps.map((stamp, i) => (
-            <div key={i} className="w-full flex py-1 gap-2">
+            <div key={i} className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 py-1">
               <Input
                 variant="bordered"
-                className="bg-transparent"
+                className="w-full bg-transparent"
                 label="Time"
                 value={stamp.time}
                 onChange={(e) => handleInputChange(i, "time", e.target.value)}
-                onPaste={i === 0 ? handlePaste : undefined} // handel the paste function on this pootion
+                onPaste={i === 0 ? handlePaste : undefined}
               />
               <Input
                 variant="bordered"
@@ -108,57 +108,36 @@ const AddTimeStamps: React.FC<AddTimeStampsProps> = ({ timeStamps, onTimeStamps 
             </div>
           ))}
         </div>
-        <div className="w-full relative flex flex-col gap-2 mt-4">
-        <div>
-          <div className="flex flex-wrap gap-3">
-              <Button  
-                variant="bordered" 
-                color="warning" 
-                onPress={() => onOpen()}
-                className="w-full font-ubuntu"
-              >
-              Paste your TimeStamps, <span className="font-bold">view formate which is required to paste the timestamps</span>
-              </Button>
-          </div>
+        <div className="w-full justify-center items-center flex flex-col gap-4 mt-4">
+          <Button
+            variant="bordered"
+            color="warning"
+            onPress={onOpen}
+            className="md:w-full w-fit font-ubuntu text-sm md:text-base max-md:whitespace-normal"
+          >
+            Paste your TimeStamps,{" "}
+            <span className="font-bold max-md:whitespace-normal">view format required to paste the timestamps</span>
+          </Button>
           <Modal backdrop={"opaque"} isOpen={isOpen} onClose={onClose}>
             <ModalContent>
               {(onClose) => (
                 <div>
-                  <ModalHeader className="flex flex-col gap-1">Formate of TimeStamp</ModalHeader>
+                  <ModalHeader className="flex flex-col gap-1">
+                    Format of TimeStamp
+                  </ModalHeader>
                   <ModalBody>
-                  <ul className="space-y-2 p-4 rounded-lg shadow-md bg-white dark:bg-gray-800">
-                    <li className="flex justify-start text-lg text-gray-800 dark:text-gray-200">
-                      <span>00:00 - Introduction</span>
-                    </li>
-                    <li className="flex justify-start text-lg text-gray-800 dark:text-gray-200">
-                      <span>00:05 - Compilation Process</span>
-                    </li>
-                    <li className="flex justify-start text-lg text-gray-800 dark:text-gray-200">
-                      <span>02:27 - Thanks Message</span>
-                    </li>
-                    <li className="flex justify-start text-lg text-gray-800 dark:text-gray-200">
-                      <span>02:39 - Promotion</span>
-                    </li>
-                    <li className="flex justify-start text-lg text-gray-800 dark:text-gray-200">
-                      <span>03:30 - Compiler & IDE Setup</span>
-                    </li>
-                    <li className="flex justify-start text-lg text-gray-800 dark:text-gray-200">
-                      <span>06:32 - Start of Program in C++</span>
-                    </li>
-                    <li className="flex justify-start text-lg text-gray-800 dark:text-gray-200">
-                      <span>08:47 - Writing "Namaste Dunia" Program</span>
-                    </li>
-                    <li className="flex justify-start text-lg text-gray-800 dark:text-gray-200">
-                      <span>09:48 - Understanding the Code Line by Line</span>
-                    </li>
-                    <li className="flex justify-start text-lg text-gray-800 dark:text-gray-200">
-                      <span>16:33 - Data Types & Variables</span>
-                    </li>
-                    <li className="flex justify-start text-lg text-gray-800 dark:text-gray-200">
-                      <span>26:41 - How Data is Stored?</span>
-                    </li>
-                  </ul>
-
+                    <ul className="space-y-2 p-4 rounded-lg shadow-md bg-white dark:bg-gray-800 text-sm md:text-base">
+                      <li className="text-gray-800 dark:text-gray-200">00:00 - Introduction</li>
+                      <li className="text-gray-800 dark:text-gray-200">00:05 - Compilation Process</li>
+                      <li className="text-gray-800 dark:text-gray-200">02:27 - Thanks Message</li>
+                      <li className="text-gray-800 dark:text-gray-200">02:39 - Promotion</li>
+                      <li className="text-gray-800 dark:text-gray-200">03:30 - Compiler & IDE Setup</li>
+                      <li className="text-gray-800 dark:text-gray-200">06:32 - Start of Program in C++</li>
+                      <li className="text-gray-800 dark:text-gray-200">08:47 - Writing "Namaste Dunia" Program</li>
+                      <li className="text-gray-800 dark:text-gray-200">09:48 - Understanding the Code Line by Line</li>
+                      <li className="text-gray-800 dark:text-gray-200">16:33 - Data Types & Variables</li>
+                      <li className="text-gray-800 dark:text-gray-200">26:41 - How Data is Stored?</li>
+                    </ul>
                   </ModalBody>
                   <ModalFooter>
                     <Button color="danger" variant="light" onPress={onClose}>
@@ -169,24 +148,23 @@ const AddTimeStamps: React.FC<AddTimeStampsProps> = ({ timeStamps, onTimeStamps 
               )}
             </ModalContent>
           </Modal>
-        </div>
-            <Button
-                variant="bordered"
-                className="w-full flex gap-1 justify-center items-center font-ubuntu font-medium text-lg dark:border-white border-black"
-                onClick={handleOnAddTimeStamps}
-                >
-                <AddIcon fillColor={theme === "dark" ? "white" : "black"} />
-                Add
-            </Button>
-            <Button
-                variant="bordered"
-                color="danger"
-                className=" w-full flex gap-1 bg-red justify-center text-red-500 items-center font-ubuntu font-medium text-lg border-red-500"
-                onClick={handleRemoveTimeStamp}
-                >
-                <MinusIcon fillColor={"rgb(239 68 68)"} />
-                {"  "}  Remove
-            </Button>
+          <Button
+            variant="bordered"
+            className="w-full flex gap-1 justify-center items-center font-ubuntu font-medium text-sm md:text-lg dark:border-white border-black"
+            onClick={handleOnAddTimeStamps}
+          >
+            <AddIcon fillColor={theme === "dark" ? "white" : "black"} />
+            Add
+          </Button>
+          <Button
+            variant="bordered"
+            color="danger"
+            className="w-full flex gap-1 justify-center items-center font-ubuntu font-medium text-sm md:text-lg border-red-500"
+            onClick={handleRemoveTimeStamp}
+          >
+            <MinusIcon fillColor={"rgb(239 68 68)"} />
+            Remove
+          </Button>
         </div>
       </Table>
     </div>

@@ -149,7 +149,7 @@ const EditYoutubeCourseForm: React.FC<EditYoutubeCourseFormProps> = ({video, onE
       {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
 
 
-      <div className="w-full relative grid sm:grid-cols-2 grid-cols-1 gap-5 items-start justify-between">
+      <div className="w-full relative grid xl:grid-cols-2 grid-cols-1 gap-5 xl:items-start xl:justify-between items-center justify-center">
         <div className="mb-4 w-full ">
           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
             Thumbnail (Choose File or Enter URL)
@@ -193,7 +193,7 @@ const EditYoutubeCourseForm: React.FC<EditYoutubeCourseFormProps> = ({video, onE
             )}
           </div>
         </div>
-        <div className="flex gap-2 flex-col">
+        <div className="flex gap-2 flex-col overflow-hidden w-full relative justify-center items-center">
             <AddTimeStamps timeStamps={timeStamps} onTimeStamps={handleTimeStamps}/>
             <Button
             type="submit"
