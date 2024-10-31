@@ -34,7 +34,7 @@ const RefreshPage = () => {
         <p className="text-gray-700 mb-4 font-ubuntu dark:text-white-600">
           Are you sure you want to Refresh?
         </p>
-        <div className="flex gap-4 mt-4 justify-between">
+        <div className="flex w-full sm:flex-row flex-col  gap-4 mt-4 justify-between">
           <button
             className="bg-gray-300 text-gray-700 px-5 py-2 rounded-lg shadow-md hover:bg-gray-400 transition duration-200 font-ubuntu"
             onClick={handleCancelRefresh}

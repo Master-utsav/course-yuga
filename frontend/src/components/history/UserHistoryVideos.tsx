@@ -135,14 +135,14 @@ const UserHistoryVideos: React.FC<{ history: { video: string; time: string }[] }
                   className="z-0 object-cover p-2 aspect-video"
                 />
               </div>
-              <div className="flex flex-col justify-between items-start space-y-4 md:w-1/2 w-full relative">
-                <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+              <div className="flex flex-col justify-between items-start xl:space-y-4 md:space-y-2 md:w-1/2 w-full relative">
+                <h2 className="max-sm:line-clamp-2 lg:text-2xl text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
                   {video.videoName}
                 </h2>
                 <h4 className="text-lg text-gray-600 dark:text-white font-ubuntu">
                   {video.tutorName}
                 </h4>
-                <i className="w-full text-gray-600 dark:text-gray-400 text-sm font-extralight font-libre line-clamp-3s break-words">
+                <i className="line-clamp-3 max-lg:hidden w-full text-gray-600 dark:text-gray-400 text-sm font-extralight font-libre line-clamp-3s break-words">
                   {video.description}
                 </i>
                 <div className="flex justify-start items-center gap-2">

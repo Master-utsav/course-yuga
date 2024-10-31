@@ -10,11 +10,11 @@ const Community: React.FC = () => {
   const {isOpen , onClose, onOpen} = useDisclosure();
   // const displayText = "Welcome to the Course-Yuga Community!".split('');
   return (
-    <div className="min-h-screen   bg-white dark:bg-black text-neutral-300 flex flex-col items-center px-6 py-12 lg:pt-28 relative overflow-x-hidden pt-40 md:pt-56">
+    <div className="min-h-screen   bg-white dark:bg-black text-neutral-300 flex flex-col items-center px-6 py-12 lg:pt-56 pt-60 md:pt-56 relative overflow-x-hidden ">
       {/* Header Section */}
       <div className="max-w-7xl w-full text-center">
       <motion.h1
-          className="text-2xl md:text-6xl text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-500 to-purple-600  font-extrabold font-ubuntu mb-6"
+          className="text-3xl md:text-6xl text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-blue-500 to-purple-600  font-extrabold font-ubuntu mb-6"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
@@ -49,7 +49,7 @@ const Community: React.FC = () => {
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.7, 0, 0.84, 0] , delay: 0.5 }}
-        className="text-neutral-500 dark:text-neutral-400 text-lg font-libre overflow-hidden">
+        className="text-neutral-500 dark:text-neutral-400 sm:text-lg text-base font-libre overflow-hidden">
           Connect with learners worldwide, share your thoughts, ask questions, and grow together!
         </motion.i>
       </div>

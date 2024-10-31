@@ -1,36 +1,46 @@
 import { useEffect, useState } from "react";
 
-const MODAL_OPEN_KEY = "modal-open-timestamp"; // LocalStorage Key
-const THIRTY_MINUTES = 30 * 60 * 1000; // 30 minutes in milliseconds
+const MODAL_OPEN_KEY = "modal-open-timestamp";
+const THIRTY_MINUTES = 30 * 60 * 1000;
 
-/**
- * Custom hook to manage modal state with localStorage.
- * It ensures the modal is opened only once every 30 minutes.
- */
 const useModalWithLocalStorage = () => {
-  const [isValidOpen, setIsValidOpen] = useState(false);
+  const initialCheck = () => {
+    const lastOpened = localStorage.getItem(MODAL_OPEN_KEY);
+    const now = Date.now();
+    return !lastOpened || now - parseInt(lastOpened, 10) >= THIRTY_MINUTES;
+  };
+
+  const [isValidOpen, setIsValidOpen] = useState(initialCheck);
 
   useEffect(() => {
-    const checkModalState = () => {
-      const lastOpened = localStorage.getItem(MODAL_OPEN_KEY);
+    // Only set isValidOpen initially; later, update only in intervals
+    const now = Date.now();
+    const lastOpened = localStorage.getItem(MODAL_OPEN_KEY);
+
+    if (!lastOpened || now - parseInt(lastOpened, 10) >= THIRTY_MINUTES) {
+      setIsValidOpen(true);
+      localStorage.setItem(MODAL_OPEN_KEY, now.toString());
+    } else {
+      setIsValidOpen(false);
+    }
+
+    // Check every 30 minutes without causing re-renders in between
+    const interval = setInterval(() => {
       const now = Date.now();
+      const lastOpened = localStorage.getItem(MODAL_OPEN_KEY);
 
-      if (!lastOpened || now - parseInt(lastOpened) >= THIRTY_MINUTES) {
-        setIsValidOpen(true); // Open modal if 30 minutes passed
-        localStorage.setItem(MODAL_OPEN_KEY, now.toString()); // Update timestamp
+      if (!lastOpened || now - parseInt(lastOpened, 10) >= THIRTY_MINUTES) {
+        setIsValidOpen(true);
+        localStorage.setItem(MODAL_OPEN_KEY, now.toString());
       } else {
-        setIsValidOpen(false); // Keep it closed within 30 minutes
+        setIsValidOpen(false);
       }
-    };
-
-    checkModalState(); // Check modal state on component mount
-
-    const interval = setInterval(checkModalState, 1000 * 60); // Recheck every minute
+    }, THIRTY_MINUTES);
 
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
-  return {isValidOpen};
+  return { isValidOpen };
 };
 
 export default useModalWithLocalStorage;
