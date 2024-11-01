@@ -82,24 +82,46 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
 
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const tokenFromUrl = urlParams.get("token");
-
-    if (tokenFromUrl) {
-      setTokenCookie(tokenFromUrl); 
-      SuccessToast("Login Successfully");
-      WarningToast("Update your profile");
-      
-      const verifiedToken = getVerifiedToken();
-      if (verifiedToken) {
-        loadUserData();
-      }
+    const handleTokenAndLoadData = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tokenFromUrl = urlParams.get("token");
   
-      setIsLoggedIn(!!verifiedToken); 
-      setTimeout(() => window.location.reload(), 500);
-    }
-
+      if (tokenFromUrl) {
+        setTokenCookie(tokenFromUrl);  // Set token
+        SuccessToast("Login Successfully");
+        WarningToast("Update your profile");
+  
+        const verifiedToken = getVerifiedToken();
+        if (verifiedToken) {
+          await loadUserData();  // Load user data after setting the token
+        }
+  
+        setIsLoggedIn(!!verifiedToken);
+      }
+    };
+  
+    handleTokenAndLoadData();
   }, [loadUserData]);
+  
+  
+  // useEffect(() => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const tokenFromUrl = urlParams.get("token");
+
+  //   if (tokenFromUrl) {
+  //     setTokenCookie(tokenFromUrl); 
+  //     SuccessToast("Login Successfully");
+  //     WarningToast("Update your profile");
+      
+  //     const verifiedToken = getVerifiedToken();
+  //     if (verifiedToken) {
+  //       loadUserData();
+  //     }
+  
+  //     setIsLoggedIn(!!verifiedToken); 
+  //   }
+
+  // }, [loadUserData]);
 
   return (
     <AuthContext.Provider
