@@ -82,7 +82,7 @@ const LoginModal: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.5 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="relative w-full mx-auto h-fit sm:py-10 mt-8 max-w-lg sm:p-8 p-4 flex flex-col justify-center items-center bg-white dark:bg-gray-800 rounded-3xl shadow-lg z-30"
+          className="relative w-full mx-auto h-fit sm:py-10 mt-8 max-w-lg sm:p-8 p-4 flex flex-col justify-center items-center bg-white dark:bg-gray-800 rounded-3xl shadow-lg "
         >
           <h2 className="sm:text-4xl text-2xl font-bold mb-6 text-center">
             Login<span className="text-purple-500">{" "}Now</span>

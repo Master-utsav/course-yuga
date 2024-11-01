@@ -25,7 +25,7 @@ const EditProfile = () => {
   const {userData} = useAuthContext();
 
   return (
-    <section className="w-full flex items-center justify-center bg-white dark:bg-black  backdrop-blur-lg transition-opacity duration-300 relative md:py-56 py-28 lg:py-28 z-20">
+    <section className="w-full flex items-center justify-center bg-white dark:bg-black  backdrop-blur-lg transition-opacity duration-300 relative md:py-56 py-28 lg:py-28 ">
 
       <motion.div
         className="lg:w-[80%] w-full mx-auto dark:bg-white/5  bg-white-800/30 rounded-lg p-6 shadow-2xl dark:shadow-sm dark:shadow-white/20 border-2 dark:border-white/20 border-purple-500/20"

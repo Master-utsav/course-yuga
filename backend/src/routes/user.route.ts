@@ -13,6 +13,7 @@ import { handleUpdateUserImageFunction } from "../controllers/user/userProfileUp
 import { handleResetPasswordFunction, handleResetPasswordVerificationOTP } from "../controllers/user/userResetPassword.controllers";
 import { handleRemoveHistoryVideo, handleRemoveUserEntireHistory, handleUserCourseBookmarkfunction , handleUserCourseProgress, handleUserHistoryVideoOrder, handleUserUnenrolledCourseFunction, handleUserVideoBookmarkfunction} from "../controllers/user/userCourseHandlers.controllers";
 import { handleChangeRoleRequestFunction } from "../controllers/user/userChangeRole.controllers";
+import { loginRateLimiter, userUpdateRateLimiter } from "../validchecks/rateLimiters";
 
 const userRoute = express.Router();
 
@@ -34,7 +35,7 @@ userRoute.get("/signup-google", handleGoogleSignUpFunction);
 userRoute.get("/signup-google/callback", handleGoogleSignUpCallbackFunction);
 userRoute.get("/signup-github", handleGithubSignUpFunction);
 userRoute.get("/signup-github/callback", handleGithubSignUpCallbackFunction);
-userRoute.post("/login", handleLoginFunction);
+userRoute.post("/login", loginRateLimiter, handleLoginFunction);
 
 // Email Verification Routes
 userRoute.post("/verify-email", handleResendVerficationOTPFunction);
@@ -52,7 +53,7 @@ userRoute.post("/reset-password-otp", handleResetPasswordVerificationOTP);
 userRoute.post("/update-user-image", authenticateToken , upload.single("image"), handleUpdateUserImageFunction);
 
 // User Update and Deletion Routes
-userRoute.put("/update-user", authenticateToken, handleUpdateUserFunction);
+userRoute.put("/update-user", authenticateToken, userUpdateRateLimiter,  handleUpdateUserFunction);
 userRoute.put("/update-role", authenticateToken, handleChangeRoleRequestFunction);
 userRoute.post("/delete-account", authenticateToken, handleDeleteAccountFunction);
 

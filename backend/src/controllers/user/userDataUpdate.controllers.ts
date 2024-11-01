@@ -41,8 +41,22 @@ export async function handleUpdateUserFunction(
       //     .status(404)
       //     .json({ success: false, message: "username already exists" });
       // }
-  
-  
+      
+      const checkUser = await User.findById(userId);
+
+      if(firstName && lastName && checkUser.firstName === firstName && checkUser.lastName === lastName ){
+        return res.status(400).json({ success: false, message: "you made no changes"})
+      }
+      if(userDob && checkUser.userDob === userDob){
+        return res.status(400).json({ success: false, message: "you made no changes"})
+      }
+      if(address && checkUser.address === address){
+        return res.status(400).json({ success: false, message: "you made no changes"})
+      }
+      if(bio && checkUser.bio === bio){
+        return res.status(400).json({ success: false, message: "you made no changes"})
+      }
+
       if (Object.keys(updateData).length === 0) {
         return res
           .status(400)
