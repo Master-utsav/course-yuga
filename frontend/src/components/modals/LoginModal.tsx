@@ -27,6 +27,7 @@ const LoginModal: React.FC = () => {
   const {theme} = useTheme();
   const closeLogin = () => {
     navigate("/");
+    window.location.reload();
   };
 
   const {

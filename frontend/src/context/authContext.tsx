@@ -96,6 +96,7 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
       }
   
       setIsLoggedIn(!!verifiedToken); 
+      setTimeout(() => window.location.reload(), 500);
     }
 
   }, [loadUserData]);
