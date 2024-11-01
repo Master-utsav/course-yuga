@@ -97,6 +97,7 @@ export const AuthContextProvider: React.FC<{ children: ReactNode }> = ({ childre
         }
   
         setIsLoggedIn(!!verifiedToken);
+        window.location.replace("/");
       }
     };
   
