@@ -23,7 +23,7 @@ export async function handleDeleteVideoFunction(req: AuthenticatedAdminRequest, 
         if (videoById.thumbnail) {
             await cloudinaryDeleteVideoImage(videoById.thumbnail);
         }
-        if (videoById.videoUrl) {
+        if (videoById.videoUrl.includes("https://res.cloudinary.com")) {
             await cloudinaryDeleteVideoFile(videoById.videoUrl);
         }
 
@@ -38,7 +38,7 @@ export async function handleDeleteVideoFunction(req: AuthenticatedAdminRequest, 
         }
       
         course.videos = course.videos.filter(
-            (id: any) => id !== videoId
+            (id: string) => id !== video.videoId
         );
         
         await video.save();

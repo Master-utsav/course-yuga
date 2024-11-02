@@ -12,19 +12,14 @@ const videoRoute = express.Router();
 
 const storage = multer.memoryStorage();
 
-// Video file filter to allow only MP4 files
-const videoFileFilter = (
-  req: Request,
-  file: Express.Multer.File,
-  cb: multer.FileFilterCallback
-) => {
-  const ext = path.extname(file.originalname).toLowerCase();
+const videoFileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+    const ext = path.extname(file.originalname).toLowerCase();
 
-  if (ext === '.mp4' && file.mimetype === 'video/mp4') {
-    cb(null, true); // Accept the file
-  } else {
-    cb(new Error('Only MP4 videos are allowed!')); // Reject other files
-  }
+    if (ext === '.mp4' && file.mimetype === 'video/mp4') {
+        cb(null, true); // Accept the file
+    } else {
+        cb(new Error('Only MP4 videos are allowed!')); 
+    }
 };
 
 // Export the video upload middleware
