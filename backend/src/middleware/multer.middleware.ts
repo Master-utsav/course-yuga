@@ -1,11 +1,15 @@
 import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import { Request } from "express"; 
+import dotenv from "dotenv"
+
+dotenv.config();
 
 // Storage for images
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../cloud/images"));
+    // cb(null, path.join(__dirname, "../cloud/images"));
+    cb(null, process.env.CLOUDINARY_IMAGE_PATH!);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now();
@@ -16,7 +20,8 @@ const storage = multer.diskStorage({
 
 const storageVideo = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../cloud/videos')); // Video directory
+    // cb(null, path.join(__dirname, '../cloud/videos')); // Video directory
+    cb(null, process.env.CLOUDINARY_VIDEO_PATH!); // Video directory
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now();

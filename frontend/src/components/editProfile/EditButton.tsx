@@ -16,6 +16,8 @@ import { getVerifiedToken } from "@/lib/cookieService";
 import axios from "axios";
 import { USER_API } from "@/lib/env";
 import { ErrorToast, SuccessToast } from "@/lib/toasts";
+import {getUserData} from "@/lib/authService";
+import {useAuthContext} from "@/context/authContext";
 
 interface EditButtonProps {
   theme: string;
@@ -32,7 +34,13 @@ const EditButton: React.FC<EditButtonProps> = ({
 }) => {
 
   const [updatedImageFile, setUpdatedImageFile] = React.useState<File | null>(null);
-
+  const {setUserData} = useAuthContext();
+  const loadUserData = React.useCallback(async () => {
+    const userData = await getUserData(); 
+    if (userData) {
+      setUserData(userData);
+    }
+  }, [setUserData]);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file !== undefined) {
@@ -60,6 +68,7 @@ const EditButton: React.FC<EditButtonProps> = ({
         if (response && response.data && response.data.success) {
           SuccessToast(response.data.message);
           setUpdatedImageFile(null);
+          loadUserData();
         } else {
           ErrorToast(response.data.message);
         }
