@@ -62,7 +62,7 @@ export const sendEmailVerification = async (
         `;
 
     const mailOptions = {
-      from: `"Course-yuga" ${process.env.PUBLIC_GMAIL}`, // sender address
+      from: process.env.PUBLIC_GMAIL, // sender address
       to: email,
       subject: "Email Verification OTP",
       html: htmlContent,
@@ -134,7 +134,7 @@ export const sendResetPasswordVerification = async (
     `;
 
     const mailOptions = {
-      from: `"Course-yuga" ${process.env.PUBLIC_GMAIL}`, // sender address
+      from: process.env.PUBLIC_GMAIL, // sender address
       to: email,
       subject: "Password Reset OTP",
       html: htmlContent,
@@ -191,7 +191,7 @@ export const emailVerificationAlert = async (email: string) => {
       `;
 
       const mailOptions = {
-        from:`"Course-yuga" ${process.env.PUBLIC_GMAIL}`, // sender address
+        from: process.env.PUBLIC_GMAIL, // sender address
         to: email, 
         subject: "Email Verification Alert", 
         html: htmlContent, 
@@ -251,7 +251,7 @@ export const emailVerificationAlert = async (email: string) => {
         `;
 
         const mailOptions = {
-            from: `"Course-yuga" ${process.env.PUBLIC_GMAIL}`, // sender address
+            from: process.env.PUBLIC_GMAIL, // sender address
             to: email, 
             subject: "Google Authentication Successful", 
             html: htmlContent, 
@@ -311,7 +311,7 @@ export const sendGithubAuthPasswordMail = async (email: string, password: string
       `;
 
       const mailOptions = {
-          from: `"Course-yuga" ${process.env.PUBLIC_GMAIL}`, // sender address
+          from: process.env.PUBLIC_GMAIL, // sender address
           to: email, 
           subject: "GitHub Authentication Successful", 
           html: htmlContent, 

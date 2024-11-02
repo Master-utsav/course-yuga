@@ -5,7 +5,7 @@ import { Request } from "express";
 // Storage for images
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../../public/images"));
+    cb(null, path.join(__dirname, "../../cloud/images"));
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now();
@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 
 const storageVideo = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../../public/videos')); // Video directory
+    cb(null, path.join(__dirname, '../../cloud/videos')); // Video directory
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now();
