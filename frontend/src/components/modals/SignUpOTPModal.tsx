@@ -18,6 +18,7 @@ function isValidOtp(otpValue: string) {
 const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const [isResendEnabled, setIsResendEnabled] = useState(true);
+  const [isDisabled , setisDisabled] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const closeSignup = () => {
@@ -26,6 +27,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
 
   async function submitOTP() {
     const otpValue = otp.join("");
+    setisDisabled(true);
     if (isValidOtp(otpValue)) {
       try {
         const response = await axios.post(`${USER_API}/verify-email-otp`, {
@@ -45,6 +47,9 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         ErrorToast(error.response?.data?.message);
+      }
+      finally{
+        setisDisabled(false);
       }
     } else {
       ErrorToast("Otp must be of 6 numbers");
@@ -126,7 +131,7 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
         </button>
       </p>
       <div className="w-full" onClick={submitOTP}>
-        <GetStartedAnimatedBtn BtnText={"Submit"} />
+        <GetStartedAnimatedBtn BtnText={"Submit"} isDisabled={isDisabled}/>
       </div>
 
       <motion.button

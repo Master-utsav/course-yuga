@@ -47,6 +47,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
   const [otp, setOtp] = React.useState<string[]>(Array(6).fill(""));
   const [isResendEnabled, setIsResendEnabled] = React.useState(true);
   const [passwordVisible, setPasswordVisible] = React.useState(false);
+  const [isDisabled , setisDisabled] = React.useState<boolean>(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = React.useState(
     false
   );
@@ -73,6 +74,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
     }
 
     const { password } = data;
+    setisDisabled(true);
     try {
       const response = await axios.post(`${USER_API}/reset-password-otp`, {
         email: userEmail,
@@ -91,6 +93,9 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       ErrorToast(error.response?.data?.message || "Something went wrong");
+    }
+    finally{
+      setisDisabled(false);
     }
   }
 
@@ -128,8 +133,9 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
   };
 
   const resendOTP = async (userEmail: string) => {
+    setisDisabled(true);
     try {
-      const response = await axios.post(`${USER_API}reset-password`, {email : userEmail});
+      const response = await axios.post(`${USER_API}/reset-password`, {email : userEmail});
 
       const responseData: { success: boolean; message: string} = response.data;
       
@@ -141,6 +147,9 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error : any) {
       ErrorToast(error.response?.data?.message);
+    }
+    finally{
+      setisDisabled(false);
     }
   };
 
@@ -269,7 +278,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
         </div>
 
         <div className="w-full py-2" onClick={handleSubmit(submitOTP)}>
-          <GetStartedAnimatedBtn BtnText={"Submit"} />
+          <GetStartedAnimatedBtn BtnText={"Submit"} isDisabled={isDisabled}/>
         </div>
       </form>
 

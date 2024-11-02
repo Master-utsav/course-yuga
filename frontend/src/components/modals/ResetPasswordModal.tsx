@@ -23,6 +23,7 @@ type ResetPasswordSchemaData = z.infer<typeof ResetPasswordSchema>;
 const ResetPasswordModal: React.FC = () => {
   const navigate = useNavigate();
   const [showOTPComponent, setShowOTPComponent] = useState(false);
+  const [isDisabled , setisDisabled] = useState<boolean>(false);
   
   const closeResetPassword = () => {
     setShowOTPComponent(false);
@@ -40,6 +41,7 @@ const ResetPasswordModal: React.FC = () => {
   
   const formData = getValues();
   const onSubmit = async (data: ResetPasswordSchemaData) => {
+    setisDisabled(true);
     try {
       const response = await axios.post(`${USER_API}/reset-password`, data);
 
@@ -54,6 +56,9 @@ const ResetPasswordModal: React.FC = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error : any) {
       ErrorToast(error.response?.data?.message);
+    }
+    finally{
+      setisDisabled(false);
     }
   };
   
@@ -109,6 +114,7 @@ const ResetPasswordModal: React.FC = () => {
             whileHover={{ scale: 1.2 }}
             onClick={closeResetPassword}
             className="mt-4 text-blue-600 underline flex items-center absolute top-2 right-4"
+            disabled={isDisabled}
           >
             <CrossIcon fillColor="red" size={24} />
           </motion.button>

@@ -5,14 +5,16 @@ import { useTheme } from '@/context/ThemeProvider';
 
 interface GetStartedAnimatedBtnProps {
   BtnText: string;
+  isDisabled? : boolean;
 }
 
-const GetStartedAnimatedBtn: React.FC<GetStartedAnimatedBtnProps> = ({ BtnText }) => {
+const GetStartedAnimatedBtn: React.FC<GetStartedAnimatedBtnProps> = ({ BtnText , isDisabled = false }) => {
     const {theme} = useTheme();
   return (
     <motion.button
       whileTap={{ scale: 0.8 }}
       className="sm:w-[40%] w-[60%] sm:py-3 sm:pr-6 py-2 bg-black text-white sm:text-xl text-lg dark:bg-white dark:text-black rounded-3xl font-semibold shadow-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-all relative font-ubuntu"
+      disabled={isDisabled}
     >
       <span>{BtnText}</span>
       

@@ -24,6 +24,7 @@ const LoginModal: React.FC = () => {
   const navigate = useNavigate();
   const {setIsLoggedIn} = useAuthContext();
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isDisabled , setIsDisabled] = useState(false);
   const {theme} = useTheme();
   const closeLogin = () => {
     navigate("/");
@@ -39,6 +40,7 @@ const LoginModal: React.FC = () => {
 
 
   const onSubmit = async (data: loginSchemaData) => {
+    setIsDisabled(true);
     try {
       const response = await axios.post(`${USER_API}/login`, data);
       const responseData: { success: boolean; message: string; token: string } = response.data;
@@ -55,6 +57,9 @@ const LoginModal: React.FC = () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error : any) {
       ErrorToast(error.response?.data?.message );
+    }
+    finally{
+      setIsDisabled(false);
     }
   };
 
@@ -141,6 +146,7 @@ const LoginModal: React.FC = () => {
             <motion.button
               whileTap={{ scale: 0.95 }}
               type="submit"
+              disabled={isDisabled}
               className="py-3 px-6 bg-purple-500 text-white rounded-lg shadow-md"
             >
               Login

@@ -24,6 +24,7 @@ const SignupModal: React.FC = () => {
   const [showOTPComponent, setShowOTPComponent] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [isDisabled , setisDisabled] = useState<boolean>(false);
 
   const closeSignup = () => {
     navigate("/");
@@ -42,6 +43,7 @@ const SignupModal: React.FC = () => {
   const formData = getValues();
 
   const onSubmit = async (data: SignupFormData) => {
+    setisDisabled(true);
     try {
       const response = await axios.post(`${USER_API}/signup`, data);
       const responseData: { success: boolean; message: string } = response.data;
@@ -55,6 +57,9 @@ const SignupModal: React.FC = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       ErrorToast(error.response?.data?.message);
+    }
+    finally{
+      setisDisabled(false);
     }
   };
   
@@ -220,6 +225,7 @@ const SignupModal: React.FC = () => {
               type="submit"
               whileTap={{ scale: 0.95 }}
               className="py-3 px-6 bg-purple-500 text-white rounded-lg shadow-md"
+              disabled={isDisabled}
             >
               Sign Up
             </motion.button>
