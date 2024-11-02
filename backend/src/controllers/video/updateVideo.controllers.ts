@@ -2,7 +2,7 @@ import { AuthenticatedAdminRequest } from "../../middleware/auth.middleware";
 import {Response} from "express"
 import VideoModel, { IVideo } from "../../models/Video.model";
 import { cloudinaryDeleteVideoImage, cloudinaryUploadVideoImageFiles } from "../../utils/cloudinary.config";
-import fs from "fs";
+// import fs from "fs";
 
 export async function handleUpdateYoutubeVideoFunction(req: AuthenticatedAdminRequest, res: Response) {
     try {
@@ -30,15 +30,16 @@ export async function handleUpdateYoutubeVideoFunction(req: AuthenticatedAdminRe
                 await cloudinaryDeleteVideoImage(videoData.thumbnail);
             }
 
-            const localFilePath = req.file.path;
-            const uploadResult = await cloudinaryUploadVideoImageFiles(localFilePath);
+            // const localFilePath = req.file.path;
+            // const uploadResult = await cloudinaryUploadVideoImageFiles(localFilePath);
+            const uploadResult = await cloudinaryUploadVideoImageFiles(req.file.buffer) as { url: string; public_id: string };
             if (!uploadResult) {
                 return res.status(500).json({ success: false, message: "Failed to upload image to Cloudinary." });
             }
 
-            fs.unlink(localFilePath, (err: any) => {
-                if (err) console.error("Error deleting local file:", err);
-            });
+            // fs.unlink(localFilePath, (err: any) => {
+            //     if (err) console.error("Error deleting local file:", err);
+            // });
 
             updateData.thumbnail = uploadResult.url;
         } 
@@ -84,15 +85,16 @@ export async function handleUpdatePersonalVideoFunction(req: AuthenticatedAdminR
                 await cloudinaryDeleteVideoImage(videoData.thumbnail);
             }
 
-            const localFilePath = req.file.path;
-            const uploadResult = await cloudinaryUploadVideoImageFiles(localFilePath);
+            // const localFilePath = req.file.path;
+            // const uploadResult = await cloudinaryUploadVideoImageFiles(localFilePath);
+            const uploadResult = await cloudinaryUploadVideoImageFiles(req.file.buffer) as { url: string; public_id: string };
             if (!uploadResult) {
                 return res.status(500).json({ success: false, message: "Failed to upload image to Cloudinary." });
             }
 
-            fs.unlink(localFilePath, (err: any) => {
-                if (err) console.error("Error deleting local file:", err);
-            });
+            // fs.unlink(localFilePath, (err: any) => {
+            //     if (err) console.error("Error deleting local file:", err);
+            // });
 
             updateData.thumbnail = uploadResult.url;
         } 

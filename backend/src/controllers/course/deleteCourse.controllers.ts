@@ -35,7 +35,7 @@ export async function handleDeleteCourseFunction (req: AuthenticatedAdminRequest
       }
 
       user.uploadedCourses = user.uploadedCourses.filter(
-        (id: any) => !id.equals(courseId)
+        (id: any) => id !== courseId
       );
       
       if(course.thumbnail){

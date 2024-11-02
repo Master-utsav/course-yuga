@@ -3,7 +3,7 @@ import { AuthenticatedAdminRequest } from "../../middleware/auth.middleware";
 import { cloudinaryUploadVideoFiles, cloudinaryUploadVideoImageFiles, getPublicIdFromPath } from "../../utils/cloudinary.config";
 import CourseModel from "../../models/Course.model";
 import VideoModel from "../../models/Video.model";
-import fs from "fs"
+// import fs from "fs"
 
 export async function handleAddNewYoutubeVideoFunction(req: AuthenticatedAdminRequest, res: Response) {
     try {
@@ -26,18 +26,19 @@ export async function handleAddNewYoutubeVideoFunction(req: AuthenticatedAdminRe
         let thumbnail = "";
 
         if (req.file) {
-            const localFilePath = req.file.path;
+            // const localFilePath = req.file.path;
 
-            const uploadResult = await cloudinaryUploadVideoImageFiles(localFilePath);
+            // const uploadResult = await cloudinaryUploadVideoImageFiles(localFilePath);
+            const uploadResult = await cloudinaryUploadVideoImageFiles(req.file.buffer) as { url: string; public_id: string };
             if (!uploadResult) {
                 return res.status(500).json({ success: false, message: "Failed to upload image to Cloudinary." });
             }
 
             thumbnail = uploadResult.url;
 
-            fs.unlink(localFilePath, (err: any) => {
-                if (err) console.error("Error deleting local file:", err);
-            });
+            // fs.unlink(localFilePath, (err: any) => {
+            //     if (err) console.error("Error deleting local file:", err);
+            // });
         } else if (req.body.youtubeVideoImage) {
             thumbnail = req.body.youtubeVideoImage;
         }
@@ -107,18 +108,19 @@ export async function handleAddNewPersonalVideoFunction(req: AuthenticatedAdminR
         let thumbnail = "";
 
         if (req.file) {
-            const localFilePath = req.file.path;
+            // const localFilePath = req.file.path;
 
-            const uploadResult = await cloudinaryUploadVideoImageFiles(localFilePath);
+            // const uploadResult = await cloudinaryUploadVideoImageFiles(localFilePath);
+            const uploadResult = await cloudinaryUploadVideoImageFiles(req.file.buffer) as { url: string; public_id: string };
             if (!uploadResult) {
                 return res.status(500).json({ success: false, message: "Failed to upload image to Cloudinary." });
             }
 
             thumbnail = uploadResult.url;
 
-            fs.unlink(localFilePath, (err: any) => {
-                if (err) console.error("Error deleting local file:", err);
-            });
+            // fs.unlink(localFilePath, (err: any) => {
+            //     if (err) console.error("Error deleting local file:", err);
+            // });
         } else if (req.body.personalVideoImage) {
             thumbnail = req.body.personalVideoImage;
         }
@@ -187,9 +189,10 @@ export async function handleUploadPersonalVideoFunction(req: AuthenticatedAdminR
         const video = await VideoModel.findOne({videoId});
      
         if (req.file) {
-            const localFilePath = req.file.path;
+            // const localFilePath = req.file.path;
 
-            const uploadResult = await cloudinaryUploadVideoFiles(localFilePath);
+            // const uploadResult = await cloudinaryUploadVideoFiles(localFilePath);
+            const uploadResult = await cloudinaryUploadVideoFiles(req.file.buffer) as { url: string; public_id: string };
             if (!uploadResult) {
                 return res.status(500).json({ success: false, message: "Failed to upload image to Cloudinary." });
             }
@@ -197,9 +200,9 @@ export async function handleUploadPersonalVideoFunction(req: AuthenticatedAdminR
             video.videoUrl = uploadResult.url;
             video.pub_id = getPublicIdFromPath(uploadResult.public_id);
 
-            fs.unlink(localFilePath, (err: any) => {
-                if (err) console.error("Error deleting local file:", err);
-            });
+            // fs.unlink(localFilePath, (err: any) => {
+            //     if (err) console.error("Error deleting local file:", err);
+            // });
         } 
         else{
             return res.status(400).json({ success: false, message: "No Video file provided." });

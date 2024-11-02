@@ -1,6 +1,6 @@
 import express from "express";
 import { authenticateToken } from "../middleware/auth.middleware";
-import { upload } from "../middleware/multer.middleware";
+// import { upload } from "../middleware/multer.middleware";
 import { handleGoogleSignUpCallbackFunction, handleGoogleSignUpFunction } from "../controllers/auth/googleAuth.controllers";
 import { handleGithubSignUpCallbackFunction, handleGithubSignUpFunction } from "../controllers/auth/githubAuth.controllers";
 import { handleSignUpFunction, handleLoginFunction } from "../controllers/auth/localAuth.controllers";
@@ -14,8 +14,12 @@ import { handleResetPasswordFunction, handleResetPasswordVerificationOTP } from 
 import { handleRemoveHistoryVideo, handleRemoveUserEntireHistory, handleUserCourseBookmarkfunction , handleUserCourseProgress, handleUserHistoryVideoOrder, handleUserUnenrolledCourseFunction, handleUserVideoBookmarkfunction} from "../controllers/user/userCourseHandlers.controllers";
 import { handleChangeRoleRequestFunction } from "../controllers/user/userChangeRole.controllers";
 import { loginRateLimiter, userUpdateRateLimiter } from "../validchecks/rateLimiters";
+import multer from "multer";
 
 const userRoute = express.Router();
+
+const storage = multer.memoryStorage();
+export const upload = multer({ storage: storage });
 
 // User Data Get
 userRoute.get("/get-user", authenticateToken , handleGetUserDataFunction);

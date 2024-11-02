@@ -2,7 +2,7 @@ import { AuthenticatedRequest } from "../../middleware/auth.middleware";
 import User from "../../models/User.model";
 import { cloudinaryDeleteUserImage, cloudinaryUploadUserImageFiles } from "../../utils/cloudinary.config";
 import {Response} from "express"
-import fs from "fs";
+// import fs from "fs";
 
 export async function handleUpdateUserImageFunction(req : AuthenticatedRequest, res: Response) {
     try {
@@ -21,19 +21,21 @@ export async function handleUpdateUserImageFunction(req : AuthenticatedRequest, 
         await cloudinaryDeleteUserImage(user.profileImageUrl);
       }
       
-      const localFilePath = req.file.path;
+      // const localFilePath = req.file.path;
   
-      const uploadResult = await cloudinaryUploadUserImageFiles(localFilePath);
+      // const uploadResult = await cloudinaryUploadUserImageFiles(localFilePath);
+      const uploadResult = await cloudinaryUploadUserImageFiles(req.file.buffer) as { url: string; public_id: string };
+
       
       if (!uploadResult) {
         return res.status(500).json({ message: "Failed to upload image to Cloudinary." });
       }
   
-      fs.unlink(localFilePath, (err:any) => {
-        if (err) {
-          console.error("Error deleting local file:", err);
-        }
-      });
+      // fs.unlink(localFilePath, (err:any) => {
+      //   if (err) {
+      //     console.error("Error deleting local file:", err);
+      //   }
+      // });
   
       const updatedUser = await User.findByIdAndUpdate(userId , {
         $set : {

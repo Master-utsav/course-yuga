@@ -3,7 +3,7 @@ import { AuthenticatedAdminRequest } from "../../middleware/auth.middleware";
 import { cloudinaryUploadCourseImageFiles } from "../../utils/cloudinary.config";
 import CourseModel from "../../models/Course.model";
 import UserModel from "../../models/User.model";
-import fs from "fs"
+// import fs from "fs"
 
 export async function handleAddNewYoutubeCourseFunction(req: AuthenticatedAdminRequest , res: Response) {
         try {
@@ -18,16 +18,18 @@ export async function handleAddNewYoutubeCourseFunction(req: AuthenticatedAdminR
             const localFilePath = req.file.path;
       
             // Upload to Cloudinary
-            const uploadResult = await cloudinaryUploadCourseImageFiles(localFilePath);
-            if (!uploadResult) {
-              return res.status(500).json({success: false, message: "Failed to upload image to Cloudinary." });
-            }
+            // const uploadResult = await cloudinaryUploadCourseImageFiles(localFilePath);
+            const uploadResult = await cloudinaryUploadCourseImageFiles(req.file.buffer) as { url: string; public_id: string };
+
+            // if (!uploadResult) {
+            //   return res.status(500).json({success: false, message: "Failed to upload image to Cloudinary." });
+            // }
       
             thumbnail = uploadResult.url;
       
-            fs.unlink(localFilePath, (err: any) => {
-              if (err) console.error("Error deleting local file:", err);
-            });
+            // fs.unlink(localFilePath, (err: any) => {
+            //   if (err) console.error("Error deleting local file:", err);
+            // });
           } 
           else if (youtubeCourseImage) {
             thumbnail = youtubeCourseImage;
@@ -83,19 +85,21 @@ export async function handleAddNewPersonalCourseFunction(req: AuthenticatedAdmin
     let thumbnail = "";
     
     if (req.file) {
-      const localFilePath = req.file.path;
+      // const localFilePath = req.file.path;
 
       // Upload to Cloudinary
-      const uploadResult = await cloudinaryUploadCourseImageFiles(localFilePath);
+      // const uploadResult = await cloudinaryUploadCourseImageFiles(localFilePath);
+      const uploadResult = await cloudinaryUploadCourseImageFiles(req.file.buffer) as { url: string; public_id: string };
+
       if (!uploadResult) {
         return res.status(500).json({success: false, message: "Failed to upload image to Cloudinary." });
       }
 
       thumbnail = uploadResult.url;
 
-      fs.unlink(localFilePath, (err: any) => {
-        if (err) console.error("Error deleting local file:", err);
-      });
+      // fs.unlink(localFilePath, (err: any) => {
+      //   if (err) console.error("Error deleting local file:", err);
+      // });
     } 
     else if (personalCourseImage) {
       thumbnail = personalCourseImage;
@@ -150,19 +154,21 @@ export async function handleAddNewRedirectCourseFunction(req: AuthenticatedAdmin
     let thumbnail = "";
     
     if (req.file) {
-      const localFilePath = req.file.path;
+      // const localFilePath = req.file.path;
 
       // Upload to Cloudinary
-      const uploadResult = await cloudinaryUploadCourseImageFiles(localFilePath);
+      // const uploadResult = await cloudinaryUploadCourseImageFiles(localFilePath);
+      const uploadResult = await cloudinaryUploadCourseImageFiles(req.file.buffer) as { url: string; public_id: string };
+
       if (!uploadResult) {
         return res.status(500).json({success: false, message: "Failed to upload image to Cloudinary." });
       }
 
       thumbnail = uploadResult.url;
 
-      fs.unlink(localFilePath, (err: any) => {
-        if (err) console.error("Error deleting local file:", err);
-      });
+      // fs.unlink(localFilePath, (err: any) => {
+      //   if (err) console.error("Error deleting local file:", err);
+      // });
     } 
     else if (redirectCourseImage) {
       thumbnail = redirectCourseImage;

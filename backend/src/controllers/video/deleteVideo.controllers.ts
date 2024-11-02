@@ -38,7 +38,7 @@ export async function handleDeleteVideoFunction(req: AuthenticatedAdminRequest, 
         }
       
         course.videos = course.videos.filter(
-            (id: any) => !id.equals(videoId)
+            (id: any) => id !== videoId
         );
         
         await video.save();

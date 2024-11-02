@@ -28,6 +28,7 @@
     "nodemailer": "^6.9.15",
     "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
+    "streamifier": "^0.1.1",
     "twilio": "^5.3.3"
   },
   "devDependencies": {
@@ -40,6 +41,7 @@
     "@types/nodemailer": "^6.4.16",
     "@types/passport-github2": "^1.2.9",
     "@types/passport-google-oauth20": "^2.0.16",
+    "@types/streamifier": "^0.1.2",
     "nodemon": "^3.1.7",
     "passport": "^0.7.0",
     "ts-node": "^10.9.2",

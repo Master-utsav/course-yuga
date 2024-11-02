@@ -1,6 +1,7 @@
 import express from "express";
 import { authenticateAdminToken, authenticateToken } from "../middleware/auth.middleware";
-import { upload, uploadVideo } from "../middleware/multer.middleware";
+// import { upload, uploadVideo } from "../middleware/multer.middleware";
+import multer from 'multer';
 import { handleAddNewPersonalVideoFunction, handleAddNewYoutubeVideoFunction, handleUploadPersonalVideoFunction } from "../controllers/video/uploadVideo.controllers";
 import { handleGetAllVideosOfCourse, handleGetVideoDataById } from "../controllers/video/getVideo.controllers";
 import { handleDeleteVideoFunction } from "../controllers/video/deleteVideo.controllers";
@@ -8,6 +9,11 @@ import { handleUpdatePersonalVideoFunction, handleUpdateYoutubeVideoFunction } f
 import { handleVideoStreamingFunction } from "../controllers/video/streamVideo.controllers";
 
 const videoRoute = express.Router();
+
+const storage = multer.memoryStorage();
+
+export const upload = multer({ storage: storage });
+export const uploadVideo = multer({ storage: storage });
 
 videoRoute.get("/get-videos" , handleGetAllVideosOfCourse);
 videoRoute.get("/get-video-by-id" , handleGetVideoDataById);
