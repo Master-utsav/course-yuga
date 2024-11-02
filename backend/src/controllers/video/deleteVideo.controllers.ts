@@ -18,35 +18,44 @@ export async function handleDeleteVideoFunction(req: AuthenticatedAdminRequest, 
     }
 
     try {
+        // Find the video by ID
+        const video = await VideoModel.findOne({ videoId });
         
-        const videoById = await VideoModel.findOne({videoId});
-        if (videoById.thumbnail) {
-            await cloudinaryDeleteVideoImage(videoById.thumbnail);
-        }
-        if (videoById.videoUrl.includes("https://res.cloudinary.com")) {
-            await cloudinaryDeleteVideoFile(videoById.videoUrl);
-        }
-
-        const video = await VideoModel.findOneAndDelete({videoId});
         if (!video) {
             return res.status(404).json({ success: false, message: "Video not found" });
         }
 
-        const course = await CourseModel.findById(video.courseId);
+        // Delete thumbnail from Cloudinary if it exists
+        if (video.thumbnail) {
+            await cloudinaryDeleteVideoImage(video.thumbnail);
+        }
+
+        // Delete video file from Cloudinary if the URL is valid
+        if (video.videoUrl && video.videoUrl.includes("https://res.cloudinary.com")) {
+            await cloudinaryDeleteVideoFile(video.videoUrl);
+        }
+
+        // Remove the video from the database
+        await VideoModel.findOneAndDelete({ videoId });
+
+        // Find the course associated with the video
+        const courseId = video.courseId;
+        const course = await CourseModel.findOne({courseId});
         if (!course) {
             return res.status(404).json({ success: false, message: "Course not found" });
         }
-      
-        course.videos = course.videos.filter(
-            (id: string) => id !== video.videoId
-        );
+
+        // Remove the video ID from the course's videos array
+        course.videos = course.videos.filter((id: string) => id !== videoId);
         
-        await video.save();
+        // Save the updated course
         await course.save();
 
         return res.status(200).json({ success: true, message: "Video deleted successfully" }); 
 
     } catch (error) {
+        console.error("Error deleting video:", error);
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 }
+
