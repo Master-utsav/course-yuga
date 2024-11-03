@@ -87,7 +87,7 @@ const DashBoardNavbar: React.FC = () => {
           </div>
           
 
-          {userData.role === "ADMIN" || userData.role === "MASTER" && (
+          {(userData.role === "ADMIN" || userData.role === "MASTER") ? (
             <div className={`my-0 py-2 flex flex-col items-start`}>
               {isSideBarOpen && (
                 <Seperator text="Admin section" className="my-2 w-full" />
@@ -132,7 +132,7 @@ const DashBoardNavbar: React.FC = () => {
                 </div>
               )}
             </div>
-          )}
+          ) : <></>}
 
           <div className="flex justify-around items-start flex-col w-full relative space-y-1">
             <nav className={`space-y-0 ${isSideBarOpen ? "px-0" : "px-1"}`}>
