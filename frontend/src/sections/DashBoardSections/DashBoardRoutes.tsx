@@ -1,10 +1,7 @@
 import React, { useMemo } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useAuthContext } from "@/context/authContext";
-import { useTheme } from "@/context/ThemeProvider";
 import { DashboardContextProvider } from "@/context/dashboardContext";
-
-// Components
 import DashBoard from "@/sections/DashBoardSections/DashBoard";
 import Bookmarks from "@/sections/DashBoardSections/Bookmarks";
 import Courses from "@/sections/DashBoardSections/Courses";
@@ -16,7 +13,6 @@ import ViewCourse from "@/sections/DashBoardSections/ViewCourse";
 import VideoPlaySection from "./VideoPlaySection";
 import VideoEditPage from "@/components/addVideos/VideoEditPage";
 import UnderMaintenancePage from "@/components/UnderMaintenancePage";
-import PageTransitionBoxAnimation from "@/Effects/PageTransitionBoxAnimation";
 import PageNotFound from "@/components/PageNotFound";
 import UnauthorizedPage from "@/components/UnauthorizedPage";
 import DashBoardNavbar from "./DashBoardNavbar";
@@ -27,9 +23,7 @@ import History from "./History";
 const DashboardRoutes: React.FC = () => {
   const { userData } = useAuthContext();
   const location = useLocation();
-  const { theme } = useTheme();
 
-  // Memoize routes to prevent unnecessary recalculations
   const routes = useMemo(() => {
     const commonRoutes = [
       { path: "/dashboard", element: <DashBoard /> },
@@ -63,10 +57,16 @@ const DashboardRoutes: React.FC = () => {
     }
   }, [userData.role]);
 
+  const memoizedNavbar = useMemo(() => {
+    return location.pathname.startsWith("/user") ? <DashBoardNavbar /> : null;
+  }, [location.pathname]);
+
   return (
     <DashboardContextProvider>
       <div className="h-screen flex">
-        <DashBoardNavbar />
+
+        {memoizedNavbar}
+
         <main className="flex-1 overflow-auto p-4 bg-white dark:bg-gray-900 scrollbar-custom">
      
           <Routes location={location} key={location.pathname}>
@@ -78,16 +78,7 @@ const DashboardRoutes: React.FC = () => {
               } />
             ))}
 
-            <Route
-              path="/*"
-              element={
-                <PageTransitionBoxAnimation
-                  className={theme === "dark" ? "bg-gray-900" : "bg-white-700"}
-                >
-                  <PageNotFound />
-                </PageTransitionBoxAnimation>
-              }
-            />
+            <Route path="/*" element={<PageNotFound />}/>
           </Routes>
         </main>
       </div>
