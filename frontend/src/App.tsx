@@ -28,7 +28,9 @@ function App() {
   const { isLoggedIn } = useAuthContext();
   const { theme } = useTheme();
 
-  // Determine if the current route is within the /user/* routes
+  const queryParams = new URLSearchParams(location.search);
+  const email = queryParams.get("email");
+ 
   const isUserRoute = location.pathname.startsWith("/user");
 
   const memoizedRoutes = React.useMemo(
@@ -136,6 +138,7 @@ function App() {
                   </PageTransitionBoxAnimation>
                 }
               />
+              <Route path="/verify-email" element={email && <HeroSection route="verify-email" propEmail={email}/>}/>
               <Route path="/user/*" 
               element={
                     <DashboardRoutes />
@@ -157,6 +160,7 @@ function App() {
               />
               <Route path="/signup" element={<HeroSection route="signup" />} />
               <Route path="/login" element={<HeroSection route="login" />} />
+              <Route path="/verify-email" element={email && <HeroSection route="verify-email" propEmail={email}/>} />
               <Route
                 path="/course-intro-page"
                 element={
@@ -281,7 +285,7 @@ function App() {
         </Routes>
       </AnimatePresence>
     ),
-    [isLoggedIn, location, theme]
+    [email, isLoggedIn, location, theme]
   );
 
   return (
