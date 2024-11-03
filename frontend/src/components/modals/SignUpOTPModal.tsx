@@ -1,6 +1,6 @@
 import CrossIcon from "@/Icons/CrossIcon";
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useState, useRef, ChangeEvent, KeyboardEvent, ClipboardEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import GetStartedAnimatedBtn from "@/components/GetStartedAnimatedBtn";
 import axios from "axios";
@@ -11,23 +11,24 @@ interface OTPComponentProps {
   userEmail: string;
 }
 
-function isValidOtp(otpValue: string) {
-  return otpValue.length === 6 && /^[0-9]+$/.test(otpValue);
-}
-
 const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
-  const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
+  const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
+  const [disable, setDisable] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string[]>(Array(6).fill(""));
   const [isResendEnabled, setIsResendEnabled] = useState(true);
-  const [isDisabled , setisDisabled] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const closeSignup = () => {
     navigate("/");
   };
 
-  async function submitOTP() {
-    const otpValue = otp.join("");
-    setisDisabled(true);
+  const isValidOtp = (otpValue: string) => otpValue.length === 6 && /^[0-9]+$/.test(otpValue);
+
+  const submitOTP = async () => {
+    const otpValue = inputValue.join("");
+    console.log(otpValue)
+    setDisable(true);
+
     if (isValidOtp(otpValue)) {
       try {
         const response = await axios.post(`${USER_API}/verify-email-otp`, {
@@ -35,58 +36,73 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
           otp: otpValue,
         });
 
-        const responseData: { success: boolean; message: string } =
-          response.data;
+        const responseData = response.data as { success: boolean; message: string };
 
         if (responseData.success) {
           SuccessToast(responseData.message);
-          navigate("/login")
+          navigate("/login");
         } else {
           throw new Error(responseData.message);
         }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        ErrorToast(error.response?.data?.message);
-      }
-      finally{
-        setisDisabled(false);
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          ErrorToast(error.response?.data?.message || "An error occurred.");
+        } else {
+          ErrorToast("An unexpected error occurred.");
+        }
+      } finally {
+        setDisable(false);
       }
     } else {
-      ErrorToast("Otp must be of 6 numbers");
+      ErrorToast("OTP must be 6 digits.");
+      setDisable(false);
     }
-  }
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const newOtp = [...otp];
-    const value = e.target.value.slice(0, 1); // Allow only 1 digit per input
+  };
 
-    // Update the current OTP digit
-    newOtp[index] = value;
-    setOtp(newOtp);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    const { value } = e.target;
+    if (!/^[0-9]$/.test(value) && value) return;
 
-    if (value && index < 5) {
-      // Focus on the next input automatically when a digit is entered
-      const nextSibling = document.getElementById(`otp-input-${index + 1}`);
-      nextSibling?.focus();
-    } else if (
-      !value &&
-      (e.nativeEvent as InputEvent).inputType === "deleteContentBackward" &&
-      index > 0
-    ) { 
-      // Focus on the previous input when backspace is pressed and input is empty
-      const prevSibling = document.getElementById(`otp-input-${index - 1}`);
-      prevSibling?.focus();
+    const newValue = [...inputValue];
+    newValue[index] = value;
+    setInputValue(newValue);
+
+    if (value && index < inputValue.length - 1) {
+      inputsRef.current[index + 1]?.focus();
     }
+  };
+
+  const handleBackspace = (e: KeyboardEvent<HTMLInputElement>, index: number) => {
+    if (e.key === "Backspace" && index > 0 && !e.currentTarget.value) {
+      inputsRef.current[index - 1]?.focus();
+    }
+  };
+
+  const handleCopyPaste = (e: ClipboardEvent<HTMLInputElement>, index: number) => {
+    e.preventDefault();
+    const copiedOtp = e.clipboardData.getData("text");
+
+    if (!/^[0-9]+$/.test(copiedOtp)) return;
+
+    const newValue = [...inputValue];
+    copiedOtp.split("").forEach((char, i) => {
+      if (index + i < newValue.length) {
+        newValue[index + i] = char;
+      }
+    });
+    setInputValue(newValue);
+
+    const nextIndex = Math.min(index + copiedOtp.length, newValue.length - 1);
+    inputsRef.current[nextIndex]?.focus();
+    
   };
 
   const handleResend = () => {
     setIsResendEnabled(false);
-    // Add logic for resending OTP here
+    // TODO : logic for resending OTP here
     setTimeout(() => {
-      setIsResendEnabled(true); // Enable resend after some time
-    }, 30000); // Enable resend after 30 seconds
+      setIsResendEnabled(true);
+    }, 30000); 
   };
 
   return (
@@ -97,23 +113,23 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
       className="bg-purple-700 dark:bg-purple-600 text-white rounded-lg text-center relative w-full mx-auto h-fit py-8 max-sm:mt-8 max-w-lg flex flex-col justify-center items-center shadow-xl dark:shadow-md dark:shadow-white-700"
     >
-      <h3 className="text-2xl font-semibold mb-4 font-ubuntu">
-        Verfiy your Email
-      </h3>
+      <h3 className="text-2xl font-semibold mb-4 font-ubuntu">Verify your Email</h3>
       <p className="mb-6">
         6 Digit OTP sent to <span className="font-bold">{userEmail}</span>
       </p>
 
       <div className="flex justify-center space-x-2 mb-4">
-        {otp.map((digit, index) => (
+        {inputValue.map((_, index) => (
           <input
-            key={index}
-            id={`otp-input-${index}`}
+            ref={(el) => (inputsRef.current[index] = el)}
             type="text"
-            value={digit}
-            onChange={(e) => handleChange(e, index)}
-            className="size-12 bg-white text-purple-700 font-bold caret-purple-400  text-center rounded-lg text-3xl focus:outline-none"
             maxLength={1}
+            value={inputValue[index]}
+            className="w-[40px] h-[50px] rounded-md outline-none text-violet-500 text-center bg-white text-2xl focus:outline-none font-extrabold focus:ring-2 focus:ring-violet-500 caret-violet-500"
+            key={index}
+            onChange={(e) => handleChange(e, index)}
+            onKeyDown={(e) => handleBackspace(e, index)}
+            onPaste={(e) => handleCopyPaste(e, index)}
           />
         ))}
       </div>
@@ -123,15 +139,13 @@ const SignUpOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
         <button
           onClick={handleResend}
           disabled={!isResendEnabled}
-          className={`underline ${
-            !isResendEnabled ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`underline ${!isResendEnabled ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           Click to resend
         </button>
       </p>
       <div className="w-full" onClick={submitOTP}>
-        <GetStartedAnimatedBtn BtnText={"Submit"} isDisabled={isDisabled}/>
+        <GetStartedAnimatedBtn BtnText="Submit" isDisabled={disable} />
       </div>
 
       <motion.button

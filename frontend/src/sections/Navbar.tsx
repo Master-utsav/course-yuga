@@ -87,6 +87,7 @@ const Navbar: React.FC<NavbarProps> = ({ isUserLoggedIn }) => {
                   firstName={userData.firstName}
                   lastName={userData.lastName}
                   username={userData.userName}
+                  userRole={userData.role}
                 />
               </>
             )}

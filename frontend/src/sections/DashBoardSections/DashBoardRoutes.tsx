@@ -44,7 +44,7 @@ const DashboardRoutes: React.FC = () => {
       { path: "/test", element: <UnderMaintenancePage pageName="Test" /> },
     ];
 
-    if (userData.role === "ADMIN") {
+    if (userData.role === "ADMIN" || userData.role === "MASTER") {
       return [
         ...commonRoutes,
         { path: "/add-courses", element: <AddCourses /> },

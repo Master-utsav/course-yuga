@@ -85,8 +85,9 @@ const DashBoardNavbar: React.FC = () => {
               ))}
             </nav>
           </div>
+          
 
-          {userData.role === "ADMIN" && (
+          {userData.role === "ADMIN" || userData.role === "MASTER" && (
             <div className={`my-0 py-2 flex flex-col items-start`}>
               {isSideBarOpen && (
                 <Seperator text="Admin section" className="my-2 w-full" />

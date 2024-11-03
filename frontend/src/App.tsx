@@ -21,6 +21,7 @@ import PageTransitionBoxAnimation from "./Effects/PageTransitionBoxAnimation";
 import UnauthenticatedPage from "./components/UnauthenticatedPage";
 import PageNotFound from "./components/PageNotFound";
 import ResetPasswordModal from "./components/modals/ResetPasswordModal";
+import VerifyCourses from "./sections/VerifyCourses";
 
 function App() {
   const location = useLocation();
@@ -120,6 +121,18 @@ function App() {
                     }
                   >
                     <AboutPage />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route
+                path="/verify-courses"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <VerifyCourses />
                   </PageTransitionBoxAnimation>
                 }
               />
@@ -231,6 +244,18 @@ function App() {
               />
               <Route
                 path="/edit-profile"
+                element={
+                  <PageTransitionBoxAnimation
+                    className={
+                      theme === "dark" ? "bg-gray-900" : "bg-white-700"
+                    }
+                  >
+                    <UnauthenticatedPage />
+                  </PageTransitionBoxAnimation>
+                }
+              />
+              <Route
+                path="/verify-courses"
                 element={
                   <PageTransitionBoxAnimation
                     className={

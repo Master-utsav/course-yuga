@@ -17,6 +17,7 @@ import HistoryIcon from "@/Icons/HistoryIcon";
 import LogoutIcon from "@/Icons/LogoutIcon";
 import { Link, useNavigate } from "react-router-dom";
 import HelpIcon from "@/Icons/HelpIcon";
+import VerificationIcon from "@/Icons/VerificationIcon";
 
 interface AvatarProps {
   avatarFallbackText?: string;
@@ -24,6 +25,7 @@ interface AvatarProps {
   firstName?: string;
   lastName?: string;
   username?: string;
+  userRole?: string;
 }
 
 const AvatarComponent: React.FC<AvatarProps> = ({
@@ -32,6 +34,7 @@ const AvatarComponent: React.FC<AvatarProps> = ({
   imageUrl,
   lastName = "User",
   username = "unknow_user",
+  userRole = "STUDENT",
 }) => {
   const fullName = firstName + " " + lastName;
   const navigate = useNavigate();
@@ -39,12 +42,18 @@ const AvatarComponent: React.FC<AvatarProps> = ({
   const handleLogout = () => {
     navigate("/logout")
   };
+
   const handleHelp = () => {
     navigate("/help")
   };
+
   const handleEditProfile = () => {
     navigate("/edit-profile")
   };
+
+  const handleVerifyCourses = () => {
+    navigate("/verify-courses")
+  }
 
   return (
     <HoverCard>
@@ -78,6 +87,14 @@ const AvatarComponent: React.FC<AvatarProps> = ({
               <ProfileIcon fillColor="rgb(74 222 128)" />
               <span>Edit Profile</span>
             </DropdownMenuItem>
+
+            {userRole === "MASTER" && 
+              <DropdownMenuItem className="border-b-2 flex gap-2" onClick={handleVerifyCourses}>
+                <VerificationIcon fillColor="rgb(37 99 235)" />
+                <span>Verify Courses</span>
+              </DropdownMenuItem>
+            }
+            
             <DropdownMenuItem className="border-b-2 flex gap-2">
               <Link to={"/user/bookmarks"} className="flex gap-2">
                 <BookmarkIcon fillColor="rgb(168 85 247)" />

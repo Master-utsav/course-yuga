@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema<IUser>({
   password: { type: String, required: [true, "Password is required"] },
   email: { type: String, required: [true, "Email is required"] },
   profileImageUrl: {type : String || undefined},
-  role: { type: String, enum: ["ADMIN" , "STUDENT"], required: true },
+  role: { type: String, enum: ["ADMIN" , "STUDENT" , "MASTER"], required: true },
   emailVerificationOTP: { type: String },
   emailVerificationOTPExpires: { type: String },
   emailVerificationStatus: { type: Boolean, default: false },

@@ -5,7 +5,7 @@ import { useTheme } from "@/context/ThemeProvider";
 import { motion } from "framer-motion";
 import { Button } from "@nextui-org/react";
 
-const UnauthorizedPage: React.FC = () => {
+const UnauthorizedOwnerPage: React.FC = () => {
   const navigate = useNavigate();
   const { theme } = useTheme();
 
@@ -21,18 +21,9 @@ const UnauthorizedPage: React.FC = () => {
       <h1 className="text-5xl font-bold mb-6">401 Unauthorized</h1>
       <p className="text-lg mb-8 text-center">
         Oops! You don't have access to this page. <br />
-        Please change your role to continue.
+        Please go back to home page.
       </p>
-      <Button
-        onClick={() => navigate("/edit-profile")}
-        className={`px-6 py-3 rounded-md text-lg transition-all ${
-          theme === "dark"
-            ? "bg-blue-600 hover:bg-blue-700"
-            : "bg-blue-500 hover:bg-blue-600"
-        } text-white`}
-      >
-        Change your Role
-      </Button>
+    
       <Button
         onClick={() => navigate("/")}
         className={`mt-4 px-6 py-3 rounded-md text-lg transition-all ${
@@ -47,4 +38,4 @@ const UnauthorizedPage: React.FC = () => {
   );
 };
 
-export default UnauthorizedPage;
+export default UnauthorizedOwnerPage;

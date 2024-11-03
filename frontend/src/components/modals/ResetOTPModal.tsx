@@ -4,7 +4,7 @@ import EyeOpenIcon from "@/Icons/EyeOpenIcon";
 import { ErrorToast, SuccessToast } from "@/lib/toasts";
 import axios from "axios";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { ChangeEvent , KeyboardEvent, ClipboardEvent} from "react";
 import { useNavigate } from "react-router-dom";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -44,16 +44,17 @@ interface OTPComponentProps {
 }
 
 const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
-  const [otp, setOtp] = React.useState<string[]>(Array(6).fill(""));
+  const inputsRef = React.useRef<(HTMLInputElement | null)[]>([]);
+  const [disable, setDisable] = React.useState<boolean>(false);
+  const [inputValue, setInputValue] = React.useState<string[]>(Array(6).fill(""));
   const [isResendEnabled, setIsResendEnabled] = React.useState(true);
   const [passwordVisible, setPasswordVisible] = React.useState(false);
-  const [isDisabled , setisDisabled] = React.useState<boolean>(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = React.useState(
     false
   );
   const navigate = useNavigate();
   const { theme } = useTheme();
-
+   
   const {
     register,
     handleSubmit,
@@ -65,16 +66,23 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
   const closeSignup = () => {
     navigate("/");
   };
+   
+  const isValidOtp = (otpValue: string) => otpValue.length === 6 && /^[0-9]+$/.test(otpValue);
 
   async function submitOTP(data: FieldValues) {
-    const otpValue = otp.join("");
+    const otpValue = inputValue.join("");
+    setDisable(true);
+
+    if(!isValidOtp(otpValue)){
+      return;
+    }
     if (otpValue.length !== 6) {
       ErrorToast("Otp must be 6 numbers");
       return;
     }
 
     const { password } = data;
-    setisDisabled(true);
+    setDisable(true);
     try {
       const response = await axios.post(`${USER_API}/reset-password-otp`, {
         email: userEmail,
@@ -95,45 +103,58 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       ErrorToast(error.response?.data?.message || "Something went wrong");
     }
     finally{
-      setisDisabled(false);
+      setDisable(false);
     }
   }
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const newOtp = [...otp];
-    const value = e.target.value.slice(0, 1); // Allow only 1 digit per input
+  const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    const { value } = e.target;
+    if (!/^[0-9]$/.test(value) && value) return;
 
-    // Update the current OTP digit
-    newOtp[index] = value;
-    setOtp(newOtp);
+    const newValue = [...inputValue];
+    newValue[index] = value;
+    setInputValue(newValue);
 
-    if (value && index < 5) {
-      const nextSibling = document.getElementById(`otp-input-${index + 1}`);
-      nextSibling?.focus();
-    } else if (
-      !value &&
-      (e.nativeEvent as InputEvent).inputType === "deleteContentBackward" &&
-      index > 0
-    ) {
-      const prevSibling = document.getElementById(`otp-input-${index - 1}`);
-      prevSibling?.focus();
+    if (value && index < inputValue.length - 1) {
+      inputsRef.current[index + 1]?.focus();
     }
+    // setDisable(newValue.every((val) => val !== ""));
+  };
+
+  const handleBackspace = (e: KeyboardEvent<HTMLInputElement>, index: number) => {
+    if (e.key === "Backspace" && index > 0 && !e.currentTarget.value) {
+      inputsRef.current[index - 1]?.focus();
+    }
+  };
+
+  const handleCopyPaste = (e: ClipboardEvent<HTMLInputElement>, index: number) => {
+    e.preventDefault();
+    const copiedOtp = e.clipboardData.getData("text");
+
+    if (!/^[0-9]+$/.test(copiedOtp)) return;
+
+    const newValue = [...inputValue];
+    copiedOtp.split("").forEach((char, i) => {
+      if (index + i < newValue.length) {
+        newValue[index + i] = char;
+      }
+    });
+    setInputValue(newValue);
+
+    const nextIndex = Math.min(index + copiedOtp.length, newValue.length - 1);
+    inputsRef.current[nextIndex]?.focus();
   };
 
   const handleResend = async() => {
     setIsResendEnabled(false);
     await resendOTP(userEmail);
-    // Add logic for resending OTP here
     setTimeout(() => {
       setIsResendEnabled(true);
-    }, 600000); // Enable resend after 10min 
+    }, 600000); 
   };
 
   const resendOTP = async (userEmail: string) => {
-    setisDisabled(true);
+    setDisable(true);
     try {
       const response = await axios.post(`${USER_API}/reset-password`, {email : userEmail});
 
@@ -149,7 +170,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       ErrorToast(error.response?.data?.message);
     }
     finally{
-      setisDisabled(false);
+      setDisable(false);
     }
   };
 
@@ -169,15 +190,17 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
       </p>
 
       <div className="flex justify-center space-x-2 mb-4">
-        {otp.map((digit, index) => (
+        {inputValue.map((_, index) => (
           <input
-            key={index}
-            id={`otp-input-${index}`}
+            ref={(el) => (inputsRef.current[index] = el)}
             type="text"
-            value={digit}
-            onChange={(e) => handleChange(e, index)}
-            className="size-12 bg-white text-purple-700 font-bold caret-purple-400 text-center rounded-lg text-3xl focus:outline-none"
             maxLength={1}
+            value={inputValue[index]}
+            className="w-[40px] h-[50px] rounded-md outline-none text-violet-500 text-center bg-white text-2xl focus:outline-none font-extrabold focus:ring-2 focus:ring-violet-500 caret-violet-500"
+            key={index}
+            onChange={(e) => handleChange(e, index)}
+            onKeyDown={(e) => handleBackspace(e, index)}
+            onPaste={(e) => handleCopyPaste(e, index)}
           />
         ))}
       </div>
@@ -278,7 +301,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
         </div>
 
         <div className="w-full py-2" onClick={handleSubmit(submitOTP)}>
-          <GetStartedAnimatedBtn BtnText={"Submit"} isDisabled={isDisabled}/>
+          <GetStartedAnimatedBtn BtnText={"Submit"} isDisabled={disable}/>
         </div>
       </form>
 

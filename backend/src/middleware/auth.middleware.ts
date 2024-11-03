@@ -61,7 +61,7 @@ export async function authenticateAdminToken(
     ) {
       const { id, role , uniqueId } = decoded as { id: string; role: string , uniqueId: string};
 
-      if (role !== "ADMIN") {
+      if (role !== "ADMIN" && role !== "MASTER") {
         return res.status(403).json({ message: "Unauthorized: Admin access only" });
       }
 
