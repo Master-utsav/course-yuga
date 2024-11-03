@@ -73,10 +73,7 @@ const ResetOTPModal: React.FC<OTPComponentProps> = ({ userEmail }) => {
     const otpValue = inputValue.join("");
     setDisable(true);
 
-    if(!isValidOtp(otpValue)){
-      return;
-    }
-    if (otpValue.length !== 6) {
+    if (otpValue.length !== 6 || !isValidOtp(otpValue)) {
       ErrorToast("Otp must be 6 numbers");
       return;
     }
