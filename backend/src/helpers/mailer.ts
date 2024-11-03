@@ -70,7 +70,7 @@ export const sendEmailVerification = async (
         <!-- Footer -->
         <div class="footer">
           <p>© 2024 Course-Yuga. All rights reserved.</p>
-          <p>Need help? <a href="${process.env.PUBLIC_FRONTEND_DOMAIN}/contact-us">Contact Support</a></p>
+          <p>Need help? <a href="${process.env.PUBLIC_FRONTEND_DOMAIN}/contact">Contact Support</a></p>
         </div>
       </div>
     </body>
@@ -157,7 +157,7 @@ export const sendResetPasswordVerification = async (
           <!-- Footer -->
           <div class="footer">
             <p>© 2024 Course-Yuga. All rights reserved.</p>
-            <p>Need help? <a href="${process.env.PUBLIC_FRONTEND_DOMAIN}/contact-us">Contact Support</a></p>
+            <p>Need help? <a href="${process.env.PUBLIC_FRONTEND_DOMAIN}/contact">Contact Support</a></p>
           </div>
         </div>
       </body>
@@ -228,7 +228,7 @@ export const emailVerificationAlert = async (email: string) => {
             <!-- Footer -->
             <div class="footer">
               <p>© 2024 Course-Yuga. All rights reserved.</p>
-              <p>Need help? <a href="${process.env.PUBLIC_FRONTEND_DOMAIN}/contact-us">Contact Support</a></p>
+              <p>Need help? <a href="${process.env.PUBLIC_FRONTEND_DOMAIN}/contact">Contact Support</a></p>
             </div>
           </div>
         </body>
@@ -304,7 +304,7 @@ export const emailVerificationAlert = async (email: string) => {
               <!-- Footer -->
               <div class="footer">
                   <p>© 2024 Course-Yuga. All rights reserved.</p>
-                  <p>Need help? <a href="${process.env.PUBLIC_FRONTEND_DOMAIN}/contact-us">Contact Support</a></p>
+                  <p>Need help? <a href="${process.env.PUBLIC_FRONTEND_DOMAIN}/contact">Contact Support</a></p>
               </div>
           </div>
       </body>
@@ -380,7 +380,7 @@ export const sendGithubAuthPasswordMail = async (email: string, password: string
                 <!-- Footer -->
                 <div class="footer">
                     <p>© 2024 Course-Yuga. All rights reserved.</p>
-                    <p>Need assistance? <a href="${process.env.PUBLIC_FRONTEND_DOMAIN}/contact-us">Contact Support</a></p>
+                    <p>Need assistance? <a href="${process.env.PUBLIC_FRONTEND_DOMAIN}/contact">Contact Support</a></p>
                 </div>
             </div>
         </body>
