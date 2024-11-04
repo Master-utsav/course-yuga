@@ -110,23 +110,19 @@ export async function handleUserUnenrolledCourseFunction(req: AuthenticatedReque
     }
 
     try {
-        // Find the user by userId
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" });
         }
 
-        // Check if the course exists in user's enrolledIn list
         const userCourseIndex = user.enrolledIn.indexOf(courseId);
         if (userCourseIndex === -1) {
             return res.status(400).json({ success: false, message: "Course not found in user's enrolled courses" });
         }
 
-        // Remove the course from user's enrolledIn list
         user.enrolledIn.splice(userCourseIndex, 1);
         await user.save();
 
-        // Find the course and remove the user from the enrolledBy array
         const course = await CourseModel.findOne({courseId});
         if (!course) {
             return res.status(404).json({ success: false, message: "Course not found" });
@@ -231,7 +227,7 @@ export async function handleUserHistoryVideoOrder(req: AuthenticatedRequest, res
     const videoIndex = user.history.findIndex((item: any) => item.video === videoId);
 
     if (videoIndex !== -1) {
-      // If it exists, update the timestamp
+      // If it exists, update the timestamp 
       user.history[videoIndex].time = new Date();
     } else {
       // Add new entry if not found
